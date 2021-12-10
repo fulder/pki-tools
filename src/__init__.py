@@ -1,7 +1,7 @@
 import requests
 from cryptography import x509
-from cryptography.x509.oid import ExtensionOID
 from cryptography.x509.extensions import ExtensionNotFound
+from cryptography.x509.oid import ExtensionOID
 
 
 class Error(Exception):
@@ -36,7 +36,7 @@ def check_revoked(cert_pem: str, require_extension=True):
                 crl = _get_crl_from_url(crl_url)
 
                 r = crl.get_revoked_certificate_by_serial_number(
-                    cert.serial_number
+                    cert.serial_number,
                 )
                 if r is not None:
                     err = f"Certificate with serial: {cert.serial_number} " \

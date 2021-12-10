@@ -35,17 +35,17 @@ def cert(key_pair):
     ])
 
     cert_builder = x509.CertificateBuilder().subject_name(
-        subject
+        subject,
     ).issuer_name(
-        issuer
+        issuer,
     ).serial_number(
-        x509.random_serial_number()
+        x509.random_serial_number(),
     ).public_key(
-        key_pair.public_key()
+        key_pair.public_key(),
     ).not_valid_before(
-        datetime.datetime.utcnow()
+        datetime.datetime.utcnow(),
     ).not_valid_after(
-        datetime.datetime.utcnow() + datetime.timedelta(days=10)
+        datetime.datetime.utcnow() + datetime.timedelta(days=10),
     ).add_extension(
         x509.SubjectAlternativeName([x509.DNSName(u"localhost")]),
         critical=False,
@@ -54,15 +54,15 @@ def cert(key_pair):
             x509.DistributionPoint(
                 full_name=[
                     x509.UniformResourceIdentifier(
-                        value=TEST_DISTRIBUTION_POINT_URL
-                    )
+                        value=TEST_DISTRIBUTION_POINT_URL,
+                    ),
                 ],
                 relative_name=None,
                 reasons=None,
                 crl_issuer=None,
             ),
         ]),
-        critical=False
+        critical=False,
     ).sign(key_pair, hashes.SHA256())
 
     return cert_builder
@@ -77,16 +77,16 @@ def _create_crl(keypair, revoked_serials):
     one_day = datetime.timedelta(days=1)
     crl = x509.CertificateRevocationListBuilder()
     crl = crl.issuer_name(x509.Name([
-        x509.NameAttribute(NameOID.COMMON_NAME, u'cryptography.io CA'),
+        x509.NameAttribute(NameOID.COMMON_NAME, u"cryptography.io CA"),
     ]))
     crl = crl.last_update(datetime.datetime.today())
     crl = crl.next_update(datetime.datetime.today() + one_day)
 
     for serial in revoked_serials:
         next_revoked_cert = x509.RevokedCertificateBuilder().serial_number(
-            serial
+            serial,
         ).revocation_date(
-            datetime.datetime.today()
+            datetime.datetime.today(),
         ).build()
 
         crl = crl.add_revoked_certificate(next_revoked_cert)
