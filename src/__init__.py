@@ -16,11 +16,15 @@ class CrlLoadError(Error):
     pass
 
 
+class CrlExtensionMissing(Error):
+    pass
+
+
 class Revoked(Error):
     pass
 
 
-def check_revoked(cert_pem: str, require_extension=True):
+def check_revoked(cert_pem: str):
     cert = x509.load_pem_x509_certificate(cert_pem.encode())
 
     ext = cert.extensions
@@ -43,8 +47,7 @@ def check_revoked(cert_pem: str, require_extension=True):
                           f"is revoked since: {r.revocation_date}"
                     raise Revoked(err)
     except ExtensionNotFound:
-        if require_extension:
-            raise Revoked("CRL Distribution Points extension not found")
+        raise CrlExtensionMissing()
 
 
 def _get_crl_from_url(crl_url):
@@ -65,5 +68,5 @@ def _crl_data_to_crypto(crl_data):
 
     try:
         return x509.load_pem_x509_crl(crl_data)
-    except ValueError as e:
+    except Exception as e:
         raise CrlLoadError(e)

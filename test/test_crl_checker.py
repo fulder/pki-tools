@@ -6,7 +6,8 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
-from src import check_revoked, Revoked
+from src import check_revoked, Revoked, CrlExtensionMissing, CrlFetchFailure, \
+    CrlLoadError
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 
@@ -26,6 +27,10 @@ def key_pair():
 
 @pytest.fixture()
 def cert(key_pair):
+    return _create_cert(key_pair)
+
+
+def _create_cert(key_pair, add_crl_extension=True):
     subject = issuer = x509.Name([
         x509.NameAttribute(NameOID.COUNTRY_NAME, u"US"),
         x509.NameAttribute(NameOID.STATE_OR_PROVINCE_NAME, u"California"),
@@ -49,23 +54,28 @@ def cert(key_pair):
     ).add_extension(
         x509.SubjectAlternativeName([x509.DNSName(u"localhost")]),
         critical=False,
-    ).add_extension(
-        x509.CRLDistributionPoints([
-            x509.DistributionPoint(
-                full_name=[
-                    x509.UniformResourceIdentifier(
-                        value=TEST_DISTRIBUTION_POINT_URL,
-                    ),
-                ],
-                relative_name=None,
-                reasons=None,
-                crl_issuer=None,
-            ),
-        ]),
-        critical=False,
-    ).sign(key_pair, hashes.SHA256())
+    )
 
-    return cert_builder
+    if add_crl_extension:
+        cert_builder = cert_builder.add_extension(
+            x509.CRLDistributionPoints([
+                x509.DistributionPoint(
+                    full_name=[
+                        x509.UniformResourceIdentifier(
+                            value=TEST_DISTRIBUTION_POINT_URL,
+                        ),
+                    ],
+                    relative_name=None,
+                    reasons=None,
+                    crl_issuer=None,
+                ),
+            ]),
+            critical=False,
+        )
+
+    cert = cert_builder.sign(key_pair, hashes.SHA256())
+
+    return cert
 
 
 @pytest.fixture()
@@ -91,17 +101,29 @@ def _create_crl(keypair, revoked_serials):
 
         crl = crl.add_revoked_certificate(next_revoked_cert)
 
-    crl = crl.sign(private_key=keypair, algorithm=hashes.SHA256())
-    return crl.public_bytes(serialization.Encoding.DER)
+    return crl.sign(private_key=keypair, algorithm=hashes.SHA256())
 
 
-def test_check_revoked_not_revoked_cert(key_pair,
-                                        mocked_requests_get,
-                                        cert_pem_string):
+def test_not_revoked_cert(key_pair,
+                          mocked_requests_get,
+                          cert_pem_string):
     crl = _create_crl(key_pair, [])
+    crl_der = crl.public_bytes(serialization.Encoding.DER)
 
     mocked_requests_get.return_value.status_code = 200
-    mocked_requests_get.return_value.content = crl
+    mocked_requests_get.return_value.content = crl_der
+
+    check_revoked(cert_pem_string)
+
+
+def test_not_revoked_cert_pem_crl(key_pair,
+                                  mocked_requests_get,
+                                  cert_pem_string):
+    crl = _create_crl(key_pair, [])
+    crl_pem = crl.public_bytes(serialization.Encoding.PEM)
+
+    mocked_requests_get.return_value.status_code = 200
+    mocked_requests_get.return_value.content = crl_pem
 
     check_revoked(cert_pem_string)
 
@@ -111,10 +133,36 @@ def test_check_revoked_revoked_cert(key_pair,
                                     cert,
                                     cert_pem_string):
     crl = _create_crl(key_pair, [cert.serial_number])
+    crl_der = crl.public_bytes(serialization.Encoding.DER)
 
     mocked_requests_get.return_value.status_code = 200
-    mocked_requests_get.return_value.content = crl
+    mocked_requests_get.return_value.content = crl_der
 
     exp_msg = f"Certificate with serial: {cert.serial_number} is revoked since"
     with pytest.raises(Revoked, match=exp_msg):
+        check_revoked(cert_pem_string)
+
+
+def test_cert_missing_crl_extension(key_pair):
+    cert = _create_cert(key_pair, add_crl_extension=False)
+    cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode()
+
+    with pytest.raises(CrlExtensionMissing):
+        check_revoked(cert_pem)
+
+
+def test_crl_fetch_error(mocked_requests_get, cert_pem_string):
+    mocked_requests_get.return_value.status_code = 503
+
+    with pytest.raises(CrlFetchFailure):
+        check_revoked(cert_pem_string)
+
+
+def test_crl_load_failure(key_pair,
+                          mocked_requests_get,
+                          cert_pem_string):
+    mocked_requests_get.return_value.status_code = 200
+    mocked_requests_get.return_value.content = "INVALID_DATA"
+
+    with pytest.raises(CrlLoadError):
         check_revoked(cert_pem_string)
