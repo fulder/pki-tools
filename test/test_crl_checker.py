@@ -6,7 +6,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
-from src import check_revoked
+from src import check_revoked, Revoked
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 
@@ -65,7 +65,12 @@ def cert(key_pair):
         critical=False
     ).sign(key_pair, hashes.SHA256())
 
-    return cert_builder.public_bytes(serialization.Encoding.PEM).decode()
+    return cert_builder
+
+
+@pytest.fixture()
+def cert_pem_string(cert):
+    return cert.public_bytes(serialization.Encoding.PEM).decode()
 
 
 def _create_crl(keypair, revoked_serials):
@@ -90,11 +95,26 @@ def _create_crl(keypair, revoked_serials):
     return crl.public_bytes(serialization.Encoding.DER)
 
 
-def test_check_revoked_not_revoked_cert(key_pair, mocked_requests_get, cert):
+def test_check_revoked_not_revoked_cert(key_pair,
+                                        mocked_requests_get,
+                                        cert_pem_string):
     crl = _create_crl(key_pair, [])
 
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.content = crl
 
-    check_revoked(cert)
+    check_revoked(cert_pem_string)
 
+
+def test_check_revoked_revoked_cert(key_pair,
+                                    mocked_requests_get,
+                                    cert,
+                                    cert_pem_string):
+    crl = _create_crl(key_pair, [cert.serial_number])
+
+    mocked_requests_get.return_value.status_code = 200
+    mocked_requests_get.return_value.content = crl
+
+    exp_msg = f"Certificate with serial: {cert.serial_number} is revoked since"
+    with pytest.raises(Revoked, match=exp_msg):
+        check_revoked(cert_pem_string)

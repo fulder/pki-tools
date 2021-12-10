@@ -39,8 +39,8 @@ def check_revoked(cert_pem: str, require_extension=True):
                     cert.serial_number
                 )
                 if r is not None:
-                    err = f"Certificate with serial: {cert.serial_number} "
-                    f"is revoked since: {r.revocation_date}"
+                    err = f"Certificate with serial: {cert.serial_number} " \
+                          f"is revoked since: {r.revocation_date}"
                     raise Revoked(err)
     except ExtensionNotFound:
         if require_extension:
