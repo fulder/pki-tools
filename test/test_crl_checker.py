@@ -6,7 +6,14 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
+from src import check_revoked
+
 TEST_DISTRIBUTION_POINT_URL = "test_url"
+
+
+@pytest.fixture()
+def mocked_requests_get(mocker):
+    return mocker.patch("requests.get")
 
 
 @pytest.fixture()
@@ -58,8 +65,36 @@ def cert(key_pair):
         critical=False
     ).sign(key_pair, hashes.SHA256())
 
-    return cert_builder.public_bytes(serialization.Encoding.PEM)
+    return cert_builder.public_bytes(serialization.Encoding.PEM).decode()
 
 
-def test_check_revoked_false(cert):
-    print(cert)
+def _create_crl(keypair, revoked_serials):
+    one_day = datetime.timedelta(days=1)
+    crl = x509.CertificateRevocationListBuilder()
+    crl = crl.issuer_name(x509.Name([
+        x509.NameAttribute(NameOID.COMMON_NAME, u'cryptography.io CA'),
+    ]))
+    crl = crl.last_update(datetime.datetime.today())
+    crl = crl.next_update(datetime.datetime.today() + one_day)
+
+    for serial in revoked_serials:
+        next_revoked_cert = x509.RevokedCertificateBuilder().serial_number(
+            serial
+        ).revocation_date(
+            datetime.datetime.today()
+        ).build()
+
+        crl = crl.add_revoked_certificate(next_revoked_cert)
+
+    crl = crl.sign(private_key=keypair, algorithm=hashes.SHA256())
+    return crl.public_bytes(serialization.Encoding.DER)
+
+
+def test_check_revoked_not_revoked_cert(key_pair, mocked_requests_get, cert):
+    crl = _create_crl(key_pair, [])
+
+    mocked_requests_get.return_value.status_code = 200
+    mocked_requests_get.return_value.content = crl
+
+    check_revoked(cert)
+
