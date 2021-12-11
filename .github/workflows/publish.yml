@@ -28,4 +28,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_TEST_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
+          repository_url: https://test.pypi.org/simple/
