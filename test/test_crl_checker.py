@@ -6,8 +6,13 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
-from src import check_revoked, Revoked, CrlExtensionMissing, CrlFetchFailure, \
-    CrlLoadError
+from crl_checker import (
+    check_revoked,
+    Revoked,
+    CrlExtensionMissing,
+    CrlFetchFailure,
+    CrlLoadError,
+)
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 
