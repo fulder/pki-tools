@@ -1,0 +1,32 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install requirements
+        run: |
+          pip3 install -r requirements-test.txt
+          
+      - name: Run flake
+        run: flake8
+
+      - name: Run tests
+        env:
+          PYTHONPATH: .
+        run: pytest
