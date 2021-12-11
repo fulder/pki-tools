@@ -1,0 +1,6 @@
+-r ./requirements.txt
+
+pytest==6.2.5
+pytest-mock==3.6.1
+flake8==4.0.1
+flake8-quotes==3.3.1
