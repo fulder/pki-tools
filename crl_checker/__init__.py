@@ -70,10 +70,10 @@ def _get_crl_from_url(crl_url):
 def _crl_data_to_crypto(crl_data):
     try:
         return x509.load_der_x509_crl(crl_data)
-    except ValueError:
+    except (TypeError, ValueError):
         pass
 
     try:
         return x509.load_pem_x509_crl(crl_data)
-    except ValueError as e:
+    except TypeError as e:
         raise CrlLoadError(e) from None
