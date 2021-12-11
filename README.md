@@ -11,7 +11,7 @@ extension (https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.1.13)
 # Usage
 
 ```python
-from crl-checker import check_revoked, Revoked, Error
+from crl_checker import check_revoked, Revoked, Error
 
 cert_pem = """
 -----BEGIN CERTIFICATE-----
@@ -22,9 +22,9 @@ cert_pem = """
 try:
     check_revoked(cert_pem)
 except Revoked as e:
-    print(f"Ceritifcate revoked. Error: {e}")
+    print(f"Certificate revoked. Error: {e}")
 except Error as e:
-    print(f"Revocation check failed. Error: {e}")
+    print(f"Revocation check failed: {e}")
     raise
 
 ```
