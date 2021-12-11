@@ -9,6 +9,7 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 setuptools.setup(
     name="crl-checker",
     version="0.0.3",
+    use_scm_version=True,
     author="Michal Sadowski",
     author_email="misad90@gmail.com",
     description="Check if certificate is revoked using the x509 CRL extension",
