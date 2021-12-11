@@ -3,6 +3,9 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+with open("requirements.txt", "r", encoding="utf-8") as f:
+    reqs = f.read()
+
 setuptools.setup(
     name="crl-checker",
     version="0.0.2",
@@ -20,7 +23,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "."},
+    install_requires=reqs,
     packages=setuptools.find_packages(),
     python_requires=">=3.9",
 )
