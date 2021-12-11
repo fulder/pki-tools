@@ -2,6 +2,8 @@ name: publish
 
 on:
   push:
+    tags:
+      - *
 
 jobs:
   build-and-publish:
@@ -27,5 +29,5 @@ jobs:
       - name: Publish to PyPi
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.PYPI_TEST_TOKEN }}
-          repository_url: https://test.pypi.org/simple/
+          password: ${{ secrets.PYPI_TOKEN }}
+          repository_url: https://pypi.org/simple/
