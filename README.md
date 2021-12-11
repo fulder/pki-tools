@@ -22,9 +22,9 @@ cert_pem = """
 try:
     check_revoked(cert_pem)
 except Revoked as e:
-    print(f"Certificate revoked. Error: {e}")
+    print(f"Certificate revoked: {e}")
 except Error as e:
-    print(f"Revocation check failed: {e}")
+    print(f"Revocation check failed. Error: {e}")
     raise
 
 ```
