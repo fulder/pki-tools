@@ -1,3 +1,5 @@
+![Python Badge](https://img.shields.io/badge/python-3.6%2B-blue.svg?style=for-the-badge&logo=python)
+
 # crl-checker
 
 This small python library checks if a specific certificate is revoked using the
