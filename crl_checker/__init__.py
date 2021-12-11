@@ -8,6 +8,10 @@ class Error(Exception):
     pass
 
 
+class CertLoadError(Error):
+    pass
+
+
 class CrlFetchFailure(Error):
     pass
 
@@ -25,7 +29,10 @@ class Revoked(Error):
 
 
 def check_revoked(cert_pem: str):
-    cert = x509.load_pem_x509_certificate(cert_pem.encode())
+    try:
+        cert = x509.load_pem_x509_certificate(cert_pem.encode())
+    except ValueError as e:
+        raise CertLoadError(e) from None
 
     ext = cert.extensions
     try:
@@ -63,10 +70,10 @@ def _get_crl_from_url(crl_url):
 def _crl_data_to_crypto(crl_data):
     try:
         return x509.load_der_x509_crl(crl_data)
-    except Exception:
+    except (TypeError, ValueError):
         pass
 
     try:
         return x509.load_pem_x509_crl(crl_data)
-    except Exception as e:
-        raise CrlLoadError(e)
+    except TypeError as e:
+        raise CrlLoadError(e) from None
