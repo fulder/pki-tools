@@ -1,3 +1,5 @@
+![Python Badge](https://img.shields.io/badge/python-3.6%2B-blue.svg?style=for-the-badge&logo=python)
+
 # crl-checker
 
 This small python library checks if a specific certificate is revoked using the
@@ -22,9 +24,9 @@ cert_pem = """
 try:
     check_revoked(cert_pem)
 except Revoked as e:
-    print(f"Certificate revoked. Error: {e}")
+    print(f"Certificate revoked: {e}")
 except Error as e:
-    print(f"Revocation check failed: {e}")
+    print(f"Revocation check failed. Error: {e}")
     raise
 
 ```
