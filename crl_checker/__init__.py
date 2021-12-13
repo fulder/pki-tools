@@ -34,6 +34,10 @@ def check_revoked(cert_pem: str):
     except ValueError as e:
         raise CertLoadError(e) from None
 
+    check_revoked_crypto_cert(cert)
+
+
+def check_revoked_crypto_cert(cert: x509.Certificate):
     ext = cert.extensions
     try:
         crl_ex = ext.get_extension_for_oid(

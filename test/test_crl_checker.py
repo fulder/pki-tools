@@ -7,11 +7,10 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
 from crl_checker import (
-    check_revoked,
     Revoked,
     CrlExtensionMissing,
     CrlFetchFailure,
-    CrlLoadError,
+    CrlLoadError, check_revoked, CertLoadError,
 )
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
@@ -171,3 +170,8 @@ def test_crl_load_failure(key_pair,
 
     with pytest.raises(CrlLoadError):
         check_revoked(cert_pem_string)
+
+
+def test_cert_load_error():
+    with pytest.raises(CertLoadError):
+        check_revoked("BAD_PEM_DATA")
