@@ -10,7 +10,7 @@ from crl_checker import (
     Revoked,
     CrlExtensionMissing,
     CrlFetchFailure,
-    CrlLoadError, check_revoked_pem_str, CertLoadError,
+    CrlLoadError, check_revoked, CertLoadError,
 )
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
@@ -117,7 +117,7 @@ def test_not_revoked_cert(key_pair,
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.content = crl_der
 
-    check_revoked_pem_str(cert_pem_string)
+    check_revoked(cert_pem_string)
 
 
 def test_not_revoked_cert_pem_crl(key_pair,
@@ -129,7 +129,7 @@ def test_not_revoked_cert_pem_crl(key_pair,
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.content = crl_pem
 
-    check_revoked_pem_str(cert_pem_string)
+    check_revoked(cert_pem_string)
 
 
 def test_check_revoked_revoked_cert(key_pair,
@@ -144,7 +144,7 @@ def test_check_revoked_revoked_cert(key_pair,
 
     exp_msg = f"Certificate with serial: {cert.serial_number} is revoked since"
     with pytest.raises(Revoked, match=exp_msg):
-        check_revoked_pem_str(cert_pem_string)
+        check_revoked(cert_pem_string)
 
 
 def test_cert_missing_crl_extension(key_pair):
@@ -152,14 +152,14 @@ def test_cert_missing_crl_extension(key_pair):
     cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode()
 
     with pytest.raises(CrlExtensionMissing):
-        check_revoked_pem_str(cert_pem)
+        check_revoked(cert_pem)
 
 
 def test_crl_fetch_error(mocked_requests_get, cert_pem_string):
     mocked_requests_get.return_value.status_code = 503
 
     with pytest.raises(CrlFetchFailure):
-        check_revoked_pem_str(cert_pem_string)
+        check_revoked(cert_pem_string)
 
 
 def test_crl_load_failure(key_pair,
@@ -169,9 +169,9 @@ def test_crl_load_failure(key_pair,
     mocked_requests_get.return_value.content = "INVALID_DATA"
 
     with pytest.raises(CrlLoadError):
-        check_revoked_pem_str(cert_pem_string)
+        check_revoked(cert_pem_string)
 
 
 def test_cert_load_error():
     with pytest.raises(CertLoadError):
-        check_revoked_pem_str("BAD_PEM_DATA")
+        check_revoked("BAD_PEM_DATA")

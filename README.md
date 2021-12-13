@@ -14,7 +14,7 @@ extension (https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.1.13)
 
 Checking revocation using PEM encoded certificate
 ```python3
-from crl_checker import check_revoked_pem_str, Revoked, Error
+from crl_checker import check_revoked, Revoked, Error
 
 cert_pem = """
 -----BEGIN CERTIFICATE-----
@@ -23,7 +23,7 @@ cert_pem = """
 """
 
 try:
-    check_revoked_pem_str(cert_pem)
+    check_revoked(cert_pem)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
@@ -35,12 +35,12 @@ Checking revocation using an already loaded cryptography [x509.Certificate](http
 
 ```python3
 from cryptography import x509
-from crl_checker import check_revoked, Revoked, Error
+from crl_checker import check_revoked_crypto_cert, Revoked, Error
 
 cert : x509.Certificate = ...
 
 try:
-    check_revoked(cert)
+    check_revoked_crypto_cert(cert)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
