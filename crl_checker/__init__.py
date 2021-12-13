@@ -1,3 +1,5 @@
+from typing import Union
+
 import requests
 from cryptography import x509
 from cryptography.x509.extensions import ExtensionNotFound
@@ -28,12 +30,16 @@ class Revoked(Error):
     pass
 
 
-def check_revoked(cert_pem: str):
+def check_revoked_pem_str(cert_pem: str):
     try:
         cert = x509.load_pem_x509_certificate(cert_pem.encode())
     except ValueError as e:
         raise CertLoadError(e) from None
 
+    check_revoked(cert)
+
+
+def check_revoked(cert: x509.Certificate):
     ext = cert.extensions
     try:
         crl_ex = ext.get_extension_for_oid(
