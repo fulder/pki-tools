@@ -54,8 +54,10 @@ def check_revoked_crypto_cert(cert: x509.Certificate):
                     cert.serial_number,
                 )
                 if r is not None:
-                    err = f"Certificate with serial: {cert.serial_number} " \
-                          f"is revoked since: {r.revocation_date}"
+                    err = (
+                        f"Certificate with serial: {cert.serial_number} "
+                        f"is revoked since: {r.revocation_date}"
+                    )
                     raise Revoked(err)
     except ExtensionNotFound:
         raise CrlExtensionMissing()

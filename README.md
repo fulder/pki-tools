@@ -1,4 +1,4 @@
-![Python Badge](https://img.shields.io/badge/python-3.7%2B-blue.svg?style=for-the-badge&logo=python)
+![Python Badge](https://img.shields.io/badge/python-3.8.1%2B-blue.svg?style=for-the-badge&logo=python)
 
 # crl-checker
 

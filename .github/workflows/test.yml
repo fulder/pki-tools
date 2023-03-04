@@ -28,14 +28,19 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install requirements
+      - name: Install dependencies
         run: |
-          pip3 install -r requirements-test.txt
+          pip install poetry
+          poetry install --with dev
           
-      - name: Run flake
-        run: flake8
+      - name: Lint code
+        run: |
+          poetry run isort --check .
+          poetry run black --check .
+          poetry run flake8 .
 
       - name: Run tests
         env:
           PYTHONPATH: .
-        run: pytest
+        run: | 
+          poetry run pytest
