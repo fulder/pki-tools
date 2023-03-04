@@ -1,0 +1,22 @@
+name: test-publish
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v3.3.0
+
+      - name: Install poetry
+        run: |
+          pip install poetry poetry-dynamic-versioning
+
+      - name: Publish
+        run: |
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
+          poetry publish --build --username __token__ --password ${{ secrets.PYPI_TEST_TOKEN }} --repository testpypi

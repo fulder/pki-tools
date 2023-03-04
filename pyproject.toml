@@ -38,9 +38,10 @@ isort = "^5.12.0"
 
 [tool.poetry-dynamic-versioning]
 enable = true
+vcs = "git"
 
 [build-system]
-requires = ["poetry-core", "poetry-dynamic-versioning"]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.isort]
