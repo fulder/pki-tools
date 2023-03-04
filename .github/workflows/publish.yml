@@ -15,7 +15,7 @@ jobs:
 
       - name: Install poetry
         run: |
-          pip install poetry
+          pip install poetry poetry-dynamic-versioning
 
       - name: Publish
         run: |
