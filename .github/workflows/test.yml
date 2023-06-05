@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.2
 
       - name: Install dependencies
         run: |
@@ -38,7 +38,7 @@ jobs:
           - "3.12.0-alpha.5"
     steps:
       - name: Check out
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.2
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
