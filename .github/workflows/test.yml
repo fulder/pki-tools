@@ -20,7 +20,7 @@ jobs:
 
       - name: Lint code
         run: |
-          poetry run ruff --check .
+          poetry run ruff check .
           poetry run black --check .
 
   test:
