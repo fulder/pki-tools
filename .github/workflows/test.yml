@@ -51,7 +51,5 @@ jobs:
           poetry install --with test
 
       - name: Run tests
-        env:
-          PYTHONPATH: .
         run: | 
-          poetry run pytest
+          poetry run python -m pytest
