@@ -6,8 +6,6 @@ from cryptography.x509.oid import ExtensionOID
 from . import Error, ExtensionMissing, Revoked, cert_from_pem
 
 
-
-
 class CrlFetchFailure(Error):
     pass
 
