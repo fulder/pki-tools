@@ -1,0 +1,57 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4.0.0
+
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install --with lint
+
+      - name: Lint code
+        run: |
+          poetry run isort --check .
+          poetry run black --check .
+          poetry run flake8 .
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version:
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12.0-beta.1"
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4.0.0
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install --with test
+
+      - name: Run tests
+        env:
+          PYTHONPATH: .
+        run: | 
+          poetry run pytest
