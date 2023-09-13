@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives._serialization import Encoding
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID, ocsp
 
-from pki_tools.oscp import check_revoked, check_revoked_crypto_cert
+from pki_tools.ocsp import check_revoked, check_revoked_crypto_cert
 
 TEST_ACCESS_DESCRIPTION = "test-url"
 
