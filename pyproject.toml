@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pki-tools"
 version = "0.0.0"
-description = "PKI tools exposes a high level `cryptography` API"
+description = "PKI tools for e.g. checking certificate CRL/OCSP revocation"
 authors = ["Michal Sadowski <misad90@gmail.com>"]
 license = "MIT"
 classifiers = [
