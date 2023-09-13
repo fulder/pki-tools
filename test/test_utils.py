@@ -1,6 +1,6 @@
 import pytest
 
-from pki_tools.utils import CertLoadError, cert_from_pem
+from pki_tools import CertLoadError, cert_from_pem
 
 
 def test_cert_load_error():

@@ -6,8 +6,8 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
+from pki_tools import ExtensionMissing
 from pki_tools.crl import (
-    CrlExtensionMissing,
     CrlFetchFailure,
     CrlLoadError,
     Revoked,
@@ -173,7 +173,7 @@ def test_cert_missing_crl_extension(key_pair):
     cert = _create_cert(key_pair, add_crl_extension=False)
     cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode()
 
-    with pytest.raises(CrlExtensionMissing):
+    with pytest.raises(ExtensionMissing):
         check_revoked(cert_pem)
 
 
