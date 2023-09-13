@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "crl-checker"
+name = "pki-tools"
 version = "0.0.0"
 description = "Check if certificate is revoked using the x509 CRL extension"
 authors = ["Michal Sadowski <misad90@gmail.com>"]
