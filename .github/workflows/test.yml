@@ -20,9 +20,8 @@ jobs:
 
       - name: Lint code
         run: |
-          poetry run isort --check .
+          poetry run ruff --check .
           poetry run black --check .
-          poetry run flake8 .
 
   test:
     runs-on: ubuntu-latest
