@@ -19,7 +19,7 @@ repository = "https://github.com/fulder/pki-tools"
 "Bug Tracker" = "https://github.com/fulder/pki-tools/issues"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 cryptography = ">=39.0.1,<42.0.0"
 requests = "^2.28.2"
 
