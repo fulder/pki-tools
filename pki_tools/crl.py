@@ -3,13 +3,7 @@ from cryptography import x509
 from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.oid import ExtensionOID
 
-
-class Error(Exception):
-    pass
-
-
-class CertLoadError(Error):
-    pass
+from . import Error, ExtensionMissing, Revoked, cert_from_pem
 
 
 class CrlFetchFailure(Error):
@@ -20,20 +14,8 @@ class CrlLoadError(Error):
     pass
 
 
-class CrlExtensionMissing(Error):
-    pass
-
-
-class Revoked(Error):
-    pass
-
-
 def check_revoked(cert_pem: str):
-    try:
-        cert = x509.load_pem_x509_certificate(cert_pem.encode())
-    except ValueError as e:
-        raise CertLoadError(e) from None
-
+    cert = cert_from_pem(cert_pem)
     check_revoked_crypto_cert(cert)
 
 
@@ -60,7 +42,7 @@ def check_revoked_crypto_cert(cert: x509.Certificate):
                     )
                     raise Revoked(err)
     except ExtensionNotFound:
-        raise CrlExtensionMissing()
+        raise ExtensionMissing()
 
 
 def _get_crl_from_url(crl_url):

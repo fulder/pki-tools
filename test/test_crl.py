@@ -6,14 +6,8 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
-from pki_tools.crl import (
-    CertLoadError,
-    CrlExtensionMissing,
-    CrlFetchFailure,
-    CrlLoadError,
-    Revoked,
-    check_revoked,
-)
+from pki_tools import ExtensionMissing
+from pki_tools.crl import CrlFetchFailure, CrlLoadError, Revoked, check_revoked
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 
@@ -174,7 +168,7 @@ def test_cert_missing_crl_extension(key_pair):
     cert = _create_cert(key_pair, add_crl_extension=False)
     cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode()
 
-    with pytest.raises(CrlExtensionMissing):
+    with pytest.raises(ExtensionMissing):
         check_revoked(cert_pem)
 
 
@@ -191,8 +185,3 @@ def test_crl_load_failure(key_pair, mocked_requests_get, cert_pem_string):
 
     with pytest.raises(CrlLoadError):
         check_revoked(cert_pem_string)
-
-
-def test_cert_load_error():
-    with pytest.raises(CertLoadError):
-        check_revoked("BAD_PEM_DATA")
