@@ -18,7 +18,7 @@ PKI tools exposes a high level `cryptography` API for e.g.:
 
 # Usage
 
-# CRL
+## CRL
 
 Checking revocation using PEM encoded certificate
 ```python3
@@ -43,12 +43,58 @@ Checking revocation using an already loaded cryptography [x509.Certificate](http
 
 ```python3
 from cryptography import x509
-from pki_tools.crl import check_revoked_crypto_cert, Revoked, Error
+from pki_tools.ocsp import check_revoked_crypto_cert, Revoked, Error
 
 cert : x509.Certificate = ...
+issuer: x509.Certificate = ...
 
 try:
-    check_revoked_crypto_cert(cert)
+    check_revoked_crypto_cert(cert, issuer)
+except Revoked as e:
+    print(f"Certificate revoked: {e}")
+except Error as e:
+    print(f"Revocation check failed. Error: {e}")
+    raise
+```
+
+## OCSP
+
+Checking revocation using PEM encoded certificate
+```python3
+from pki_tools.ocsp import check_revoked, Revoked, Error
+
+cert_pem = """
+-----BEGIN CERTIFICATE-----
+<CERTIFICATE_PEM_BYTES>
+-----END CERTIFICATE-----
+"""
+
+issuer_pem = """
+-----BEGIN CERTIFICATE-----
+<ISSUER_PEM_BYTES>
+-----END CERTIFICATE-----
+"""
+
+try:
+    check_revoked(cert_pem, issuer_pem)
+except Revoked as e:
+    print(f"Certificate revoked: {e}")
+except Error as e:
+    print(f"Revocation check failed. Error: {e}")
+    raise
+```
+
+Checking revocation using an already loaded cryptography [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate):
+
+```python3
+from cryptography import x509
+from pki_tools.ocsp import check_revoked_crypto_cert, Revoked, Error
+
+cert : x509.Certificate = ...
+issuer_cert : x509.Certificate = ...
+
+try:
+    check_revoked_crypto_cert(cert, issuer_cert)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
