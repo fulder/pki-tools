@@ -1,27 +1,22 @@
 [tool.poetry]
 name = "pki-tools"
 version = "0.0.0"
-description = "Check if certificate is revoked using the x509 CRL extension"
+description = "PKI tools exposes a high level `cryptography` API"
 authors = ["Michal Sadowski <misad90@gmail.com>"]
 license = "MIT"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
     "Topic :: Security :: Cryptography",
     "Operating System :: OS Independent"
 ]
 readme = "README.md"
-homepage = "https://github.com/fulder/crl-checker"
-repository = "https://github.com/fulder/crl-checker"
+homepage = "https://github.com/fulder/pki-tools"
+repository = "https://github.com/fulder/pki-tools"
 
 [tool.poetry.urls]
-"Bug Tracker" = "https://github.com/fulder/crl-checker/issues"
+"Bug Tracker" = "https://github.com/fulder/pki-tools/issues"
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -59,4 +54,4 @@ profile = "black"
 line_length = 79
 
 [tool.pytest.ini_options]
-addopts = "--cov=crl_checker --cov-report term-missing --cov-report=html -v"
+addopts = "--cov=pki_tools --cov-report term-missing --cov-report=html -v"

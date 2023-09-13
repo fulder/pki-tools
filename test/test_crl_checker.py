@@ -6,7 +6,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
-from crl_checker import (
+from pki_tools.crl import (
     CertLoadError,
     CrlExtensionMissing,
     CrlFetchFailure,
