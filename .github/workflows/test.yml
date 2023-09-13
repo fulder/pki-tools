@@ -13,6 +13,10 @@ jobs:
       - name: Check out
         uses: actions/checkout@v4.0.0
 
+      - uses: actions/setup-python@v4
+        with:
+          python-version-file: '.python-version'
+
       - name: Install dependencies
         run: |
           pip install poetry
