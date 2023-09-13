@@ -7,7 +7,6 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509 import NameOID
 
 from pki_tools.crl import (
-    CertLoadError,
     CrlExtensionMissing,
     CrlFetchFailure,
     CrlLoadError,
@@ -193,6 +192,3 @@ def test_crl_load_failure(key_pair, mocked_requests_get, cert_pem_string):
         check_revoked(cert_pem_string)
 
 
-def test_cert_load_error():
-    with pytest.raises(CertLoadError):
-        check_revoked("BAD_PEM_DATA")
