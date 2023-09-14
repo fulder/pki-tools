@@ -13,17 +13,17 @@ from cryptography.x509.ocsp import (
 )
 from cryptography.x509.oid import ExtensionOID
 
-from pki_tools.exceptions import Error, ExtensionMissing, Revoked
-from pki_tools.utils import cert_from_pem
+from pki_tools import exceptions
+from pki_tools import utils
 
 
-class OcspFetchFailure(Error):
+class OcspFetchFailure(exceptions.Error):
     pass
 
 
 def check_revoked(cert_pem: str, issuer_cert_pem: str):
-    cert = cert_from_pem(cert_pem)
-    issuer_cert = cert_from_pem(issuer_cert_pem)
+    cert = utils.cert_from_pem(cert_pem)
+    issuer_cert = utils.cert_from_pem(issuer_cert_pem)
     check_revoked_crypto_cert(cert, issuer_cert)
 
 
@@ -52,9 +52,9 @@ def check_revoked_crypto_cert(
                         f"Certificate with serial: {cert.serial_number} "
                         f"is revoked since: {ocsp_res.revocation_time}"
                     )
-                    raise Revoked(err)
+                    raise exceptions.Revoked(err)
     except ExtensionNotFound:
-        raise ExtensionMissing()
+        raise exceptions.ExtensionMissing()
 
 
 def _get_ocsp_status(uri) -> OCSPResponse:

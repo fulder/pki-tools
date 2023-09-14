@@ -3,20 +3,20 @@ from cryptography import x509
 from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.oid import ExtensionOID
 
-from pki_tools.exceptions import Error, ExtensionMissing, Revoked
-from pki_tools.utils import cert_from_pem
+from pki_tools import exceptions
+from pki_tools import utils
 
 
-class CrlFetchFailure(Error):
+class CrlFetchFailure(exceptions.Error):
     pass
 
 
-class CrlLoadError(Error):
+class CrlLoadError(exceptions.Error):
     pass
 
 
 def check_revoked(cert_pem: str):
-    cert = cert_from_pem(cert_pem)
+    cert = utils.cert_from_pem(cert_pem)
     check_revoked_crypto_cert(cert)
 
 
@@ -41,9 +41,9 @@ def check_revoked_crypto_cert(cert: x509.Certificate):
                         f"Certificate with serial: {cert.serial_number} "
                         f"is revoked since: {r.revocation_date}"
                     )
-                    raise Revoked(err)
+                    raise exceptions.Revoked(err)
     except ExtensionNotFound:
-        raise ExtensionMissing()
+        raise exceptions.ExtensionMissing()
 
 
 def _get_crl_from_url(crl_url):
