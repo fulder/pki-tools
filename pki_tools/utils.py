@@ -23,7 +23,9 @@ def check_revoked(cert_pem: str, issuer_cert_pem: str = None):
     check_revoked_crypto_cert(cert, issuer_cert)
 
 
-def check_revoked_crypto_cert(cert: x509.Certificate, issuer_cert: x509.Certificate = None):
+def check_revoked_crypto_cert(
+    cert: x509.Certificate, issuer_cert: x509.Certificate = None
+):
     if issuer_cert is not None:
         try:
             ocsp.check_revoked_crypto_cert(cert, issuer_cert)
@@ -33,7 +35,9 @@ def check_revoked_crypto_cert(cert: x509.Certificate, issuer_cert: x509.Certific
     try:
         crl.check_revoked_crypto_cert(cert)
     except exceptions.ExtensionMissing:
-        err_msg = ("OCSP and CRL extensions not found, "
-                   "couldn't check revocation status")
+        err_msg = (
+            "OCSP and CRL extensions not found, "
+            "couldn't check revocation status"
+        )
         logger.error(err_msg)
         raise exceptions.Error(err_msg)
