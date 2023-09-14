@@ -13,7 +13,8 @@ from cryptography.x509.ocsp import (
 )
 from cryptography.x509.oid import ExtensionOID
 
-from . import Error, ExtensionMissing, Revoked, cert_from_pem
+from pki_tools.exceptions import Error, ExtensionMissing, Revoked
+from pki_tools.utils import cert_from_pem
 
 
 class OcspFetchFailure(Error):
