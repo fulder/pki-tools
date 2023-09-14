@@ -54,3 +54,6 @@ line_length = 79
 
 [tool.pytest.ini_options]
 addopts = "--cov=pki_tools --cov-report term-missing --cov-report=html -v"
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
