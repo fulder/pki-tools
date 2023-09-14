@@ -3,7 +3,8 @@ from cryptography import x509
 from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.oid import ExtensionOID
 
-from . import Error, ExtensionMissing, Revoked, cert_from_pem
+from pki_tools.exceptions import Error, ExtensionMissing, Revoked
+from pki_tools.utils import cert_from_pem
 
 
 class CrlFetchFailure(Error):
