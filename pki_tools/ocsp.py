@@ -16,15 +16,32 @@ from loguru import logger
 
 from pki_tools import exceptions
 from pki_tools import utils
+from pki_tools import types
 
 
-def is_revoked_pem(cert_pem: str, issuer_cert_pem: str) -> bool:
-    cert = utils.cert_from_pem(cert_pem)
-    issuer_cert = utils.cert_from_pem(issuer_cert_pem)
-    return is_revoked(cert, issuer_cert)
+def _get_issuer_from_uri(issuer_uri):
+    ret = requests.get(issuer_uri)
+
+    if ret.status_code != 200:
+        raise exceptions.OcspFetchFailure(
+            f"Issuer URI fetch failed. Status: {ret.status_code}"
+        )
+
+    return utils.cert_from_pem(ret.text)
 
 
-def is_revoked(cert: x509.Certificate, issuer_cert: x509.Certificate) -> bool:
+def is_revoked(
+    cert: [x509.Certificate, types.PemCert],
+    issuer_cert: [x509.Certificate, types.PemCert, types.Uri],
+) -> bool:
+    if types._is_pem_str(cert):
+        cert = utils.cert_from_pem(cert)
+
+    if types._is_pem_str(issuer_cert):
+        issuer_cert = utils.cert_from_pem(issuer_cert)
+    elif types._is_uri(issuer_cert):
+        issuer_cert = _get_issuer_from_uri(issuer_cert)
+
     builder = ocsp.OCSPRequestBuilder()
     builder = builder.add_certificate(cert, issuer_cert, SHA256())
     req = builder.build()

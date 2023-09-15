@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 
 from pki_tools.exceptions import CertLoadError, Error
-from pki_tools.utils import cert_from_pem, is_revoked_pem
+from pki_tools.utils import cert_from_pem, is_revoked
 from conftest import _create_mocked_ocsp_response, _create_cert, _create_crl
 
 
@@ -22,7 +22,16 @@ def test_is_revoked_pem_ocsp(
         cert, key_pair
     )
 
-    assert not is_revoked_pem(cert_pem_string, cert_pem_string)
+    assert not is_revoked(cert_pem_string, cert_pem_string)
+
+
+def test_is_revoked_cert_ocsp(mocked_requests_get, cert, key_pair):
+    mocked_requests_get.return_value.status_code = 200
+    mocked_requests_get.return_value.content = _create_mocked_ocsp_response(
+        cert, key_pair
+    )
+
+    assert not is_revoked(cert, cert)
 
 
 def test_is_revoked_pem_crl(key_pair, mocked_requests_get):
@@ -35,7 +44,7 @@ def test_is_revoked_pem_crl(key_pair, mocked_requests_get):
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.content = crl_der
 
-    assert not is_revoked_pem(cert_pem, cert_pem)
+    assert not is_revoked(cert_pem, cert_pem)
 
 
 def test_is_revoked_pem_ocsp_revoked(
@@ -49,7 +58,7 @@ def test_is_revoked_pem_ocsp_revoked(
         revocation_time=datetime.datetime.now(),
     )
 
-    assert is_revoked_pem(cert_pem_string, cert_pem_string)
+    assert is_revoked(cert_pem_string, cert_pem_string)
 
 
 def test_is_revoked_pem_crl_revoked(mocked_requests_get, key_pair):
@@ -62,7 +71,7 @@ def test_is_revoked_pem_crl_revoked(mocked_requests_get, key_pair):
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.content = crl_der
 
-    assert is_revoked_pem(cert_pem, cert_pem)
+    assert is_revoked(cert_pem, cert_pem)
 
 
 def test_is_revoked_missing_extensions(key_pair):
@@ -72,4 +81,4 @@ def test_is_revoked_missing_extensions(key_pair):
     cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode()
 
     with pytest.raises(Error):
-        is_revoked_pem(cert_pem)
+        is_revoked(cert_pem)
