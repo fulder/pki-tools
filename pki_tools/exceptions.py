@@ -6,10 +6,6 @@ class ExtensionMissing(Error):
     pass
 
 
-class Revoked(Error):
-    pass
-
-
 class CertLoadError(Error):
     pass
 

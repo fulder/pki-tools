@@ -2,17 +2,18 @@ import requests
 from cryptography import x509
 from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.oid import ExtensionOID
+from loguru import logger
 
 from pki_tools import exceptions
 from pki_tools import utils
 
 
-def check_revoked_pem(cert_pem: str):
+def is_revoked_pem(cert_pem: str) -> bool:
     cert = utils.cert_from_pem(cert_pem)
-    check_revoked(cert)
+    return is_revoked(cert)
 
 
-def check_revoked(cert: x509.Certificate):
+def is_revoked(cert: x509.Certificate) -> bool:
     ext = cert.extensions
     try:
         crl_ex = ext.get_extension_for_oid(
@@ -29,11 +30,11 @@ def check_revoked(cert: x509.Certificate):
                     cert.serial_number,
                 )
                 if r is not None:
-                    err = (
+                    logger.info(
                         f"Certificate with serial: {cert.serial_number} "
                         f"is revoked since: {r.revocation_date}"
                     )
-                    raise exceptions.Revoked(err)
+                    return True
     except ExtensionNotFound:
         raise exceptions.ExtensionMissing()
 

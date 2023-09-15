@@ -1,4 +1,3 @@
-
 from cryptography.hazmat.primitives.asymmetric import rsa
 
 
@@ -113,7 +112,6 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
 @pytest.fixture()
 def cert_pem_string(cert):
     return cert.public_bytes(serialization.Encoding.PEM).decode()
-
 
 
 def _create_mocked_ocsp_response(

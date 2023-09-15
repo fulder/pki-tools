@@ -14,27 +14,26 @@ def cert_from_pem(cert_pem: str) -> x509.Certificate:
         raise exceptions.CertLoadError(e)
 
 
-def check_revoked_pem(cert_pem: str, issuer_cert_pem: str = None):
+def is_revoked_pem(cert_pem: str, issuer_cert_pem: str = None) -> bool:
     cert = cert_from_pem(cert_pem)
     issuer_cert = None
     if issuer_cert_pem is not None:
         issuer_cert = cert_from_pem(issuer_cert_pem)
 
-    check_revoked(cert, issuer_cert)
+    is_revoked(cert, issuer_cert)
 
 
-def check_revoked(
+def is_revoked(
     cert: x509.Certificate, issuer_cert: x509.Certificate = None
-):
+) -> bool:
     if issuer_cert is not None:
         try:
-            ocsp.check_revoked(cert, issuer_cert)
-            return
+            return ocsp.is_revoked(cert, issuer_cert)
         except exceptions.ExtensionMissing:
             logger.debug("OCSP Extension missing, trying CRL next")
 
     try:
-        crl.check_revoked(cert)
+        return crl.is_revoked(cert)
     except exceptions.ExtensionMissing:
         err_msg = (
             "OCSP and CRL extensions not found, "

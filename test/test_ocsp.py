@@ -4,8 +4,8 @@ import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 
-from pki_tools.exceptions import ExtensionMissing, Revoked, OcspFetchFailure
-from pki_tools.ocsp import check_revoked_pem
+from pki_tools.exceptions import ExtensionMissing, OcspFetchFailure
+from pki_tools.ocsp import is_revoked_pem
 from conftest import _create_cert, _create_mocked_ocsp_response
 
 
@@ -17,7 +17,7 @@ def test_not_revoked_cert(
         cert, key_pair
     )
 
-    check_revoked_pem(cert_pem_string, cert_pem_string)
+    is_revoked_pem(cert_pem_string, cert_pem_string)
 
 
 def test_not_revoked_cert_pem(
@@ -28,10 +28,10 @@ def test_not_revoked_cert_pem(
         cert, key_pair
     )
 
-    check_revoked_pem(cert_pem_string, cert_pem_string)
+    is_revoked_pem(cert_pem_string, cert_pem_string)
 
 
-def test_check_revoked_revoked_cert(
+def test_is_revoked_revoked_cert(
     key_pair, mocked_requests_get, cert, cert_pem_string
 ):
     mocked_requests_get.return_value.status_code = 200
@@ -42,9 +42,7 @@ def test_check_revoked_revoked_cert(
         revocation_time=datetime.datetime.now(),
     )
 
-    exp_msg = f"Certificate with serial: {cert.serial_number} is revoked since"
-    with pytest.raises(Revoked, match=exp_msg):
-        check_revoked_pem(cert_pem_string, cert_pem_string)
+    assert is_revoked_pem(cert_pem_string, cert_pem_string)
 
 
 def test_cert_missing_extension(key_pair):
@@ -52,11 +50,11 @@ def test_cert_missing_extension(key_pair):
     cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode()
 
     with pytest.raises(ExtensionMissing):
-        check_revoked_pem(cert_pem, cert_pem)
+        is_revoked_pem(cert_pem, cert_pem)
 
 
 def test_ocsp_fetch_error(mocked_requests_get, cert_pem_string):
     mocked_requests_get.return_value.status_code = 503
 
     with pytest.raises(OcspFetchFailure):
-        check_revoked_pem(cert_pem_string, cert_pem_string)
+        is_revoked_pem(cert_pem_string, cert_pem_string)

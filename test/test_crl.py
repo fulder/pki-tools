@@ -4,11 +4,10 @@ from cryptography.hazmat.primitives import serialization
 
 from pki_tools.exceptions import (
     ExtensionMissing,
-    Revoked,
     CrlFetchFailure,
     CrlLoadError,
 )
-from pki_tools.crl import check_revoked_pem
+from pki_tools.crl import is_revoked_pem
 from conftest import _create_cert, _create_crl
 
 
@@ -19,7 +18,7 @@ def test_not_revoked_cert(key_pair, mocked_requests_get, cert_pem_string):
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.content = crl_der
 
-    check_revoked_pem(cert_pem_string)
+    is_revoked_pem(cert_pem_string)
 
 
 def test_not_revoked_cert_pem_crl(
@@ -31,10 +30,10 @@ def test_not_revoked_cert_pem_crl(
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.content = crl_pem
 
-    check_revoked_pem(cert_pem_string)
+    is_revoked_pem(cert_pem_string)
 
 
-def test_check_revoked_revoked_cert(
+def test_is_revoked_revoked_cert(
     key_pair, mocked_requests_get, cert, cert_pem_string
 ):
     crl = _create_crl(key_pair, [cert.serial_number])
@@ -43,11 +42,7 @@ def test_check_revoked_revoked_cert(
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.content = crl_der
 
-    exp_msg = (
-        f"Certificate with serial: {cert.serial_number} " "is revoked since"
-    )
-    with pytest.raises(Revoked, match=exp_msg):
-        check_revoked_pem(cert_pem_string)
+    assert is_revoked_pem(cert_pem_string)
 
 
 def test_cert_missing_crl_extension(key_pair):
@@ -55,14 +50,14 @@ def test_cert_missing_crl_extension(key_pair):
     cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode()
 
     with pytest.raises(ExtensionMissing):
-        check_revoked_pem(cert_pem)
+        is_revoked_pem(cert_pem)
 
 
 def test_crl_fetch_error(mocked_requests_get, cert_pem_string):
     mocked_requests_get.return_value.status_code = 503
 
     with pytest.raises(CrlFetchFailure):
-        check_revoked_pem(cert_pem_string)
+        is_revoked_pem(cert_pem_string)
 
 
 def test_crl_load_failure(key_pair, mocked_requests_get, cert_pem_string):
@@ -70,4 +65,4 @@ def test_crl_load_failure(key_pair, mocked_requests_get, cert_pem_string):
     mocked_requests_get.return_value.content = "INVALID_DATA"
 
     with pytest.raises(CrlLoadError):
-        check_revoked_pem(cert_pem_string)
+        is_revoked_pem(cert_pem_string)
