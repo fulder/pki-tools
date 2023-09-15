@@ -1,5 +1,5 @@
 import time
-from functools import cache
+from functools import lru_cache
 from typing import Union
 
 import requests
@@ -46,7 +46,7 @@ def is_revoked(
     return False
 
 
-@cache
+@lru_cache(maxsize=None)
 def _get_crl_from_url(crl_url, cache_ttl=None):
     del cache_ttl
 
