@@ -18,4 +18,4 @@ def test_is_revoked_pem(
         cert, key_pair
     )
 
-    is_revoked_pem(cert_pem_string, cert_pem_string)
+    assert is_revoked_pem(cert_pem_string, cert_pem_string)
