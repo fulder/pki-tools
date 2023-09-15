@@ -1,4 +1,6 @@
 import base64
+import time
+from functools import lru_cache
 
 import requests
 from cryptography import x509
@@ -19,7 +21,10 @@ from pki_tools import utils
 from pki_tools import types
 
 
-def _get_issuer_from_uri(issuer_uri):
+@lru_cache(maxsize=None)
+def _get_issuer_from_uri(issuer_uri, cache_ttl=None):
+    del cache_ttl
+
     ret = requests.get(issuer_uri)
 
     if ret.status_code != 200:
@@ -32,15 +37,18 @@ def _get_issuer_from_uri(issuer_uri):
 
 def is_revoked(
     cert: [x509.Certificate, types.PemCert],
-    issuer_cert: [x509.Certificate, types.PemCert, types.Uri],
+    issuer_cert: [x509.Certificate, types.PemCert, types.OcspIssuerUri],
 ) -> bool:
     if types._is_pem_str(cert):
         cert = utils.cert_from_pem(cert)
 
     if types._is_pem_str(issuer_cert):
         issuer_cert = utils.cert_from_pem(issuer_cert)
-    elif types._is_uri(issuer_cert):
-        issuer_cert = _get_issuer_from_uri(issuer_cert)
+    elif isinstance(issuer_cert, types.OcspIssuerUri):
+        cache_ttl = round(time.time() / issuer_cert.cache_time_seconds)
+        issuer_cert = _get_issuer_from_uri(
+            issuer_cert.uri, cache_ttl=cache_ttl
+        )
 
     builder = ocsp.OCSPRequestBuilder()
     builder = builder.add_certificate(cert, issuer_cert, SHA256())

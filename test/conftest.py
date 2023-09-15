@@ -11,6 +11,9 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives._serialization import Encoding
 from cryptography.x509 import ocsp
 
+from pki_tools.crl import _get_crl_from_url
+from pki_tools.ocsp import _get_issuer_from_uri
+
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -18,6 +21,8 @@ TEST_ACCESS_DESCRIPTION = "test-url"
 
 @pytest.fixture()
 def mocked_requests_get(mocker):
+    _get_crl_from_url.cache_clear()
+    _get_issuer_from_uri.cache_clear()
     return mocker.patch("requests.get")
 
 

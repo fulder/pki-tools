@@ -19,7 +19,10 @@ def cert_from_pem(cert_pem: str) -> x509.Certificate:
 
 def is_revoked(
     cert: Union[x509.Certificate, types.PemCert],
-    issuer_cert: Union[x509.Certificate, types.PemCert, types.Uri] = None,
+    issuer_cert: Union[
+        x509.Certificate, types.PemCert, types.OcspIssuerUri
+    ] = None,
+    crl_cache_seconds: int = 3600,
 ) -> bool:
     if issuer_cert is not None:
         try:
@@ -28,7 +31,7 @@ def is_revoked(
             logger.debug("OCSP Extension missing, trying CRL next")
 
     try:
-        return crl.is_revoked(cert)
+        return crl.is_revoked(cert, crl_cache_seconds)
     except exceptions.ExtensionMissing:
         err_msg = (
             "OCSP and CRL extensions not found, "
