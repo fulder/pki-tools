@@ -1,15 +1,16 @@
 import re
 from typing import NewType
 
+from pydantic import constr, BaseModel
+
 PemCert = NewType("PemCert", str)
-Uri = NewType("Uri", str)
 
 PEM_REGEX = re.compile(r"-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+")
-URI_REGEX = re.compile(r"https*://.*")
 
 
-def _is_uri(check):
-    return _check_str(URI_REGEX, check)
+class OcspIssuerUri(BaseModel):
+    uri: constr(pattern=r"https*://.*")
+    cache_time_seconds: int = 3600
 
 
 def _is_pem_str(check):

@@ -1,3 +1,5 @@
+import time
+from functools import cache
 from typing import Union
 
 import requests
@@ -11,7 +13,9 @@ from pki_tools import types
 from pki_tools import utils
 
 
-def is_revoked(cert: Union[x509.Certificate, types.PemCert]) -> bool:
+def is_revoked(
+    cert: Union[x509.Certificate, types.PemCert], crl_cache_seconds: int = 3600
+) -> bool:
     if types._is_pem_str(cert):
         cert = utils.cert_from_pem(cert)
 
@@ -25,7 +29,8 @@ def is_revoked(cert: Union[x509.Certificate, types.PemCert]) -> bool:
             for full_name in dist_point.full_name:
                 crl_url = full_name.value
 
-                crl = _get_crl_from_url(crl_url)
+                cache_ttl = round(time.time() / crl_cache_seconds)
+                crl = _get_crl_from_url(crl_url, cache_ttl=cache_ttl)
 
                 r = crl.get_revoked_certificate_by_serial_number(
                     cert.serial_number,
@@ -41,7 +46,10 @@ def is_revoked(cert: Union[x509.Certificate, types.PemCert]) -> bool:
     return False
 
 
-def _get_crl_from_url(crl_url):
+@cache
+def _get_crl_from_url(crl_url, cache_ttl=None):
+    del cache_ttl
+
     ret = requests.get(crl_url)
 
     if ret.status_code != 200:
