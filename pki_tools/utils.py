@@ -20,7 +20,7 @@ def is_revoked_pem(cert_pem: str, issuer_cert_pem: str = None) -> bool:
     if issuer_cert_pem is not None:
         issuer_cert = cert_from_pem(issuer_cert_pem)
 
-    is_revoked(cert, issuer_cert)
+    return is_revoked(cert, issuer_cert)
 
 
 def is_revoked(
