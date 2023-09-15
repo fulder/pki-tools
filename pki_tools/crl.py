@@ -37,6 +37,7 @@ def is_revoked(cert: x509.Certificate) -> bool:
                     return True
     except ExtensionNotFound:
         raise exceptions.ExtensionMissing()
+    return False
 
 
 def _get_crl_from_url(crl_url):
