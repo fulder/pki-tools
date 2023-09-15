@@ -15,7 +15,7 @@ from cryptography.x509.oid import ExtensionOID
 from loguru import logger
 
 from pki_tools import exceptions
-from pki_tools.utils import cert_from_pem, _is_pem_str, _is_uri
+from pki_tools import utils
 from pki_tools import types
 
 
@@ -27,19 +27,19 @@ def _get_issuer_from_uri(issuer_uri):
             f"Issuer URI fetch failed. Status: {ret.status_code}"
         )
 
-    return cert_from_pem(ret.text)
+    return utils.cert_from_pem(ret.text)
 
 
 def is_revoked(
     cert: [x509.Certificate, types.PemCert],
     issuer_cert: [x509.Certificate, types.PemCert, types.Uri],
 ) -> bool:
-    if _is_pem_str(cert):
-        cert = cert_from_pem(cert)
+    if utils._is_pem_str(cert):
+        cert = utils.cert_from_pem(cert)
 
-    if _is_pem_str(issuer_cert):
-        issuer_cert = cert_from_pem(issuer_cert)
-    elif _is_uri(issuer_cert):
+    if utils._is_pem_str(issuer_cert):
+        issuer_cert = utils.cert_from_pem(issuer_cert)
+    elif utils._is_uri(issuer_cert):
         issuer_cert = _get_issuer_from_uri(issuer_cert)
 
     builder = ocsp.OCSPRequestBuilder()

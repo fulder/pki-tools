@@ -8,12 +8,12 @@ from loguru import logger
 
 from pki_tools import exceptions
 from pki_tools import types
-from utils import _is_pem_str, cert_from_pem
+from pki_tools import utils
 
 
 def is_revoked(cert: Union[x509.Certificate, types.PemCert]) -> bool:
-    if _is_pem_str(cert):
-        cert = cert_from_pem(cert)
+    if utils._is_pem_str(cert):
+        cert = utils.cert_from_pem(cert)
 
     ext = cert.extensions
     try:
