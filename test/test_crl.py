@@ -1,9 +1,6 @@
-import datetime
-
 import pytest
-from cryptography import x509
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.x509 import NameOID
+from cryptography.hazmat.primitives import serialization
+
 
 from pki_tools.exceptions import (
     ExtensionMissing,
@@ -12,37 +9,7 @@ from pki_tools.exceptions import (
     CrlLoadError,
 )
 from pki_tools.crl import check_revoked_pem
-from conftest import _create_cert
-
-
-def _create_crl(keypair, revoked_serials):
-    one_day = datetime.timedelta(days=1)
-    crl = x509.CertificateRevocationListBuilder()
-    crl = crl.issuer_name(
-        x509.Name(
-            [
-                x509.NameAttribute(NameOID.COMMON_NAME, "cryptography.io CA"),
-            ]
-        )
-    )
-    crl = crl.last_update(datetime.datetime.today())
-    crl = crl.next_update(datetime.datetime.today() + one_day)
-
-    for serial in revoked_serials:
-        next_revoked_cert = (
-            x509.RevokedCertificateBuilder()
-            .serial_number(
-                serial,
-            )
-            .revocation_date(
-                datetime.datetime.today(),
-            )
-            .build()
-        )
-
-        crl = crl.add_revoked_certificate(next_revoked_cert)
-
-    return crl.sign(private_key=keypair, algorithm=hashes.SHA256())
+from conftest import _create_cert, _create_crl
 
 
 def test_not_revoked_cert(key_pair, mocked_requests_get, cert_pem_string):

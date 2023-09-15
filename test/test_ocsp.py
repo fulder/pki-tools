@@ -1,35 +1,12 @@
 import datetime
 
 import pytest
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives._serialization import Encoding
+from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 
 from pki_tools.exceptions import ExtensionMissing, Revoked, OcspFetchFailure
 from pki_tools.ocsp import check_revoked_pem
-from conftest import _create_cert
-
-
-def _create_mocked_ocsp_response(
-    cert, key_pair, status=ocsp.OCSPCertStatus.GOOD, revocation_time=None
-):
-    builder = ocsp.OCSPResponseBuilder()
-    builder = builder.add_response(
-        cert=cert,
-        issuer=cert,
-        algorithm=hashes.SHA256(),
-        cert_status=status,
-        this_update=datetime.datetime.now(),
-        next_update=datetime.datetime.now(),
-        revocation_time=revocation_time,
-        revocation_reason=None,
-    ).responder_id(ocsp.OCSPResponderEncoding.HASH, cert)
-    return builder.sign(key_pair, hashes.SHA256()).public_bytes(Encoding.DER)
-
-
-@pytest.fixture()
-def cert_pem_string(cert):
-    return cert.public_bytes(serialization.Encoding.PEM).decode()
+from conftest import _create_cert, _create_mocked_ocsp_response
 
 
 def test_not_revoked_cert(
