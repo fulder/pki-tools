@@ -1,3 +1,5 @@
+from typing import Union
+
 import requests
 from cryptography import x509
 from cryptography.x509.extensions import ExtensionNotFound
@@ -5,15 +7,14 @@ from cryptography.x509.oid import ExtensionOID
 from loguru import logger
 
 from pki_tools import exceptions
-from pki_tools import utils
+from pki_tools import types
+from utils import _is_pem_str, cert_from_pem
 
 
-def is_revoked_pem(cert_pem: str) -> bool:
-    cert = utils.cert_from_pem(cert_pem)
-    return is_revoked(cert)
+def is_revoked(cert: Union[x509.Certificate, types.PemCert]) -> bool:
+    if _is_pem_str(cert):
+        cert = cert_from_pem(cert)
 
-
-def is_revoked(cert: x509.Certificate) -> bool:
     ext = cert.extensions
     try:
         crl_ex = ext.get_extension_for_oid(
