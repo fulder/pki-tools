@@ -11,6 +11,7 @@ pytest:
 
 .PHONY: docs-gen
 docs-gen:
+	rm -r ./docs
 	poetry run handsdown --external `git config --get remote.origin.url` --create-configs --theme=material
 	poetry run mkdocs build
 	rm -r ./docs
@@ -18,6 +19,7 @@ docs-gen:
 	rm mkdocs.yml
 	rm requirements.mkdocs.txt
 	mv ./site ./docs
+	rm ./docs/sitemap.xml.gz
 
 
 .PHONY: clean
