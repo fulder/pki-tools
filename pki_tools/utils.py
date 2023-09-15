@@ -29,6 +29,7 @@ def check_revoked(
     if issuer_cert is not None:
         try:
             ocsp.check_revoked(cert, issuer_cert)
+            return
         except exceptions.ExtensionMissing:
             logger.debug("OCSP Extension missing, trying CRL next")
 
