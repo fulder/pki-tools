@@ -24,9 +24,7 @@ def is_revoked_pem(cert_pem: str, issuer_cert_pem: str) -> bool:
     return is_revoked(cert, issuer_cert)
 
 
-def is_revoked(
-    cert: x509.Certificate, issuer_cert: x509.Certificate
-) -> bool:
+def is_revoked(cert: x509.Certificate, issuer_cert: x509.Certificate) -> bool:
     builder = ocsp.OCSPRequestBuilder()
     builder = builder.add_certificate(cert, issuer_cert, SHA256())
     req = builder.build()
