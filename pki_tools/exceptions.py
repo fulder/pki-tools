@@ -6,9 +6,17 @@ class ExtensionMissing(Error):
     pass
 
 
-class Revoked(Error):
+class CertLoadError(Error):
     pass
 
 
-class CertLoadError(Error):
+class OcspFetchFailure(Error):
+    pass
+
+
+class CrlFetchFailure(Error):
+    pass
+
+
+class CrlLoadError(Error):
     pass

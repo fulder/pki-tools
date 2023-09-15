@@ -2,25 +2,18 @@ import requests
 from cryptography import x509
 from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.oid import ExtensionOID
+from loguru import logger
 
-from pki_tools.exceptions import Error, ExtensionMissing, Revoked
-from pki_tools.utils import cert_from_pem
-
-
-class CrlFetchFailure(Error):
-    pass
+from pki_tools import exceptions
+from pki_tools import utils
 
 
-class CrlLoadError(Error):
-    pass
+def is_revoked_pem(cert_pem: str) -> bool:
+    cert = utils.cert_from_pem(cert_pem)
+    return is_revoked(cert)
 
 
-def check_revoked(cert_pem: str):
-    cert = cert_from_pem(cert_pem)
-    check_revoked_crypto_cert(cert)
-
-
-def check_revoked_crypto_cert(cert: x509.Certificate):
+def is_revoked(cert: x509.Certificate) -> bool:
     ext = cert.extensions
     try:
         crl_ex = ext.get_extension_for_oid(
@@ -37,20 +30,21 @@ def check_revoked_crypto_cert(cert: x509.Certificate):
                     cert.serial_number,
                 )
                 if r is not None:
-                    err = (
+                    logger.info(
                         f"Certificate with serial: {cert.serial_number} "
                         f"is revoked since: {r.revocation_date}"
                     )
-                    raise Revoked(err)
+                    return True
     except ExtensionNotFound:
-        raise ExtensionMissing()
+        raise exceptions.ExtensionMissing()
+    return False
 
 
 def _get_crl_from_url(crl_url):
     ret = requests.get(crl_url)
 
     if ret.status_code != 200:
-        raise CrlFetchFailure
+        raise exceptions.CrlFetchFailure
 
     crl_data = ret.content
     return _crl_data_to_crypto(crl_data)
@@ -65,4 +59,4 @@ def _crl_data_to_crypto(crl_data):
     try:
         return x509.load_pem_x509_crl(crl_data)
     except TypeError as e:
-        raise CrlLoadError(e) from None
+        raise exceptions.CrlLoadError(e) from None

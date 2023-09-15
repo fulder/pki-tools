@@ -12,24 +12,19 @@ from cryptography.x509.ocsp import (
     OCSPResponseStatus,
 )
 from cryptography.x509.oid import ExtensionOID
+from loguru import logger
 
-from pki_tools.exceptions import Error, ExtensionMissing, Revoked
-from pki_tools.utils import cert_from_pem
-
-
-class OcspFetchFailure(Error):
-    pass
+from pki_tools import exceptions
+from pki_tools import utils
 
 
-def check_revoked(cert_pem: str, issuer_cert_pem: str):
-    cert = cert_from_pem(cert_pem)
-    issuer_cert = cert_from_pem(issuer_cert_pem)
-    check_revoked_crypto_cert(cert, issuer_cert)
+def is_revoked_pem(cert_pem: str, issuer_cert_pem: str) -> bool:
+    cert = utils.cert_from_pem(cert_pem)
+    issuer_cert = utils.cert_from_pem(issuer_cert_pem)
+    return is_revoked(cert, issuer_cert)
 
 
-def check_revoked_crypto_cert(
-    cert: x509.Certificate, issuer_cert: x509.Certificate
-):
+def is_revoked(cert: x509.Certificate, issuer_cert: x509.Certificate) -> bool:
     builder = ocsp.OCSPRequestBuilder()
     builder = builder.add_certificate(cert, issuer_cert, SHA256())
     req = builder.build()
@@ -48,26 +43,27 @@ def check_revoked_crypto_cert(
                 ocsp_res = _get_ocsp_status(f"{server}/{req_path}")
 
                 if ocsp_res.certificate_status == OCSPCertStatus.REVOKED:
-                    err = (
+                    logger.info(
                         f"Certificate with serial: {cert.serial_number} "
                         f"is revoked since: {ocsp_res.revocation_time}"
                     )
-                    raise Revoked(err)
+                    return True
     except ExtensionNotFound:
-        raise ExtensionMissing()
+        raise exceptions.ExtensionMissing()
+    return False
 
 
 def _get_ocsp_status(uri) -> OCSPResponse:
     ret = requests.get(uri)
 
     if ret.status_code != 200:
-        raise OcspFetchFailure(
+        raise exceptions.OcspFetchFailure(
             f"Unexpected response status code: {ret.status_code}"
         )
 
     ocsp_res = ocsp.load_der_ocsp_response(ret.content)
     if ocsp_res.response_status != OCSPResponseStatus.SUCCESSFUL:
-        raise OcspFetchFailure(
+        raise exceptions.OcspFetchFailure(
             f"Invalid OCSP Response status: {ocsp_res.response_status}"
         )
 

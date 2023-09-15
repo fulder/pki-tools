@@ -22,7 +22,7 @@ PKI tools exposes a high level `cryptography` API for e.g.:
 
 Checking revocation using PEM encoded certificate
 ```python3
-from pki_tools.crl import check_revoked, Revoked, Error
+from pki_tools.crl import is_revoked, Revoked, Error
 
 cert_pem = """
 -----BEGIN CERTIFICATE-----
@@ -31,7 +31,7 @@ cert_pem = """
 """
 
 try:
-    check_revoked(cert_pem)
+    is_revoked(cert_pem)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
@@ -43,13 +43,13 @@ Checking revocation using an already loaded cryptography [x509.Certificate](http
 
 ```python3
 from cryptography import x509
-from pki_tools.ocsp import check_revoked_crypto_cert, Revoked, Error
+from pki_tools.ocsp import is_revoked, Revoked, Error
 
 cert : x509.Certificate = ...
 issuer: x509.Certificate = ...
 
 try:
-    check_revoked_crypto_cert(cert, issuer)
+    is_revoked(cert, issuer)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
@@ -61,7 +61,7 @@ except Error as e:
 
 Checking revocation using PEM encoded certificate
 ```python3
-from pki_tools.ocsp import check_revoked, Revoked, Error
+from pki_tools.ocsp import is_revoked, Revoked, Error
 
 cert_pem = """
 -----BEGIN CERTIFICATE-----
@@ -76,7 +76,7 @@ issuer_pem = """
 """
 
 try:
-    check_revoked(cert_pem, issuer_pem)
+    is_revoked(cert_pem, issuer_pem)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
@@ -88,13 +88,13 @@ Checking revocation using an already loaded cryptography [x509.Certificate](http
 
 ```python3
 from cryptography import x509
-from pki_tools.ocsp import check_revoked_crypto_cert, Revoked, Error
+from pki_tools.ocsp import is_revoked, Revoked, Error
 
 cert : x509.Certificate = ...
 issuer_cert : x509.Certificate = ...
 
 try:
-    check_revoked_crypto_cert(cert, issuer_cert)
+    is_revoked(cert, issuer_cert)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
