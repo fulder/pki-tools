@@ -8,16 +8,15 @@ from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.oid import ExtensionOID
 from loguru import logger
 
-from pki_tools import exceptions
-from pki_tools import types
-from pki_tools import utils
+import pki_tools
+from pki_tools import types, exceptions
 
 
 def is_revoked(
     cert: Union[x509.Certificate, types.PemCert], crl_cache_seconds: int = 3600
 ) -> bool:
     if types._is_pem_str(cert):
-        cert = utils.cert_from_pem(cert)
+        cert = pki_tools.cert_from_pem(cert)
 
     ext = cert.extensions
     try:
