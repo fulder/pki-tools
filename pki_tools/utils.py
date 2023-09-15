@@ -1,4 +1,3 @@
-import re
 from typing import Union
 
 from cryptography import x509
@@ -11,30 +10,11 @@ from pki_tools import types
 from loguru import logger
 
 
-PEM_REGEX = re.compile(r"-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+")
-URI_REGEX = re.compile(r"https*://.*")
-
-
 def cert_from_pem(cert_pem: str) -> x509.Certificate:
     try:
         return x509.load_pem_x509_certificate(cert_pem.encode())
     except ValueError as e:
         raise exceptions.CertLoadError(e)
-
-
-def _is_uri(check):
-    return _check_str(URI_REGEX, check)
-
-
-def _is_pem_str(check):
-    return _check_str(PEM_REGEX, check)
-
-
-def _check_str(pattern, check):
-    if not isinstance(check, str):
-        return False
-
-    return re.match(pattern, check)
 
 
 def is_revoked(

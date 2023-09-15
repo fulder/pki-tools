@@ -12,7 +12,7 @@ from pki_tools import utils
 
 
 def is_revoked(cert: Union[x509.Certificate, types.PemCert]) -> bool:
-    if utils._is_pem_str(cert):
+    if types._is_pem_str(cert):
         cert = utils.cert_from_pem(cert)
 
     ext = cert.extensions

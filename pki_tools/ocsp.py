@@ -34,12 +34,12 @@ def is_revoked(
     cert: [x509.Certificate, types.PemCert],
     issuer_cert: [x509.Certificate, types.PemCert, types.Uri],
 ) -> bool:
-    if utils._is_pem_str(cert):
+    if types._is_pem_str(cert):
         cert = utils.cert_from_pem(cert)
 
-    if utils._is_pem_str(issuer_cert):
+    if types._is_pem_str(issuer_cert):
         issuer_cert = utils.cert_from_pem(issuer_cert)
-    elif utils._is_uri(issuer_cert):
+    elif types._is_uri(issuer_cert):
         issuer_cert = _get_issuer_from_uri(issuer_cert)
 
     builder = ocsp.OCSPRequestBuilder()
