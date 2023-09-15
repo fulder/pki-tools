@@ -31,7 +31,7 @@ def _get_issuer_from_uri(issuer_uri, cache_ttl=None):
             f"Issuer URI fetch failed. Status: {ret.status_code}"
         )
 
-    return utils.cert_from_pem(ret.text)
+    return pki_tools.cert_from_pem(ret.text)
 
 
 def is_revoked(
