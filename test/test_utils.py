@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 
 from pki_tools.exceptions import CertLoadError, Error
-from pki_tools.utils import cert_from_pem, is_revoked
+from pki_tools import cert_from_pem, is_revoked
 from conftest import _create_mocked_ocsp_response, _create_cert, _create_crl
 
 

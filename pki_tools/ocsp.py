@@ -16,9 +16,8 @@ from cryptography.x509.ocsp import (
 from cryptography.x509.oid import ExtensionOID
 from loguru import logger
 
-from pki_tools import exceptions
-from pki_tools import utils
-from pki_tools import types
+import pki_tools
+from pki_tools import exceptions, types
 
 
 @lru_cache(maxsize=None)
@@ -32,7 +31,7 @@ def _get_issuer_from_uri(issuer_uri, cache_ttl=None):
             f"Issuer URI fetch failed. Status: {ret.status_code}"
         )
 
-    return utils.cert_from_pem(ret.text)
+    return pki_tools.cert_from_pem(ret.text)
 
 
 def is_revoked(
@@ -40,10 +39,10 @@ def is_revoked(
     issuer_cert: [x509.Certificate, types.PemCert, types.OcspIssuerUri],
 ) -> bool:
     if types._is_pem_str(cert):
-        cert = utils.cert_from_pem(cert)
+        cert = pki_tools.cert_from_pem(cert)
 
     if types._is_pem_str(issuer_cert):
-        issuer_cert = utils.cert_from_pem(issuer_cert)
+        issuer_cert = pki_tools.cert_from_pem(issuer_cert)
     elif isinstance(issuer_cert, types.OcspIssuerUri):
         cache_ttl = round(time.time() / issuer_cert.cache_time_seconds)
         issuer_cert = _get_issuer_from_uri(
