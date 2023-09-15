@@ -12,3 +12,15 @@ class Revoked(Error):
 
 class CertLoadError(Error):
     pass
+
+
+class OcspFetchFailure(Error):
+    pass
+
+
+class CrlFetchFailure(Error):
+    pass
+
+
+class CrlLoadError(Error):
+    pass

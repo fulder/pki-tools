@@ -17,19 +17,13 @@ from pki_tools import exceptions
 from pki_tools import utils
 
 
-class OcspFetchFailure(exceptions.Error):
-    pass
-
-
-def check_revoked(cert_pem: str, issuer_cert_pem: str):
+def check_revoked_pem(cert_pem: str, issuer_cert_pem: str):
     cert = utils.cert_from_pem(cert_pem)
     issuer_cert = utils.cert_from_pem(issuer_cert_pem)
-    check_revoked_crypto_cert(cert, issuer_cert)
+    check_revoked(cert, issuer_cert)
 
 
-def check_revoked_crypto_cert(
-    cert: x509.Certificate, issuer_cert: x509.Certificate
-):
+def check_revoked(cert: x509.Certificate, issuer_cert: x509.Certificate):
     builder = ocsp.OCSPRequestBuilder()
     builder = builder.add_certificate(cert, issuer_cert, SHA256())
     req = builder.build()
@@ -61,13 +55,13 @@ def _get_ocsp_status(uri) -> OCSPResponse:
     ret = requests.get(uri)
 
     if ret.status_code != 200:
-        raise OcspFetchFailure(
+        raise exceptions.OcspFetchFailure(
             f"Unexpected response status code: {ret.status_code}"
         )
 
     ocsp_res = ocsp.load_der_ocsp_response(ret.content)
     if ocsp_res.response_status != OCSPResponseStatus.SUCCESSFUL:
-        raise OcspFetchFailure(
+        raise exceptions.OcspFetchFailure(
             f"Invalid OCSP Response status: {ocsp_res.response_status}"
         )
 

@@ -7,20 +7,12 @@ from pki_tools import exceptions
 from pki_tools import utils
 
 
-class CrlFetchFailure(exceptions.Error):
-    pass
-
-
-class CrlLoadError(exceptions.Error):
-    pass
-
-
-def check_revoked(cert_pem: str):
+def check_revoked_pem(cert_pem: str):
     cert = utils.cert_from_pem(cert_pem)
-    check_revoked_crypto_cert(cert)
+    check_revoked(cert)
 
 
-def check_revoked_crypto_cert(cert: x509.Certificate):
+def check_revoked(cert: x509.Certificate):
     ext = cert.extensions
     try:
         crl_ex = ext.get_extension_for_oid(
@@ -50,7 +42,7 @@ def _get_crl_from_url(crl_url):
     ret = requests.get(crl_url)
 
     if ret.status_code != 200:
-        raise CrlFetchFailure
+        raise exceptions.CrlFetchFailure
 
     crl_data = ret.content
     return _crl_data_to_crypto(crl_data)
@@ -65,4 +57,4 @@ def _crl_data_to_crypto(crl_data):
     try:
         return x509.load_pem_x509_crl(crl_data)
     except TypeError as e:
-        raise CrlLoadError(e) from None
+        raise exceptions.CrlLoadError(e) from None

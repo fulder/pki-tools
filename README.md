@@ -43,13 +43,13 @@ Checking revocation using an already loaded cryptography [x509.Certificate](http
 
 ```python3
 from cryptography import x509
-from pki_tools.ocsp import check_revoked_crypto_cert, Revoked, Error
+from pki_tools.ocsp import check_revoked, Revoked, Error
 
 cert : x509.Certificate = ...
 issuer: x509.Certificate = ...
 
 try:
-    check_revoked_crypto_cert(cert, issuer)
+    check_revoked(cert, issuer)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
@@ -88,13 +88,13 @@ Checking revocation using an already loaded cryptography [x509.Certificate](http
 
 ```python3
 from cryptography import x509
-from pki_tools.ocsp import check_revoked_crypto_cert, Revoked, Error
+from pki_tools.ocsp import check_revoked, Revoked, Error
 
 cert : x509.Certificate = ...
 issuer_cert : x509.Certificate = ...
 
 try:
-    check_revoked_crypto_cert(cert, issuer_cert)
+    check_revoked(cert, issuer_cert)
 except Revoked as e:
     print(f"Certificate revoked: {e}")
 except Error as e:
