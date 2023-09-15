@@ -11,7 +11,7 @@ PKI tools exposes a high level `cryptography` API for e.g.:
   * using OCSP defined in the x509 Authority Information Access extension
     (https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.2.1)
 * loading certificates
-* store certificates to file easy
+
 
 # Installation
 
