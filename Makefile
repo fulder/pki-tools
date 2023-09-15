@@ -2,10 +2,12 @@
 format:
 	poetry run ruff check --fix .
 	poetry run black .
+	make clean
 
 .PHONY: pytest
 pytest:
 	poetry run python -m pytest ./test
+	make clean
 
 .PHONY: docs-gen
 docs-gen:
@@ -16,3 +18,11 @@ docs-gen:
 	rm mkdocs.yml
 	rm requirements.mkdocs.txt
 	mv ./site ./docs
+
+
+.PHONY: clean
+clean:
+	rm -rf ./htmlcov
+	rm -f .coverage
+	rm -rf ./.pytest_cache
+	rm -rf ./.ruff_cache
