@@ -1,5 +1,4 @@
 import re
-from typing import NewType
 
 from pydantic import constr, BaseModel
 
@@ -31,7 +30,9 @@ class PemCert(str):
         )
     """
 
+
 PEM_REGEX = re.compile(r"-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+")
+
 
 class OcspIssuerUri(BaseModel):
     """
@@ -45,6 +46,7 @@ class OcspIssuerUri(BaseModel):
         cache_time_seconds -- Specifies how long the public cert should be
         cached, default is 1 month.
     """
+
     uri: constr(pattern=r"https*://.*")
     cache_time_seconds: int = 60 * 60 * 24 * 30
 
