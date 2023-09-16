@@ -11,11 +11,13 @@ pytest:
 
 .PHONY: docs-gen
 docs-gen:
+	cp ./docs/CNAME ./CNAME
 	rm -r ./docs
 	poetry run handsdown --external `git config --get remote.origin.url` --create-configs --theme=material
 	poetry run mkdocs build
 	rm -r ./docs
 	mv ./site ./docs
+	mv ./CNAME ./docs/CNAME
 	rm ./docs/sitemap.xml.gz
 	make clean
 
