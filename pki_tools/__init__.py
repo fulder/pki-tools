@@ -88,6 +88,14 @@ def is_revoked(
 
 
 def save_to_file(cert: Union[x509.Certificate, types.PemCert], file_path: str):
+    """
+    Saves a certificate into a file
+
+    Arguments:
+        cert -- The certificate to save to the `file_path`. Can either be
+        a x509.Certificate or a types.PemCert string
+        file_path -- Path and filename where to store the certificate
+    """
     if isinstance(cert, x509.Certificate):
         cert = pem_from_cert(cert)
 
@@ -98,6 +106,14 @@ def save_to_file(cert: Union[x509.Certificate, types.PemCert], file_path: str):
 
 
 def read_from_file(file_path: str) -> x509.Certificate:
+    """
+    Reads a file containing a PEM certificate into a x509.Certificate object.
+
+    Arguments:
+        file_path -- Path and filename of the PEM certificate
+    Returns:
+         A x509.Certificate representing the certificate from file
+    """
     with open(file_path, "r") as f:
         cert_pem = f.read()
         return cert_from_pem(cert_pem)
