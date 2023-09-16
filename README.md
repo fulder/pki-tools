@@ -1,7 +1,5 @@
 ![Python Badge](https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&logo=python)
 
-# pki-tools
-
 PKI tools exposes a high level `cryptography` API for e.g.:
 
 * checking revocation of certificates:
@@ -14,25 +12,18 @@ PKI tools exposes a high level `cryptography` API for e.g.:
 * saving certificates to files
 * reading certificates from files
 
-# Installation
+## Docs
 
+Documentation is available at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
+
+## Quickstart
+
+### Install
 `pip install pki-tools`
 
-# Usage
+### Usage
 
-See [Documentation](https://pki-tools.fulder.dev/pki_tools/#pki-tools) for
-available functions.
-
-## Examples
-
-### Checking OCSP and CRL revocation
-
-The following examples uses PEM strings for certificate and issuer. Note that
-it's possible to use
-[x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-parameters instead as well
-as [OcspIssuerUri](https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L11)
-type for the issuer in order to download and cache the issuer certificate.
+#### Checking OCSP and CRL revocation
 
 ```python
 from pki_tools import is_revoked
@@ -52,3 +43,7 @@ issuer_cert_pem = """
 if is_revoked(PemCert(cert_pem), PemCert(issuer_cert_pem)):
     print("Certificate Revoked!")
 ```
+
+For more functions see:
+[Pki Tools](https://pki-tools.fulder.dev/pki_tools/#pki-tools)
+
