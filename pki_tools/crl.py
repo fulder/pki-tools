@@ -15,6 +15,22 @@ from pki_tools import types, exceptions
 def is_revoked(
     cert: Union[x509.Certificate, types.PemCert], crl_cache_seconds: int = 3600
 ) -> bool:
+    """
+    Checks if a certificate is revoked using the CRL extensions.
+
+    Arguments:
+        cert -- The certificate to check revocation for. Can either be
+        crl_cache_seconds -- Specifies how long the CRL should be
+        cached, default is 1 hour.
+    Returns:
+        True if the certificate is revoked, False otherwise
+    Raises:
+        exceptions.ExtensionMissing -- When CRL extension is missing
+        exceptions.CrlFetchFailure -- When the CRL could not be fetched
+        exceptions.CrlLoadError -- If CRL could be fetched successfully but
+        could not be loaded e.g. due invalid format or file
+        exceptions.Error -- If revocation check fails both with OCSP and CRL
+    """
     if types._is_pem_str(cert):
         cert = pki_tools.cert_from_pem(cert)
 

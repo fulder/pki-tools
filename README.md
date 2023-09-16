@@ -20,7 +20,7 @@ PKI tools exposes a high level `cryptography` API for e.g.:
 
 # Usage
 
-See [Documentation](https://fulder.github.io/pki-tools/pki_tools/#pki-tools) for
+See [Documentation](https://pki-tools.fulder.dev/pki_tools/#pki-tools) for
 available functions.
 
 ## Examples
