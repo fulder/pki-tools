@@ -11,6 +11,16 @@ from loguru import logger
 
 
 def cert_from_pem(cert_pem: str) -> x509.Certificate:
+    """
+    Loads a certificate from a PEM string into a x509.Certificate object
+
+    Arguments:
+        cert_pem -- The PEM encoded certificate in string format
+    Returns:
+        A x509.Certificate created from the PEM
+    Raises:
+         exceptions.CertLoadError - If the certificate could not be loaded
+    """
     try:
         return x509.load_pem_x509_certificate(cert_pem.encode())
     except ValueError as e:
@@ -42,7 +52,6 @@ def is_revoked(
         including the URI to the issuer public cert
     Returns:
         True if the certificate is revoked, False otherwise
-
     Raises:
         exceptions.OcspFetchFailure -- When OCSP fails preforming the check
         against the server
