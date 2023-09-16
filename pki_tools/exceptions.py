@@ -13,6 +13,7 @@ class CertLoadError(Error):
 class OcspFetchFailure(Error):
     pass
 
+
 class OcspIssuerFetchFailure(Error):
     pass
 
