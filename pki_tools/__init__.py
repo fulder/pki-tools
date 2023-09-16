@@ -1,3 +1,5 @@
+from cryptography.hazmat.primitives import serialization
+
 from . import ocsp
 from . import crl
 from . import exceptions
@@ -15,6 +17,10 @@ def cert_from_pem(cert_pem: str) -> x509.Certificate:
         return x509.load_pem_x509_certificate(cert_pem.encode())
     except ValueError as e:
         raise exceptions.CertLoadError(e)
+
+
+def pem_from_cert(cert: x509.Certificate) -> str:
+    return cert.public_bytes(serialization.Encoding.PEM).decode()
 
 
 def is_revoked(
@@ -39,3 +45,19 @@ def is_revoked(
         )
         logger.error(err_msg)
         raise exceptions.Error(err_msg)
+
+
+def save_to_file(cert: Union[x509.Certificate, types.PemCert], file_path: str):
+    if isinstance(cert, x509.Certificate):
+        cert = pem_from_cert(cert)
+
+    with open(file_path, "w") as f:
+        f.write(cert)
+
+    logger.debug(f"Certificate saved to {file_path}")
+
+
+def read_from_file(file_path: str) -> x509.Certificate:
+    with open(file_path, "r") as f:
+        cert_pem = f.read()
+        return cert_from_pem(cert_pem)
