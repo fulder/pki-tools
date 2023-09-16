@@ -1,3 +1,5 @@
+import os
+
 from cryptography.hazmat.primitives.asymmetric import rsa
 
 
@@ -17,6 +19,7 @@ from pki_tools.ocsp import _get_issuer_from_uri
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 @pytest.fixture()

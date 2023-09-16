@@ -40,6 +40,11 @@ optional = true
 black = "^23.1.0"
 ruff = "^0.0.289"
 
+
+[tool.poetry.group.dev.dependencies]
+mkdocs-material = "^9.3.1"
+handsdown = "^2.0.1"
+
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"

@@ -1,12 +1,18 @@
 import datetime
+import os
 
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 
 from pki_tools.exceptions import CertLoadError, Error
-from pki_tools import cert_from_pem, is_revoked
-from conftest import _create_mocked_ocsp_response, _create_cert, _create_crl
+from pki_tools import cert_from_pem, is_revoked, save_to_file, read_from_file
+from conftest import (
+    _create_mocked_ocsp_response,
+    _create_cert,
+    _create_crl,
+    CURRENT_DIR,
+)
 
 
 def test_cert_load_error():
@@ -82,3 +88,13 @@ def test_is_revoked_missing_extensions(key_pair):
 
     with pytest.raises(Error):
         is_revoked(cert_pem)
+
+
+def test_save_and_read_file(cert):
+    file_path = os.path.join(CURRENT_DIR, "tmp.pem")
+    save_to_file(cert, file_path)
+    new_pem = read_from_file(file_path)
+
+    os.remove(file_path)
+
+    assert cert == new_pem
