@@ -11,6 +11,7 @@ pytest:
 
 .PHONY: docs-gen
 docs-gen:
+	cp ./README.md ./HANDSDOWN.md
 	cp ./docs/CNAME ./CNAME
 	rm -r ./docs
 	poetry run handsdown --external `git config --get remote.origin.url` --create-configs --theme=material
@@ -20,6 +21,7 @@ docs-gen:
 	mv ./CNAME ./docs/CNAME
 	rm ./docs/sitemap.xml.gz
 	make clean
+	rm ./HANDSDOWN.md
 
 
 .PHONY: clean

@@ -455,6 +455,8 @@
 <p>Auto-generated documentation index.</p>
 </blockquote>
 <p>A full list of <a href="https://github.com/fulder/pki-tools">Pki-tools</a> project modules.</p>
+<p><img alt="Python Badge" src="https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&amp;logo=python" /></p>
+<h1 id="pki-tools">PKI Tools</h1>
 <p>PKI tools exposes a high level <code>cryptography</code> API for e.g.:</p>
 <ul>
 <li>checking revocation of certificates:<ul>
@@ -467,12 +469,35 @@
 </li>
 <li>loading certificates from PEM format</li>
 <li>saving certificates to files</li>
-<li>
-<p>reading certificates from files</p>
-</li>
-<li>
-<p><a href="pki_tools/#pki-tools">Pki Tools</a></p>
+<li>reading certificates from files</li>
+</ul>
+<h2 id="quickstart">Quickstart</h2>
+<h3 id="install">Install</h3>
+<p><code>pip install pki-tools</code></p>
+<h3 id="usage">Usage</h3>
+<h4 id="checking-ocsp-and-crl-revocation">Checking OCSP and CRL revocation</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pki_tools</span> <span class="kn">import</span> <span class="n">is_revoked</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">pki_tools.types</span> <span class="kn">import</span> <span class="n">PemCert</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">cert_pem</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="s2">-----BEGIN CERTIFICATE-----</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="s2">&lt;CERT_PEM_BYTES&gt;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="s2">-----END CERTIFICATE-----</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">issuer_cert_pem</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="s2">-----BEGIN CERTIFICATE-----</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="s2">&lt;ISSUER_CERT_PEM_BYTES&gt;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="s2">-----END CERTIFICATE-----</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">if</span> <span class="n">is_revoked</span><span class="p">(</span><span class="n">PemCert</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">),</span> <span class="n">PemCert</span><span class="p">(</span><span class="n">issuer_cert_pem</span><span class="p">)):</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Certificate Revoked!&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="loading">Loading</h4>
+<p>For more functions see:
+<a href="https://pki-tools.fulder.dev/pki_tools/#pki-tools">Pki Tools</a></p>
 <ul>
+<li><a href="pki_tools/#pki-tools">Pki Tools</a><ul>
 <li><a href="pki_tools/crl/#crl">Crl</a></li>
 <li><a href="pki_tools/exceptions/#exceptions">Exceptions</a></li>
 <li><a href="pki_tools/ocsp/#ocsp">Ocsp</a></li>
