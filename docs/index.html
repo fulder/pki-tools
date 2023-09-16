@@ -257,6 +257,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Pki-tools Index
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -266,6 +277,72 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#docs" class="md-nav__link">
+    Docs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    Quickstart
+  </a>
+  
+    <nav class="md-nav" aria-label="Quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    Install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checking-ocsp-and-crl-revocation" class="md-nav__link">
+    Checking OCSP and CRL revocation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -434,6 +511,61 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#docs" class="md-nav__link">
+    Docs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    Quickstart
+  </a>
+  
+    <nav class="md-nav" aria-label="Quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    Install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checking-ocsp-and-crl-revocation" class="md-nav__link">
+    Checking OCSP and CRL revocation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -456,7 +588,6 @@
 </blockquote>
 <p>A full list of <a href="https://github.com/fulder/pki-tools">Pki-tools</a> project modules.</p>
 <p><img alt="Python Badge" src="https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&amp;logo=python" /></p>
-<h1 id="pki-tools">PKI Tools</h1>
 <p>PKI tools exposes a high level <code>cryptography</code> API for e.g.:</p>
 <ul>
 <li>checking revocation of certificates:<ul>
@@ -471,6 +602,8 @@
 <li>saving certificates to files</li>
 <li>reading certificates from files</li>
 </ul>
+<h2 id="docs">Docs</h2>
+<p>Documentation is available at: <a href="https://pki-tools.fulder.dev">https://pki-tools.fulder.dev</a></p>
 <h2 id="quickstart">Quickstart</h2>
 <h3 id="install">Install</h3>
 <p><code>pip install pki-tools</code></p>
@@ -493,7 +626,6 @@
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">if</span> <span class="n">is_revoked</span><span class="p">(</span><span class="n">PemCert</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">),</span> <span class="n">PemCert</span><span class="p">(</span><span class="n">issuer_cert_pem</span><span class="p">)):</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Certificate Revoked!&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h4 id="loading">Loading</h4>
 <p>For more functions see:
 <a href="https://pki-tools.fulder.dev/pki_tools/#pki-tools">Pki Tools</a></p>
 <ul>

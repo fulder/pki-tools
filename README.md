@@ -1,7 +1,5 @@
 ![Python Badge](https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&logo=python)
 
-# PKI Tools
-
 PKI tools exposes a high level `cryptography` API for e.g.:
 
 * checking revocation of certificates:
@@ -16,7 +14,7 @@ PKI tools exposes a high level `cryptography` API for e.g.:
 
 ## Docs
 
-Documentation is available at: https://pki-tools.fulder.dev
+Documentation is available at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 
 ## Quickstart
 
@@ -45,8 +43,6 @@ issuer_cert_pem = """
 if is_revoked(PemCert(cert_pem), PemCert(issuer_cert_pem)):
     print("Certificate Revoked!")
 ```
-
-#### Loading 
 
 For more functions see:
 [Pki Tools](https://pki-tools.fulder.dev/pki_tools/#pki-tools)
