@@ -700,11 +700,11 @@ successful this function will return the bool without checking CRL.</p>
 <ul>
 <li><code>cert</code> - The certificate to check revocation for. Can either be
 a x509.Certificate or a types.PemCert string</li>
-<li><code>issuer_cert</code> - Only needed for OCSP, the issuer of the <code>cert</code>. Can
-a x509.Certificate, a types.PemCert string or types.OcspIssuerUri
+<li><code>issuer_cert</code> - [OCSP Only] The issuer of the <code>cert</code>. Can a
+x509.Certificate, a types.PemCert string or types.OcspIssuerUri
 including the URI to the issuer public cert</li>
-<li><code>crl_cache_seconds</code> - Specifies how long the CRL should be cached,
-default is 1 hour.</li>
+<li><code>crl_cache_seconds</code> - [CRL Only] Specifies how long the CRL should be
+cached, default is 1 hour.</li>
 </ul>
 <h4 id="returns_1">Returns</h4>
 <p>True if the certificate is revoked, False otherwise</p>
