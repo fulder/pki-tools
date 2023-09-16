@@ -27,7 +27,7 @@ def _get_issuer_from_uri(issuer_uri, cache_ttl=None):
     ret = requests.get(issuer_uri)
 
     if ret.status_code != 200:
-        raise exceptions.OcspFetchFailure(
+        raise exceptions.OcspIssuerFetchFailure(
             f"Issuer URI fetch failed. Status: {ret.status_code}"
         )
 
