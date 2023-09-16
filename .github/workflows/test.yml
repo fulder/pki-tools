@@ -23,6 +23,11 @@ jobs:
           poetry run ruff check .
           poetry run black --check .
 
+      - name: Check generated docs
+        run: |
+          make gen-docs
+          git diff --exit-code ./docs
+
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
