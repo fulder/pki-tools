@@ -11,6 +11,16 @@ from loguru import logger
 
 
 def cert_from_pem(cert_pem: str) -> x509.Certificate:
+    """
+    Loads a certificate from a PEM string into a x509.Certificate object
+
+    Arguments:
+        cert_pem -- The PEM encoded certificate in string format
+    Returns:
+        A x509.Certificate created from the PEM
+    Raises:
+         exceptions.CertLoadError - If the certificate could not be loaded
+    """
     try:
         return x509.load_pem_x509_certificate(cert_pem.encode())
     except ValueError as e:
@@ -24,6 +34,36 @@ def is_revoked(
     ] = None,
     crl_cache_seconds: int = 3600,
 ) -> bool:
+    """
+    Checks if a certificate is revoked using first OCSP and then CRL extensions.
+    The `issuer_cert` argument is only needed when OCSP is available and
+    should be checked.
+
+    Note that OCSP has precedence to CRL meaning that if OCSP check is
+    successful this function will return the bool without checking CRL.
+
+    Otherwise, if OCSP check fails, CRL will be tried next.
+
+    Arguments:
+        cert -- The certificate to check revocation for. Can either be
+        a x509.Certificate or a types.PemCert string
+        issuer_cert -- [OCSP Only] The issuer of the `cert`. Can be a
+        x509.Certificate, a types.PemCert string or types.OcspIssuerUri
+        including the URI to the issuer public cert
+        crl_cache_seconds -- [CRL Only] Specifies how long the CRL should be
+        cached, default is 1 hour.
+    Returns:
+        True if the certificate is revoked, False otherwise
+    Raises:
+        exceptions.OcspFetchFailure -- When OCSP fails preforming the check
+        against the server
+        exceptions.OcspIssuerFetchFailure -- When `issuer_cert` is of
+        exceptions.OcspIssuerUri type and fetching the public certificate fails
+        exceptions.CrlFetchFailure -- When the CRL could not be fetched
+        exceptions.CrlLoadError -- If CRL could be fetched successfully but
+        could not be loaded e.g. due invalid format or file
+        exceptions.Error -- If revocation check fails both with OCSP and CRL
+    """
     if issuer_cert is not None:
         try:
             return ocsp.is_revoked(cert, issuer_cert)

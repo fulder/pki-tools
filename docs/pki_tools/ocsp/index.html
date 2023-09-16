@@ -419,6 +419,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#signature" class="md-nav__link">
     Signature
   </a>
@@ -501,6 +522,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#signature" class="md-nav__link">
     Signature
   </a>
@@ -539,6 +581,25 @@ Ocsp</p>
 </blockquote>
 <h2 id="is_revoked">is_revoked</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/ocsp.py#L37">Show source in ocsp.py:37</a></p>
+<p>Checks if a certificate is revoked using the OCSP extension.</p>
+<h4 id="arguments">Arguments</h4>
+<ul>
+<li><code>cert</code> - The certificate to check revocation for. Can either be
+a x509.Certificate or a types.PemCert string</li>
+<li><code>issuer_cert</code> - The issuer of the <code>cert</code>. Can be a x509.Certificate,
+a types.PemCert string or types.OcspIssuerUri including the URI to the
+issuer public cert</li>
+</ul>
+<h4 id="returns">Returns</h4>
+<p>True if the certificate is revoked, False otherwise</p>
+<h4 id="raises">Raises</h4>
+<ul>
+<li><code>exceptions.ExtensionMissing</code> - When OCSP extension is missing</li>
+<li><code>exceptions.OcspFetchFailure</code> - When OCSP fails preforming the check
+against the server</li>
+<li><code>exceptions.OcspIssuerFetchFailure</code> - When <code>issuer_cert</code> is of
+exceptions.OcspIssuerUri type and fetching the public certificate fails</li>
+</ul>
 <h4 id="signature">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">is_revoked</span><span class="p">(</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">],</span>

@@ -27,7 +27,7 @@ def _get_issuer_from_uri(issuer_uri, cache_ttl=None):
     ret = requests.get(issuer_uri)
 
     if ret.status_code != 200:
-        raise exceptions.OcspFetchFailure(
+        raise exceptions.OcspIssuerFetchFailure(
             f"Issuer URI fetch failed. Status: {ret.status_code}"
         )
 
@@ -38,6 +38,24 @@ def is_revoked(
     cert: [x509.Certificate, types.PemCert],
     issuer_cert: [x509.Certificate, types.PemCert, types.OcspIssuerUri],
 ) -> bool:
+    """
+    Checks if a certificate is revoked using the OCSP extension.
+
+    Arguments:
+        cert -- The certificate to check revocation for. Can either be
+        a x509.Certificate or a types.PemCert string
+        issuer_cert -- The issuer of the `cert`. Can be a x509.Certificate,
+        a types.PemCert string or types.OcspIssuerUri including the URI to the
+        issuer public cert
+    Returns:
+        True if the certificate is revoked, False otherwise
+    Raises:
+        exceptions.ExtensionMissing -- When OCSP extension is missing
+        exceptions.OcspFetchFailure -- When OCSP fails preforming the check
+        against the server
+        exceptions.OcspIssuerFetchFailure -- When `issuer_cert` is of
+        exceptions.OcspIssuerUri type and fetching the public certificate fails
+    """
     if types._is_pem_str(cert):
         cert = pki_tools.cert_from_pem(cert)
 

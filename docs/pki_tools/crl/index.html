@@ -379,6 +379,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#signature" class="md-nav__link">
     Signature
   </a>
@@ -501,6 +522,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#signature" class="md-nav__link">
     Signature
   </a>
@@ -539,6 +581,23 @@ Crl</p>
 </blockquote>
 <h2 id="is_revoked">is_revoked</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/crl.py#L15">Show source in crl.py:15</a></p>
+<p>Checks if a certificate is revoked using the CRL extensions.</p>
+<h4 id="arguments">Arguments</h4>
+<ul>
+<li><code>cert</code> - The certificate to check revocation for. Can either be</li>
+<li><code>crl_cache_seconds</code> - Specifies how long the CRL should be
+cached, default is 1 hour.</li>
+</ul>
+<h4 id="returns">Returns</h4>
+<p>True if the certificate is revoked, False otherwise</p>
+<h4 id="raises">Raises</h4>
+<ul>
+<li><code>exceptions.ExtensionMissing</code> - When CRL extension is missing</li>
+<li><code>exceptions.CrlFetchFailure</code> - When the CRL could not be fetched</li>
+<li><code>exceptions.CrlLoadError</code> - If CRL could be fetched successfully but
+could not be loaded e.g. due invalid format or file</li>
+<li><code>exceptions.Error</code> - If revocation check fails both with OCSP and CRL</li>
+</ul>
 <h4 id="signature">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">is_revoked</span><span class="p">(</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">],</span> <span class="n">crl_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span>

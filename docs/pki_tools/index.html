@@ -359,6 +359,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#signature" class="md-nav__link">
     Signature
   </a>
@@ -377,6 +398,27 @@
   
     <nav class="md-nav" aria-label="is_revoked">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_1" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises_1" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#signature_1" class="md-nav__link">
@@ -528,6 +570,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#signature" class="md-nav__link">
     Signature
   </a>
@@ -546,6 +609,27 @@
   
     <nav class="md-nav" aria-label="is_revoked">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_1" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises_1" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#signature_1" class="md-nav__link">
@@ -592,11 +676,49 @@ Pki Tools</p>
 </blockquote>
 <h2 id="cert_from_pem">cert_from_pem</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L13">Show source in <strong>init</strong>.py:13</a></p>
+<p>Loads a certificate from a PEM string into a x509.Certificate object</p>
+<h4 id="arguments">Arguments</h4>
+<ul>
+<li><code>cert_pem</code> - The PEM encoded certificate in string format</li>
+</ul>
+<h4 id="returns">Returns</h4>
+<p>A x509.Certificate created from the PEM</p>
+<h4 id="raises">Raises</h4>
+<p>exceptions.CertLoadError - If the certificate could not be loaded</p>
 <h4 id="signature">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">cert_from_pem</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="is_revoked">is_revoked</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L20">Show source in <strong>init</strong>.py:20</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L30">Show source in <strong>init</strong>.py:30</a></p>
+<p>Checks if a certificate is revoked using first OCSP and then CRL extensions.
+The <code>issuer_cert</code> argument is only needed when OCSP is available and
+should be checked.</p>
+<p>Note that OCSP has precedence to CRL meaning that if OCSP check is
+successful this function will return the bool without checking CRL.</p>
+<p>Otherwise, if OCSP check fails, CRL will be tried next.</p>
+<h4 id="arguments_1">Arguments</h4>
+<ul>
+<li><code>cert</code> - The certificate to check revocation for. Can either be
+a x509.Certificate or a types.PemCert string</li>
+<li><code>issuer_cert</code> - [OCSP Only] The issuer of the <code>cert</code>. Can be a
+x509.Certificate, a types.PemCert string or types.OcspIssuerUri
+including the URI to the issuer public cert</li>
+<li><code>crl_cache_seconds</code> - [CRL Only] Specifies how long the CRL should be
+cached, default is 1 hour.</li>
+</ul>
+<h4 id="returns_1">Returns</h4>
+<p>True if the certificate is revoked, False otherwise</p>
+<h4 id="raises_1">Raises</h4>
+<ul>
+<li><code>exceptions.OcspFetchFailure</code> - When OCSP fails preforming the check
+against the server</li>
+<li><code>exceptions.OcspIssuerFetchFailure</code> - When <code>issuer_cert</code> is of
+exceptions.OcspIssuerUri type and fetching the public certificate fails</li>
+<li><code>exceptions.CrlFetchFailure</code> - When the CRL could not be fetched</li>
+<li><code>exceptions.CrlLoadError</code> - If CRL could be fetched successfully but
+could not be loaded e.g. due invalid format or file</li>
+<li><code>exceptions.Error</code> - If revocation check fails both with OCSP and CRL</li>
+</ul>
 <h4 id="signature_1">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">is_revoked</span><span class="p">(</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">],</span>
