@@ -25,7 +25,7 @@ jobs:
 
       - name: Check generated docs
         run: |
-          make gen-docs
+          make docs-gen
           git diff --exit-code ./docs
 
   test:
