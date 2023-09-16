@@ -50,6 +50,8 @@ def is_revoked(
         issuer_cert -- Only needed for OCSP, the issuer of the `cert`. Can
         a x509.Certificate, a types.PemCert string or types.OcspIssuerUri
         including the URI to the issuer public cert
+        crl_cache_seconds -- Specifies how long the CRL should be cached,
+        default is 1 hour.
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
