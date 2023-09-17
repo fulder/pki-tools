@@ -122,6 +122,17 @@ def read_from_file(file_path: str) -> x509.Certificate:
 
 
 def parse_subject(cert: [x509.Certificate, types.PemCert]) -> types.Subject:
+    """
+    Parses a certificate and returns a types.Subject containing all the
+    attributes present in
+    [RFC5280#Section-4.1.2.4](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4)
+
+    Arguments:
+        cert -- The certificate to check revocation for. Can either be
+        a x509.Certificate or a types.PemCert string
+    Returns:
+        A types.Subject with all the available attributes
+    """
     if types._is_pem_str(cert):
         cert = cert_from_pem(cert)
 

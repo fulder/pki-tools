@@ -712,7 +712,7 @@ Types</p>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py">pki_tools.types</a> module.</p>
 </blockquote>
 <h2 id="ocspissueruri">OcspIssuerUri</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L39">Show source in types.py:39</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L40">Show source in types.py:40</a></p>
 <p>Describes the OCSP Issuer (usually a CA) URI where the public certificate
 can be downloaded</p>
 <h4 id="examples">Examples</h4>
@@ -728,7 +728,7 @@ cached, default is 1 month.</li>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span> <span class="nc">OcspIssuerUri</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="pemcert">PemCert</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L8">Show source in types.py:8</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L9">Show source in types.py:9</a></p>
 <p>PemCert is a string containing the PEM formatted certificate</p>
 <h4 id="examples_1">Examples</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">PemCert</span><span class="p">(</span>
@@ -755,7 +755,7 @@ cached, default is 1 month.</li>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span> <span class="nc">PemCert</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="subject">Subject</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L56">Show source in types.py:56</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L57">Show source in types.py:57</a></p>
 <p>Subject type describes certificate subject or issuer.
 The attributes are following the
 <a href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4">RFC5280#Section-4.1.2.4</a></p>
@@ -783,7 +783,7 @@ multivalued RDNs.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span> <span class="nc">Subject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="subjectto_crypto_name">Subject().to_crypto_name</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L118">Show source in types.py:118</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L119">Show source in types.py:119</a></p>
 <h4 id="signature_3">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">to_crypto_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Name</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
