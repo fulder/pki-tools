@@ -43,11 +43,21 @@ def cert(key_pair):
 
 
 TEST_SUBJECT = Subject(
+    c=["US"],
+    ou=["Org Unit"],
+    dnq=["DNQ"],
     cn=["mysite.com"],
     o=["My Company", "My Company222"],
     s=["California"],
-    l=["San Francisco"],
+    ln=["San Francisco"],
     serial=["123123123"],
+    t=["Mr."],
+    gn=["John"],
+    sn=["Doe"],
+    i=["J.D."],
+    p=["JD"],
+    gq=["Second"],
+    dc=["DC"],
 )
 
 

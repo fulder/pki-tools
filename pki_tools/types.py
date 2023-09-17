@@ -130,6 +130,7 @@ class Subject(BaseModel):
 
         return x509.Name(name_list)
 
+
 def _is_pem_str(check):
     return _check_str(PEM_REGEX, check)
 

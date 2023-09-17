@@ -17,7 +17,7 @@ from conftest import (
     _create_mocked_ocsp_response,
     _create_cert,
     _create_crl,
-    CURRENT_DIR,
+    CURRENT_DIR, TEST_SUBJECT,
 )
 
 
@@ -108,6 +108,5 @@ def test_save_and_read_file(cert):
 
 def test_parse_subject(cert):
     subj = parse_subject(cert)
-    subj.to_crypto_name()
 
-    assert False
+    assert subj == TEST_SUBJECT
