@@ -20,6 +20,7 @@ def is_revoked(
 
     Arguments:
         cert -- The certificate to check revocation for. Can either be
+        a x509.Certificate or a types.PemCert string
         crl_cache_seconds -- Specifies how long the CRL should be
         cached, default is 1 hour.
     Returns:

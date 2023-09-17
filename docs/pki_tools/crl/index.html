@@ -584,7 +584,8 @@ Crl</p>
 <p>Checks if a certificate is revoked using the CRL extensions.</p>
 <h4 id="arguments">Arguments</h4>
 <ul>
-<li><code>cert</code> - The certificate to check revocation for. Can either be</li>
+<li><code>cert</code> - The certificate to check revocation for. Can either be
+a x509.Certificate or a types.PemCert string</li>
 <li><code>crl_cache_seconds</code> - Specifies how long the CRL should be
 cached, default is 1 hour.</li>
 </ul>
