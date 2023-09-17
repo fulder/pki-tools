@@ -15,7 +15,7 @@ from cryptography.x509 import ocsp
 
 from pki_tools.crl import _get_crl_from_url
 from pki_tools.ocsp import _get_issuer_from_uri
-
+from pki_tools.types import Subject
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -42,16 +42,17 @@ def cert(key_pair):
     return _create_cert(key_pair)
 
 
+TEST_SUBJECT = Subject(
+    cn=["mysite.com"],
+    o=["My Company", "My Company222"],
+    s=["California"],
+    l=["San Francisco"],
+    serial=["123123123"],
+)
+
+
 def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
-    subject = issuer = x509.Name(
-        [
-            x509.NameAttribute(NameOID.COUNTRY_NAME, "US"),
-            x509.NameAttribute(NameOID.STATE_OR_PROVINCE_NAME, "California"),
-            x509.NameAttribute(NameOID.LOCALITY_NAME, "San Francisco"),
-            x509.NameAttribute(NameOID.ORGANIZATION_NAME, "My Company"),
-            x509.NameAttribute(NameOID.COMMON_NAME, "mysite.com"),
-        ]
-    )
+    subject = issuer = TEST_SUBJECT.to_crypto_name()
 
     cert_builder = (
         x509.CertificateBuilder()

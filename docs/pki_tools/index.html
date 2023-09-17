@@ -433,6 +433,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#parse_subject" class="md-nav__link">
+    parse_subject
+  </a>
+  
+    <nav class="md-nav" aria-label="parse_subject">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_2" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pem_from_cert" class="md-nav__link">
     pem_from_cert
   </a>
@@ -441,7 +461,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#signature_2" class="md-nav__link">
+  <a href="#signature_3" class="md-nav__link">
     Signature
   </a>
   
@@ -475,7 +495,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#signature_3" class="md-nav__link">
+  <a href="#signature_4" class="md-nav__link">
     Signature
   </a>
   
@@ -502,7 +522,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#signature_4" class="md-nav__link">
+  <a href="#signature_5" class="md-nav__link">
     Signature
   </a>
   
@@ -725,6 +745,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#parse_subject" class="md-nav__link">
+    parse_subject
+  </a>
+  
+    <nav class="md-nav" aria-label="parse_subject">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_2" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pem_from_cert" class="md-nav__link">
     pem_from_cert
   </a>
@@ -733,7 +773,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#signature_2" class="md-nav__link">
+  <a href="#signature_3" class="md-nav__link">
     Signature
   </a>
   
@@ -767,7 +807,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#signature_3" class="md-nav__link">
+  <a href="#signature_4" class="md-nav__link">
     Signature
   </a>
   
@@ -794,7 +834,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#signature_4" class="md-nav__link">
+  <a href="#signature_5" class="md-nav__link">
     Signature
   </a>
   
@@ -837,7 +877,7 @@ Pki Tools</p>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py">pki_tools</a> module.</p>
 </blockquote>
 <h2 id="cert_from_pem">cert_from_pem</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L15">Show source in <strong>init</strong>.py:15</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L17">Show source in <strong>init</strong>.py:17</a></p>
 <p>Loads a certificate from a PEM string into a x509.Certificate object</p>
 <h4 id="arguments">Arguments</h4>
 <ul>
@@ -851,7 +891,7 @@ Pki Tools</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">cert_from_pem</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="is_revoked">is_revoked</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L36">Show source in <strong>init</strong>.py:36</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L38">Show source in <strong>init</strong>.py:38</a></p>
 <p>Checks if a certificate is revoked using first OCSP and then CRL extensions.
 The <code>issuer_cert</code> argument is only needed when OCSP is available and
 should be checked.</p>
@@ -888,13 +928,18 @@ could not be loaded e.g. due invalid format or file</li>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">crl_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
-<h2 id="pem_from_cert">pem_from_cert</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L32">Show source in <strong>init</strong>.py:32</a></p>
+<h2 id="parse_subject">parse_subject</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L124">Show source in <strong>init</strong>.py:124</a></p>
 <h4 id="signature_2">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">pem_from_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">parse_subject</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">Subject</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="pem_from_cert">pem_from_cert</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L34">Show source in <strong>init</strong>.py:34</a></p>
+<h4 id="signature_3">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span> <span class="nf">pem_from_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="read_from_file">read_from_file</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L108">Show source in <strong>init</strong>.py:108</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L110">Show source in <strong>init</strong>.py:110</a></p>
 <p>Reads a file containing a PEM certificate into a x509.Certificate object.</p>
 <h4 id="arguments_2">Arguments</h4>
 <ul>
@@ -902,11 +947,11 @@ could not be loaded e.g. due invalid format or file</li>
 </ul>
 <h4 id="returns_2">Returns</h4>
 <p>A x509.Certificate representing the certificate from file</p>
-<h4 id="signature_3">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span> <span class="nf">read_from_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">:</span> <span class="o">...</span>
+<h4 id="signature_4">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">read_from_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="save_to_file">save_to_file</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L90">Show source in <strong>init</strong>.py:90</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L92">Show source in <strong>init</strong>.py:92</a></p>
 <p>Saves a certificate into a file</p>
 <h4 id="arguments_3">Arguments</h4>
 <ul>
@@ -914,8 +959,8 @@ could not be loaded e.g. due invalid format or file</li>
 a x509.Certificate or a types.PemCert string</li>
 <li><code>file_path</code> - Path and filename where to store the certificate</li>
 </ul>
-<h4 id="signature_4">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">],</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
+<h4 id="signature_5">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">],</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="modules">Modules</h2>
 <ul>

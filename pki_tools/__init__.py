@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from cryptography.hazmat.primitives import serialization
 
 from . import ocsp
@@ -117,3 +119,15 @@ def read_from_file(file_path: str) -> x509.Certificate:
     with open(file_path, "r") as f:
         cert_pem = f.read()
         return cert_from_pem(cert_pem)
+
+
+def parse_subject(cert: [x509.Certificate, types.PemCert]) -> types.Subject:
+    if types._is_pem_str(cert):
+        cert = cert_from_pem(cert)
+
+    cert_dict = defaultdict(set)
+    for attribute in cert.subject:
+        for att in cert.subject.get_attributes_for_oid(attribute.oid):
+            cert_dict[att.oid.dotted_string].add(att.value)
+
+    return types.Subject(**cert_dict)
