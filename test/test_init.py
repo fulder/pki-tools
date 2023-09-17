@@ -17,7 +17,8 @@ from conftest import (
     _create_mocked_ocsp_response,
     _create_cert,
     _create_crl,
-    CURRENT_DIR, TEST_SUBJECT,
+    CURRENT_DIR,
+    TEST_SUBJECT,
 )
 
 
@@ -108,5 +109,9 @@ def test_save_and_read_file(cert):
 
 def test_parse_subject(cert):
     subj = parse_subject(cert)
+
+    # Ignore multi value order
+    assert set(subj.o) == set(TEST_SUBJECT.o)
+    subj.o = TEST_SUBJECT.o
 
     assert subj == TEST_SUBJECT

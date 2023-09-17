@@ -126,9 +126,8 @@ def parse_subject(cert: [x509.Certificate, types.PemCert]) -> types.Subject:
         cert = cert_from_pem(cert)
 
     cert_dict = defaultdict(set)
-    for rdn in cert.subject.rdns:
-        for attribute in rdn._attribute_set:
-            for att in cert.subject.get_attributes_for_oid(attribute.oid):
-                cert_dict[att.oid.dotted_string].add(att.value)
+    for attribute in cert.subject:
+        for att in cert.subject.get_attributes_for_oid(attribute.oid):
+            cert_dict[att.oid.dotted_string].add(att.value)
 
     return types.Subject(**cert_dict)
