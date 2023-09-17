@@ -1,4 +1,5 @@
 import re
+from typing import List
 
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
@@ -82,36 +83,36 @@ class Subject(BaseModel):
 
     model_config = ConfigDict(populate_by_name=True)
 
-    c: list[str] = Field(alias=NameOID.COUNTRY_NAME.dotted_string, default=[])
-    o: list[str] = Field(
+    c: List[str] = Field(alias=NameOID.COUNTRY_NAME.dotted_string, default=[])
+    o: List[str] = Field(
         alias=NameOID.ORGANIZATION_NAME.dotted_string, default=[]
     )
-    ou: list[str] = Field(
+    ou: List[str] = Field(
         alias=NameOID.ORGANIZATIONAL_UNIT_NAME.dotted_string, default=[]
     )
-    dnq: list[str] = Field(
+    dnq: List[str] = Field(
         alias=NameOID.DN_QUALIFIER.dotted_string, default=[]
     )
-    s: list[str] = Field(
+    s: List[str] = Field(
         alias=NameOID.STATE_OR_PROVINCE_NAME.dotted_string, default=[]
     )
-    cn: list[str] = Field(alias=NameOID.COMMON_NAME.dotted_string, default=[])
-    serial: list[str] = Field(
+    cn: List[str] = Field(alias=NameOID.COMMON_NAME.dotted_string, default=[])
+    serial: List[str] = Field(
         alias=NameOID.SERIAL_NUMBER.dotted_string, default=[]
     )
 
-    ln: list[str] = Field(
+    ln: List[str] = Field(
         alias=NameOID.LOCALITY_NAME.dotted_string, default=[]
     )
-    t: list[str] = Field(alias=NameOID.TITLE.dotted_string, default=[])
-    sn: list[str] = Field(alias=NameOID.SURNAME.dotted_string, default=[])
-    gn: list[str] = Field(alias=NameOID.GIVEN_NAME.dotted_string, default=[])
-    i: list[str] = Field(alias=NameOID.INITIALS.dotted_string, default=[])
-    p: list[str] = Field(alias=NameOID.PSEUDONYM.dotted_string, default=[])
-    gq: list[str] = Field(
+    t: List[str] = Field(alias=NameOID.TITLE.dotted_string, default=[])
+    sn: List[str] = Field(alias=NameOID.SURNAME.dotted_string, default=[])
+    gn: List[str] = Field(alias=NameOID.GIVEN_NAME.dotted_string, default=[])
+    i: List[str] = Field(alias=NameOID.INITIALS.dotted_string, default=[])
+    p: List[str] = Field(alias=NameOID.PSEUDONYM.dotted_string, default=[])
+    gq: List[str] = Field(
         alias=NameOID.GENERATION_QUALIFIER.dotted_string, default=[]
     )
-    dc: list[str] = Field(
+    dc: List[str] = Field(
         alias=NameOID.DOMAIN_COMPONENT.dotted_string, default=[]
     )
 
