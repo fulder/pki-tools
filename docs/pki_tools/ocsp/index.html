@@ -585,21 +585,30 @@ Ocsp</p>
 <h4 id="arguments">Arguments</h4>
 <ul>
 <li><code>cert</code> - The certificate to check revocation for. Can either be
-a x509.Certificate or a types.PemCert string</li>
-<li><code>issuer_cert</code> - The issuer of the <code>cert</code>. Can be a x509.Certificate,
-a types.PemCert string or types.OcspIssuerUri including the URI to the
+a
+<a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>
+or a
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#pemcert">types.PemCert</a>
+string</li>
+<li><code>issuer_cert</code> - The issuer of the <code>cert</code>. Can be a
+<a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>,
+a <a href="https://pki-tools.fulder.dev/pki_tools/types/#pemcert">types.PemCert</a>
+string or
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri">types.OcspIssuerUri</a>
+including the URI to the
 issuer public cert</li>
 </ul>
 <h4 id="returns">Returns</h4>
 <p>True if the certificate is revoked, False otherwise</p>
 <h4 id="raises">Raises</h4>
-<ul>
-<li><code>exceptions.ExtensionMissing</code> - When OCSP extension is missing</li>
-<li><code>exceptions.OcspFetchFailure</code> - When OCSP fails preforming the check
-against the server</li>
-<li><code>exceptions.OcspIssuerFetchFailure</code> - When <code>issuer_cert</code> is of
-exceptions.OcspIssuerUri type and fetching the public certificate fails</li>
-</ul>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing">exceptions.ExtensionMissing</a>
+-- When OCSP extension is missing</p>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure">exceptions.OcspFetchFailure</a>
+-- When OCSP fails preforming the check against the server</p>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure">exceptions.OcspIssuerFetchFailure</a>
+-- When <code>issuer_cert</code> is of
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri">types.OcspIssuerUri</a>
+type and fetching the public certificate fails</p>
 <h4 id="signature">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">is_revoked</span><span class="p">(</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">],</span>
