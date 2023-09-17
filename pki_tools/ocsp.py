@@ -43,18 +43,31 @@ def is_revoked(
 
     Arguments:
         cert -- The certificate to check revocation for. Can either be
-        a x509.Certificate or a types.PemCert string
-        issuer_cert -- The issuer of the `cert`. Can be a x509.Certificate,
-        a types.PemCert string or types.OcspIssuerUri including the URI to the
+        a
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+        or a
+        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+        string
+        issuer_cert -- The issuer of the `cert`. Can be a
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate),
+        a [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+        string or
+        [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
+        including the URI to the
         issuer public cert
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
-        exceptions.ExtensionMissing -- When OCSP extension is missing
-        exceptions.OcspFetchFailure -- When OCSP fails preforming the check
-        against the server
-        exceptions.OcspIssuerFetchFailure -- When `issuer_cert` is of
-        exceptions.OcspIssuerUri type and fetching the public certificate fails
+        [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
+        -- When OCSP extension is missing
+
+        [exceptions.OcspFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure)
+        -- When OCSP fails preforming the check against the server
+
+        [exceptions.OcspIssuerFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure)
+        -- When `issuer_cert` is of
+        [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
+        type and fetching the public certificate fails
     """
     if types._is_pem_str(cert):
         cert = pki_tools.cert_from_pem(cert)

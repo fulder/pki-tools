@@ -20,17 +20,28 @@ def is_revoked(
 
     Arguments:
         cert -- The certificate to check revocation for. Can either be
-        a x509.Certificate or a types.PemCert string
+        a
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+        or a
+        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+        string
         crl_cache_seconds -- Specifies how long the CRL should be
         cached, default is 1 hour.
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
-        exceptions.ExtensionMissing -- When CRL extension is missing
-        exceptions.CrlFetchFailure -- When the CRL could not be fetched
-        exceptions.CrlLoadError -- If CRL could be fetched successfully but
-        could not be loaded e.g. due invalid format or file
-        exceptions.Error -- If revocation check fails both with OCSP and CRL
+        [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
+        -- When CRL extension is missing
+
+        [exceptions.CrlFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlfetchfailure)
+        -- When the CRL could not be fetched
+
+        [exceptions.CrlLoadError](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlloaderror)
+        -- If CRL could be fetched successfully but could not be loaded e.g.
+        due invalid format or file
+
+        [exceptions.Error](https://pki-tools.fulder.dev/pki_tools/exceptions/#error)
+        -- If revocation check fails both with OCSP and CRL
     """
     if types._is_pem_str(cert):
         cert = pki_tools.cert_from_pem(cert)

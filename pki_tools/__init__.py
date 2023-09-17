@@ -16,12 +16,16 @@ from loguru import logger
 
 def cert_from_pem(cert_pem: str) -> x509.Certificate:
     """
-    Loads a certificate from a PEM string into a x509.Certificate object
+    Loads a certificate from a PEM string into a
+    [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+    object
 
     Arguments:
         cert_pem -- The PEM encoded certificate in string format
     Returns:
-        A x509.Certificate created from the PEM
+        A
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+        created from the PEM
     Raises:
          exceptions.CertLoadError - If the certificate could not be loaded
     """
@@ -54,23 +58,40 @@ def is_revoked(
 
     Arguments:
         cert -- The certificate to check revocation for. Can either be
-        a x509.Certificate or a types.PemCert string
+        a
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+        or a
+        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+        string
         issuer_cert -- [OCSP Only] The issuer of the `cert`. Can be a
-        x509.Certificate, a types.PemCert string or types.OcspIssuerUri
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+        , a
+        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+        string or
+        [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
         including the URI to the issuer public cert
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should be
         cached, default is 1 hour.
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
-        exceptions.OcspFetchFailure -- When OCSP fails preforming the check
-        against the server
-        exceptions.OcspIssuerFetchFailure -- When `issuer_cert` is of
-        exceptions.OcspIssuerUri type and fetching the public certificate fails
-        exceptions.CrlFetchFailure -- When the CRL could not be fetched
-        exceptions.CrlLoadError -- If CRL could be fetched successfully but
-        could not be loaded e.g. due invalid format or file
-        exceptions.Error -- If revocation check fails both with OCSP and CRL
+        [exceptions.OcspFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure)
+        -- When OCSP fails preforming the check against the server
+
+        [exceptions.OcspIssuerFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure)
+        -- When `issuer_cert` is of
+        [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
+        type and fetching the public certificate fails
+
+        [exceptions.CrlFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlfetchfailure)
+        -- When the CRL could not be fetched
+
+        [exceptions.CrlLoadError](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlloaderror)
+        -- If CRL could be fetched successfully but could not be loaded e.g.
+        due invalid format or file
+
+        [exceptions.Error](https://pki-tools.fulder.dev/pki_tools/exceptions/#error)
+        -- If revocation check fails both with OCSP and CRL
     """
     if issuer_cert is not None:
         try:
@@ -95,7 +116,11 @@ def save_to_file(cert: Union[x509.Certificate, types.PemCert], file_path: str):
 
     Arguments:
         cert -- The certificate to save to the `file_path`. Can either be
-        a x509.Certificate or a types.PemCert string
+        a
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+        or a
+        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+        string
         file_path -- Path and filename where to store the certificate
     """
     if isinstance(cert, x509.Certificate):
@@ -109,12 +134,16 @@ def save_to_file(cert: Union[x509.Certificate, types.PemCert], file_path: str):
 
 def read_from_file(file_path: str) -> x509.Certificate:
     """
-    Reads a file containing a PEM certificate into a x509.Certificate object.
+    Reads a file containing a PEM certificate into a
+    [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+    object
 
     Arguments:
         file_path -- Path and filename of the PEM certificate
     Returns:
-         A x509.Certificate representing the certificate from file
+         A
+         [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+         representing the certificate from file
     """
     with open(file_path, "r") as f:
         cert_pem = f.read()
@@ -131,7 +160,11 @@ def parse_subject(cert: [x509.Certificate, types.PemCert]) -> types.Subject:
 
     Arguments:
         cert -- The certificate to check revocation for. Can either be
-        a x509.Certificate or a types.PemCert string
+        a
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+        or a
+        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+        string
     Returns:
         A [types.Subject](https://pki-tools.fulder.dev/pki_tools/types/#subject)
         with all the available attributes
