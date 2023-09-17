@@ -958,7 +958,9 @@ could not be loaded e.g. due invalid format or file</li>
 </code></pre></div>
 <h2 id="parse_subject">parse_subject</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L124">Show source in <strong>init</strong>.py:124</a></p>
-<p>Parses a certificate and returns a types.Subject containing all the
+<p>Parses a certificate and returns a
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#subject">types.Subject</a>
+containing all the
 attributes present in
 <a href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4">RFC5280#Section-4.1.2.4</a></p>
 <h4 id="arguments_2">Arguments</h4>
@@ -967,7 +969,8 @@ attributes present in
 a x509.Certificate or a types.PemCert string</li>
 </ul>
 <h4 id="returns_2">Returns</h4>
-<p>A types.Subject with all the available attributes</p>
+<p>A <a href="https://pki-tools.fulder.dev/pki_tools/types/#subject">types.Subject</a>
+with all the available attributes</p>
 <h4 id="signature_2">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">parse_subject</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">Subject</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
