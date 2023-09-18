@@ -1,11 +1,13 @@
 import datetime
 import os
+from unittest.mock import MagicMock
 
 import pytest
+import requests
 from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 
-from pki_tools.exceptions import CertLoadError, Error
+from pki_tools.exceptions import CertLoadError, Error, OcspInvalidResponseStatus
 from pki_tools import (
     cert_from_pem,
     is_revoked,
@@ -31,12 +33,22 @@ def test_cert_load_error():
 def test_is_revoked_pem_ocsp(
     cert_pem_string, mocked_requests_get, cert, key_pair
 ):
-    mocked_requests_get.return_value.status_code = 200
-    mocked_requests_get.return_value.content = _create_mocked_ocsp_response(
+    correct_res = MagicMock()
+    correct_res.status_code = 200
+    correct_res.content = _create_mocked_ocsp_response(
         cert, key_pair
     )
 
+    mocked_requests_get.side_effect = [
+        OcspInvalidResponseStatus,
+        OcspInvalidResponseStatus,
+        OcspInvalidResponseStatus,
+        correct_res,
+        OcspInvalidResponseStatus
+    ]
+
     assert not is_revoked(cert_pem_string, types.PemCert(cert_pem_string))
+
 
 
 def test_is_revoked_cert_ocsp(mocked_requests_get, cert, key_pair):
