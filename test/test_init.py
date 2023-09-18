@@ -11,7 +11,7 @@ from pki_tools import (
     is_revoked,
     save_to_file,
     read_from_file,
-    parse_subject,
+    parse_subject, types,
 )
 from conftest import (
     _create_mocked_ocsp_response,
@@ -35,7 +35,7 @@ def test_is_revoked_pem_ocsp(
         cert, key_pair
     )
 
-    assert not is_revoked(cert_pem_string, cert_pem_string)
+    assert not is_revoked(cert_pem_string, types.PemCert(cert_pem_string))
 
 
 def test_is_revoked_cert_ocsp(mocked_requests_get, cert, key_pair):
