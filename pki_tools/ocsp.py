@@ -5,7 +5,13 @@ from functools import lru_cache
 import requests
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.hashes import SHA256, SHA1, SHA512
+from cryptography.hazmat.primitives.hashes import (
+    SHA256,
+    SHA1,
+    SHA512,
+    SHA384,
+    SHA224,
+)
 from cryptography.x509 import ocsp
 from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.ocsp import (
@@ -19,7 +25,7 @@ from loguru import logger
 import pki_tools
 from pki_tools import exceptions, types
 
-OCSP_ALGORITHMS_TO_CHECK = [SHA256(), SHA1(), SHA512()]
+OCSP_ALGORITHMS_TO_CHECK = [SHA256(), SHA1(), SHA512(), SHA224(), SHA384()]
 
 
 @lru_cache(maxsize=None)
