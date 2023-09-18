@@ -11,7 +11,8 @@ from pki_tools import (
     is_revoked,
     save_to_file,
     read_from_file,
-    parse_subject, types,
+    parse_subject,
+    types,
 )
 from conftest import (
     _create_mocked_ocsp_response,
