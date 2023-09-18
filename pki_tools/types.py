@@ -133,7 +133,7 @@ class Subject(BaseModel):
 
 
 def _is_pem_str(check):
-    if not isinstance(check, PemCert):
+    if not isinstance(check, PemCert) and not isinstance(check, str):
         return False
 
     return re.match(PEM_REGEX, check)
