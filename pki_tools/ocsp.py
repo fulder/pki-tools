@@ -69,10 +69,10 @@ def is_revoked(
         [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
         type and fetching the public certificate fails
     """
-    if isinstance(cert, types.PemCert):
+    if types._is_pem_str(cert):
         cert = pki_tools.cert_from_pem(cert)
 
-    if isinstance(issuer_cert, types.PemCert):
+    if types._is_pem_str(issuer_cert):
         issuer_cert = pki_tools.cert_from_pem(issuer_cert)
     elif isinstance(issuer_cert, types.OcspIssuerUri):
         cache_ttl = round(time.time() / issuer_cert.cache_time_seconds)
