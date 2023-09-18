@@ -97,7 +97,7 @@ def is_revoked(
                 return True
         except exceptions.OcspFetchFailure:
             logger.debug(f"OCSP check with: {alg.name} failed, trying another")
-            if i == len(OCSP_ALGORITHMS_TO_CHECK):
+            if i+1 == len(OCSP_ALGORITHMS_TO_CHECK):
                 raise
 
     return False
@@ -126,6 +126,7 @@ def _check_ocsp_status(aia_exs, req_path, cert):
                 )
                 return True
     return False
+
 
 def _get_ocsp_status(uri) -> OCSPResponse:
     ret = requests.get(
