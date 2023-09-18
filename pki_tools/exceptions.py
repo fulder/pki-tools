@@ -14,6 +14,10 @@ class OcspFetchFailure(Error):
     pass
 
 
+class OcspInvalidResponseStatus(Error):
+    pass
+
+
 class OcspIssuerFetchFailure(Error):
     pass
 

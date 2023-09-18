@@ -5,7 +5,7 @@ from functools import lru_cache
 import requests
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.hashes import SHA256
+from cryptography.hazmat.primitives.hashes import SHA256, SHA1, SHA512
 from cryptography.x509 import ocsp
 from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.ocsp import (
@@ -18,6 +18,8 @@ from loguru import logger
 
 import pki_tools
 from pki_tools import exceptions, types
+
+OCSP_ALGORITHMS_TO_CHECK = [SHA256(), SHA1(), SHA512()]
 
 
 @lru_cache(maxsize=None)
@@ -62,7 +64,10 @@ def is_revoked(
         -- When OCSP extension is missing
 
         [exceptions.OcspFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure)
-        -- When OCSP fails preforming the check against the server
+        -- When OCSP fails getting response from the the server
+
+        [exceptions.OcspInvalidResponseStatus](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus)
+        -- When OCSP returns invalid response status
 
         [exceptions.OcspIssuerFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure)
         -- When `issuer_cert` is of
@@ -80,31 +85,49 @@ def is_revoked(
             issuer_cert.uri, cache_ttl=cache_ttl
         )
 
-    builder = ocsp.OCSPRequestBuilder()
-    builder = builder.add_certificate(cert, issuer_cert, SHA256())
-    req = builder.build()
-    req_path = base64.b64encode(
-        req.public_bytes(serialization.Encoding.DER)
-    ).decode("ascii")
-
     try:
         aia_exs = cert.extensions.get_extension_for_oid(
             ExtensionOID.AUTHORITY_INFORMATION_ACCESS,
         )
-
-        for aia_ex in aia_exs.value:
-            if aia_ex.access_method == x509.AuthorityInformationAccessOID.OCSP:
-                server = aia_ex.access_location.value
-                ocsp_res = _get_ocsp_status(f"{server}/{req_path}")
-
-                if ocsp_res.certificate_status == OCSPCertStatus.REVOKED:
-                    logger.info(
-                        f"Certificate with serial: {cert.serial_number} "
-                        f"is revoked since: {ocsp_res.revocation_time}"
-                    )
-                    return True
     except ExtensionNotFound:
         raise exceptions.ExtensionMissing()
+
+    for i, alg in enumerate(OCSP_ALGORITHMS_TO_CHECK):
+        try:
+            req_path = _construct_req_path(cert, issuer_cert, alg)
+
+            if _check_ocsp_status(aia_exs, req_path, cert):
+                return True
+        except exceptions.OcspInvalidResponseStatus:
+            logger.debug(f"OCSP check with: {alg.name} failed, trying another")
+            if i + 1 == len(OCSP_ALGORITHMS_TO_CHECK):
+                raise
+
+    return False
+
+
+def _construct_req_path(cert, issuer_cert, alg):
+    builder = ocsp.OCSPRequestBuilder()
+    builder = builder.add_certificate(cert, issuer_cert, alg)
+    req = builder.build()
+    return base64.b64encode(
+        req.public_bytes(serialization.Encoding.DER)
+    ).decode()
+
+
+def _check_ocsp_status(aia_exs, req_path, cert):
+    for aia_ex in aia_exs.value:
+        if aia_ex.access_method == x509.AuthorityInformationAccessOID.OCSP:
+            server = aia_ex.access_location.value
+
+            ocsp_res = _get_ocsp_status(f"{server}/{req_path}")
+
+            if ocsp_res.certificate_status == OCSPCertStatus.REVOKED:
+                logger.info(
+                    f"Certificate with serial: {cert.serial_number} "
+                    f"is revoked since: {ocsp_res.revocation_time}"
+                )
+                return True
     return False
 
 
@@ -120,7 +143,7 @@ def _get_ocsp_status(uri) -> OCSPResponse:
 
     ocsp_res = ocsp.load_der_ocsp_response(ret.content)
     if ocsp_res.response_status != OCSPResponseStatus.SUCCESSFUL:
-        raise exceptions.OcspFetchFailure(
+        raise exceptions.OcspInvalidResponseStatus(
             f"Invalid OCSP Response status: {ocsp_res.response_status}"
         )
 
