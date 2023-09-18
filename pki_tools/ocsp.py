@@ -64,7 +64,10 @@ def is_revoked(
         -- When OCSP extension is missing
 
         [exceptions.OcspFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure)
-        -- When OCSP fails preforming the check against the server
+        -- When OCSP fails getting response from the the server
+
+        [exceptions.OcspInvalidResponseStatus](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus)
+        -- When OCSP returns invalid response status
 
         [exceptions.OcspIssuerFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure)
         -- When `issuer_cert` is of
@@ -95,9 +98,9 @@ def is_revoked(
 
             if _check_ocsp_status(aia_exs, req_path, cert):
                 return True
-        except exceptions.OcspFetchFailure:
+        except exceptions.OcspInvalidResponseStatus:
             logger.debug(f"OCSP check with: {alg.name} failed, trying another")
-            if i+1 == len(OCSP_ALGORITHMS_TO_CHECK):
+            if i + 1 == len(OCSP_ALGORITHMS_TO_CHECK):
                 raise
 
     return False
@@ -140,7 +143,7 @@ def _get_ocsp_status(uri) -> OCSPResponse:
 
     ocsp_res = ocsp.load_der_ocsp_response(ret.content)
     if ocsp_res.response_status != OCSPResponseStatus.SUCCESSFUL:
-        raise exceptions.OcspFetchFailure(
+        raise exceptions.OcspInvalidResponseStatus(
             f"Invalid OCSP Response status: {ocsp_res.response_status}"
         )
 

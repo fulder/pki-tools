@@ -76,7 +76,10 @@ def is_revoked(
         True if the certificate is revoked, False otherwise
     Raises:
         [exceptions.OcspFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure)
-        -- When OCSP fails preforming the check against the server
+        -- When OCSP fails getting response from the the server
+
+        [exceptions.OcspInvalidResponseStatus](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus)
+        -- When OCSP returns invalid response status
 
         [exceptions.OcspIssuerFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure)
         -- When `issuer_cert` is of

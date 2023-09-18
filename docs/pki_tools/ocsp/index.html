@@ -580,7 +580,7 @@ Ocsp</p>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/ocsp.py">pki_tools.ocsp</a> module.</p>
 </blockquote>
 <h2 id="is_revoked">is_revoked</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/ocsp.py#L37">Show source in ocsp.py:37</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/ocsp.py#L39">Show source in ocsp.py:39</a></p>
 <p>Checks if a certificate is revoked using the OCSP extension.</p>
 <h4 id="arguments">Arguments</h4>
 <ul>
@@ -604,7 +604,9 @@ issuer public cert</li>
 <p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing">exceptions.ExtensionMissing</a>
 -- When OCSP extension is missing</p>
 <p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure">exceptions.OcspFetchFailure</a>
--- When OCSP fails preforming the check against the server</p>
+-- When OCSP fails getting response from the the server</p>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus">exceptions.OcspInvalidResponseStatus</a>
+-- When OCSP returns invalid response status</p>
 <p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure">exceptions.OcspIssuerFetchFailure</a>
 -- When <code>issuer_cert</code> is of
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri">types.OcspIssuerUri</a>

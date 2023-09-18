@@ -952,7 +952,9 @@ cached, default is 1 hour.</li>
 <p>True if the certificate is revoked, False otherwise</p>
 <h4 id="raises_1">Raises</h4>
 <p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure">exceptions.OcspFetchFailure</a>
--- When OCSP fails preforming the check against the server</p>
+-- When OCSP fails getting response from the the server</p>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus">exceptions.OcspInvalidResponseStatus</a>
+-- When OCSP returns invalid response status</p>
 <p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure">exceptions.OcspIssuerFetchFailure</a>
 -- When <code>issuer_cert</code> is of
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri">types.OcspIssuerUri</a>
@@ -972,7 +974,7 @@ due invalid format or file</p>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="parse_subject">parse_subject</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L153">Show source in <strong>init</strong>.py:153</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L156">Show source in <strong>init</strong>.py:156</a></p>
 <p>Parses a certificate and returns a
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#subject">types.Subject</a>
 containing all the
@@ -999,7 +1001,7 @@ with all the available attributes</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span> <span class="nf">pem_from_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="read_from_file">read_from_file</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L135">Show source in <strong>init</strong>.py:135</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L138">Show source in <strong>init</strong>.py:138</a></p>
 <p>Reads a file containing a PEM certificate into a
 <a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>
 object</p>
@@ -1015,7 +1017,7 @@ representing the certificate from file</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">read_from_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="save_to_file">save_to_file</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L113">Show source in <strong>init</strong>.py:113</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L116">Show source in <strong>init</strong>.py:116</a></p>
 <p>Saves a certificate into a file</p>
 <h4 id="arguments_4">Arguments</h4>
 <ul>
