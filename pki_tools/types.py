@@ -34,7 +34,9 @@ class PemCert(str):
     """
 
 
-PEM_REGEX = re.compile(r"\s*-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+\s*")
+PEM_REGEX = re.compile(
+    r"\s*-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+\s*"
+)
 
 
 class OcspIssuerUri(BaseModel):

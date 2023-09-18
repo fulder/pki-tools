@@ -56,8 +56,9 @@ def test_is_revoked_pem_with_spaces(
         cert, key_pair
     )
 
-    assert not is_revoked("\n\n"+cert_pem_string+"\n", types.PemCert(cert_pem_string))
-
+    assert not is_revoked(
+        "\n\n" + cert_pem_string + "\n", types.PemCert(cert_pem_string)
+    )
 
 
 def test_is_revoked_pem_crl(key_pair, mocked_requests_get):
