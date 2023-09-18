@@ -48,6 +48,18 @@ def test_is_revoked_cert_ocsp(mocked_requests_get, cert, key_pair):
     assert not is_revoked(cert, cert)
 
 
+def test_is_revoked_pem_with_spaces(
+    cert_pem_string, mocked_requests_get, cert, key_pair
+):
+    mocked_requests_get.return_value.status_code = 200
+    mocked_requests_get.return_value.content = _create_mocked_ocsp_response(
+        cert, key_pair
+    )
+
+    assert not is_revoked("\n\n"+cert_pem_string+"\n", types.PemCert(cert_pem_string))
+
+
+
 def test_is_revoked_pem_crl(key_pair, mocked_requests_get):
     cert = _create_cert(key_pair, add_aia_extension=False)
     cert_pem = cert.public_bytes(serialization.Encoding.PEM).decode()
