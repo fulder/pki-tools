@@ -109,7 +109,9 @@ def is_revoked(
 
 
 def _get_ocsp_status(uri) -> OCSPResponse:
-    ret = requests.get(uri)
+    ret = requests.get(
+        uri, headers={"Content-Type": "application/ocsp-request"}
+    )
 
     if ret.status_code != 200:
         raise exceptions.OcspFetchFailure(
