@@ -102,8 +102,7 @@ def is_revoked(
         try:
             req_path = _construct_req_path(cert, issuer_cert, alg)
 
-            if _check_ocsp_status(aia_exs, req_path, cert):
-                return True
+            return _check_ocsp_status(aia_exs, req_path, cert)
         except exceptions.OcspInvalidResponseStatus:
             logger.debug(f"OCSP check with: {alg.name} failed, trying another")
             if i + 1 == len(OCSP_ALGORITHMS_TO_CHECK):
