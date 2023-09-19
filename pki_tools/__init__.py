@@ -75,17 +75,6 @@ def is_revoked(
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
-        [exceptions.OcspFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure)
-        -- When OCSP fails getting response from the the server
-
-        [exceptions.OcspInvalidResponseStatus](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus)
-        -- When OCSP returns invalid response status
-
-        [exceptions.OcspIssuerFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure)
-        -- When `issuer_cert` is of
-        [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
-        type and fetching the public certificate fails
-
         [exceptions.CrlFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlfetchfailure)
         -- When the CRL could not be fetched
 
@@ -95,22 +84,23 @@ def is_revoked(
 
         [exceptions.Error](https://pki-tools.fulder.dev/pki_tools/exceptions/#error)
         -- If revocation check fails both with OCSP and CRL
+
+        [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
+        -- When neither OCSP nor CRL extensions exist
+
     """
     if issuer_cert is not None:
         try:
             return ocsp.is_revoked(cert, issuer_cert)
-        except exceptions.ExtensionMissing:
-            logger.debug("OCSP Extension missing, trying CRL next")
+        except (
+            exceptions.ExtensionMissing,
+            exceptions.OcspInvalidResponseStatus,
+            exceptions.OcspFetchFailure,
+            exceptions.OcspIssuerFetchFailure,
+        ):
+            logger.debug("OCSP revoke check failed, trying CRL next")
 
-    try:
-        return crl.is_revoked(cert, crl_cache_seconds)
-    except exceptions.ExtensionMissing:
-        err_msg = (
-            "OCSP and CRL extensions not found, "
-            "couldn't check revocation status"
-        )
-        logger.error(err_msg)
-        raise exceptions.Error(err_msg)
+    return crl.is_revoked(cert, crl_cache_seconds)
 
 
 def save_to_file(cert: Union[x509.Certificate, types.PemCert], file_path: str):

@@ -70,7 +70,7 @@ def is_revoked(
         -- When OCSP extension is missing
 
         [exceptions.OcspFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure)
-        -- When OCSP fails getting response from the the server
+        -- When OCSP fails getting response from the server
 
         [exceptions.OcspInvalidResponseStatus](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus)
         -- When OCSP returns invalid response status
