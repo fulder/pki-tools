@@ -24,7 +24,6 @@ TEST_ACCESS_DESCRIPTION = "test-url"
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
-
 def test_loguru_sink(message):
     try:
         rec = message.record
@@ -33,6 +32,7 @@ def test_loguru_sink(message):
     except Exception as e:
         print(f"Record was: {message.record}")
         pytest.fail(f"Loguru error: {str(e)}")
+
 
 @pytest.fixture(scope="function", autouse=True)
 def setup_loguru_logging(request):

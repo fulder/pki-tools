@@ -36,7 +36,6 @@ def test_cert_load_error():
 def test_is_revoked_pem_ocsp(
     cert_pem_string, mocked_requests_get, cert, key_pair
 ):
-
     correct_res = MagicMock()
     correct_res.status_code = 200
     correct_res.content = _create_mocked_ocsp_response(cert, key_pair)
