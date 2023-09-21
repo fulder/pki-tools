@@ -35,6 +35,9 @@ def _get_issuer_from_uri(issuer_uri, cache_ttl=None):
     ret = requests.get(issuer_uri)
 
     if ret.status_code != 200:
+        logger.bind(status=ret.status_code).error(
+            "Failed to fetch issuer from URI"
+        )
         raise exceptions.OcspIssuerFetchFailure(
             f"Issuer URI fetch failed. Status: {ret.status_code}"
         )
@@ -91,11 +94,17 @@ def is_revoked(
             issuer_cert.uri, cache_ttl=cache_ttl
         )
 
+    log = logger.bind(
+        cert=pki_tools.pem_from_cert(cert),
+        serial=cert.serial_number,
+    )
+
     try:
         aia_exs = cert.extensions.get_extension_for_oid(
             ExtensionOID.AUTHORITY_INFORMATION_ACCESS,
         )
     except ExtensionNotFound:
+        log.debug("CRL extension missing")
         raise exceptions.ExtensionMissing()
 
     for i, alg in enumerate(OCSP_ALGORITHMS_TO_CHECK):
@@ -104,8 +113,13 @@ def is_revoked(
 
             return _check_ocsp_status(aia_exs, req_path, cert)
         except exceptions.OcspInvalidResponseStatus:
-            logger.debug(f"OCSP check with: {alg.name} failed, trying another")
+            log.bind(alg=alg.name).debug(
+                "OCSP check with failed, trying another algorithm"
+            )
             if i + 1 == len(OCSP_ALGORITHMS_TO_CHECK):
+                log.bind(algs=OCSP_ALGORITHMS_TO_CHECK).debug(
+                    "All algorithms check failed"
+                )
                 raise
 
     return False
@@ -128,10 +142,10 @@ def _check_ocsp_status(aia_exs, req_path, cert):
             ocsp_res = _get_ocsp_status(f"{server}/{req_path}")
 
             if ocsp_res.certificate_status == OCSPCertStatus.REVOKED:
-                logger.info(
-                    f"Certificate with serial: {cert.serial_number} "
-                    f"is revoked since: {ocsp_res.revocation_time}"
-                )
+                logger.bind(
+                    serial=cert.serial_number,
+                    date=ocsp_res.revocation_time,
+                ).info("Certificate revoked")
                 return True
     return False
 
@@ -141,13 +155,18 @@ def _get_ocsp_status(uri) -> OCSPResponse:
         uri, headers={"Content-Type": "application/ocsp-request"}
     )
 
+    log = logger.bind(status=ret.status_code)
     if ret.status_code != 200:
+        log.error("OCSP status fetch failed")
         raise exceptions.OcspFetchFailure(
             f"Unexpected response status code: {ret.status_code}"
         )
 
     ocsp_res = ocsp.load_der_ocsp_response(ret.content)
     if ocsp_res.response_status != OCSPResponseStatus.SUCCESSFUL:
+        log.bind(res=ocsp_res.response_status.name).debug(
+            "Invalid OCSP response"
+        )
         raise exceptions.OcspInvalidResponseStatus(
             f"Invalid OCSP Response status: {ocsp_res.response_status}"
         )

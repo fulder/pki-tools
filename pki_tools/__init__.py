@@ -32,6 +32,7 @@ def cert_from_pem(cert_pem: str) -> x509.Certificate:
     try:
         return x509.load_pem_x509_certificate(cert_pem.encode())
     except ValueError as e:
+        logger.bind(cert=cert_pem).debug("Failed to load cert from PEM")
         raise exceptions.CertLoadError(e)
 
 
