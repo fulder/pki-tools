@@ -29,9 +29,6 @@ def test_loguru_sink(message):
     try:
         rec = message.record
         extras = json.dumps(rec["extra"])
-        if len(extras) > 75:
-            extras = extras[:75] + '..'
-
         print(f"{rec['time']} - {rec['level']} - {extras} - {rec['message']}")
     except Exception as e:
         print(f"Record was: {message.record}")
