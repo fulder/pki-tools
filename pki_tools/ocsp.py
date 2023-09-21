@@ -35,9 +35,9 @@ def _get_issuer_from_uri(issuer_uri, cache_ttl=None):
     ret = requests.get(issuer_uri)
 
     if ret.status_code != 200:
-        logger.bind(
-            status=ret.status_code
-        ).error("Failed to fetch issuer from URI")
+        logger.bind(status=ret.status_code).error(
+            "Failed to fetch issuer from URI"
+        )
         raise exceptions.OcspIssuerFetchFailure(
             f"Issuer URI fetch failed. Status: {ret.status_code}"
         )
@@ -113,13 +113,13 @@ def is_revoked(
 
             return _check_ocsp_status(aia_exs, req_path, cert)
         except exceptions.OcspInvalidResponseStatus:
-            log.bind(
-                alg=alg.name
-            ).debug("OCSP check with failed, trying another algorithm")
+            log.bind(alg=alg.name).debug(
+                "OCSP check with failed, trying another algorithm"
+            )
             if i + 1 == len(OCSP_ALGORITHMS_TO_CHECK):
-                log.bind(
-                    algs=OCSP_ALGORITHMS_TO_CHECK
-                ).debug("All algorithms check failed")
+                log.bind(algs=OCSP_ALGORITHMS_TO_CHECK).debug(
+                    "All algorithms check failed"
+                )
                 raise
 
     return False
@@ -164,9 +164,9 @@ def _get_ocsp_status(uri) -> OCSPResponse:
 
     ocsp_res = ocsp.load_der_ocsp_response(ret.content)
     if ocsp_res.response_status != OCSPResponseStatus.SUCCESSFUL:
-        log.bind(
-            res=ocsp_res.response_status.name
-        ).debug("Invalid OCSP response")
+        log.bind(res=ocsp_res.response_status.name).debug(
+            "Invalid OCSP response"
+        )
         raise exceptions.OcspInvalidResponseStatus(
             f"Invalid OCSP Response status: {ocsp_res.response_status}"
         )
