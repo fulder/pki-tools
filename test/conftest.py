@@ -1,3 +1,4 @@
+import json
 import os
 
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -12,6 +13,7 @@ import pytest
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives._serialization import Encoding
 from cryptography.x509 import ocsp
+from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
 from pki_tools.ocsp import _get_issuer_from_uri
@@ -20,6 +22,26 @@ from pki_tools.types import Subject
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+
+
+def test_loguru_sink(message):
+    try:
+        rec = message.record
+        extras = json.dumps(rec["extra"])
+        print(f"{rec['time']} - {rec['level']} - {extras} - {rec['message']}")
+    except Exception as e:
+        print(f"Record was: {message.record}")
+        pytest.fail(f"Loguru error: {str(e)}")
+
+
+@pytest.fixture(scope="function", autouse=True)
+def setup_loguru_logging(request):
+    # Create a custom Loguru logger configuration that outputs to stdout
+    logger.remove()
+    logger.add(
+        sink=test_loguru_sink,  # Custom sink to print to stdout
+        level="DEBUG",  # Set the log level as desired
+    )
 
 
 @pytest.fixture()

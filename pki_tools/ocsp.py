@@ -96,7 +96,7 @@ def is_revoked(
 
     log = logger.bind(
         cert=pki_tools.pem_from_cert(cert),
-        serial=cert.serial_number,
+        serial=pki_tools.get_cert_serial(cert),
     )
 
     try:
@@ -114,7 +114,7 @@ def is_revoked(
             return _check_ocsp_status(aia_exs, req_path, cert)
         except exceptions.OcspInvalidResponseStatus:
             log.bind(alg=alg.name).debug(
-                "OCSP check with failed, trying another algorithm"
+                "OCSP check failed, trying another algorithm"
             )
             if i + 1 == len(OCSP_ALGORITHMS_TO_CHECK):
                 log.bind(
