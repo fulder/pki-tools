@@ -93,6 +93,7 @@ def is_revoked(
     if issuer_cert is not None:
         try:
             return ocsp.is_revoked(cert, issuer_cert)
+
         except (
             exceptions.ExtensionMissing,
             exceptions.OcspInvalidResponseStatus,
@@ -172,3 +173,19 @@ def parse_subject(cert: [x509.Certificate, types.PemCert]) -> types.Subject:
             cert_dict[att.oid.dotted_string].add(att.value)
 
     return types.Subject(**cert_dict)
+
+
+def get_cert_serial(cert: x509.Certificate) -> str:
+    """
+    Parses the certificate serial into hex format
+
+    Args:
+        cert: A
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+
+    Returns:
+        String representing the hex value of the certificate serial number
+    """
+    serial = cert.serial_number
+    hex_serial = format(serial, "x").zfill(32)
+    return hex_serial
