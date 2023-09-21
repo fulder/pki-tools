@@ -104,7 +104,7 @@ def is_revoked(
             ExtensionOID.AUTHORITY_INFORMATION_ACCESS,
         )
     except ExtensionNotFound:
-        log.debug("CRL extension missing")
+        log.debug("OCSP extension missing")
         raise exceptions.ExtensionMissing()
 
     for i, alg in enumerate(OCSP_ALGORITHMS_TO_CHECK):
@@ -135,6 +135,8 @@ def _construct_req_path(cert, issuer_cert, alg):
 
 
 def _check_ocsp_status(aia_exs, req_path, cert):
+    log = logger.bind(serial=pki_tools.get_cert_serial(cert))
+
     for aia_ex in aia_exs.value:
         if aia_ex.access_method == x509.AuthorityInformationAccessOID.OCSP:
             server = aia_ex.access_location.value
@@ -142,11 +144,12 @@ def _check_ocsp_status(aia_exs, req_path, cert):
             ocsp_res = _get_ocsp_status(f"{server}/{req_path}")
 
             if ocsp_res.certificate_status == OCSPCertStatus.REVOKED:
-                logger.bind(
-                    serial=cert.serial_number,
+                log.bind(
                     date=str(ocsp_res.revocation_time),
-                ).info("Certificate revoked")
+                ).debug("Certificate revoked")
                 return True
+
+    log.debug("Certificate valid")
     return False
 
 
