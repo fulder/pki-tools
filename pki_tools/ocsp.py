@@ -117,9 +117,9 @@ def is_revoked(
                 "OCSP check with failed, trying another algorithm"
             )
             if i + 1 == len(OCSP_ALGORITHMS_TO_CHECK):
-                log.bind(algs=OCSP_ALGORITHMS_TO_CHECK).debug(
-                    "All algorithms check failed"
-                )
+                log.bind(
+                    algs=[alg.name for alg in OCSP_ALGORITHMS_TO_CHECK]
+                ).debug("All algorithms check failed")
                 raise
 
     return False
