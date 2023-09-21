@@ -67,9 +67,10 @@ def is_revoked(
                 r = crl.get_revoked_certificate_by_serial_number(
                     cert.serial_number,
                 )
-                log = log.bind(date=r.revocation_date)
                 if r is not None:
-                    log.info("Certificate revoked")
+                    log.bind(date=r.revocation_date).info(
+                        "Certificate revoked"
+                    )
                     return True
     except ExtensionNotFound:
         log.debug("CRL extension missing")
