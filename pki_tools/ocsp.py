@@ -96,7 +96,7 @@ def is_revoked(
 
     log = logger.bind(
         cert=pki_tools.pem_from_cert(cert),
-        serial=cert.serial_number,
+        serial=pki_tools.get_cert_serial(cert),
     )
 
     try:
