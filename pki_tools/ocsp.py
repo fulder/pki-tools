@@ -144,7 +144,7 @@ def _check_ocsp_status(aia_exs, req_path, cert):
             if ocsp_res.certificate_status == OCSPCertStatus.REVOKED:
                 logger.bind(
                     serial=cert.serial_number,
-                    date=ocsp_res.revocation_time,
+                    date=str(ocsp_res.revocation_time),
                 ).info("Certificate revoked")
                 return True
     return False
