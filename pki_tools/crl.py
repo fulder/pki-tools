@@ -68,7 +68,7 @@ def is_revoked(
                     cert.serial_number,
                 )
                 if r is not None:
-                    log.bind(date=r.revocation_date).info(
+                    log.bind(date=str(r.revocation_date)).info(
                         "Certificate revoked"
                     )
                     return True
