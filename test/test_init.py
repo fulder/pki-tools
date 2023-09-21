@@ -33,9 +33,10 @@ def test_cert_load_error():
         cert_from_pem("BAD_PEM_DATA")
 
 
-def test_is_revoked_pem_ocsp(
-    cert_pem_string, mocked_requests_get, cert, key_pair
+def test_is_revoked_pem_ocsp_2(
+    cert_pem_string, mocked_requests_get, cert, key_pair, setup_loguru_logging
 ):
+
     correct_res = MagicMock()
     correct_res.status_code = 200
     correct_res.content = _create_mocked_ocsp_response(cert, key_pair)
