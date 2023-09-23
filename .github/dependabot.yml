@@ -11,6 +11,7 @@ updates:
       dependencies:
         patterns:
           - "*"
+    versioning-strategy: increase
 
   - package-ecosystem: "pip"
     directory: "/"
@@ -20,3 +21,4 @@ updates:
       dependencies:
         patterns:
           - "*"
+    versioning-strategy: increase
