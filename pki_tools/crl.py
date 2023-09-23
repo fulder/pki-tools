@@ -39,9 +39,6 @@ def is_revoked(
         [exceptions.CrlLoadError](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlloaderror)
         -- If CRL could be fetched successfully but could not be loaded e.g.
         due invalid format or file
-
-        [exceptions.Error](https://pki-tools.fulder.dev/pki_tools/exceptions/#error)
-        -- If revocation check fails both with OCSP and CRL
     """
     if types._is_pem_str(cert):
         cert = pki_tools.cert_from_pem(cert)

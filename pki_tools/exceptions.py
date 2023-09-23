@@ -28,3 +28,11 @@ class CrlFetchFailure(Error):
 
 class CrlLoadError(Error):
     pass
+
+
+class RevokeCheckFailed(Error):
+    pass
+
+
+class CertIssuerMissingInChain(Error):
+    pass

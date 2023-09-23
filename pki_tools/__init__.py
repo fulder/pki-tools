@@ -1,5 +1,7 @@
 from collections import defaultdict
+from functools import lru_cache
 
+import requests
 from cryptography.hazmat.primitives import serialization
 
 from . import ocsp
@@ -7,7 +9,7 @@ from . import crl
 from . import exceptions
 from . import types
 
-from typing import Union
+from typing import Union, List
 
 from cryptography import x509
 
@@ -89,6 +91,8 @@ def is_revoked(
         [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
         -- When neither OCSP nor CRL extensions exist
 
+        [exceptions.RevokeCheckFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#revokecheckfailed)
+        -- When both OCSP and CRL checks fail
     """
     if issuer_cert is not None:
         try:
@@ -102,47 +106,61 @@ def is_revoked(
         ):
             logger.debug("OCSP revoke check failed, trying CRL next")
 
-    return crl.is_revoked(cert, crl_cache_seconds)
+    try:
+        return crl.is_revoked(cert, crl_cache_seconds)
+    except exceptions.Error as e:
+        err_message = "OCSP and CRL checks failed"
+        logger.bind(exceptionType=type(e).__name__).error(err_message)
+        raise exceptions.RevokeCheckFailed(err_message) from None
 
 
-def save_to_file(cert: Union[x509.Certificate, types.PemCert], file_path: str):
+def save_to_file(
+    certs: Union[List[x509.Certificate], List[types.PemCert]], file_path: str
+):
     """
-    Saves a certificate into a file
+    Saves one or more certificate(s) into a file
 
     Arguments:
-        cert -- The certificate to save to the `file_path`. Can either be
-        a
+        cert -- A list of certificate(s) to save to the `file_path`. Can either
+        be a list of
         [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-        or a
+        or a list of
         [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-        string
-        file_path -- Path and filename where to store the certificate
+        file_path -- Path and filename where to store the certificate(s)
     """
-    if isinstance(cert, x509.Certificate):
-        cert = pem_from_cert(cert)
+    convert = isinstance(certs[0], x509.Certificate)
 
     with open(file_path, "w") as f:
-        f.write(cert)
+        for cert in certs:
+            if convert:
+                cert = pem_from_cert(cert)
 
-    logger.debug(f"Certificate saved to {file_path}")
+            f.write(cert)
+
+    logger.debug(f"Certificate(s) saved to {file_path}")
 
 
 def read_from_file(file_path: str) -> x509.Certificate:
+    return read_many_from_file(file_path)[0]
+
+
+def read_many_from_file(file_path: str) -> List[x509.Certificate]:
     """
-    Reads a file containing a PEM certificate into a
+    Reads a file containing one or more PEM certificate(s) into a list of
     [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
     object
 
     Arguments:
         file_path -- Path and filename of the PEM certificate
     Returns:
-         A
+         A list of
          [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-         representing the certificate from file
+         representing the certificate(s) from file
     """
     with open(file_path, "r") as f:
         cert_pem = f.read()
-        return cert_from_pem(cert_pem)
+
+    return x509.load_pem_x509_certificates(cert_pem.encode())
 
 
 def parse_subject(cert: [x509.Certificate, types.PemCert]) -> types.Subject:
