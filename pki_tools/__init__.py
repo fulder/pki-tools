@@ -207,3 +207,33 @@ def get_cert_serial(cert: x509.Certificate) -> str:
     serial = cert.serial_number
     hex_serial = format(serial, "x").zfill(32)
     return hex_serial
+
+
+@lru_cache(maxsize=None)
+def _get_ca_chain_from_uri(
+    chain_uri: str, cache_ttl: int = None
+) -> (List)[x509.Certificate]:
+    ret = requests.get(chain_uri)
+
+    if ret.status_code != 200:
+        logger.bind(status=ret.status_code).error(
+            "Failed to fetch issuer from URI"
+        )
+        raise exceptions.OcspIssuerFetchFailure(
+            f"Issuer URI fetch failed. Status: {ret.status_code}"
+        )
+
+    return x509.load_pem_x509_certificates(ret.content)
+
+
+def _get_issuer_from_chain(
+    chain: List[x509.Certificate], cert: x509.Certificate
+):
+    for next_chain_cert in chain:
+        cert_subject = cert.issuer.rfc4514_string()
+        log = logger.bind(subject=cert_subject)
+        if cert_subject == next_chain_cert.subject.rfc4514_string():
+            log.debug("Found issuer cert in chain")
+            return next_chain_cert
+
+    raise exceptions.CertIssuerMissingInChain()

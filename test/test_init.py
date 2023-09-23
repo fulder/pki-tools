@@ -135,7 +135,7 @@ def test_is_revoked_missing_extensions(key_pair):
 
 def test_save_and_read_file(cert):
     file_path = os.path.join(CURRENT_DIR, "tmp.pem")
-    save_to_file(cert, file_path)
+    save_to_file([cert], file_path)
     new_pem = read_from_file(file_path)
 
     os.remove(file_path)
