@@ -36,3 +36,10 @@ class RevokeCheckFailed(Error):
 
 class CertIssuerMissingInChain(Error):
     pass
+
+
+class CertExpired(Error):
+    pass
+
+class SignatureVerificationFailed(Error):
+    pass

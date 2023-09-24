@@ -1,9 +1,18 @@
 import re
-from typing import List
+import time
+from datetime import datetime
+from functools import lru_cache
+from typing import List, Type
 
+import requests
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
+from cryptography.hazmat.primitives.asymmetric import padding
+from loguru import logger
 from pydantic import constr, BaseModel, Field, ConfigDict
+
+import pki_tools
+from pki_tools import exceptions
 
 
 class PemCert(str):
@@ -39,21 +48,92 @@ PEM_REGEX = re.compile(
 )
 
 
-class OcspIssuerUri(BaseModel):
+class ChainUri(BaseModel):
     """
-    Describes the OCSP Issuer (usually a CA) URI where the public certificate
+    Describes the CA chain URI where the public certificate(s)
     can be downloaded
 
     Examples::
-        OcspIssuerUri(uri="https://my.ca.link.com/ca.pem")
+        ChainUri(uri="https://my.ca.link.com/ca.pem")
     Attributes:
-        uri -- The URI for the public issuer certificate
+        uri -- The URI for the public CA certificate(s)
         cache_time_seconds -- Specifies how long the public cert should be
         cached, default is 1 month.
     """
 
     uri: constr(pattern=r"https*://.*")
     cache_time_seconds: int = 60 * 60 * 24 * 30
+
+
+class Chain(BaseModel):
+    certificates: List[x509.Certificate]
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    def check_chain(self):
+        if len(self.certificates) < 2:
+            logger.debug(
+                "Need at least 2 certificates for chain validation. "
+                         "Skipping chain check")
+            return
+
+        for cert in self.certificates:
+            log = logger.bind(subject=cert.subject)
+            if (cert.not_valid_after < datetime.now() or
+                    cert.not_valid_before > datetime.now()):
+                log.error("Certificate expired")
+                raise exceptions.CertExpired(
+                    f"Certificate in chain with subject: '{cert.subject}' "
+                    f"has expired"
+                )
+
+            issuer = self.get_issuer(cert)
+
+            pki_tools.verify_signature(cert, issuer)
+
+    def get_issuer(
+            self, signed: [x509.Certificate, x509.CertificateRevocationList]
+    ) -> x509.Certificate:
+        for next_chain_cert in self.certificates:
+            cert_subject = signed.issuer.rfc4514_string()
+            log = logger.bind(subject=cert_subject)
+            if cert_subject == next_chain_cert.subject.rfc4514_string():
+                log.debug("Found issuer cert in chain")
+                return next_chain_cert
+
+        raise exceptions.CertIssuerMissingInChain()
+
+    @classmethod
+    def from_file(cls: Type["Chain"], file_path: str) -> "Chain":
+        certificates = pki_tools.read_many_from_file(file_path)
+        return cls(certificates=certificates)
+
+    @classmethod
+    def from_pem(cls: Type["Chain"], pem_certs: List[PemCert]) -> "Chain":
+        certificates = []
+        for pem_cert in pem_certs:
+            certificates.append(pki_tools.cert_from_pem(pem_cert))
+        return cls(certificates=certificates)
+
+    @classmethod
+    def from_uri(cls: Type["Chain"], chain_uri: ChainUri) -> "Chain":
+        cache_ttl = round(time.time() / chain_uri.cache_time_seconds)
+        return Chain._from_uri(chain_uri.uri, cache_ttl)
+
+    @classmethod
+    @lru_cache(maxsize=None)
+    def _from_uri(cls: Type["Chain"], uri: str, ttl=None) -> "Chain":
+        ret = requests.get(uri)
+
+        if ret.status_code != 200:
+            logger.bind(status=ret.status_code).error(
+                "Failed to fetch issuer from URI"
+            )
+            raise pki_tools.exceptions.OcspIssuerFetchFailure(
+                f"Issuer URI fetch failed. Status: {ret.status_code}"
+            )
+
+        return cls(certificates=x509.load_pem_x509_certificates(ret.content))
 
 
 class Subject(BaseModel):

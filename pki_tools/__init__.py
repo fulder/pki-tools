@@ -3,6 +3,7 @@ from functools import lru_cache
 
 import requests
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
 
 from . import ocsp
 from . import crl
@@ -42,76 +43,82 @@ def pem_from_cert(cert: x509.Certificate) -> str:
     return cert.public_bytes(serialization.Encoding.PEM).decode()
 
 
-def is_revoked(
+def is_revoked_multiple_issuers(
     cert: Union[x509.Certificate, types.PemCert],
-    issuer_cert: Union[
-        x509.Certificate, types.PemCert, types.OcspIssuerUri
-    ] = None,
+    cert_issuer: types.Chain,
+    ocsp_issuer: types.Chain,
+    crl_issuer: types.Chain,
     crl_cache_seconds: int = 3600,
-) -> bool:
+):
     """
-    Checks if a certificate is revoked using first OCSP and then CRL extensions.
-    The `issuer_cert` argument is only needed when OCSP is available and
-    should be checked.
+        Checks if a certificate is revoked using first OCSP and then CRL extensions.
 
-    Note that OCSP has precedence to CRL meaning that if OCSP check is
-    successful this function will return the bool without checking CRL.
+        Note that OCSP has precedence to CRL meaning that if OCSP check is
+        successful this function will return the bool without checking CRL.
 
-    Otherwise, if OCSP check fails, CRL will be tried next.
+        Otherwise, if OCSP check fails, CRL will be tried next.
 
-    Arguments:
-        cert -- The certificate to check revocation for. Can either be
-        a
-        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-        or a
-        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-        string
-        issuer_cert -- [OCSP Only] The issuer of the `cert`. Can be a
-        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-        , a
-        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-        string or
-        [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
-        including the URI to the issuer public cert
-        crl_cache_seconds -- [CRL Only] Specifies how long the CRL should be
-        cached, default is 1 hour.
-    Returns:
-        True if the certificate is revoked, False otherwise
-    Raises:
-        [exceptions.CrlFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlfetchfailure)
-        -- When the CRL could not be fetched
+        Arguments:
+            cert -- The certificate to check revocation for. Can either be
+            a
+            [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+            or a
+            [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+            string
+            chain -- The CA chain including one or more certificates and the issuer
+            of the `cert`. See
+            [types.Chain](https://pki-tools.fulder.dev/pki_tools/types/#chain)
+            for examples how the chain can be created
+            crl_cache_seconds -- [CRL Only] Specifies how long the CRL should be
+            cached, default is 1 hour.
+        Returns:
+            True if the certificate is revoked, False otherwise
+        Raises:
+            [exceptions.ChainVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#chainverificationfailed)
+            -- When the Chain contains more than one certificate and
+            the trust fails either because of some certificate has expired
+            or the signature is bad
 
-        [exceptions.CrlLoadError](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlloaderror)
-        -- If CRL could be fetched successfully but could not be loaded e.g.
-        due invalid format or file
+            [exceptions.CrlFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlfetchfailure)
+            -- When the CRL could not be fetched
 
-        [exceptions.Error](https://pki-tools.fulder.dev/pki_tools/exceptions/#error)
-        -- If revocation check fails both with OCSP and CRL
+            [exceptions.CrlLoadError](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlloaderror)
+            -- If CRL could be fetched successfully but could not be loaded e.g.
+            due invalid format or file
 
-        [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
-        -- When neither OCSP nor CRL extensions exist
+            [exceptions.Error](https://pki-tools.fulder.dev/pki_tools/exceptions/#error)
+            -- If revocation check fails both with OCSP and CRL
 
-        [exceptions.RevokeCheckFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#revokecheckfailed)
-        -- When both OCSP and CRL checks fail
-    """
-    if issuer_cert is not None:
-        try:
-            return ocsp.is_revoked(cert, issuer_cert)
+            [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
+            -- When neither OCSP nor CRL extensions exist
 
-        except (
+            [exceptions.RevokeCheckFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#revokecheckfailed)
+            -- When both OCSP and CRL checks fail
+        """
+
+    try:
+        return ocsp.is_revoked_multiple_issuers(cert, cert_issuer, ocsp_issuer)
+    except (
             exceptions.ExtensionMissing,
             exceptions.OcspInvalidResponseStatus,
             exceptions.OcspFetchFailure,
             exceptions.OcspIssuerFetchFailure,
-        ):
-            logger.debug("OCSP revoke check failed, trying CRL next")
+    ):
+        logger.debug("OCSP revoke check failed, trying CRL next")
 
     try:
-        return crl.is_revoked(cert, crl_cache_seconds)
+        return crl.is_revoked(cert, crl_issuer)
     except exceptions.Error as e:
         err_message = "OCSP and CRL checks failed"
         logger.bind(exceptionType=type(e).__name__).error(err_message)
         raise exceptions.RevokeCheckFailed(err_message) from None
+
+def is_revoked(
+    cert: Union[x509.Certificate, types.PemCert],
+    chain: types.Chain,
+    crl_cache_seconds: int = 3600,
+) -> bool:
+    return is_revoked_multiple_issuers(cert, chain, chain, chain, crl_cache_seconds)
 
 
 def save_to_file(
@@ -209,31 +216,29 @@ def get_cert_serial(cert: x509.Certificate) -> str:
     return hex_serial
 
 
-@lru_cache(maxsize=None)
-def _get_ca_chain_from_uri(
-    chain_uri: str, cache_ttl: int = None
-) -> (List)[x509.Certificate]:
-    ret = requests.get(chain_uri)
+def verify_signature(signed: [x509.Certificate, x509.CertificateRevocationList], issuer: x509.Certificate) -> None:
+    issuer_public_key = issuer.public_key()
 
-    if ret.status_code != 200:
-        logger.bind(status=ret.status_code).error(
-            "Failed to fetch issuer from URI"
+    tbs_bytes = None
+    if isinstance(signed, x509.Certificate):
+        tbs_bytes = signed.tbs_certificate_bytes
+    elif isinstance(signed, x509.CertificateRevocationList):
+        tbs_bytes = signed.tbs_certlist_bytes
+
+    try:
+        issuer_public_key.verify(
+            signed.signature,
+            tbs_bytes,
+            padding.PKCS1v15(),
+            signed.signature_hash_algorithm,
         )
-        raise exceptions.OcspIssuerFetchFailure(
-            f"Issuer URI fetch failed. Status: {ret.status_code}"
+        logger.debug("Signature valid")
+    except Exception as e:
+        logger.bind(
+            exceptionType=type(e).__name__,
+            exception=str(e),
+        ).error("Signature verification failed")
+        raise exceptions.SignatureVerificationFailed(
+            f"{signed.subject.rfc4514_string()} signature doesn't match issuer"
+            f"with subject: {issuer.subject.rfc4514_string()}"
         )
-
-    return x509.load_pem_x509_certificates(ret.content)
-
-
-def _get_issuer_from_chain(
-    chain: List[x509.Certificate], cert: x509.Certificate
-):
-    for next_chain_cert in chain:
-        cert_subject = cert.issuer.rfc4514_string()
-        log = logger.bind(subject=cert_subject)
-        if cert_subject == next_chain_cert.subject.rfc4514_string():
-            log.debug("Found issuer cert in chain")
-            return next_chain_cert
-
-    raise exceptions.CertIssuerMissingInChain()
