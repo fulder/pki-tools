@@ -66,6 +66,14 @@ class ChainUri(BaseModel):
 
 
 class Chain(BaseModel):
+    """
+    Chain holds a list of certificates in a
+    [chain of trust](https://en.wikipedia.org/wiki/Chain_of_trust)
+
+    Attributes:
+        certificates -- list of
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate),
+    """
     certificates: List[x509.Certificate]
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
