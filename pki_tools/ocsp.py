@@ -32,46 +32,11 @@ from pki_tools import exceptions, types
 OCSP_ALGORITHMS_TO_CHECK = [SHA256(), SHA1(), SHA512(), SHA224(), SHA384()]
 
 
-
-def is_revoked_multiple_issuers(
+def _is_revoked_multiple_issuers(
     cert: [x509.Certificate, types.PemCert],
     cert_issuer: types.Chain,
     ocsp_issuer: types.Chain,
 ):
-    """
-        Checks if a certificate is revoked using the OCSP extension.
-
-        Arguments:
-            cert -- The certificate to check revocation for. Can either be
-            a
-            [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-            or a
-            [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-            string
-            issuer_cert -- The issuer of the `cert`. Can be a
-            [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate),
-            a [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-            string or
-            [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
-            including the URI to the
-            issuer public cert
-        Returns:
-            True if the certificate is revoked, False otherwise
-        Raises:
-            [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
-            -- When OCSP extension is missing
-
-            [exceptions.OcspFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure)
-            -- When OCSP fails getting response from the server
-
-            [exceptions.OcspInvalidResponseStatus](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus)
-            -- When OCSP returns invalid response status
-
-            [exceptions.OcspIssuerFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure)
-            -- When `issuer_cert` is of
-            [types.OcspIssuerUri](https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri)
-            type and fetching the public certificate fails
-        """
     cert_issuer.check_chain()
     ocsp_issuer.check_chain()
 
@@ -109,13 +74,6 @@ def is_revoked_multiple_issuers(
                 raise
 
     return False
-
-
-def is_revoked(
-    cert: [x509.Certificate, types.PemCert],
-    chain: types.Chain
-) -> bool:
-    return is_revoked_multiple_issuers(cert, chain, chain)
 
 
 def _construct_req_path(cert, issuer_cert, alg):

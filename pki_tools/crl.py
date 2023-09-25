@@ -12,36 +12,11 @@ import pki_tools
 from pki_tools import types, exceptions
 
 
-def is_revoked(
+def _is_revoked(
     cert: Union[x509.Certificate, types.PemCert],
     crl_issuer: types.Chain,
     crl_cache_seconds: int = 3600
 ) -> bool:
-    """
-    Checks if a certificate is revoked using the CRL extensions.
-
-    Arguments:
-        cert -- The certificate to check revocation for. Can either be
-        a
-        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-        or a
-        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-        string
-        crl_cache_seconds -- Specifies how long the CRL should be
-        cached, default is 1 hour.
-    Returns:
-        True if the certificate is revoked, False otherwise
-    Raises:
-        [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
-        -- When CRL extension is missing
-
-        [exceptions.CrlFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlfetchfailure)
-        -- When the CRL could not be fetched
-
-        [exceptions.CrlLoadError](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlloaderror)
-        -- If CRL could be fetched successfully but could not be loaded e.g.
-        due invalid format or file
-    """
     crl_issuer.check_chain()
     logger.debug("CRL issuer chain valid")
 
