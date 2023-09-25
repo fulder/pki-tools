@@ -40,7 +40,7 @@ def setup_loguru_logging(request):
     logger.remove()
     logger.add(
         sink=test_loguru_sink,  # Custom sink to print to stdout
-        level="DEBUG",  # Set the log level as desired
+        level="TRACE",  # Set the log level as desired
     )
 
 

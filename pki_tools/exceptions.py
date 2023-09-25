@@ -41,5 +41,10 @@ class CertIssuerMissingInChain(Error):
 class CertExpired(Error):
     pass
 
+
 class SignatureVerificationFailed(Error):
+    pass
+
+
+class InvalidSignedType(Error):
     pass

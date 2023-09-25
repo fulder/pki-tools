@@ -8,6 +8,7 @@ import requests
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.x509.ocsp import OCSPResponse
 from loguru import logger
 from pydantic import constr, BaseModel, Field, ConfigDict
 
@@ -92,13 +93,13 @@ class Chain(BaseModel):
             pki_tools.verify_signature(cert, issuer)
 
     def get_issuer(
-            self, signed: [x509.Certificate, x509.CertificateRevocationList]
+            self, signed: [x509.Certificate, x509.CertificateRevocationList, OCSPResponse]
     ) -> x509.Certificate:
         for next_chain_cert in self.certificates:
             cert_subject = signed.issuer.rfc4514_string()
             log = logger.bind(subject=cert_subject)
             if cert_subject == next_chain_cert.subject.rfc4514_string():
-                log.debug("Found issuer cert in chain")
+                log.trace("Found issuer cert in chain")
                 return next_chain_cert
 
         raise exceptions.CertIssuerMissingInChain()

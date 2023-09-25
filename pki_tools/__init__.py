@@ -1,9 +1,11 @@
+import inspect
 from collections import defaultdict
 from functools import lru_cache
 
 import requests
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.x509.ocsp import OCSPResponse
 
 from . import ocsp
 from . import crl
@@ -216,7 +218,7 @@ def get_cert_serial(cert: x509.Certificate) -> str:
     return hex_serial
 
 
-def verify_signature(signed: [x509.Certificate, x509.CertificateRevocationList], issuer: x509.Certificate) -> None:
+def verify_signature(signed: [x509.Certificate, x509.CertificateRevocationList, OCSPResponse], issuer: x509.Certificate) -> None:
     issuer_public_key = issuer.public_key()
 
     tbs_bytes = None
@@ -224,6 +226,10 @@ def verify_signature(signed: [x509.Certificate, x509.CertificateRevocationList],
         tbs_bytes = signed.tbs_certificate_bytes
     elif isinstance(signed, x509.CertificateRevocationList):
         tbs_bytes = signed.tbs_certlist_bytes
+    elif hasattr(signed, "tbs_response_bytes"):
+        tbs_bytes = signed.tbs_response_bytes
+    else:
+        raise exceptions.InvalidSignedType(type(signed))
 
     try:
         issuer_public_key.verify(
@@ -232,13 +238,13 @@ def verify_signature(signed: [x509.Certificate, x509.CertificateRevocationList],
             padding.PKCS1v15(),
             signed.signature_hash_algorithm,
         )
-        logger.debug("Signature valid")
+        logger.trace("Signature valid")
     except Exception as e:
         logger.bind(
             exceptionType=type(e).__name__,
             exception=str(e),
         ).error("Signature verification failed")
         raise exceptions.SignatureVerificationFailed(
-            f"{signed.subject.rfc4514_string()} signature doesn't match issuer"
+            f"signature doesn't match issuer"
             f"with subject: {issuer.subject.rfc4514_string()}"
         )
