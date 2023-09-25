@@ -72,11 +72,16 @@ class Chain(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     def check_chain(self):
-        if len(self.certificates) < 2:
-            logger.debug(
-                "Need at least 2 certificates for chain validation. "
-                         "Skipping chain check")
-            return
+        """
+        If the chain contains more than two
+        :return:
+        """
+        if len(self.certificates) == 1:
+            if self.certificates[0].issuer.rfc4514_string() == self.certificates[0].subject.rfc4514_string():
+                logger.debug("Chain contains only one self signed cert, nothing to check")
+                return
+            else:
+                raise exceptions.NotCompleteChain()
 
         for cert in self.certificates:
             log = logger.bind(subject=cert.subject)

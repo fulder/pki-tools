@@ -38,6 +38,10 @@ class CertIssuerMissingInChain(Error):
     pass
 
 
+class NotCompleteChain(Error):
+    pass
+
+
 class CertExpired(Error):
     pass
 
