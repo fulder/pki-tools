@@ -1,14 +1,14 @@
 import base64
 import binascii
 import hashlib
-import time
-from functools import lru_cache
 
 import requests
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives._serialization import Encoding, PublicFormat
-from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives._serialization import (
+    Encoding,
+    PublicFormat,
+)
 from cryptography.hazmat.primitives.hashes import (
     SHA256,
     SHA1,
@@ -85,7 +85,9 @@ def _construct_req_path(cert, issuer_cert, alg):
     ).decode()
 
 
-def _check_ocsp_status(aia_exs, req_path, cert: x509.Certificate, issuer_chain: types.Chain):
+def _check_ocsp_status(
+    aia_exs, req_path, cert: x509.Certificate, issuer_chain: types.Chain
+):
     log = logger.bind(serial=pki_tools.get_cert_serial(cert))
 
     for aia_ex in aia_exs.value:
@@ -130,7 +132,9 @@ def _get_ocsp_status(uri) -> OCSPResponse:
     return ocsp_res
 
 
-def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: types.Chain):
+def _verify_ocsp_signature(
+    ocsp_response: OCSPResponse, issuer_chain: types.Chain
+):
     ocsp_response_key_hash = binascii.hexlify(
         ocsp_response.responder_key_hash
     ).decode()

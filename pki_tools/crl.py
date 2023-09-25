@@ -15,7 +15,7 @@ from pki_tools import types, exceptions
 def _is_revoked(
     cert: Union[x509.Certificate, types.PemCert],
     crl_issuer: types.Chain,
-    crl_cache_seconds: int = 3600
+    crl_cache_seconds: int = 3600,
 ) -> bool:
     crl_issuer.check_chain()
     logger.debug("CRL issuer chain valid")

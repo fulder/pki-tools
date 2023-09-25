@@ -16,8 +16,7 @@ from cryptography.x509 import ocsp
 from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
-from pki_tools.ocsp import _get_issuer_from_uri
-from pki_tools.types import Subject
+from pki_tools.types import Subject, Chain, PemCert
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -47,7 +46,6 @@ def setup_loguru_logging(request):
 @pytest.fixture()
 def mocked_requests_get(mocker):
     _get_crl_from_url.cache_clear()
-    _get_issuer_from_uri.cache_clear()
     return mocker.patch("requests.get")
 
 
@@ -62,6 +60,11 @@ def key_pair():
 @pytest.fixture()
 def cert(key_pair):
     return _create_cert(key_pair)
+
+
+@pytest.fixture()
+def chain(cert_pem_string):
+    return Chain.from_pem([PemCert(cert_pem_string)])
 
 
 TEST_SUBJECT = Subject(

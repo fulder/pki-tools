@@ -7,7 +7,6 @@ from typing import List, Type
 import requests
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
-from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.x509.ocsp import OCSPResponse
 from loguru import logger
 from pydantic import constr, BaseModel, Field, ConfigDict
@@ -73,20 +72,41 @@ class Chain(BaseModel):
 
     def check_chain(self):
         """
-        If the chain contains more than two
-        :return:
+        Validate the chain (if it contains more than one certificate)
+        checking expiration and signatures of all certificates in the chain
+
+        Raises:
+            [exceptions.NotCompleteChain](https://pki-tools.fulder.dev/pki_tools/exceptions/#notcompletechain)
+            -- When the chain contain only one not self-signed certificate
+
+            [exceptions.CertExpired](https://pki-tools.fulder.dev/pki_tools/exceptions/#certexpired)
+            -- If some certificate in the chain has expired
+
+            [exceptions.InvalidSignedType](https://pki-tools.fulder.dev/pki_tools/exceptions/#invalidsignedtype)
+            -- When the issuer has a non-supported type
+
+            [exceptions.SignatureVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed)
+            -- When the signature verification fails
         """
         if len(self.certificates) == 1:
-            if self.certificates[0].issuer.rfc4514_string() == self.certificates[0].subject.rfc4514_string():
-                logger.debug("Chain contains only one self signed cert, nothing to check")
+            if (
+                self.certificates[0].issuer.rfc4514_string()
+                == self.certificates[0].subject.rfc4514_string()
+            ):
+                logger.debug(
+                    "Chain contains only one self signed cert, "
+                    "nothing to check"
+                )
                 return
             else:
                 raise exceptions.NotCompleteChain()
 
         for cert in self.certificates:
             log = logger.bind(subject=cert.subject)
-            if (cert.not_valid_after < datetime.now() or
-                    cert.not_valid_before > datetime.now()):
+            if (
+                cert.not_valid_after < datetime.now()
+                or cert.not_valid_before > datetime.now()
+            ):
                 log.error("Certificate expired")
                 raise exceptions.CertExpired(
                     f"Certificate in chain with subject: '{cert.subject}' "
@@ -98,8 +118,33 @@ class Chain(BaseModel):
             pki_tools.verify_signature(cert, issuer)
 
     def get_issuer(
-            self, signed: [x509.Certificate, x509.CertificateRevocationList, OCSPResponse]
+        self,
+        signed: [
+            x509.Certificate,
+            x509.CertificateRevocationList,
+            OCSPResponse,
+        ],
     ) -> x509.Certificate:
+        """
+        Returns the issuer of a signed entity
+
+        Arguments:
+            signed: The signed certificate can either be a
+            [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate),
+            [x509.CertificateRevocationList](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CertificateRevocationList)
+            or a
+            [x509.CertificateRevocationList](https://cryptography.io/en/latest/x509/ocsp/#cryptography.x509.ocsp.OCSPResponse)
+            issuer: The issuer of the signed entity
+
+        Returns:
+            The
+            [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+            representing the issuer of the `signed` entity
+
+        Raises:
+            [exceptions.CertIssuerMissingInChain](https://pki-tools.fulder.dev/pki_tools/exceptions/#certissuermissinginchain)
+            -- When the issuer of the entitie is missing in the chain
+        """
         for next_chain_cert in self.certificates:
             cert_subject = signed.issuer.rfc4514_string()
             log = logger.bind(subject=cert_subject)
@@ -111,11 +156,27 @@ class Chain(BaseModel):
 
     @classmethod
     def from_file(cls: Type["Chain"], file_path: str) -> "Chain":
+        """
+        Creates a Chain from a file path containing one or more PEM
+        certificate(s)
+
+        Arguments:
+             file_path -- The path to the file containing the PEM certificate(s)
+        """
         certificates = pki_tools.read_many_from_file(file_path)
         return cls(certificates=certificates)
 
     @classmethod
     def from_pem(cls: Type["Chain"], pem_certs: List[PemCert]) -> "Chain":
+        """
+        Creates a Chain from a list of
+        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+
+        Arguments:
+             pem_certs -- List of
+             [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+             to load into the chain
+        """
         certificates = []
         for pem_cert in pem_certs:
             certificates.append(pki_tools.cert_from_pem(pem_cert))
@@ -123,6 +184,16 @@ class Chain(BaseModel):
 
     @classmethod
     def from_uri(cls: Type["Chain"], chain_uri: ChainUri) -> "Chain":
+        """
+        Creates a Chain from a
+        [types.ChainUri](https://pki-tools.fulder.dev/pki_tools/types/#chainuri)
+
+        Arguments:
+             chain_uri --
+             [types.ChainUri](https://pki-tools.fulder.dev/pki_tools/types/#chainuri)
+             containing the URI where the certificate chain can be fetched
+             from.
+        """
         cache_ttl = round(time.time() / chain_uri.cache_time_seconds)
         return Chain._from_uri(chain_uri.uri, cache_ttl)
 
