@@ -72,7 +72,19 @@ class Chain(BaseModel):
 
     Attributes:
         certificates -- list of
-        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate),
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+    Examples:
+    From File::
+        chain = Chain.from_fle("/path/to/chain.pem")
+    From PEM::
+        pem_string="-----BEGIN CERTIFICATE-----...."
+        chain = Chain.from_pem(PemCert(pem_string))
+    From URI::
+        chain = Chain.from_uri("https://chain.domain/chain.pem")
+    Using Chain::
+        cert: x509.Certificate = ...
+        chain.check_chain()
+        chain.get_issuer(cert)
     """
 
     certificates: List[x509.Certificate]
