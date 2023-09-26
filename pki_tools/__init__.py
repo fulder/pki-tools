@@ -42,6 +42,16 @@ def cert_from_pem(cert_pem: str) -> x509.Certificate:
 
 
 def pem_from_cert(cert: x509.Certificate) -> str:
+    """
+    Converts a cert type into a PEM string
+
+    Arguments:
+        cert -- The
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+        certificate
+    Returns:
+        A string representing the PEM encoded certificate
+    """
     return cert.public_bytes(serialization.Encoding.PEM).decode()
 
 
