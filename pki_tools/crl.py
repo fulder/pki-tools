@@ -12,37 +12,14 @@ import pki_tools
 from pki_tools import types, exceptions
 
 
-def is_revoked(
-    cert: Union[x509.Certificate, types.PemCert], crl_cache_seconds: int = 3600
+def _is_revoked(
+    cert: Union[x509.Certificate, types.PemCert],
+    crl_issuer: types.Chain,
+    crl_cache_seconds: int = 3600,
 ) -> bool:
-    """
-    Checks if a certificate is revoked using the CRL extensions.
+    crl_issuer.check_chain()
+    logger.debug("CRL issuer chain valid")
 
-    Arguments:
-        cert -- The certificate to check revocation for. Can either be
-        a
-        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-        or a
-        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-        string
-        crl_cache_seconds -- Specifies how long the CRL should be
-        cached, default is 1 hour.
-    Returns:
-        True if the certificate is revoked, False otherwise
-    Raises:
-        [exceptions.ExtensionMissing](https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing)
-        -- When CRL extension is missing
-
-        [exceptions.CrlFetchFailure](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlfetchfailure)
-        -- When the CRL could not be fetched
-
-        [exceptions.CrlLoadError](https://pki-tools.fulder.dev/pki_tools/exceptions/#crlloaderror)
-        -- If CRL could be fetched successfully but could not be loaded e.g.
-        due invalid format or file
-
-        [exceptions.Error](https://pki-tools.fulder.dev/pki_tools/exceptions/#error)
-        -- If revocation check fails both with OCSP and CRL
-    """
     if types._is_pem_str(cert):
         cert = pki_tools.cert_from_pem(cert)
 
@@ -64,11 +41,16 @@ def is_revoked(
                 cache_ttl = round(time.time() / crl_cache_seconds)
                 crl = _get_crl_from_url(crl_url, cache_ttl=cache_ttl)
 
+                issuer = crl_issuer.get_issuer(crl)
+
+                pki_tools.verify_signature(crl, issuer)
+                logger.debug("CRL signature valid")
+
                 r = crl.get_revoked_certificate_by_serial_number(
                     cert.serial_number,
                 )
                 if r is not None:
-                    log.bind(date=str(r.revocation_date)).debug(
+                    log.bind(date=str(r.revocation_date)).info(
                         "Certificate revoked"
                     )
                     return True
@@ -76,7 +58,7 @@ def is_revoked(
         log.debug("CRL extension missing")
         raise exceptions.ExtensionMissing()
 
-    log.debug("Certificate valid")
+    log.info("Certificate valid")
     return False
 
 

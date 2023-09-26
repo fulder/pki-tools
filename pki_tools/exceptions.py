@@ -28,3 +28,27 @@ class CrlFetchFailure(Error):
 
 class CrlLoadError(Error):
     pass
+
+
+class RevokeCheckFailed(Error):
+    pass
+
+
+class CertIssuerMissingInChain(Error):
+    pass
+
+
+class NotCompleteChain(Error):
+    pass
+
+
+class CertExpired(Error):
+    pass
+
+
+class SignatureVerificationFailed(Error):
+    pass
+
+
+class InvalidSignedType(Error):
+    pass

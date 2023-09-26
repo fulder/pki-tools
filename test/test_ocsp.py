@@ -1,11 +1,11 @@
 import pytest
 
 from pki_tools.exceptions import OcspFetchFailure
-from pki_tools.ocsp import is_revoked
+from pki_tools.ocsp import _is_revoked_multiple_issuers
 
 
-def test_ocsp_fetch_error(mocked_requests_get, cert):
+def test_ocsp_fetch_error(mocked_requests_get, cert, chain):
     mocked_requests_get.return_value.status_code = 503
 
     with pytest.raises(OcspFetchFailure):
-        is_revoked(cert, cert)
+        _is_revoked_multiple_issuers(cert, chain, chain)
