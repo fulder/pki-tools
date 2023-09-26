@@ -1225,7 +1225,7 @@ created from the PEM</p>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L113">Show source in <strong>init</strong>.py:113</a></p>
 <p>Checks if a certificate is revoked first using the OCSP extension and then
 the CRL extensions.</p>
-<p>Note that OCSP has precedence to CRL meaning that if OCSP check is
+<p>Note that OCSP has precedence over CRL meaning that if OCSP check is
 successful this function will return the bool without checking CRL.</p>
 <p>Otherwise, if OCSP check fails, CRL will be tried next.</p>
 <h4 id="arguments_2">Arguments</h4>
@@ -1264,7 +1264,7 @@ or some signature in the chain is invalid</p>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L48">Show source in <strong>init</strong>.py:48</a></p>
 <p>Checks if a certificate is revoked first using the OCSP extension and then
 the CRL extensions.</p>
-<p>Note that OCSP has precedence to CRL meaning that if OCSP check is
+<p>Note that OCSP has precedence over CRL meaning that if OCSP check is
 successful this function will return the bool without checking CRL.</p>
 <p>Otherwise, if OCSP check fails, CRL will be tried next.</p>
 <h4 id="arguments_3">Arguments</h4>

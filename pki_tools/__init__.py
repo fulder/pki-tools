@@ -56,7 +56,7 @@ def is_revoked_multiple_issuers(
     Checks if a certificate is revoked first using the OCSP extension and then
     the CRL extensions.
 
-    Note that OCSP has precedence to CRL meaning that if OCSP check is
+    Note that OCSP has precedence over CRL meaning that if OCSP check is
     successful this function will return the bool without checking CRL.
 
     Otherwise, if OCSP check fails, CRL will be tried next.
@@ -119,7 +119,7 @@ def is_revoked(
     Checks if a certificate is revoked first using the OCSP extension and then
     the CRL extensions.
 
-    Note that OCSP has precedence to CRL meaning that if OCSP check is
+    Note that OCSP has precedence over CRL meaning that if OCSP check is
     successful this function will return the bool without checking CRL.
 
     Otherwise, if OCSP check fails, CRL will be tried next.
