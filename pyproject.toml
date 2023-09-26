@@ -23,7 +23,7 @@ python = "^3.8"
 cryptography = ">=39.0.1,<42.0.0"
 requests = "^2.28.2"
 loguru = "^0.7.2"
-pydantic = "^2.3.0"
+pydantic = "^2.4.1"
 
 [tool.poetry.group.test]
 optional = true
@@ -42,7 +42,7 @@ ruff = ">=0.0.289,<0.0.292"
 
 
 [tool.poetry.group.dev.dependencies]
-mkdocs-material = "^9.3.1"
+mkdocs-material = "^9.4.2"
 handsdown = "^2.0.1"
 
 [tool.poetry-dynamic-versioning]
