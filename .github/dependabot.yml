@@ -20,3 +20,4 @@ updates:
       dependencies:
         patterns:
           - "*"
+    versioning-strategy: increase
