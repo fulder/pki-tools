@@ -53,7 +53,7 @@ def is_revoked_multiple_issuers(
     crl_cache_seconds: int = 3600,
 ):
     """
-    Checks if a certificate is revoked first the OCSP extension and then
+    Checks if a certificate is revoked first using the OCSP extension and then
     the CRL extensions.
 
     Note that OCSP has precedence to CRL meaning that if OCSP check is
@@ -116,7 +116,7 @@ def is_revoked(
     crl_cache_seconds: int = 3600,
 ) -> bool:
     """
-    Checks if a certificate is revoked first the OCSP extension and then
+    Checks if a certificate is revoked first using the OCSP extension and then
     the CRL extensions.
 
     Note that OCSP has precedence to CRL meaning that if OCSP check is
