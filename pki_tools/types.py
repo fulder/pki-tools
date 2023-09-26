@@ -74,6 +74,7 @@ class Chain(BaseModel):
         certificates -- list of
         [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate),
     """
+
     certificates: List[x509.Certificate]
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -153,9 +154,10 @@ class Chain(BaseModel):
             [exceptions.CertIssuerMissingInChain](https://pki-tools.fulder.dev/pki_tools/exceptions/#certissuermissinginchain)
             -- When the issuer of the entitie is missing in the chain
         """
+        cert_subject = signed.issuer.rfc4514_string()
+        log = logger.bind(subject=cert_subject)
+
         for next_chain_cert in self.certificates:
-            cert_subject = signed.issuer.rfc4514_string()
-            log = logger.bind(subject=cert_subject)
             if cert_subject == next_chain_cert.subject.rfc4514_string():
                 log.trace("Found issuer cert in chain")
                 return next_chain_cert
