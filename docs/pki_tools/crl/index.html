@@ -334,17 +334,6 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Crl
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -354,66 +343,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#is_revoked" class="md-nav__link">
-    is_revoked
-  </a>
-  
-    <nav class="md-nav" aria-label="is_revoked">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#returns" class="md-nav__link">
-    Returns
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#raises" class="md-nav__link">
-    Raises
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#signature" class="md-nav__link">
-    Signature
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -507,55 +436,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#is_revoked" class="md-nav__link">
-    is_revoked
-  </a>
-  
-    <nav class="md-nav" aria-label="is_revoked">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#returns" class="md-nav__link">
-    Returns
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#raises" class="md-nav__link">
-    Raises
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#signature" class="md-nav__link">
-    Signature
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -579,37 +459,6 @@ Crl</p>
 <blockquote>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/crl.py">pki_tools.crl</a> module.</p>
 </blockquote>
-<h2 id="is_revoked">is_revoked</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/crl.py#L15">Show source in crl.py:15</a></p>
-<p>Checks if a certificate is revoked using the CRL extensions.</p>
-<h4 id="arguments">Arguments</h4>
-<ul>
-<li><code>cert</code> - The certificate to check revocation for. Can either be
-a
-<a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>
-or a
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#pemcert">types.PemCert</a>
-string</li>
-<li><code>crl_cache_seconds</code> - Specifies how long the CRL should be
-cached, default is 1 hour.</li>
-</ul>
-<h4 id="returns">Returns</h4>
-<p>True if the certificate is revoked, False otherwise</p>
-<h4 id="raises">Raises</h4>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing">exceptions.ExtensionMissing</a>
--- When CRL extension is missing</p>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#crlfetchfailure">exceptions.CrlFetchFailure</a>
--- When the CRL could not be fetched</p>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#crlloaderror">exceptions.CrlLoadError</a>
--- If CRL could be fetched successfully but could not be loaded e.g.
-due invalid format or file</p>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#error">exceptions.Error</a>
--- If revocation check fails both with OCSP and CRL</p>
-<h4 id="signature">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">is_revoked</span><span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">],</span> <span class="n">crl_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
 
 
 

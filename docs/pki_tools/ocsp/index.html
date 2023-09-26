@@ -374,17 +374,6 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Ocsp
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -394,66 +383,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#is_revoked" class="md-nav__link">
-    is_revoked
-  </a>
-  
-    <nav class="md-nav" aria-label="is_revoked">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#returns" class="md-nav__link">
-    Returns
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#raises" class="md-nav__link">
-    Raises
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#signature" class="md-nav__link">
-    Signature
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -507,55 +436,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#is_revoked" class="md-nav__link">
-    is_revoked
-  </a>
-  
-    <nav class="md-nav" aria-label="is_revoked">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
-    Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#returns" class="md-nav__link">
-    Returns
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#raises" class="md-nav__link">
-    Raises
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#signature" class="md-nav__link">
-    Signature
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -579,44 +459,6 @@ Ocsp</p>
 <blockquote>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/ocsp.py">pki_tools.ocsp</a> module.</p>
 </blockquote>
-<h2 id="is_revoked">is_revoked</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/ocsp.py#L48">Show source in ocsp.py:48</a></p>
-<p>Checks if a certificate is revoked using the OCSP extension.</p>
-<h4 id="arguments">Arguments</h4>
-<ul>
-<li><code>cert</code> - The certificate to check revocation for. Can either be
-a
-<a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>
-or a
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#pemcert">types.PemCert</a>
-string</li>
-<li><code>issuer_cert</code> - The issuer of the <code>cert</code>. Can be a
-<a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>,
-a <a href="https://pki-tools.fulder.dev/pki_tools/types/#pemcert">types.PemCert</a>
-string or
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri">types.OcspIssuerUri</a>
-including the URI to the
-issuer public cert</li>
-</ul>
-<h4 id="returns">Returns</h4>
-<p>True if the certificate is revoked, False otherwise</p>
-<h4 id="raises">Raises</h4>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#extensionmissing">exceptions.ExtensionMissing</a>
--- When OCSP extension is missing</p>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspfetchfailure">exceptions.OcspFetchFailure</a>
--- When OCSP fails getting response from the server</p>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspinvalidresponsestatus">exceptions.OcspInvalidResponseStatus</a>
--- When OCSP returns invalid response status</p>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#ocspissuerfetchfailure">exceptions.OcspIssuerFetchFailure</a>
--- When <code>issuer_cert</code> is of
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#ocspissueruri">types.OcspIssuerUri</a>
-type and fetching the public certificate fails</p>
-<h4 id="signature">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">is_revoked</span><span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">],</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">issuer_cert</span><span class="p">:</span> <span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">OcspIssuerUri</span><span class="p">],</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
 
 
 

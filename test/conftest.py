@@ -5,7 +5,6 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 
 
 from cryptography import x509
-from cryptography.x509 import NameOID
 
 import datetime
 
@@ -16,8 +15,7 @@ from cryptography.x509 import ocsp
 from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
-from pki_tools.ocsp import _get_issuer_from_uri
-from pki_tools.types import Subject
+from pki_tools.types import Subject, Chain, PemCert
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -40,14 +38,13 @@ def setup_loguru_logging(request):
     logger.remove()
     logger.add(
         sink=test_loguru_sink,  # Custom sink to print to stdout
-        level="DEBUG",  # Set the log level as desired
+        level="TRACE",  # Set the log level as desired
     )
 
 
 @pytest.fixture()
 def mocked_requests_get(mocker):
     _get_crl_from_url.cache_clear()
-    _get_issuer_from_uri.cache_clear()
     return mocker.patch("requests.get")
 
 
@@ -62,6 +59,11 @@ def key_pair():
 @pytest.fixture()
 def cert(key_pair):
     return _create_cert(key_pair)
+
+
+@pytest.fixture()
+def chain(cert_pem_string):
+    return Chain.from_pem([PemCert(cert_pem_string)])
 
 
 TEST_SUBJECT = Subject(
@@ -162,7 +164,7 @@ def _create_mocked_ocsp_response(
     builder = builder.add_response(
         cert=cert,
         issuer=cert,
-        algorithm=hashes.SHA256(),
+        algorithm=hashes.SHA1(),
         cert_status=status,
         this_update=datetime.datetime.now(),
         next_update=datetime.datetime.now(),
@@ -172,16 +174,10 @@ def _create_mocked_ocsp_response(
     return builder.sign(key_pair, hashes.SHA256()).public_bytes(Encoding.DER)
 
 
-def _create_crl(keypair, revoked_serials):
+def _create_crl(keypair, revoked_serials, cert):
     one_day = datetime.timedelta(days=1)
     crl = x509.CertificateRevocationListBuilder()
-    crl = crl.issuer_name(
-        x509.Name(
-            [
-                x509.NameAttribute(NameOID.COMMON_NAME, "cryptography.io CA"),
-            ]
-        )
-    )
+    crl = crl.issuer_name(cert.subject)
     crl = crl.last_update(datetime.datetime.today())
     crl = crl.next_update(datetime.datetime.today() + one_day)
 

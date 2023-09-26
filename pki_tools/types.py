@@ -1,9 +1,18 @@
 import re
-from typing import List
+import time
+from datetime import datetime
+from functools import lru_cache
+from typing import List, Type
 
+import requests
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
+from cryptography.x509.ocsp import OCSPResponse
+from loguru import logger
 from pydantic import constr, BaseModel, Field, ConfigDict
+
+import pki_tools
+from pki_tools import exceptions
 
 
 class PemCert(str):
@@ -39,21 +48,191 @@ PEM_REGEX = re.compile(
 )
 
 
-class OcspIssuerUri(BaseModel):
+class ChainUri(BaseModel):
     """
-    Describes the OCSP Issuer (usually a CA) URI where the public certificate
+    Describes the CA chain URI where the public certificate(s)
     can be downloaded
 
     Examples::
-        OcspIssuerUri(uri="https://my.ca.link.com/ca.pem")
+        ChainUri(uri="https://my.ca.link.com/ca.pem")
     Attributes:
-        uri -- The URI for the public issuer certificate
+        uri -- The URI for the public CA certificate(s)
         cache_time_seconds -- Specifies how long the public cert should be
         cached, default is 1 month.
     """
 
     uri: constr(pattern=r"https*://.*")
     cache_time_seconds: int = 60 * 60 * 24 * 30
+
+
+class Chain(BaseModel):
+    """
+    Chain holds a list of certificates in a
+    [chain of trust](https://en.wikipedia.org/wiki/Chain_of_trust)
+
+    Attributes:
+        certificates -- list of
+        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+    Examples:
+    From File::
+        chain = Chain.from_fle("/path/to/chain.pem")
+    From PEM::
+        pem_string="-----BEGIN CERTIFICATE-----...."
+        chain = Chain.from_pem(PemCert(pem_string))
+    From URI::
+        chain = Chain.from_uri("https://chain.domain/chain.pem")
+    Using Chain::
+        cert: x509.Certificate = ...
+        chain.check_chain()
+        chain.get_issuer(cert)
+    """
+
+    certificates: List[x509.Certificate]
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    def check_chain(self):
+        """
+        Validate the chain (if it contains more than one certificate)
+        checking expiration and signatures of all certificates in the chain
+
+        Raises:
+            [exceptions.NotCompleteChain](https://pki-tools.fulder.dev/pki_tools/exceptions/#notcompletechain)
+            -- When the chain contain only one not self-signed certificate
+
+            [exceptions.CertExpired](https://pki-tools.fulder.dev/pki_tools/exceptions/#certexpired)
+            -- If some certificate in the chain has expired
+
+            [exceptions.InvalidSignedType](https://pki-tools.fulder.dev/pki_tools/exceptions/#invalidsignedtype)
+            -- When the issuer has a non-supported type
+
+            [exceptions.SignatureVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed)
+            -- When the signature verification fails
+        """
+        if len(self.certificates) == 1:
+            if (
+                self.certificates[0].issuer.rfc4514_string()
+                == self.certificates[0].subject.rfc4514_string()
+            ):
+                logger.debug(
+                    "Chain contains only one self signed cert, "
+                    "nothing to check"
+                )
+                return
+            else:
+                raise exceptions.NotCompleteChain()
+
+        for cert in self.certificates:
+            log = logger.bind(subject=cert.subject)
+            if (
+                cert.not_valid_after < datetime.now()
+                or cert.not_valid_before > datetime.now()
+            ):
+                log.error("Certificate expired")
+                raise exceptions.CertExpired(
+                    f"Certificate in chain with subject: '{cert.subject}' "
+                    f"has expired"
+                )
+
+            issuer = self.get_issuer(cert)
+
+            pki_tools.verify_signature(cert, issuer)
+
+    def get_issuer(
+        self,
+        signed: [
+            x509.Certificate,
+            x509.CertificateRevocationList,
+            OCSPResponse,
+        ],
+    ) -> x509.Certificate:
+        """
+        Returns the issuer of a signed entity
+
+        Arguments:
+            signed: The signed certificate can either be a
+            [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate),
+            [x509.CertificateRevocationList](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CertificateRevocationList)
+            or a
+            [x509.CertificateRevocationList](https://cryptography.io/en/latest/x509/ocsp/#cryptography.x509.ocsp.OCSPResponse)
+            issuer: The issuer of the signed entity
+
+        Returns:
+            The
+            [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
+            representing the issuer of the `signed` entity
+
+        Raises:
+            [exceptions.CertIssuerMissingInChain](https://pki-tools.fulder.dev/pki_tools/exceptions/#certissuermissinginchain)
+            -- When the issuer of the entitie is missing in the chain
+        """
+        cert_subject = signed.issuer.rfc4514_string()
+        log = logger.bind(subject=cert_subject)
+
+        for next_chain_cert in self.certificates:
+            if cert_subject == next_chain_cert.subject.rfc4514_string():
+                log.trace("Found issuer cert in chain")
+                return next_chain_cert
+
+        raise exceptions.CertIssuerMissingInChain()
+
+    @classmethod
+    def from_file(cls: Type["Chain"], file_path: str) -> "Chain":
+        """
+        Creates a Chain from a file path containing one or more PEM
+        certificate(s)
+
+        Arguments:
+             file_path -- The path to the file containing the PEM certificate(s)
+        """
+        certificates = pki_tools.read_many_from_file(file_path)
+        return cls(certificates=certificates)
+
+    @classmethod
+    def from_pem(cls: Type["Chain"], pem_certs: List[PemCert]) -> "Chain":
+        """
+        Creates a Chain from a list of
+        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+
+        Arguments:
+             pem_certs -- List of
+             [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+             to load into the chain
+        """
+        certificates = []
+        for pem_cert in pem_certs:
+            certificates.append(pki_tools.cert_from_pem(pem_cert))
+        return cls(certificates=certificates)
+
+    @classmethod
+    def from_uri(cls: Type["Chain"], chain_uri: ChainUri) -> "Chain":
+        """
+        Creates a Chain from a
+        [types.ChainUri](https://pki-tools.fulder.dev/pki_tools/types/#chainuri)
+
+        Arguments:
+             chain_uri --
+             [types.ChainUri](https://pki-tools.fulder.dev/pki_tools/types/#chainuri)
+             containing the URI where the certificate chain can be fetched
+             from.
+        """
+        cache_ttl = round(time.time() / chain_uri.cache_time_seconds)
+        return Chain._from_uri(chain_uri.uri, cache_ttl)
+
+    @classmethod
+    @lru_cache(maxsize=None)
+    def _from_uri(cls: Type["Chain"], uri: str, ttl=None) -> "Chain":
+        ret = requests.get(uri)
+
+        if ret.status_code != 200:
+            logger.bind(status=ret.status_code).error(
+                "Failed to fetch issuer from URI"
+            )
+            raise pki_tools.exceptions.OcspIssuerFetchFailure(
+                f"Issuer URI fetch failed. Status: {ret.status_code}"
+            )
+
+        return cls(certificates=x509.load_pem_x509_certificates(ret.content))
 
 
 class Subject(BaseModel):

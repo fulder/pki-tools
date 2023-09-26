@@ -27,7 +27,7 @@ Documentation is available at: [https://pki-tools.fulder.dev](https://pki-tools.
 
 ```python
 from pki_tools import is_revoked
-from pki_tools.types import PemCert
+from pki_tools.types import PemCert, Chain
 
 cert_pem = """
 -----BEGIN CERTIFICATE-----
@@ -39,8 +39,9 @@ issuer_cert_pem = """
 <ISSUER_CERT_PEM_BYTES>
 -----END CERTIFICATE-----
 """
+chain = Chain.from_pem([PemCert(issuer_cert_pem)])
 
-if is_revoked(PemCert(cert_pem), PemCert(issuer_cert_pem)):
+if is_revoked(PemCert(cert_pem), chain):
     print("Certificate Revoked!")
 ```
 
