@@ -142,7 +142,7 @@ def _verify_ocsp_signature(
     except Exception as e:
         logger.bind(
             exceptionType=type(e),
-            exception= str(e),
+            exception=str(e),
             issuerHash=ocsp_response.issuer_key_hash,
         ).error("Couldn't convert issuer key hash to hex")
         raise
