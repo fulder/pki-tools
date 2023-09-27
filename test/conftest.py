@@ -164,7 +164,7 @@ def _create_mocked_ocsp_response(
     builder = builder.add_response(
         cert=cert,
         issuer=cert,
-        algorithm=hashes.SHA1(),
+        algorithm=hashes.SHA256(),
         cert_status=status,
         this_update=datetime.datetime.now(),
         next_update=datetime.datetime.now(),
