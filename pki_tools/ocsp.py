@@ -135,10 +135,17 @@ def _get_ocsp_status(uri) -> OCSPResponse:
 def _verify_ocsp_signature(
     ocsp_response: OCSPResponse, issuer_chain: types.Chain
 ):
-    logger.info(ocsp_response.issuer_key_hash)
-    ocsp_response_key_hash = binascii.hexlify(
-        ocsp_response.issuer_key_hash
-    ).decode()
+    try:
+        ocsp_response_key_hash = binascii.hexlify(
+            ocsp_response.issuer_key_hash
+        ).decode()
+    except Exception as e:
+        logger.bind(
+            exceptionType=type(e),
+            exception= str(e),
+            issuerHash=ocsp_response.issuer_key_hash,
+        ).error("Couldn't convert issuer key hash to hex")
+        raise
 
     for issuer_cert in issuer_chain.certificates:
         hash_algorithm = hashlib.new(ocsp_response.hash_algorithm.name)
@@ -153,6 +160,7 @@ def _verify_ocsp_signature(
         if cert_public_hash == ocsp_response_key_hash:
             break
     else:
-        raise exceptions.Error("Couldn't find ocsp response issuer")
+        logger.error("Couldn't find OCSP response issuer")
+        raise exceptions.Error("Couldn't find OCSP response issuer")
 
     pki_tools.verify_signature(ocsp_response, issuer_cert)
