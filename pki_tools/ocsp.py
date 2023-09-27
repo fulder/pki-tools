@@ -135,8 +135,9 @@ def _get_ocsp_status(uri) -> OCSPResponse:
 def _verify_ocsp_signature(
     ocsp_response: OCSPResponse, issuer_chain: types.Chain
 ):
+    logger.info(ocsp_response.issuer_key_hash)
     ocsp_response_key_hash = binascii.hexlify(
-        ocsp_response.responder_key_hash
+        ocsp_response.issuer_key_hash
     ).decode()
 
     for issuer_cert in issuer_chain.certificates:
