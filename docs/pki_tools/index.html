@@ -1221,7 +1221,7 @@ Pki Tools</p>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py">pki_tools</a> module.</p>
 </blockquote>
 <h2 id="cert_from_pem">cert_from_pem</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L22">Show source in <strong>init</strong>.py:22</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L24">Show source in <strong>init</strong>.py:24</a></p>
 <p>Loads a certificate from a PEM string into a
 <a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>
 object</p>
@@ -1239,7 +1239,7 @@ created from the PEM</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">cert_from_pem</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="get_cert_serial">get_cert_serial</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L259">Show source in <strong>init</strong>.py:259</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L261">Show source in <strong>init</strong>.py:261</a></p>
 <p>Parses the certificate serial into hex format</p>
 <h4 id="arguments_1">Arguments</h4>
 <ul>
@@ -1252,7 +1252,7 @@ created from the PEM</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">get_cert_serial</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="is_revoked">is_revoked</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L123">Show source in <strong>init</strong>.py:123</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L125">Show source in <strong>init</strong>.py:125</a></p>
 <p>Checks if a certificate is revoked first using the OCSP extension and then
 the CRL extensions.</p>
 <p>Note that OCSP has precedence over CRL meaning that if OCSP check is
@@ -1291,7 +1291,7 @@ or some signature in the chain is invalid</p>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="is_revoked_multiple_issuers">is_revoked_multiple_issuers</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L58">Show source in <strong>init</strong>.py:58</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L60">Show source in <strong>init</strong>.py:60</a></p>
 <p>Checks if a certificate is revoked first using the OCSP extension and then
 the CRL extensions.</p>
 <p>Note that OCSP has precedence over CRL meaning that if OCSP check is
@@ -1335,7 +1335,7 @@ or some signature in the chain is invalid</p>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="parse_subject">parse_subject</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L229">Show source in <strong>init</strong>.py:229</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L231">Show source in <strong>init</strong>.py:231</a></p>
 <p>Parses a certificate and returns a
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#subject">types.Subject</a>
 containing all the
@@ -1357,7 +1357,7 @@ with all the available attributes</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">parse_subject</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">PemCert</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">Subject</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="pem_from_cert">pem_from_cert</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L44">Show source in <strong>init</strong>.py:44</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L46">Show source in <strong>init</strong>.py:46</a></p>
 <p>Converts a cert type into a PEM string</p>
 <h4 id="arguments_5">Arguments</h4>
 <ul>
@@ -1371,7 +1371,7 @@ certificate</li>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">pem_from_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="read_from_file">read_from_file</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L193">Show source in <strong>init</strong>.py:193</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L195">Show source in <strong>init</strong>.py:195</a></p>
 <p>Reads a file containing one PEM certificate into a
 <a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>
 object</p>
@@ -1387,7 +1387,7 @@ representing the certificate from file</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span> <span class="nf">read_from_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="read_many_from_file">read_many_from_file</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L210">Show source in <strong>init</strong>.py:210</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L212">Show source in <strong>init</strong>.py:212</a></p>
 <p>Reads a file containing one or more PEM certificate(s) into a list of
 <a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">x509.Certificate</a>
 object</p>
@@ -1403,7 +1403,7 @@ representing the certificate(s) from file</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">def</span> <span class="nf">read_many_from_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">]:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="save_to_file">save_to_file</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L167">Show source in <strong>init</strong>.py:167</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L169">Show source in <strong>init</strong>.py:169</a></p>
 <p>Saves one or more certificate(s) into a file</p>
 <h4 id="arguments_8">Arguments</h4>
 <ul>
@@ -1420,7 +1420,7 @@ or a list of
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="verify_signature">verify_signature</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L275">Show source in <strong>init</strong>.py:275</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L277">Show source in <strong>init</strong>.py:277</a></p>
 <p>Verifies a signature of a signed entity agains the issuer certificate</p>
 <h4 id="arguments_9">Arguments</h4>
 <ul>

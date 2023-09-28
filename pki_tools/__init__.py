@@ -1,8 +1,6 @@
-import inspect
 from collections import defaultdict
-from functools import lru_cache
 
-import requests
+import httpx
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.x509.ocsp import OCSPResponse
@@ -17,6 +15,10 @@ from typing import Union, List
 from cryptography import x509
 
 from loguru import logger
+
+HTTPX_CLIENT = httpx.Client(
+    transport=httpx.HTTPTransport(retries=2), timeout=15
+)
 
 
 def cert_from_pem(cert_pem: str) -> x509.Certificate:

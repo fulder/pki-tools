@@ -2,7 +2,6 @@ import time
 from functools import lru_cache
 from typing import Union
 
-import requests
 from cryptography import x509
 from cryptography.x509.extensions import ExtensionNotFound
 from cryptography.x509.oid import ExtensionOID
@@ -66,7 +65,7 @@ def _is_revoked(
 def _get_crl_from_url(crl_url, cache_ttl=None):
     del cache_ttl
 
-    ret = requests.get(crl_url)
+    ret = pki_tools.HTTPX_CLIENT.get(crl_url)
 
     if ret.status_code != 200:
         logger.bind(
