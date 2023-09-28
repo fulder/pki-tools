@@ -45,7 +45,7 @@ def setup_loguru_logging(request):
 @pytest.fixture()
 def mocked_requests_get(mocker):
     _get_crl_from_url.cache_clear()
-    return mocker.patch("requests.get")
+    return mocker.patch("httpx.Client.get")
 
 
 @pytest.fixture()
