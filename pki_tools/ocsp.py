@@ -2,7 +2,6 @@ import base64
 import binascii
 import hashlib
 
-import requests
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives._serialization import (
@@ -109,7 +108,7 @@ def _check_ocsp_status(
 
 
 def _get_ocsp_status(uri) -> OCSPResponse:
-    ret = requests.get(
+    ret = pki_tools.HTTPX_CLIENT.get(
         uri, headers={"Content-Type": "application/ocsp-request"}
     )
 
