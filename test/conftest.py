@@ -15,7 +15,7 @@ from cryptography.x509 import ocsp
 from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
-from pki_tools.types import Subject, Chain, PemCert
+from pki_tools.types import Subject, Chain
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -63,7 +63,7 @@ def cert(key_pair):
 
 @pytest.fixture()
 def chain(cert_pem_string):
-    return Chain.from_pem([PemCert(cert_pem_string)])
+    return Chain.from_pem_str(cert_pem_string)
 
 
 TEST_SUBJECT = Subject(

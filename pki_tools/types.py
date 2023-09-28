@@ -46,6 +46,7 @@ class PemCert(str):
 PEM_REGEX = re.compile(
     r"\s*-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+\s*"
 )
+CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 
 
 class ChainUri(BaseModel):
@@ -62,7 +63,7 @@ class ChainUri(BaseModel):
     """
 
     uri: constr(pattern=r"https*://.*")
-    cache_time_seconds: int = 60 * 60 * 24 * 30
+    cache_time_seconds: int = CACHE_TIME_SECONDS
 
 
 class Chain(BaseModel):
@@ -78,7 +79,7 @@ class Chain(BaseModel):
         chain = Chain.from_fle("/path/to/chain.pem")
     From PEM::
         pem_string="-----BEGIN CERTIFICATE-----...."
-        chain = Chain.from_pem(PemCert(pem_string))
+        chain = Chain.from_pem_str(pem_string)
     From URI::
         chain = Chain.from_uri("https://chain.domain/chain.pem")
     Using Chain::
@@ -189,33 +190,33 @@ class Chain(BaseModel):
         return cls(certificates=certificates)
 
     @classmethod
-    def from_pem(cls: Type["Chain"], pem_certs: List[PemCert]) -> "Chain":
+    def from_pem_str(cls: Type["Chain"], pem_certs: str) -> "Chain":
         """
-        Creates a Chain from a list of
-        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
+        Creates a Chain from a string containing one or more certificate(s)
+        in PEM format
 
         Arguments:
-             pem_certs -- List of
-             [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-             to load into the chain
+             pem_certs -- A string containing one or more certificate(s)
         """
-        certificates = []
-        for pem_cert in pem_certs:
-            certificates.append(pki_tools.cert_from_pem(pem_cert))
+        certificates = x509.load_pem_x509_certificates(pem_certs.encode())
         return cls(certificates=certificates)
 
     @classmethod
-    def from_uri(cls: Type["Chain"], chain_uri: ChainUri) -> "Chain":
+    def from_uri(
+        cls: Type["Chain"],
+        uri: str,
+        cache_time_seconds: int = CACHE_TIME_SECONDS,
+    ) -> "Chain":
         """
-        Creates a Chain from a
-        [types.ChainUri](https://pki-tools.fulder.dev/pki_tools/types/#chainuri)
+        Creates a Chain from a str URI
 
         Arguments:
-             chain_uri --
-             [types.ChainUri](https://pki-tools.fulder.dev/pki_tools/types/#chainuri)
-             containing the URI where the certificate chain can be fetched
-             from.
+             chain_uri -- A str containing the URI where the certificate
+             chain can be downloaded.
+             cache_time_seconds -- Decides how long the chain should be cached,
+             default is 1 month
         """
+        chain_uri = ChainUri(uri=uri, cache_time_seconds=cache_time_seconds)
         cache_ttl = round(time.time() / chain_uri.cache_time_seconds)
         return Chain._from_uri(chain_uri.uri, cache_ttl)
 

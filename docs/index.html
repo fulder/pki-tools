@@ -624,7 +624,7 @@
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="s2">&lt;ISSUER_CERT_PEM_BYTES&gt;</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="s2">-----END CERTIFICATE-----</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="s2">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">chain</span> <span class="o">=</span> <span class="n">Chain</span><span class="o">.</span><span class="n">from_pem</span><span class="p">([</span><span class="n">PemCert</span><span class="p">(</span><span class="n">issuer_cert_pem</span><span class="p">)])</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">chain</span> <span class="o">=</span> <span class="n">Chain</span><span class="o">.</span><span class="n">from_pem</span><span class="p">(</span><span class="n">issuer_cert_pem</span><span class="p">)</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="k">if</span> <span class="n">is_revoked</span><span class="p">(</span><span class="n">PemCert</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">),</span> <span class="n">chain</span><span class="p">):</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Certificate Revoked!&quot;</span><span class="p">)</span>

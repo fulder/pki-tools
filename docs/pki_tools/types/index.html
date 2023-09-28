@@ -514,11 +514,11 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#chainfrom_pem" class="md-nav__link">
-    Chain.from_pem
+  <a href="#chainfrom_pem_str" class="md-nav__link">
+    Chain.from_pem_str
   </a>
   
-    <nav class="md-nav" aria-label="Chain.from_pem">
+    <nav class="md-nav" aria-label="Chain.from_pem_str">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -531,13 +531,6 @@
           <li class="md-nav__item">
   <a href="#signature_3" class="md-nav__link">
     Signature
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See also
   </a>
   
 </li>
@@ -570,7 +563,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#see-also_1" class="md-nav__link">
+  <a href="#see-also" class="md-nav__link">
     See also
   </a>
   
@@ -861,11 +854,11 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#chainfrom_pem" class="md-nav__link">
-    Chain.from_pem
+  <a href="#chainfrom_pem_str" class="md-nav__link">
+    Chain.from_pem_str
   </a>
   
-    <nav class="md-nav" aria-label="Chain.from_pem">
+    <nav class="md-nav" aria-label="Chain.from_pem_str">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -878,13 +871,6 @@
           <li class="md-nav__item">
   <a href="#signature_3" class="md-nav__link">
     Signature
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    See also
   </a>
   
 </li>
@@ -917,7 +903,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#see-also_1" class="md-nav__link">
+  <a href="#see-also" class="md-nav__link">
     See also
   </a>
   
@@ -1108,7 +1094,7 @@ Types</p>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py">pki_tools.types</a> module.</p>
 </blockquote>
 <h2 id="chain">Chain</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L68">Show source in types.py:68</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L69">Show source in types.py:69</a></p>
 <p>Chain holds a list of certificates in a
 <a href="https://en.wikipedia.org/wiki/Chain_of_trust">chain of trust</a></p>
 <h4 id="attributes">Attributes</h4>
@@ -1122,7 +1108,7 @@ Types</p>
 </code></pre></div>
 <p>From PEM</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">pem_string</span><span class="o">=</span><span class="s2">&quot;-----BEGIN CERTIFICATE-----....&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">chain</span> <span class="o">=</span> <span class="n">Chain</span><span class="o">.</span><span class="n">from_pem</span><span class="p">(</span><span class="n">PemCert</span><span class="p">(</span><span class="n">pem_string</span><span class="p">))</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">chain</span> <span class="o">=</span> <span class="n">Chain</span><span class="o">.</span><span class="n">from_pem_str</span><span class="p">(</span><span class="n">pem_string</span><span class="p">)</span>
 </code></pre></div>
 <p>From URI</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">chain</span> <span class="o">=</span> <span class="n">Chain</span><span class="o">.</span><span class="n">from_uri</span><span class="p">(</span><span class="s2">&quot;https://chain.domain/chain.pem&quot;</span><span class="p">)</span>
@@ -1136,7 +1122,7 @@ Types</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span> <span class="nc">Chain</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="chaincheck_chain">Chain().check_chain</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L94">Show source in types.py:94</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L95">Show source in types.py:95</a></p>
 <p>Validate the chain (if it contains more than one certificate)
 checking expiration and signatures of all certificates in the chain</p>
 <h4 id="raises">Raises</h4>
@@ -1152,7 +1138,7 @@ checking expiration and signatures of all certificates in the chain</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">check_chain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="chainfrom_file">Chain.from_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L179">Show source in types.py:179</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L180">Show source in types.py:180</a></p>
 <p>Creates a Chain from a file path containing one or more PEM
 certificate(s)</p>
 <h4 id="arguments">Arguments</h4>
@@ -1163,43 +1149,40 @@ certificate(s)</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@classmethod</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Chain&quot;</span><span class="p">],</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Chain&quot;</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
-<h3 id="chainfrom_pem">Chain.from_pem</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L191">Show source in types.py:191</a></p>
-<p>Creates a Chain from a list of
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#pemcert">types.PemCert</a></p>
+<h3 id="chainfrom_pem_str">Chain.from_pem_str</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L192">Show source in types.py:192</a></p>
+<p>Creates a Chain from a string containing one or more certificate(s)
+in PEM format</p>
 <h4 id="arguments_1">Arguments</h4>
 <ul>
-<li><code>pem_certs</code> - List of
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#pemcert">types.PemCert</a>
-to load into the chain</li>
+<li><code>pem_certs</code> - A string containing one or more certificate(s)</li>
 </ul>
 <h4 id="signature_3">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">def</span> <span class="nf">from_pem</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Chain&quot;</span><span class="p">],</span> <span class="n">pem_certs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PemCert</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;Chain&quot;</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">def</span> <span class="nf">from_pem_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Chain&quot;</span><span class="p">],</span> <span class="n">pem_certs</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Chain&quot;</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="chainfrom_uri">Chain.from_uri</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L204">Show source in types.py:204</a></p>
+<p>Creates a Chain from a str URI</p>
+<h4 id="arguments_2">Arguments</h4>
+<ul>
+<li><code>chain_uri</code> - A str containing the URI where the certificate
+chain can be downloaded.</li>
+<li><code>cache_time_seconds</code> - Decides how long the chain should be cached,
+default is 1 month</li>
+</ul>
+<h4 id="signature_4">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">def</span> <span class="nf">from_uri</span><span class="p">(</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Chain&quot;</span><span class="p">],</span> <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache_time_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">CACHE_TIME_SECONDS</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Chain&quot;</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h4 id="see-also">See also</h4>
 <ul>
-<li><a href="#pemcert">PemCert</a></li>
-</ul>
-<h3 id="chainfrom_uri">Chain.from_uri</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L207">Show source in types.py:207</a></p>
-<p>Creates a Chain from a
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#chainuri">types.ChainUri</a></p>
-<h4 id="arguments_2">Arguments</h4>
-<p>chain_uri --
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#chainuri">types.ChainUri</a>
-containing the URI where the certificate chain can be fetched
-from.</p>
-<h4 id="signature_4">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">def</span> <span class="nf">from_uri</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Chain&quot;</span><span class="p">],</span> <span class="n">chain_uri</span><span class="p">:</span> <span class="n">ChainUri</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Chain&quot;</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<h4 id="see-also_1">See also</h4>
-<ul>
-<li><a href="#chainuri">ChainUri</a></li>
+<li><a href="#cache_time_seconds">CACHE_TIME_SECONDS</a></li>
 </ul>
 <h3 id="chainget_issuer">Chain().get_issuer</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L141">Show source in types.py:141</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L142">Show source in types.py:142</a></p>
 <p>Returns the issuer of a signed entity</p>
 <h4 id="arguments_3">Arguments</h4>
 <ul>
@@ -1223,7 +1206,7 @@ representing the issuer of the <code>signed</code> entity</p>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="chainuri">ChainUri</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L51">Show source in types.py:51</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L52">Show source in types.py:52</a></p>
 <p>Describes the CA chain URI where the public certificate(s)
 can be downloaded</p>
 <h4 id="examples_1">Examples</h4>
@@ -1266,7 +1249,7 @@ cached, default is 1 month.</li>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">class</span> <span class="nc">PemCert</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="subject">Subject</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L238">Show source in types.py:238</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L239">Show source in types.py:239</a></p>
 <p>Subject type describes certificate subject or issuer.
 The attributes are following the
 <a href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4">RFC5280#Section-4.1.2.4</a></p>
@@ -1294,7 +1277,7 @@ multivalued RDNs.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">class</span> <span class="nc">Subject</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="subjectto_crypto_name">Subject().to_crypto_name</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L300">Show source in types.py:300</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types.py#L301">Show source in types.py:301</a></p>
 <h4 id="signature_9">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">def</span> <span class="nf">to_crypto_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Name</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>

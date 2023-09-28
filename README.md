@@ -39,7 +39,7 @@ issuer_cert_pem = """
 <ISSUER_CERT_PEM_BYTES>
 -----END CERTIFICATE-----
 """
-chain = Chain.from_pem([PemCert(issuer_cert_pem)])
+chain = Chain.from_pem(issuer_cert_pem)
 
 if is_revoked(PemCert(cert_pem), chain):
     print("Certificate Revoked!")
