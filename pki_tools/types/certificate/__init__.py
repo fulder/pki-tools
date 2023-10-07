@@ -19,7 +19,7 @@ from cryptography.hazmat.primitives.asymmetric.types import (
 
 from cryptography.x509.extensions import (
     Extensions as x509Extensions,
-AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
+    AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
     ExtensionNotFound,
     ExtensionTypeVar,
 )

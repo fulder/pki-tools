@@ -10,7 +10,7 @@ from . import crl
 from . import exceptions
 
 from .types.certificate import Certificate, Subject
-from .types import Chain
+from .types import Chain, PemCert, _is_pem_str
 
 from typing import Union, List
 
@@ -60,10 +60,10 @@ def pem_from_cert(cert: x509.Certificate) -> str:
 
 
 def is_revoked_multiple_issuers(
-    cert: Union[x509.Certificate, types.PemCert],
-    cert_issuer: types.Chain,
-    ocsp_issuer: types.Chain,
-    crl_issuer: types.Chain,
+    cert: Union[x509.Certificate, PemCert],
+    cert_issuer: Chain,
+    ocsp_issuer: Chain,
+    crl_issuer: Chain,
     crl_cache_seconds: int = 3600,
 ):
     """
@@ -125,8 +125,8 @@ def is_revoked_multiple_issuers(
 
 
 def is_revoked(
-    cert: Union[x509.Certificate, types.PemCert],
-    chain: types.Chain,
+    cert: Union[x509.Certificate, PemCert],
+    chain: Chain,
     crl_cache_seconds: int = 3600,
 ) -> bool:
     """
@@ -169,7 +169,7 @@ def is_revoked(
 
 
 def save_to_file(
-    certs: Union[List[x509.Certificate], List[types.PemCert]], file_path: str
+    certs: Union[List[x509.Certificate], List[PemCert]], file_path: str
 ):
     """
     Saves one or more certificate(s) into a file
@@ -230,9 +230,7 @@ def read_many_from_file(file_path: str) -> List[x509.Certificate]:
     return x509.load_pem_x509_certificates(cert_pem.encode())
 
 
-def parse_certificate(
-    cert: [x509.Certificate, types.PemCert]
-) -> Certificate:
+def parse_certificate(cert: [x509.Certificate, PemCert]) -> Certificate:
     """
     Parses a certificate and returns a
     [types.Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
@@ -251,10 +249,10 @@ def parse_certificate(
         A [types.Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
         with all the available attributes
     """
-    if types._is_pem_str(cert):
+    if _is_pem_str(cert):
         cert = cert_from_pem(cert)
 
-    return types.certificate.Certificate.parse_certificate(cert)
+    return Certificate.parse_certificate(cert)
 
 
 def verify_signature(

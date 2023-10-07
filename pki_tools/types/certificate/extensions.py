@@ -1,21 +1,20 @@
 import typing
-from typing import List, Type, Union, Optional, ClassVar
+from typing import List, Optional
 
 
-from cryptography.hazmat._oid import NameOID, ExtensionOID
+from cryptography.hazmat._oid import ExtensionOID
 from cryptography.hazmat.bindings._rust import ObjectIdentifier
 
 
 from cryptography.x509.extensions import (
     Extensions as x509Extensions,
-AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
+    AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
     ExtensionNotFound,
     ExtensionTypeVar,
 )
 
 from loguru import logger
-from pydantic import constr, BaseModel, Field, ConfigDict
-
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class AuthorityKeyIdentifier(BaseModel):
@@ -64,7 +63,9 @@ class SubjectKeyIdentifier(BaseModel):
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    authority_key_identifier: Optional[AuthorityKeyIdentifier] = Field(alias=ExtensionOID.AUTHORITY_KEY_IDENTIFIER.dotted_string, default=None)
+    authority_key_identifier: Optional[AuthorityKeyIdentifier] = Field(
+        alias=ExtensionOID.AUTHORITY_KEY_IDENTIFIER.dotted_string, default=None
+    )
     # subject_key_identifier: Optional[SubjectKeyIdentifier] = Field \
     #     (alias=ExtensionOID.AUTHORITY_KEY_IDENTIFIER.dotted_string, default=None)
 
@@ -78,7 +79,8 @@ class Extensions(BaseModel):
                 ext_val = cert_extensions.get_extension_for_oid(oid).value
 
                 classType = typing.get_args(field_info.annotation)[0]
-                extensions_dict[oid.dotted_string] = classType.from_cryptography(ext_val)
+                ext = classType.from_cryptography(ext_val)
+                extensions_dict[oid.dotted_string] = ext
             except ExtensionNotFound:
                 logger.debug(f"Extension with OID: {oid._name} not found")
 
@@ -86,7 +88,7 @@ class Extensions(BaseModel):
 
     @staticmethod
     def _get_extension_from_oid(
-            cert_extensions: x509Extensions, oid: ObjectIdentifier, classType
+        cert_extensions: x509Extensions, oid: ObjectIdentifier, classType
     ) -> Optional[ExtensionTypeVar]:
         try:
             ext_val = cert_extensions.get_extension_for_oid(oid).value

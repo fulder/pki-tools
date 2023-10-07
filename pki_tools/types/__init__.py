@@ -19,7 +19,7 @@ from cryptography.hazmat.primitives.asymmetric.types import (
 
 from cryptography.x509.extensions import (
     Extensions as x509Extensions,
-AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
+    AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
     ExtensionNotFound,
     ExtensionTypeVar,
 )
@@ -250,6 +250,7 @@ class Chain(BaseModel):
             )
 
         return cls(certificates=x509.load_pem_x509_certificates(ret.content))
+
 
 def _is_pem_str(check):
     if not isinstance(check, PemCert) and not isinstance(check, str):
