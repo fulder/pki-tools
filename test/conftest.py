@@ -11,11 +11,11 @@ import datetime
 import pytest
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives._serialization import Encoding
-from cryptography.x509 import ocsp
+from cryptography.x509 import ocsp, RFC822Name
 from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
-from pki_tools.types import Subject, Chain
+from pki_tools import Subject, Chain
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -146,6 +146,15 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             ),
             critical=False,
         )
+
+    cert_builder = cert_builder.add_extension(
+        x509.AuthorityKeyIdentifier(
+            key_identifier="TEST_KEY_IDENTIFIER".encode(),
+            authority_cert_issuer=[RFC822Name("TEST_NAME")],
+            authority_cert_serial_number=123132,
+        ),
+        critical=False,
+    )
 
     cert = cert_builder.sign(key_pair, hashes.SHA256())
 

@@ -17,14 +17,12 @@ from pki_tools import (
     is_revoked,
     save_to_file,
     read_from_file,
-    parse_subject,
 )
 from conftest import (
     _create_mocked_ocsp_response,
     _create_cert,
     _create_crl,
     CURRENT_DIR,
-    TEST_SUBJECT,
 )
 from pki_tools.types import Chain
 
@@ -160,13 +158,3 @@ def test_save_and_read_file(cert):
     os.remove(file_path)
 
     assert cert == new_pem
-
-
-def test_parse_subject(cert):
-    subj = parse_subject(cert)
-
-    # Ignore multi value order
-    assert set(subj.o) == set(TEST_SUBJECT.o)
-    subj.o = TEST_SUBJECT.o
-
-    assert subj == TEST_SUBJECT

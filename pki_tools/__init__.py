@@ -8,7 +8,9 @@ from cryptography.x509.ocsp import OCSPResponse
 from . import ocsp
 from . import crl
 from . import exceptions
-from . import types
+
+from .types.certificate import Certificate, Subject
+from .types import Chain
 
 from typing import Union, List
 
@@ -228,50 +230,31 @@ def read_many_from_file(file_path: str) -> List[x509.Certificate]:
     return x509.load_pem_x509_certificates(cert_pem.encode())
 
 
-def parse_subject(cert: [x509.Certificate, types.PemCert]) -> types.Subject:
+def parse_certificate(
+    cert: [x509.Certificate, types.PemCert]
+) -> Certificate:
     """
     Parses a certificate and returns a
-    [types.Subject](https://pki-tools.fulder.dev/pki_tools/types/#subject)
+    [types.Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
     containing all the
-    attributes present in
-    [RFC5280#Section-4.1.2.4](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4)
+    fields specified by
+    [RFC5280#Section-4.1.1](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.1)
 
     Arguments:
-        cert -- The certificate to check revocation for. Can either be
+        cert: The certificate to check revocation for. Can either be
         a
         [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
         or a
         [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
         string
     Returns:
-        A [types.Subject](https://pki-tools.fulder.dev/pki_tools/types/#subject)
+        A [types.Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
         with all the available attributes
     """
     if types._is_pem_str(cert):
         cert = cert_from_pem(cert)
 
-    cert_dict = defaultdict(set)
-    for attribute in cert.subject:
-        for att in cert.subject.get_attributes_for_oid(attribute.oid):
-            cert_dict[att.oid.dotted_string].add(att.value)
-
-    return types.Subject(**cert_dict)
-
-
-def get_cert_serial(cert: x509.Certificate) -> str:
-    """
-    Parses the certificate serial into hex format
-
-    Args:
-        cert: A
-        [x509.Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-
-    Returns:
-        String representing the hex value of the certificate serial number
-    """
-    serial = cert.serial_number
-    hex_serial = format(serial, "x").zfill(32)
-    return hex_serial
+    return types.certificate.Certificate.parse_certificate(cert)
 
 
 def verify_signature(
