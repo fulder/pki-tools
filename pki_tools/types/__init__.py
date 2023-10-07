@@ -1,31 +1,15 @@
-import binascii
 import re
 import time
-import typing
-from collections import defaultdict
 from datetime import datetime
 from functools import lru_cache
-from typing import List, Type, Union, Optional, ClassVar
+from typing import List, Type
 
 import requests
 from cryptography import x509
-from cryptography.hazmat._oid import NameOID, ExtensionOID
-from cryptography.hazmat.bindings._rust import ObjectIdentifier
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import padding, ec, dsa, rsa
-from cryptography.hazmat.primitives.asymmetric.types import (
-    CertificatePublicKeyTypes,
-)
 
-from cryptography.x509.extensions import (
-    Extensions as x509Extensions,
-    AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
-    ExtensionNotFound,
-    ExtensionTypeVar,
-)
 from cryptography.x509.ocsp import OCSPResponse
 from loguru import logger
-from pydantic import constr, BaseModel, Field, ConfigDict
+from pydantic import constr, BaseModel, ConfigDict
 
 import pki_tools
 from pki_tools import exceptions

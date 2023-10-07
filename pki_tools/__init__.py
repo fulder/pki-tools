@@ -1,4 +1,3 @@
-from collections import defaultdict
 
 import httpx
 from cryptography.hazmat.primitives import serialization
@@ -9,7 +8,7 @@ from . import ocsp
 from . import crl
 from . import exceptions
 
-from .types.certificate import Certificate, Subject
+from .types.certificate import Certificate
 from .types import Chain, PemCert, _is_pem_str
 
 from typing import Union, List
