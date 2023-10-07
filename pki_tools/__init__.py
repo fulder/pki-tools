@@ -1,4 +1,3 @@
-
 import httpx
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
@@ -8,7 +7,7 @@ from . import ocsp
 from . import crl
 from . import exceptions
 
-from .types.certificate import Certificate
+from .types.certificate import Certificate, Subject
 from .types import Chain, PemCert, _is_pem_str
 
 from typing import Union, List

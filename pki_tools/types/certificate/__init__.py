@@ -3,6 +3,7 @@ from collections import defaultdict
 from datetime import datetime
 from typing import List, Union, Optional
 
+
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 from cryptography.hazmat.primitives import hashes, serialization
