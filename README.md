@@ -2,28 +2,30 @@
 
 PKI tools exposes a high level `cryptography` API for e.g.:
 
-* checking revocation of certificates:
-    * using CRL defined in the x509 CRL
-      distribution points extension
-      (https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.1.13)
-    * using OCSP defined in the x509 Authority Information Access extension
-      (https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.2.1)
+* checking revocation of certificates using
+  [OCSP](https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.2.1)
+  with
+  [CRL](https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.1.13)
+  fallback
 * loading certificates from PEM format
+* parsing certificate fields
 * saving certificates to files
 * reading certificates from files
 
 ## Docs
 
-Documentation is available at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
+Documentation is available
+at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 
 ## Quickstart
 
 ### Install
+
 `pip install pki-tools`
 
 ### Usage
 
-#### Checking OCSP and CRL revocation
+#### Checking revocation using OCSP with CRL fallback
 
 ```python
 from pki_tools import is_revoked
