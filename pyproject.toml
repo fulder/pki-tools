@@ -22,7 +22,7 @@ repository = "https://github.com/fulder/pki-tools"
 python = "^3.8"
 cryptography = ">=39.0.1,<42.0.0"
 loguru = "^0.7.2"
-pydantic = "^2.4.1"
+pydantic = "^2.4.2"
 httpx = "^0.25.0"
 
 [tool.poetry.group.test]
@@ -38,11 +38,11 @@ optional = true
 
 [tool.poetry.group.lint.dependencies]
 black = "^23.1.0"
-ruff = ">=0.0.289,<0.0.292"
+ruff = ">=0.0.289,<0.0.293"
 
 
 [tool.poetry.group.dev.dependencies]
-mkdocs-material = "^9.4.2"
+mkdocs-material = "^9.4.4"
 handsdown = "^2.0.1"
 
 [tool.poetry-dynamic-versioning]
