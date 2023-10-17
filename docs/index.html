@@ -324,8 +324,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#checking-ocsp-and-crl-revocation" class="md-nav__link">
-    Checking OCSP and CRL revocation
+  <a href="#checking-revocation-using-ocsp-with-crl-fallback" class="md-nav__link">
+    Checking revocation using OCSP with CRL fallback
   </a>
   
 </li>
@@ -550,8 +550,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#checking-ocsp-and-crl-revocation" class="md-nav__link">
-    Checking OCSP and CRL revocation
+  <a href="#checking-revocation-using-ocsp-with-crl-fallback" class="md-nav__link">
+    Checking revocation using OCSP with CRL fallback
   </a>
   
 </li>
@@ -592,25 +592,24 @@
 <p><img alt="Python Badge" src="https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&amp;logo=python" /></p>
 <p>PKI tools exposes a high level <code>cryptography</code> API for e.g.:</p>
 <ul>
-<li>checking revocation of certificates:<ul>
-<li>using CRL defined in the x509 CRL
-  distribution points extension
-  (https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.1.13)</li>
-<li>using OCSP defined in the x509 Authority Information Access extension
-  (https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.2.1)</li>
-</ul>
-</li>
+<li>checking revocation of certificates using
+  <a href="https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.2.1">OCSP</a>
+  with
+  <a href="https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.1.13">CRL</a>
+  fallback</li>
 <li>loading certificates from PEM format</li>
+<li>parsing certificate fields</li>
 <li>saving certificates to files</li>
 <li>reading certificates from files</li>
 </ul>
 <h2 id="docs">Docs</h2>
-<p>Documentation is available at: <a href="https://pki-tools.fulder.dev">https://pki-tools.fulder.dev</a></p>
+<p>Documentation is available
+at: <a href="https://pki-tools.fulder.dev">https://pki-tools.fulder.dev</a></p>
 <h2 id="quickstart">Quickstart</h2>
 <h3 id="install">Install</h3>
 <p><code>pip install pki-tools</code></p>
 <h3 id="usage">Usage</h3>
-<h4 id="checking-ocsp-and-crl-revocation">Checking OCSP and CRL revocation</h4>
+<h4 id="checking-revocation-using-ocsp-with-crl-fallback">Checking revocation using OCSP with CRL fallback</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pki_tools</span> <span class="kn">import</span> <span class="n">is_revoked</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">pki_tools.types</span> <span class="kn">import</span> <span class="n">PemCert</span><span class="p">,</span> <span class="n">Chain</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>

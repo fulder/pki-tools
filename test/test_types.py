@@ -37,5 +37,6 @@ def test_subject_to_crypto_name():
 
 
 def test_parse_cert(cert):
+
     pki_cert = Certificate.parse_certificate(cert)
     print(pki_cert)

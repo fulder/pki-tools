@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field, ConfigDict
 
 import pki_tools
 from pki_tools.types.certificate.extensions import Extensions
-from pki_tools.types import _is_pem_str, PemCert
+from pki_tools.types import _is_pem_str, PemCert, _byte_to_hex
 
 
 class Subject(BaseModel):
@@ -202,6 +202,23 @@ class TbsCertificate(BaseModel):
         Extensions: {self.extensions}
         Signature Algorithm: {self.signature_algorithm.algorithm.name}"""
 
+    @property
+    def hex_serial(self) -> str:
+        """
+        Parses the certificate serial into hex format
+
+        Returns:
+            String representing the hex value of the certificate serial number
+        """
+        hex_serial = format(self.serial_number, "x").zfill(32)
+        return hex_serial.upper()
+
+    @property
+    def public_key(self) -> bytes:
+        return self.subject_public_key_info.public_bytes(
+            serialization.Encoding.Raw,
+            serialization.PublicFormat.Raw,
+        )
 
 class Certificate(TbsCertificate):
     model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -230,7 +247,7 @@ class Certificate(TbsCertificate):
                 cert.public_key()
             ),
             extensions=Extensions.from_cryptography(cert.extensions),
-            signature_value=binascii.hexlify(cert.signature).decode(),
+            signature_value=_byte_to_hex(cert.signature)
         )
 
     def __str__(self) -> str:
@@ -239,20 +256,3 @@ Certificate:
     TbsCertificate:{super().__str__()}
     Signature Value: {self.signature_value}"""
 
-    @property
-    def hex_serial(self) -> str:
-        """
-        Parses the certificate serial into hex format
-
-        Returns:
-            String representing the hex value of the certificate serial number
-        """
-        hex_serial = format(self.serial_number, "x").zfill(32)
-        return hex_serial
-
-    @property
-    def public_key(self) -> bytes:
-        return self.subject_public_key_info.public_bytes(
-            serialization.Encoding.Raw,
-            serialization.PublicFormat.Raw,
-        )

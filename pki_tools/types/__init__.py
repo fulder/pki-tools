@@ -1,3 +1,4 @@
+import binascii
 import re
 import time
 from datetime import datetime
@@ -241,3 +242,6 @@ def _is_pem_str(check):
         return False
 
     return re.match(PEM_REGEX, check)
+
+def _byte_to_hex(bytes_in: bytes):
+    return binascii.hexlify(bytes_in).decode().upper()

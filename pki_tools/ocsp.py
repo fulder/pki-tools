@@ -135,9 +135,7 @@ def _verify_ocsp_signature(
     ocsp_response: OCSPResponse, issuer_chain: types.Chain
 ):
     try:
-        ocsp_response_key_hash = binascii.hexlify(
-            ocsp_response.issuer_key_hash
-        ).decode()
+        ocsp_response_key_hash = types._byte_to_hex(ocsp_response.issuer_key_hash)
     except Exception as e:
         logger.bind(
             exceptionType=type(e),

@@ -153,8 +153,14 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             authority_cert_issuer=[RFC822Name("TEST_NAME")],
             authority_cert_serial_number=123132,
         ),
+        critical=True,
+    )
+    cert_builder = cert_builder.add_extension(
+        x509.SubjectKeyIdentifier("TEST_DIGEST".encode()),
         critical=False,
     )
+
+
 
     cert = cert_builder.sign(key_pair, hashes.SHA256())
 
