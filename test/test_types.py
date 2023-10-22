@@ -36,7 +36,7 @@ def test_subject_to_crypto_name():
     )
 
 
-def test_parse_cert(cert):
-
+def test_parse_cert(cert, cert_pem_string):
+    print(cert_pem_string)
     pki_cert = Certificate.parse_certificate(cert)
     print(pki_cert)

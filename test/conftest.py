@@ -132,6 +132,47 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             ),
             critical=False,
         )
+
+    cert_builder = cert_builder.add_extension(
+        x509.AuthorityKeyIdentifier(
+            key_identifier="TEST_KEY_IDENTIFIER".encode(),
+            authority_cert_issuer=[RFC822Name("TEST_NAME")],
+            authority_cert_serial_number=123132,
+        ),
+        critical=True,
+    )
+
+    cert_builder = cert_builder.add_extension(
+        x509.SubjectKeyIdentifier("TEST_DIGEST".encode()),
+        critical=False,
+    )
+
+    cert_builder = cert_builder.add_extension(
+        x509.CertificatePolicies(
+            [
+                x509.PolicyInformation(
+                    policy_identifier=x509.ObjectIdentifier("2.23.140.1.2.1"),
+                    policy_qualifiers=[
+                        x509.UserNotice(
+                            notice_reference=x509.NoticeReference(
+                                organization="TEST_ORGANIZATION",
+                                notice_numbers=[123, 456],
+                            ),
+                            explicit_text="TEST_EXPLICIT_TEXT"
+                        )
+                    ]
+                ),
+                x509.PolicyInformation(
+                    policy_identifier=x509.ObjectIdentifier("2.23.140.1.2.1"),
+                    policy_qualifiers=[
+                        "TEST_CPS"
+                    ]
+                )
+            ]
+        ),
+        critical=False
+    )
+
     if add_aia_extension:
         cert_builder = cert_builder.add_extension(
             x509.AuthorityInformationAccess(
@@ -146,20 +187,6 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             ),
             critical=False,
         )
-
-    cert_builder = cert_builder.add_extension(
-        x509.AuthorityKeyIdentifier(
-            key_identifier="TEST_KEY_IDENTIFIER".encode(),
-            authority_cert_issuer=[RFC822Name("TEST_NAME")],
-            authority_cert_serial_number=123132,
-        ),
-        critical=True,
-    )
-    cert_builder = cert_builder.add_extension(
-        x509.SubjectKeyIdentifier("TEST_DIGEST".encode()),
-        critical=False,
-    )
-
 
 
     cert = cert_builder.sign(key_pair, hashes.SHA256())

@@ -9,10 +9,14 @@ from cryptography.hazmat.bindings._rust import ObjectIdentifier
 
 from cryptography.x509.extensions import (
 Extension as x509Extension,
+CertificatePolicies as x509CertificatePolicies,
     Extensions as x509Extensions,
     AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
 SubjectKeyIdentifier as x509SubjectKeyIdentifier,
+PolicyInformation as x509PolicyInformation,
 KeyUsage as x509KeyUsage,
+UserNotice as x509UserNotice,
+NoticeReference as x509NoticeReference,
     ExtensionNotFound,
     ExtensionTypeVar,
 )
@@ -148,16 +152,99 @@ class KeyUsage(Extension):
                 {', '.join(true_fields)}"""
 
 
-class PolicyQualifierInfo(BaseModel):
-    id: str
+class NoticeReference(BaseModel):
+    organization: str
+    notice_numbers: list[int]
+
+    @classmethod
+    def from_cryptography(cls, notice_reference: x509NoticeReference):
+        return cls(
+            organization=notice_reference.organization,
+            notice_numbers=notice_reference.notice_numbers,
+        )
+
+    def __str__(self):
+        return f"""Organization: {self.organization}
+                            Notice Numbers: {self.notice_numbers}"""
+
+
+class UserNotice(BaseModel):
+    notice_reference: Optional[NoticeReference]
+    explicit_text: Optional[str]
+
+    @classmethod
+    def from_cryptography(cls, policy_info: x509UserNotice):
+        return cls(
+            notice_reference=NoticeReference.from_cryptography(policy_info.notice_reference),
+            explicit_text=policy_info.explicit_text,
+        )
+
+    def __str__(self):
+        return f"""User Notice:
+                            {self.notice_reference}
+                            Explicit Text: {self.explicit_text}"""
+
 
 class PolicyInformation(BaseModel):
     policy_identifier: str
-    policy_qualifiers: list[PolicyQualifierInfo]
+    policy_qualifiers: Optional[list[typing.Union[str, UserNotice]]]
+
+    @classmethod
+    def from_cryptography(cls, policy_info: x509PolicyInformation):
+        policy_qualifiers = None
+        if policy_info.policy_qualifiers is not None:
+            policy_qualifiers = []
+            for qualifier in policy_info.policy_qualifiers:
+                if isinstance(qualifier, str):
+                    policy_qualifiers.append(f"CPS: {qualifier}")
+                else:
+                    policy_qualifiers.append(UserNotice.from_cryptography(qualifier))
+
+        return cls(
+            policy_identifier=policy_info.policy_identifier.dotted_string,
+            policy_qualifiers=policy_qualifiers,
+        )
+
+    def __str__(self):
+        policy_qualifiers = ""
+        if self.policy_qualifiers is not None:
+            for qualifier in self.policy_qualifiers:
+                policy_qualifiers += f"""
+                            {qualifier}"""
+
+        ret = f"""
+                Policy Information:
+                    Policy Identifier: {self.policy_identifier}"""
+        if policy_qualifiers != "":
+            ret += f"""
+                    Policy Qualifiers: {policy_qualifiers}"""
+        return ret
+
+
 
 class CertificatePolicies(Extension):
     policy_information: List[PolicyInformation]
 
+    @classmethod
+    def from_cryptography(cls, extension: x509CertificatePolicies):
+        res = []
+        for policy_information in extension:
+            info = PolicyInformation.from_cryptography(policy_information)
+            res.append(info)
+
+        return cls(policy_information=res)
+
+    def __str__(self):
+        name = "Certificate Policies"
+        if self.critical:
+            name += " (critical)"
+
+        policy_info = ""
+        for info in self.policy_information:
+            policy_info += f"""{info}"""
+
+        return f"""
+            {name}: {policy_info}"""
 
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
@@ -171,7 +258,7 @@ class Extensions(BaseModel):
         alias=ExtensionOID.KEY_USAGE.dotted_string, default=None)
     certificate_policies: Optional[CertificatePolicies] = Field(
         alias=ExtensionOID.CERTIFICATE_POLICIES.dotted_string, default=None)
-
+    # policy_mappings
 
     @classmethod
     def from_cryptography(cls, cert_extensions: x509Extensions):
