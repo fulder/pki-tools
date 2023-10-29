@@ -171,21 +171,31 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
     )
 
     key_der = key_pair.public_key().public_bytes(encoding=serialization.Encoding.DER, format=serialization.PublicFormat.PKCS1)
+    generic_names = [
+        x509.DNSName(value="TEST_DNS_NAME"),
+        x509.DirectoryName(value=subject),
+        x509.IPAddress(ipaddress.IPv4Address("192.168.1.1")),
+        x509.OtherName(type_id=x509.ObjectIdentifier("1.2.3.4.5"),
+                       value=key_der),
+        x509.RFC822Name(value="TEST_RFC_NAME"),
+        x509.RegisteredID(value=x509.ObjectIdentifier("1.2.3.4.5")),
+        x509.UniformResourceIdentifier(
+            value="TEST_UNIFORM_RESOURCE_ID"),
+    ]
+
     cert_builder = cert_builder.add_extension(
         x509.SubjectAlternativeName(
-            [
-            x509.DNSName(value="TEST_DNS_NAME"),
-            x509.DirectoryName(value=subject),
-            x509.IPAddress(ipaddress.IPv4Address("192.168.1.1")),
-            x509.OtherName(type_id=x509.ObjectIdentifier("1.2.3.4.5"), value=key_der),
-            x509.RFC822Name(value="TEST_RFC_NAME"),
-            x509.RegisteredID(value=x509.ObjectIdentifier("1.2.3.4.5")),
-            x509.UniformResourceIdentifier(value="TEST_UNIFORM_RESOURCE_ID"),
-            ]
+            generic_names
         ),
         critical=False
     )
 
+    cert_builder = cert_builder.add_extension(
+        x509.IssuerAlternativeName(
+            generic_names
+        ),
+        critical=False
+    )
 
     cert_builder = cert_builder.add_extension(
         x509.PolicyConstraints(

@@ -21,6 +21,13 @@ from pki_tools.types import _byte_to_hex
 class Extension(BaseModel):
     critical: Optional[bool] = False
 
+    def __str__(self):
+        name = ''.join([' ' + c if c.isupper() else c for c in self.__class__.__name__])
+        if self.critical:
+            name += " (critical)"
+
+        return name
+
 
 
 class AuthorityKeyIdentifier(Extension):
@@ -45,6 +52,8 @@ class AuthorityKeyIdentifier(Extension):
         )
 
     def __str__(self):
+        name = super().__str__()
+
         ret = ""
         if self.key_identifier is not None:
             hex_key = _byte_to_hex(self.key_identifier)
@@ -62,9 +71,6 @@ class AuthorityKeyIdentifier(Extension):
             ret += f"""
                 Authority Cert Serial Number: {self.authority_cert_serial_number}"""
 
-        name = "Authority Key Identifier"
-        if self.critical:
-            name += " (critical)"
         if ret != "":
             return f"""
             {name}: {ret}"""
@@ -81,9 +87,8 @@ class SubjectKeyIdentifier(Extension):
         )
 
     def __str__(self):
-        name = "Subject Key Identifier"
-        if self.critical:
-            name += " (critical)"
+        name = super().__str__()
+
         hex_key = _byte_to_hex(self.subject_key_identifier)
         return f"""
             {name}:
@@ -126,9 +131,7 @@ class KeyUsage(Extension):
         )
 
     def __str__(self):
-        name = "Key Usage"
-        if self.critical:
-            name += " (critical)"
+        name = super().__str__()
 
         true_fields = []
         for field in self.model_fields:
@@ -171,7 +174,9 @@ class UserNotice(BaseModel):
         )
 
     def __str__(self):
-        return f"""User Notice:
+        name = super().__str__()
+
+        return f"""{name}:
                             {self.notice_reference}
                             Explicit Text: {self.explicit_text}"""
 
@@ -197,6 +202,8 @@ class PolicyInformation(BaseModel):
         )
 
     def __str__(self):
+        name = super().__str__()
+
         policy_qualifiers = ""
         if self.policy_qualifiers is not None:
             for qualifier in self.policy_qualifiers:
@@ -204,7 +211,7 @@ class PolicyInformation(BaseModel):
                             {qualifier}"""
 
         ret = f"""
-                Policy Information:
+                {name}:
                     Policy Identifier: {self.policy_identifier}"""
         if policy_qualifiers != "":
             ret += f"""
@@ -226,9 +233,7 @@ class CertificatePolicies(Extension):
         return cls(policy_information=res)
 
     def __str__(self):
-        name = "Certificate Policies"
-        if self.critical:
-            name += " (critical)"
+        name = super().__str__()
 
         policy_info = ""
         for info in self.policy_information:
@@ -258,9 +263,7 @@ class SubjectAlternativeName(Extension):
         return cls(general_names=names)
 
     def __str__(self):
-        name = "SubjectAlternativeName"
-        if self.critical:
-            name += " (critical)"
+        name = super().__str__()
 
         names_str = ""
         for general_name in self.general_names:
@@ -269,7 +272,6 @@ class SubjectAlternativeName(Extension):
 
         return f"""
             {name}: {names_str}"""
-
 
 
 
