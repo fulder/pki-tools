@@ -2,28 +2,19 @@ import binascii
 import typing
 from typing import List, Optional
 
-
+from cryptography import x509
 from cryptography.hazmat._oid import ExtensionOID
 from cryptography.hazmat.bindings._rust import ObjectIdentifier
 
 
 from cryptography.x509.extensions import (
-Extension as x509Extension,
-CertificatePolicies as x509CertificatePolicies,
-    Extensions as x509Extensions,
-    AuthorityKeyIdentifier as x509AuthorityKeyIdentifier,
-SubjectKeyIdentifier as x509SubjectKeyIdentifier,
-PolicyInformation as x509PolicyInformation,
-KeyUsage as x509KeyUsage,
-UserNotice as x509UserNotice,
-NoticeReference as x509NoticeReference,
     ExtensionNotFound,
     ExtensionTypeVar,
 )
 
 from loguru import logger
 from pydantic import BaseModel, Field, ConfigDict
-
+from pki_tools.types.certificate.name import Name
 from pki_tools.types import _byte_to_hex
 
 
@@ -38,7 +29,7 @@ class AuthorityKeyIdentifier(Extension):
     authority_cert_serial_number: Optional[int]
 
     @classmethod
-    def from_cryptography(cls, extension: x509AuthorityKeyIdentifier):
+    def from_cryptography(cls, extension: x509.AuthorityKeyIdentifier):
         issuers = []
         if extension.authority_cert_issuer is not None:
             for general_name in extension.authority_cert_issuer:
@@ -84,7 +75,7 @@ class SubjectKeyIdentifier(Extension):
     subject_key_identifier: bytes
 
     @classmethod
-    def from_cryptography(cls, extension: x509SubjectKeyIdentifier):
+    def from_cryptography(cls, extension: x509.SubjectKeyIdentifier):
         return cls(
             subject_key_identifier=extension.key_identifier
         )
@@ -112,7 +103,7 @@ class KeyUsage(Extension):
 
     @classmethod
     def from_cryptography(cls,
-                          extension: x509KeyUsage):
+                          extension: x509.KeyUsage):
         try:
             encipher_only=extension.encipher_only
         except ValueError:
@@ -157,7 +148,7 @@ class NoticeReference(BaseModel):
     notice_numbers: list[int]
 
     @classmethod
-    def from_cryptography(cls, notice_reference: x509NoticeReference):
+    def from_cryptography(cls, notice_reference: x509.NoticeReference):
         return cls(
             organization=notice_reference.organization,
             notice_numbers=notice_reference.notice_numbers,
@@ -173,7 +164,7 @@ class UserNotice(BaseModel):
     explicit_text: Optional[str]
 
     @classmethod
-    def from_cryptography(cls, policy_info: x509UserNotice):
+    def from_cryptography(cls, policy_info: x509.UserNotice):
         return cls(
             notice_reference=NoticeReference.from_cryptography(policy_info.notice_reference),
             explicit_text=policy_info.explicit_text,
@@ -190,7 +181,7 @@ class PolicyInformation(BaseModel):
     policy_qualifiers: Optional[list[typing.Union[str, UserNotice]]]
 
     @classmethod
-    def from_cryptography(cls, policy_info: x509PolicyInformation):
+    def from_cryptography(cls, policy_info: x509.PolicyInformation):
         policy_qualifiers = None
         if policy_info.policy_qualifiers is not None:
             policy_qualifiers = []
@@ -226,7 +217,7 @@ class CertificatePolicies(Extension):
     policy_information: List[PolicyInformation]
 
     @classmethod
-    def from_cryptography(cls, extension: x509CertificatePolicies):
+    def from_cryptography(cls, extension: x509.CertificatePolicies):
         res = []
         for policy_information in extension:
             info = PolicyInformation.from_cryptography(policy_information)
@@ -246,6 +237,42 @@ class CertificatePolicies(Extension):
         return f"""
             {name}: {policy_info}"""
 
+
+class SubjectAlternativeName(Extension):
+    general_names: list[str]
+    @classmethod
+    def from_cryptography(cls, extension: x509.SubjectAlternativeName):
+        names = []
+        for general_name in extension:
+            next_str = f"{type(general_name).__name__}: "
+            if isinstance(general_name, x509.OtherName):
+                value = _byte_to_hex(general_name.value)
+                next_str += f"{general_name.type_id.dotted_string} - {value}"
+            elif isinstance(general_name, x509.RegisteredID):
+                next_str += str(general_name.value.dotted_string)
+            elif isinstance(general_name, x509.DirectoryName):
+                next_str += str(Name.from_cryptography(general_name.value))
+            else:
+                next_str += str(general_name.value)
+            names.append(next_str)
+        return cls(general_names=names)
+
+    def __str__(self):
+        name = "SubjectAlternativeName"
+        if self.critical:
+            name += " (critical)"
+
+        names_str = ""
+        for general_name in self.general_names:
+            names_str += f"""
+                {general_name}"""
+
+        return f"""
+            {name}: {names_str}"""
+
+
+
+
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -259,9 +286,11 @@ class Extensions(BaseModel):
     certificate_policies: Optional[CertificatePolicies] = Field(
         alias=ExtensionOID.CERTIFICATE_POLICIES.dotted_string, default=None)
     # policy_mappings
+    subject_alternative_name: Optional[SubjectAlternativeName] = Field(
+        alias=ExtensionOID.SUBJECT_ALTERNATIVE_NAME.dotted_string, default=None)
 
     @classmethod
-    def from_cryptography(cls, cert_extensions: x509Extensions):
+    def from_cryptography(cls, cert_extensions: x509.Extensions):
         extensions_dict = {}
 
         for name, field_info in cls.model_fields.items():
@@ -281,7 +310,7 @@ class Extensions(BaseModel):
 
     @staticmethod
     def _get_extension_from_oid(
-        cert_extensions: x509Extensions, oid: ObjectIdentifier, classType
+        cert_extensions: x509.Extensions, oid: ObjectIdentifier, classType
     ) -> Optional[ExtensionTypeVar]:
         try:
             ext_val = cert_extensions.get_extension_for_oid(oid).value

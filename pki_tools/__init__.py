@@ -7,8 +7,9 @@ from . import ocsp
 from . import crl
 from . import exceptions
 
-from .types.certificate import Certificate, Subject
+from .types.certificate import Certificate
 from .types import Chain, PemCert, _is_pem_str
+from .types.certificate.name import Name    # noqa
 
 from typing import Union, List
 

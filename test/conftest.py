@@ -1,3 +1,4 @@
+import ipaddress
 import json
 import os
 
@@ -15,7 +16,7 @@ from cryptography.x509 import ocsp, RFC822Name
 from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
-from pki_tools import Subject, Chain
+from pki_tools import Chain, Name
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -66,7 +67,7 @@ def chain(cert_pem_string):
     return Chain.from_pem_str(cert_pem_string)
 
 
-TEST_SUBJECT = Subject(
+TEST_SUBJECT = Name(
     c=["US"],
     ou=["Org Unit"],
     dnq=["DNQ"],
@@ -107,10 +108,6 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         )
         .not_valid_after(
             datetime.datetime.utcnow() + datetime.timedelta(days=10),
-        )
-        .add_extension(
-            x509.SubjectAlternativeName([x509.DNSName("localhost")]),
-            critical=False,
         )
     )
 
@@ -169,6 +166,31 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
                     ]
                 )
             ]
+        ),
+        critical=False
+    )
+
+    key_der = key_pair.public_key().public_bytes(encoding=serialization.Encoding.DER, format=serialization.PublicFormat.PKCS1)
+    cert_builder = cert_builder.add_extension(
+        x509.SubjectAlternativeName(
+            [
+            x509.DNSName(value="TEST_DNS_NAME"),
+            x509.DirectoryName(value=subject),
+            x509.IPAddress(ipaddress.IPv4Address("192.168.1.1")),
+            x509.OtherName(type_id=x509.ObjectIdentifier("1.2.3.4.5"), value=key_der),
+            x509.RFC822Name(value="TEST_RFC_NAME"),
+            x509.RegisteredID(value=x509.ObjectIdentifier("1.2.3.4.5")),
+            x509.UniformResourceIdentifier(value="TEST_UNIFORM_RESOURCE_ID"),
+            ]
+        ),
+        critical=False
+    )
+
+
+    cert_builder = cert_builder.add_extension(
+        x509.PolicyConstraints(
+            require_explicit_policy=1,
+            inhibit_policy_mapping=2,
         ),
         critical=False
     )
