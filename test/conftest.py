@@ -155,46 +155,41 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
                                 organization="TEST_ORGANIZATION",
                                 notice_numbers=[123, 456],
                             ),
-                            explicit_text="TEST_EXPLICIT_TEXT"
+                            explicit_text="TEST_EXPLICIT_TEXT",
                         )
-                    ]
+                    ],
                 ),
                 x509.PolicyInformation(
                     policy_identifier=x509.ObjectIdentifier("2.23.140.1.2.1"),
-                    policy_qualifiers=[
-                        "TEST_CPS"
-                    ]
-                )
+                    policy_qualifiers=["TEST_CPS"],
+                ),
             ]
         ),
-        critical=False
+        critical=False,
     )
 
-    key_der = key_pair.public_key().public_bytes(encoding=serialization.Encoding.DER, format=serialization.PublicFormat.PKCS1)
+    key_der = key_pair.public_key().public_bytes(
+        encoding=serialization.Encoding.DER,
+        format=serialization.PublicFormat.PKCS1,
+    )
     generic_names = [
         x509.DNSName(value="TEST_DNS_NAME"),
         x509.DirectoryName(value=subject),
         x509.IPAddress(ipaddress.IPv4Address("192.168.1.1")),
-        x509.OtherName(type_id=x509.ObjectIdentifier("1.2.3.4.5"),
-                       value=key_der),
+        x509.OtherName(
+            type_id=x509.ObjectIdentifier("1.2.3.4.5"), value=key_der
+        ),
         x509.RFC822Name(value="TEST_RFC_NAME"),
         x509.RegisteredID(value=x509.ObjectIdentifier("1.2.3.4.5")),
-        x509.UniformResourceIdentifier(
-            value="TEST_UNIFORM_RESOURCE_ID"),
+        x509.UniformResourceIdentifier(value="TEST_UNIFORM_RESOURCE_ID"),
     ]
 
     cert_builder = cert_builder.add_extension(
-        x509.SubjectAlternativeName(
-            generic_names
-        ),
-        critical=False
+        x509.SubjectAlternativeName(generic_names), critical=False
     )
 
     cert_builder = cert_builder.add_extension(
-        x509.IssuerAlternativeName(
-            generic_names
-        ),
-        critical=False
+        x509.IssuerAlternativeName(generic_names), critical=False
     )
 
     cert_builder = cert_builder.add_extension(
@@ -202,7 +197,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             require_explicit_policy=1,
             inhibit_policy_mapping=2,
         ),
-        critical=False
+        critical=False,
     )
 
     if add_aia_extension:
@@ -219,7 +214,6 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             ),
             critical=False,
         )
-
 
     cert = cert_builder.sign(key_pair, hashes.SHA256())
 

@@ -1,4 +1,3 @@
-import binascii
 import typing
 from typing import List, Optional
 
@@ -22,12 +21,13 @@ class Extension(BaseModel):
     critical: Optional[bool] = False
 
     def __str__(self):
-        name = ''.join([' ' + c if c.isupper() else c for c in self.__class__.__name__])
+        name = "".join(
+            [" " + c if c.isupper() else c for c in self.__class__.__name__]
+        )
         if self.critical:
             name += " (critical)"
 
         return name
-
 
 
 class AuthorityKeyIdentifier(Extension):
@@ -82,9 +82,7 @@ class SubjectKeyIdentifier(Extension):
 
     @classmethod
     def from_cryptography(cls, extension: x509.SubjectKeyIdentifier):
-        return cls(
-            subject_key_identifier=extension.key_identifier
-        )
+        return cls(subject_key_identifier=extension.key_identifier)
 
     def __str__(self):
         name = super().__str__()
@@ -107,16 +105,15 @@ class KeyUsage(Extension):
     decipher_only: bool = False
 
     @classmethod
-    def from_cryptography(cls,
-                          extension: x509.KeyUsage):
+    def from_cryptography(cls, extension: x509.KeyUsage):
         try:
-            encipher_only=extension.encipher_only
+            encipher_only = extension.encipher_only
         except ValueError:
-            encipher_only=False
+            encipher_only = False
         try:
-            decipher_only=extension.decipher_only
+            decipher_only = extension.decipher_only
         except ValueError:
-            decipher_only=False
+            decipher_only = False
 
         return cls(
             digital_signature=extension.digital_signature,
@@ -169,7 +166,9 @@ class UserNotice(BaseModel):
     @classmethod
     def from_cryptography(cls, policy_info: x509.UserNotice):
         return cls(
-            notice_reference=NoticeReference.from_cryptography(policy_info.notice_reference),
+            notice_reference=NoticeReference.from_cryptography(
+                policy_info.notice_reference
+            ),
             explicit_text=policy_info.explicit_text,
         )
 
@@ -194,7 +193,9 @@ class PolicyInformation(BaseModel):
                 if isinstance(qualifier, str):
                     policy_qualifiers.append(f"CPS: {qualifier}")
                 else:
-                    policy_qualifiers.append(UserNotice.from_cryptography(qualifier))
+                    policy_qualifiers.append(
+                        UserNotice.from_cryptography(qualifier)
+                    )
 
         return cls(
             policy_identifier=policy_info.policy_identifier.dotted_string,
@@ -217,7 +218,6 @@ class PolicyInformation(BaseModel):
             ret += f"""
                     Policy Qualifiers: {policy_qualifiers}"""
         return ret
-
 
 
 class CertificatePolicies(Extension):
@@ -243,8 +243,9 @@ class CertificatePolicies(Extension):
             {name}: {policy_info}"""
 
 
-class SubjectAlternativeName(Extension):
+class AlternativeName(Extension):
     general_names: list[str]
+
     @classmethod
     def from_cryptography(cls, extension: x509.SubjectAlternativeName):
         names = []
@@ -268,11 +269,18 @@ class SubjectAlternativeName(Extension):
         names_str = ""
         for general_name in self.general_names:
             names_str += f"""
-                {general_name}"""
+                    {general_name}"""
 
         return f"""
             {name}: {names_str}"""
 
+
+class SubjectAlternativeName(AlternativeName):
+    pass
+
+
+class IssuerAlternativeName(AlternativeName):
+    pass
 
 
 class Extensions(BaseModel):
@@ -282,14 +290,21 @@ class Extensions(BaseModel):
         alias=ExtensionOID.AUTHORITY_KEY_IDENTIFIER.dotted_string, default=None
     )
     subject_key_identifier: Optional[SubjectKeyIdentifier] = Field(
-        alias=ExtensionOID.SUBJECT_KEY_IDENTIFIER.dotted_string, default=None)
+        alias=ExtensionOID.SUBJECT_KEY_IDENTIFIER.dotted_string, default=None
+    )
     key_usage: Optional[KeyUsage] = Field(
-        alias=ExtensionOID.KEY_USAGE.dotted_string, default=None)
+        alias=ExtensionOID.KEY_USAGE.dotted_string, default=None
+    )
     certificate_policies: Optional[CertificatePolicies] = Field(
-        alias=ExtensionOID.CERTIFICATE_POLICIES.dotted_string, default=None)
+        alias=ExtensionOID.CERTIFICATE_POLICIES.dotted_string, default=None
+    )
     # policy_mappings
     subject_alternative_name: Optional[SubjectAlternativeName] = Field(
-        alias=ExtensionOID.SUBJECT_ALTERNATIVE_NAME.dotted_string, default=None)
+        alias=ExtensionOID.SUBJECT_ALTERNATIVE_NAME.dotted_string, default=None
+    )
+    issuer_alternative_name: Optional[IssuerAlternativeName] = Field(
+        alias=ExtensionOID.ISSUER_ALTERNATIVE_NAME.dotted_string, default=None
+    )
 
     @classmethod
     def from_cryptography(cls, cert_extensions: x509.Extensions):

@@ -1,5 +1,4 @@
 import base64
-import binascii
 import hashlib
 
 from cryptography import x509
@@ -135,7 +134,9 @@ def _verify_ocsp_signature(
     ocsp_response: OCSPResponse, issuer_chain: types.Chain
 ):
     try:
-        ocsp_response_key_hash = types._byte_to_hex(ocsp_response.issuer_key_hash)
+        ocsp_response_key_hash = types._byte_to_hex(
+            ocsp_response.issuer_key_hash
+        )
     except Exception as e:
         logger.bind(
             exceptionType=type(e),

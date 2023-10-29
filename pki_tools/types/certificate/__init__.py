@@ -16,7 +16,6 @@ from pki_tools.types.certificate.extensions import Extensions
 from pki_tools.types import _byte_to_hex
 
 
-
 class SignatureAlgorithm(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -124,6 +123,7 @@ class TbsCertificate(BaseModel):
             serialization.PublicFormat.Raw,
         )
 
+
 class Certificate(TbsCertificate):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -148,7 +148,7 @@ class Certificate(TbsCertificate):
                 cert.public_key()
             ),
             extensions=Extensions.from_cryptography(cert.extensions),
-            signature_value=_byte_to_hex(cert.signature)
+            signature_value=_byte_to_hex(cert.signature),
         )
 
     def __str__(self) -> str:
@@ -156,4 +156,3 @@ class Certificate(TbsCertificate):
 Certificate:
     TbsCertificate:{super().__str__()}
     Signature Value: {self.signature_value}"""
-

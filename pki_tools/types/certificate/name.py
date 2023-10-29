@@ -7,6 +7,7 @@ from cryptography.hazmat._oid import NameOID
 
 from pydantic import BaseModel, Field, ConfigDict
 
+
 class Name(BaseModel):
     """
     Name type describes certificate subject or issuer.

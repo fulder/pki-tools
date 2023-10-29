@@ -243,5 +243,6 @@ def _is_pem_str(check):
 
     return re.match(PEM_REGEX, check)
 
+
 def _byte_to_hex(bytes_in: bytes):
     return binascii.hexlify(bytes_in).decode().upper()
