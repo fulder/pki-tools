@@ -60,7 +60,6 @@ class AuthorityKeyIdentifier(Extension):
             ret += f"""
                 Key Identifier: {hex_key}"""
         if self.authority_cert_issuer is not None:
-            print(self.authority_cert_issuer)
             issuers = ""
             for issuer in self.authority_cert_issuer:
                 issuers += f"""
@@ -143,7 +142,7 @@ class KeyUsage(Extension):
                 {', '.join(true_fields)}"""
 
 
-class NoticeReference(BaseModel):
+class NoticeReference(Extension):
     organization: str
     notice_numbers: list[int]
 
@@ -159,7 +158,7 @@ class NoticeReference(BaseModel):
                             Notice Numbers: {self.notice_numbers}"""
 
 
-class UserNotice(BaseModel):
+class UserNotice(Extension):
     notice_reference: Optional[NoticeReference]
     explicit_text: Optional[str]
 
@@ -175,12 +174,17 @@ class UserNotice(BaseModel):
     def __str__(self):
         name = super().__str__()
 
-        return f"""{name}:
-                            {self.notice_reference}
+        ret = f"""{name}:"""
+        if self.notice_reference is not None:
+            ret += f"""         
+                            {self.notice_reference}"""
+        if self.explicit_text is not None:
+            ret += f"""
                             Explicit Text: {self.explicit_text}"""
+        return ret
 
 
-class PolicyInformation(BaseModel):
+class PolicyInformation(Extension):
     policy_identifier: str
     policy_qualifiers: Optional[list[typing.Union[str, UserNotice]]]
 
@@ -209,7 +213,7 @@ class PolicyInformation(BaseModel):
         if self.policy_qualifiers is not None:
             for qualifier in self.policy_qualifiers:
                 policy_qualifiers += f"""
-                            {qualifier}"""
+                            {str(qualifier)}"""
 
         ret = f"""
                 {name}:
@@ -217,6 +221,7 @@ class PolicyInformation(BaseModel):
         if policy_qualifiers != "":
             ret += f"""
                     Policy Qualifiers: {policy_qualifiers}"""
+
         return ret
 
 
@@ -313,6 +318,26 @@ class SubjectDirectoryAttributes(Extension):
                 {attributes}"""
 
 
+class BasicConstraints(Extension):
+    ca: bool
+    path_len_constraint: Optional[int]
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.BasicConstraints):
+        return cls(ca=extension.ca, path_len_constraint=extension.path_length)
+
+    def __str__(self):
+        name = super().__str__()
+
+        ret = f"""
+            {name}: 
+                CA: {str(self.ca)}"""
+        if self.path_len_constraint is not None:
+            ret += f"""
+                Path Length: {self.path_len_constraint}"""
+        return ret
+
+
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -337,6 +362,10 @@ class Extensions(BaseModel):
     )
     subject_directory_attributes: Optional[SubjectDirectoryAttributes] = Field(
         alias=ExtensionOID.SUBJECT_DIRECTORY_ATTRIBUTES.dotted_string,
+        default=None,
+    )
+    basic_constraints: Optional[BasicConstraints] = Field(
+        alias=ExtensionOID.BASIC_CONSTRAINTS.dotted_string,
         default=None,
     )
 
@@ -375,7 +404,9 @@ class Extensions(BaseModel):
         for field_name in self.model_fields:
             att_val = getattr(self, field_name)
 
-            if str(att_val) != "":
-                extensions += str(att_val)
+            if att_val is None or str(att_val) == "":
+                continue
+
+            extensions += str(att_val)
 
         return extensions

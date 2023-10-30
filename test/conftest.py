@@ -193,6 +193,14 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
     )
 
     cert_builder = cert_builder.add_extension(
+        x509.BasicConstraints(
+            ca=True,
+            path_length=3,
+        ),
+        critical=False,
+    )
+
+    cert_builder = cert_builder.add_extension(
         x509.PolicyConstraints(
             require_explicit_policy=1,
             inhibit_policy_mapping=2,
