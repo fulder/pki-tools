@@ -1,3 +1,5 @@
+import re
+
 import httpx
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
@@ -38,6 +40,7 @@ def cert_from_pem(cert_pem: str) -> x509.Certificate:
          exceptions.CertLoadError - If the certificate could not be loaded
     """
     try:
+        cert_pem = re.sub("\n\s*", "\n", cert_pem)
         return x509.load_pem_x509_certificate(cert_pem.encode())
     except ValueError as e:
         logger.bind(cert=cert_pem).debug("Failed to load cert from PEM")

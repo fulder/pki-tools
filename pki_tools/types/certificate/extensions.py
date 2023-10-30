@@ -283,6 +283,36 @@ class IssuerAlternativeName(AlternativeName):
     pass
 
 
+class SubjectDirectoryAttributes(Extension):
+    attributes: list[str]
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.UnrecognizedExtension):
+        attributes = []
+        vals = extension.value
+        if not isinstance(vals, list):
+            vals = [vals]
+
+        for val in vals:
+            if isinstance(val, bytes):
+                val = _byte_to_hex(val)
+
+            attributes.append(val)
+
+        return cls(attributes=attributes)
+
+    def __str__(self):
+        name = super().__str__()
+
+        attributes = ""
+        for attribute in self.attributes:
+            attributes += f"""{str(attribute)}"""
+
+        return f"""
+            {name}: 
+                {attributes}"""
+
+
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -304,6 +334,10 @@ class Extensions(BaseModel):
     )
     issuer_alternative_name: Optional[IssuerAlternativeName] = Field(
         alias=ExtensionOID.ISSUER_ALTERNATIVE_NAME.dotted_string, default=None
+    )
+    subject_directory_attributes: Optional[SubjectDirectoryAttributes] = Field(
+        alias=ExtensionOID.SUBJECT_DIRECTORY_ATTRIBUTES.dotted_string,
+        default=None,
     )
 
     @classmethod

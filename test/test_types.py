@@ -1,6 +1,7 @@
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
+import pki_tools
 from conftest import TEST_SUBJECT
 from pki_tools import Certificate
 
@@ -38,5 +39,13 @@ def test_subject_to_crypto_name():
 
 def test_parse_cert(cert, cert_pem_string):
     print(cert_pem_string)
+    pki_cert = Certificate.parse_certificate(cert)
+    print(pki_cert)
+
+
+def test_parse_cert_with_subject_directory_attributes(
+    cert_with_subject_directory_attributes,
+):
+    cert = pki_tools.cert_from_pem(cert_with_subject_directory_attributes)
     pki_cert = Certificate.parse_certificate(cert)
     print(pki_cert)
