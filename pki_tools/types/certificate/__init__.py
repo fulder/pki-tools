@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Union, Optional
 
-
+import yaml
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, ec, dsa, rsa
@@ -27,10 +27,11 @@ class Validity(BaseModel):
     not_before: datetime
     not_after: datetime
 
-    def __str__(self):
-        return f"""Validity:
-            Not Before: {self.not_before}
-            Not After: {self.not_after}"""
+    def string_dict(self):
+        return {
+            "Not Before": self.not_before,
+            "Not After": self.not_after,
+        }
 
 
 class SubjectPublicKeyInfo(BaseModel):
@@ -71,16 +72,13 @@ class SubjectPublicKeyInfo(BaseModel):
 
         return cls(algorithm=name, parameters=parameters)
 
-    def __str__(self):
-        params = ""
+    def string_dict(self):
+        params = {}
         for k, v in self.parameters.items():
             key = " ".join(ele.title() for ele in k.split("_"))
-            params += f"""
-                {key}: {v}"""
+            params[key] = v
 
-        return f"""
-            Public Key Algorithm: {self.algorithm}
-            Parameters: {params}"""
+        return {"Public Key Algorithm": self.algorithm, "Parameters": params}
 
 
 class TbsCertificate(BaseModel):
@@ -93,17 +91,17 @@ class TbsCertificate(BaseModel):
     subject_public_key_info: SubjectPublicKeyInfo
     extensions: Optional[Extensions]
 
-    def __str__(self):
-        return f"""
-        Version: {self.version}
-        Serial Number: {self.hex_serial}
-        Signature Algorithm: {self.signature_algorithm.algorithm.name}
-        Issuer: {self.issuer}
-        {self.validity}
-        {self.subject}
-        Subject Public Key Info: {self.subject_public_key_info}
-        Extensions: {self.extensions}
-        Signature Algorithm: {self.signature_algorithm.algorithm.name}"""
+    def string_dict(self):
+        return {
+            "Version": self.version,
+            "Serial Number": self.hex_serial,
+            "Signature Algorithm": self.signature_algorithm.algorithm.name,
+            "Issuer": self.issuer.string_dict(),
+            "Validity": self.validity.string_dict(),
+            "Subject": self.subject.string_dict(),
+            "Subject Public Key Info": self.subject_public_key_info.string_dict(),
+            "Extensions": self.extensions.string_dict(),
+        }
 
     @property
     def hex_serial(self) -> str:
@@ -151,8 +149,19 @@ class Certificate(TbsCertificate):
             signature_value=_byte_to_hex(cert.signature),
         )
 
+    def string_dict(self):
+        return {
+            "Certificate": {
+                "TbsCertificate": super().string_dict(),
+                "Signature Value": self.signature_value,
+            }
+        }
+
     def __str__(self) -> str:
-        return f"""
-Certificate:
-    TbsCertificate:{super().__str__()}
-    Signature Value: {self.signature_value}"""
+        return yaml.safe_dump(
+            self.string_dict(),
+            indent=2,
+            default_flow_style=False,
+            explicit_start=True,
+            default_style="",
+        )

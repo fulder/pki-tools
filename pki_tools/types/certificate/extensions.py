@@ -20,13 +20,13 @@ from pki_tools.types import _byte_to_hex
 class Extension(BaseModel):
     critical: Optional[bool] = False
 
-    def __str__(self):
+    @property
+    def name(self):
         name = "".join(
             [" " + c if c.isupper() else c for c in self.__class__.__name__]
-        )
+        )[1:]
         if self.critical:
             name += " (critical)"
-
         return name
 
 
@@ -51,29 +51,22 @@ class AuthorityKeyIdentifier(Extension):
             authority_cert_serial_number=extension.authority_cert_serial_number,
         )
 
-    def __str__(self):
-        name = super().__str__()
+    def string_dict(self):
+        ret = {}
 
-        ret = ""
         if self.key_identifier is not None:
             hex_key = _byte_to_hex(self.key_identifier)
-            ret += f"""
-                Key Identifier: {hex_key}"""
+            ret["Key Identifier"] = hex_key
         if self.authority_cert_issuer is not None:
-            issuers = ""
-            for issuer in self.authority_cert_issuer:
-                issuers += f"""
-                    {issuer}"""
-            ret += f"""
-                Authority Cert Issuer: {issuers}"""
+            ret["Authority Cert Issuer"] = self.authority_cert_issuer
         if self.authority_cert_serial_number is not None:
-            ret += f"""
-                Authority Cert Serial Number: {self.authority_cert_serial_number}"""
+            ret[
+                "Authority Cert Serial Number"
+            ] = self.authority_cert_serial_number
 
-        if ret != "":
-            return f"""
-            {name}: {ret}"""
-        return ""
+        if ret:
+            return {self.name: ret}
+        return {}
 
 
 class SubjectKeyIdentifier(Extension):
@@ -83,13 +76,9 @@ class SubjectKeyIdentifier(Extension):
     def from_cryptography(cls, extension: x509.SubjectKeyIdentifier):
         return cls(subject_key_identifier=extension.key_identifier)
 
-    def __str__(self):
-        name = super().__str__()
-
+    def string_dict(self):
         hex_key = _byte_to_hex(self.subject_key_identifier)
-        return f"""
-            {name}:
-                Subject Key Identifier: {hex_key}"""
+        return {self.name: {"Subject Key Identifier": hex_key}}
 
 
 class KeyUsage(Extension):
@@ -126,9 +115,7 @@ class KeyUsage(Extension):
             decipher_only=decipher_only,
         )
 
-    def __str__(self):
-        name = super().__str__()
-
+    def string_dict(self):
         true_fields = []
         for field in self.model_fields:
             if field == "critical":
@@ -137,9 +124,8 @@ class KeyUsage(Extension):
             field_title = " ".join(ele.title() for ele in field.split("_"))
             if getattr(self, field):
                 true_fields.append(field_title)
-        return f"""
-            {name}: 
-                {', '.join(true_fields)}"""
+
+        return {self.name: ", ".join(true_fields)}
 
 
 class NoticeReference(Extension):
@@ -153,9 +139,13 @@ class NoticeReference(Extension):
             notice_numbers=notice_reference.notice_numbers,
         )
 
-    def __str__(self):
-        return f"""Organization: {self.organization}
-                            Notice Numbers: {self.notice_numbers}"""
+    def string_dict(self):
+        return {
+            self.name: {
+                "Organization": self.organization,
+                "Notice Numbers": self.notice_numbers,
+            }
+        }
 
 
 class UserNotice(Extension):
@@ -171,16 +161,13 @@ class UserNotice(Extension):
             explicit_text=policy_info.explicit_text,
         )
 
-    def __str__(self):
-        name = super().__str__()
+    def string_dict(self):
+        ret = {self.name: {}}
 
-        ret = f"""{name}:"""
         if self.notice_reference is not None:
-            ret += f"""         
-                            {self.notice_reference}"""
+            ret[self.name].update(self.notice_reference.string_dict())
         if self.explicit_text is not None:
-            ret += f"""
-                            Explicit Text: {self.explicit_text}"""
+            ret[self.name]["Explicit Text"] = self.explicit_text
         return ret
 
 
@@ -206,21 +193,22 @@ class PolicyInformation(Extension):
             policy_qualifiers=policy_qualifiers,
         )
 
-    def __str__(self):
-        name = super().__str__()
+    def string_dict(self):
+        ret = {
+            self.name: {
+                "Policy Identifier": self.policy_identifier,
+                "Policy Qualifiers": [],
+            }
+        }
 
-        policy_qualifiers = ""
         if self.policy_qualifiers is not None:
             for qualifier in self.policy_qualifiers:
-                policy_qualifiers += f"""
-                            {str(qualifier)}"""
-
-        ret = f"""
-                {name}:
-                    Policy Identifier: {self.policy_identifier}"""
-        if policy_qualifiers != "":
-            ret += f"""
-                    Policy Qualifiers: {policy_qualifiers}"""
+                if isinstance(qualifier, str):
+                    ret[self.name]["Policy Qualifiers"].append(qualifier)
+                else:
+                    ret[self.name]["Policy Qualifiers"].append(
+                        qualifier.string_dict()
+                    )
 
         return ret
 
@@ -237,15 +225,12 @@ class CertificatePolicies(Extension):
 
         return cls(policy_information=res)
 
-    def __str__(self):
-        name = super().__str__()
+    def string_dict(self):
+        ret = {self.name: []}
+        for policy_information in self.policy_information:
+            ret[self.name].append(policy_information.string_dict())
 
-        policy_info = ""
-        for info in self.policy_information:
-            policy_info += f"""{info}"""
-
-        return f"""
-            {name}: {policy_info}"""
+        return ret
 
 
 class AlternativeName(Extension):
@@ -255,29 +240,12 @@ class AlternativeName(Extension):
     def from_cryptography(cls, extension: x509.SubjectAlternativeName):
         names = []
         for general_name in extension:
-            next_str = f"{type(general_name).__name__}: "
-            if isinstance(general_name, x509.OtherName):
-                value = _byte_to_hex(general_name.value)
-                next_str += f"{general_name.type_id.dotted_string} - {value}"
-            elif isinstance(general_name, x509.RegisteredID):
-                next_str += str(general_name.value.dotted_string)
-            elif isinstance(general_name, x509.DirectoryName):
-                next_str += str(Name.from_cryptography(general_name.value))
-            else:
-                next_str += str(general_name.value)
-            names.append(next_str)
+            names.append(_general_name_to_str(general_name))
+
         return cls(general_names=names)
 
-    def __str__(self):
-        name = super().__str__()
-
-        names_str = ""
-        for general_name in self.general_names:
-            names_str += f"""
-                    {general_name}"""
-
-        return f"""
-            {name}: {names_str}"""
+    def string_dict(self):
+        return {self.name: self.general_names}
 
 
 class SubjectAlternativeName(AlternativeName):
@@ -306,16 +274,8 @@ class SubjectDirectoryAttributes(Extension):
 
         return cls(attributes=attributes)
 
-    def __str__(self):
-        name = super().__str__()
-
-        attributes = ""
-        for attribute in self.attributes:
-            attributes += f"""{str(attribute)}"""
-
-        return f"""
-            {name}: 
-                {attributes}"""
+    def string_dict(self):
+        return {self.name: self.attributes}
 
 
 class BasicConstraints(Extension):
@@ -326,16 +286,49 @@ class BasicConstraints(Extension):
     def from_cryptography(cls, extension: x509.BasicConstraints):
         return cls(ca=extension.ca, path_len_constraint=extension.path_length)
 
-    def __str__(self):
-        name = super().__str__()
+    def string_dict(self):
+        ret = {
+            self.name: {
+                "CA": self.ca,
+            }
+        }
 
-        ret = f"""
-            {name}: 
-                CA: {str(self.ca)}"""
         if self.path_len_constraint is not None:
-            ret += f"""
-                Path Length: {self.path_len_constraint}"""
+            ret["Path Lenght"] = self.path_len_constraint
+
         return ret
+
+
+class NameConstraints(Extension):
+    permitted_subtrees: Optional[list[str]]
+    excluded_subtrees: Optional[list[str]]
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.NameConstraints):
+        permitted_subtrees = []
+        for permitted in extension.permitted_subtrees:
+            permitted_subtrees.append(_general_name_to_str(permitted))
+        if not permitted_subtrees:
+            permitted_subtrees = None
+
+        excluded_subtrees = []
+        for excluded in extension.excluded_subtrees:
+            excluded_subtrees.append(_general_name_to_str(excluded))
+        if not excluded_subtrees:
+            excluded_subtrees = None
+
+        return cls(
+            permitted_subtrees=permitted_subtrees,
+            excluded_subtrees=excluded_subtrees,
+        )
+
+    def string_dict(self):
+        return {
+            self.name: {
+                "Permitted Subtrees": self.permitted_subtrees,
+                "Excluded Subtrees": self.excluded_subtrees,
+            }
+        }
 
 
 class Extensions(BaseModel):
@@ -366,6 +359,10 @@ class Extensions(BaseModel):
     )
     basic_constraints: Optional[BasicConstraints] = Field(
         alias=ExtensionOID.BASIC_CONSTRAINTS.dotted_string,
+        default=None,
+    )
+    name_constraints: Optional[NameConstraints] = Field(
+        alias=ExtensionOID.NAME_CONSTRAINTS.dotted_string,
         default=None,
     )
 
@@ -399,14 +396,40 @@ class Extensions(BaseModel):
             logger.debug(f"Extension with OID: {oid._name} not found")
             return None
 
-    def __str__(self):
-        extensions = ""
+    def string_dict(self):
+        extensions = {}
         for field_name in self.model_fields:
             att_val = getattr(self, field_name)
 
             if att_val is None or str(att_val) == "":
                 continue
 
-            extensions += str(att_val)
+            extensions.update(att_val.string_dict())
 
         return extensions
+
+
+def _general_name_to_str(general_name):
+    name_str = f"{type(general_name).__name__}: "
+    if isinstance(general_name, x509.OtherName):
+        value = _byte_to_hex(general_name.value)
+        name_str += f"{general_name.type_id.dotted_string} - {value}"
+    elif isinstance(general_name, x509.RegisteredID):
+        name_str += str(general_name.value.dotted_string)
+    elif isinstance(general_name, x509.DirectoryName):
+        name = Name.from_cryptography(general_name.value)
+        name_list = []
+        for k, v in name.string_dict().items():
+            name_list.append(f"{k}: {v}")
+        name_str += ", ".join(name_list)
+    else:
+        name_str += str(general_name.value)
+    return name_str
+
+
+def _general_names_to_str(general_names: list[str]):
+    names = ""
+    for general_name in general_names:
+        names += f"""
+                     {general_name}"""
+    return names

@@ -93,10 +93,9 @@ class Name(BaseModel):
 
         return x509.Name(name_list)
 
-    def __str__(self):
-        attrs = []
+    def string_dict(self):
+        ret = {}
         for a in self.model_dump():
             for val in getattr(self, a):
-                attrs.append(f"{a.upper()} = {val}")
-        subject_str = ", ".join(attrs)
-        return f"Name: {subject_str}"
+                ret[a.upper()] = val
+        return ret

@@ -175,7 +175,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
     generic_names = [
         x509.DNSName(value="TEST_DNS_NAME"),
         x509.DirectoryName(value=subject),
-        x509.IPAddress(ipaddress.IPv4Address("192.168.1.1")),
+        x509.IPAddress(ipaddress.IPv4Network("192.168.1.0/24")),
         x509.OtherName(
             type_id=x509.ObjectIdentifier("1.2.3.4.5"), value=key_der
         ),
@@ -196,6 +196,13 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         x509.BasicConstraints(
             ca=True,
             path_length=3,
+        ),
+        critical=False,
+    )
+
+    cert_builder = cert_builder.add_extension(
+        x509.NameConstraints(
+            permitted_subtrees=generic_names, excluded_subtrees=generic_names
         ),
         critical=False,
     )
