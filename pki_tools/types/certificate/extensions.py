@@ -195,19 +195,15 @@ class PolicyInformation(Extension):
 
     def _string_dict(self):
         name = f"Policy {self.policy_identifier}"
-        ret = {
-            name: []
-        }
+        ret = {name: []}
 
         if self.policy_qualifiers is not None:
             for qualifier in self.policy_qualifiers:
                 if isinstance(qualifier, str):
                     ret[name].append(qualifier)
                 else:
-
                     ret[name].append(qualifier._string_dict())
         return ret
-
 
 
 class CertificatePolicies(Extension):

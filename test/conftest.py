@@ -111,25 +111,6 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         )
     )
 
-    if add_crl_extension:
-        cert_builder = cert_builder.add_extension(
-            x509.CRLDistributionPoints(
-                [
-                    x509.DistributionPoint(
-                        full_name=[
-                            x509.UniformResourceIdentifier(
-                                value=TEST_DISTRIBUTION_POINT_URL,
-                            ),
-                        ],
-                        relative_name=None,
-                        reasons=None,
-                        crl_issuer=None,
-                    ),
-                ]
-            ),
-            critical=False,
-        )
-
     cert_builder = cert_builder.add_extension(
         x509.AuthorityKeyIdentifier(
             key_identifier="TEST_KEY_IDENTIFIER".encode(),
@@ -141,6 +122,21 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
 
     cert_builder = cert_builder.add_extension(
         x509.SubjectKeyIdentifier("TEST_DIGEST".encode()),
+        critical=False,
+    )
+
+    cert_builder = cert_builder.add_extension(
+        x509.KeyUsage(
+            digital_signature=True,
+            content_commitment=True,
+            key_encipherment=True,
+            data_encipherment=True,
+            key_agreement=True,
+            key_cert_sign=True,
+            crl_sign=True,
+            encipher_only=True,
+            decipher_only=True,
+        ),
         critical=False,
     )
 
@@ -215,6 +211,24 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         critical=False,
     )
 
+    if add_crl_extension:
+        cert_builder = cert_builder.add_extension(
+            x509.CRLDistributionPoints(
+                [
+                    x509.DistributionPoint(
+                        full_name=[
+                            x509.UniformResourceIdentifier(
+                                value=TEST_DISTRIBUTION_POINT_URL,
+                            ),
+                        ],
+                        relative_name=None,
+                        reasons=None,
+                        crl_issuer=None,
+                    ),
+                ]
+            ),
+            critical=False,
+        )
     if add_aia_extension:
         cert_builder = cert_builder.add_extension(
             x509.AuthorityInformationAccess(
