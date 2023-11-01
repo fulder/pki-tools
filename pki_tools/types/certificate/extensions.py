@@ -331,6 +331,32 @@ class NameConstraints(Extension):
         }
 
 
+class PolicyConstraints(Extension):
+    require_explicit_policy: Optional[int]
+    inhibit_policy_mapping: Optional[int]
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.PolicyConstraints):
+        return cls(
+            require_explicit_policy=extension.require_explicit_policy,
+            inhibit_policy_mapping=extension.inhibit_policy_mapping,
+        )
+
+    def string_dict(self):
+        ret = {self.name: {}}
+
+        if self.require_explicit_policy is not None:
+            ret[self.name][
+                "Require Explicit Policy"
+            ] = self.require_explicit_policy
+        if self.inhibit_policy_mapping is not None:
+            ret[self.name][
+                "Inhibit Policy Mapping"
+            ] = self.inhibit_policy_mapping
+
+        return ret
+
+
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -363,6 +389,10 @@ class Extensions(BaseModel):
     )
     name_constraints: Optional[NameConstraints] = Field(
         alias=ExtensionOID.NAME_CONSTRAINTS.dotted_string,
+        default=None,
+    )
+    policy_constraints: Optional[PolicyConstraints] = Field(
+        alias=ExtensionOID.POLICY_CONSTRAINTS.dotted_string,
         default=None,
     )
 
