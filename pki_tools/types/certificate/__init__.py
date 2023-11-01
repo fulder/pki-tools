@@ -27,7 +27,7 @@ class Validity(BaseModel):
     not_before: datetime
     not_after: datetime
 
-    def string_dict(self):
+    def _string_dict(self):
         return {
             "Not Before": self.not_before,
             "Not After": self.not_after,
@@ -72,7 +72,7 @@ class SubjectPublicKeyInfo(BaseModel):
 
         return cls(algorithm=name, parameters=parameters)
 
-    def string_dict(self):
+    def _string_dict(self):
         params = {}
         for k, v in self.parameters.items():
             key = " ".join(ele.title() for ele in k.split("_"))
@@ -91,16 +91,16 @@ class TbsCertificate(BaseModel):
     subject_public_key_info: SubjectPublicKeyInfo
     extensions: Optional[Extensions]
 
-    def string_dict(self):
+    def _string_dict(self):
         return {
             "Version": self.version,
             "Serial Number": self.hex_serial,
             "Signature Algorithm": self.signature_algorithm.algorithm.name,
-            "Issuer": self.issuer.string_dict(),
-            "Validity": self.validity.string_dict(),
-            "Subject": self.subject.string_dict(),
-            "Subject Public Key Info": self.subject_public_key_info.string_dict(),
-            "Extensions": self.extensions.string_dict(),
+            "Issuer": str(self.issuer),
+            "Validity": self.validity._string_dict(),
+            "Subject": str(self.subject),
+            "Subject Public Key Info": self.subject_public_key_info._string_dict(),
+            "Extensions": self.extensions._string_dict(),
         }
 
     @property
@@ -149,17 +149,17 @@ class Certificate(TbsCertificate):
             signature_value=_byte_to_hex(cert.signature),
         )
 
-    def string_dict(self):
+    def _string_dict(self):
         return {
             "Certificate": {
-                "TbsCertificate": super().string_dict(),
+                "TbsCertificate": super()._string_dict(),
                 "Signature Value": self.signature_value,
             }
         }
 
     def __str__(self) -> str:
         return yaml.safe_dump(
-            self.string_dict(),
+            self._string_dict(),
             indent=2,
             default_flow_style=False,
             explicit_start=True,

@@ -93,9 +93,15 @@ class Name(BaseModel):
 
         return x509.Name(name_list)
 
-    def string_dict(self):
+    def _string_dict(self):
         ret = {}
         for a in self.model_dump():
             for val in getattr(self, a):
                 ret[a.upper()] = val
         return ret
+
+    def __str__(self):
+        name_list = []
+        for k, v in self._string_dict().items():
+            name_list.append(f"{k}: {v}")
+        return ", ".join(name_list)

@@ -51,7 +51,7 @@ class AuthorityKeyIdentifier(Extension):
             authority_cert_serial_number=extension.authority_cert_serial_number,
         )
 
-    def string_dict(self):
+    def _string_dict(self):
         ret = {}
 
         if self.key_identifier is not None:
@@ -76,7 +76,7 @@ class SubjectKeyIdentifier(Extension):
     def from_cryptography(cls, extension: x509.SubjectKeyIdentifier):
         return cls(subject_key_identifier=extension.key_identifier)
 
-    def string_dict(self):
+    def _string_dict(self):
         hex_key = _byte_to_hex(self.subject_key_identifier)
         return {self.name: {"Subject Key Identifier": hex_key}}
 
@@ -115,7 +115,7 @@ class KeyUsage(Extension):
             decipher_only=decipher_only,
         )
 
-    def string_dict(self):
+    def _string_dict(self):
         true_fields = []
         for field in self.model_fields:
             if field == "critical":
@@ -139,7 +139,7 @@ class NoticeReference(Extension):
             notice_numbers=notice_reference.notice_numbers,
         )
 
-    def string_dict(self):
+    def _string_dict(self):
         return {
             self.name: {
                 "Organization": self.organization,
@@ -161,11 +161,11 @@ class UserNotice(Extension):
             explicit_text=policy_info.explicit_text,
         )
 
-    def string_dict(self):
+    def _string_dict(self):
         ret = {self.name: {}}
 
         if self.notice_reference is not None:
-            ret[self.name].update(self.notice_reference.string_dict())
+            ret[self.name].update(self.notice_reference._string_dict())
         if self.explicit_text is not None:
             ret[self.name]["Explicit Text"] = self.explicit_text
         return ret
@@ -193,24 +193,21 @@ class PolicyInformation(Extension):
             policy_qualifiers=policy_qualifiers,
         )
 
-    def string_dict(self):
+    def _string_dict(self):
+        name = f"Policy {self.policy_identifier}"
         ret = {
-            self.name: {
-                "Policy Identifier": self.policy_identifier,
-                "Policy Qualifiers": [],
-            }
+            name: []
         }
 
         if self.policy_qualifiers is not None:
             for qualifier in self.policy_qualifiers:
                 if isinstance(qualifier, str):
-                    ret[self.name]["Policy Qualifiers"].append(qualifier)
+                    ret[name].append(qualifier)
                 else:
-                    ret[self.name]["Policy Qualifiers"].append(
-                        qualifier.string_dict()
-                    )
 
+                    ret[name].append(qualifier._string_dict())
         return ret
+
 
 
 class CertificatePolicies(Extension):
@@ -225,10 +222,10 @@ class CertificatePolicies(Extension):
 
         return cls(policy_information=res)
 
-    def string_dict(self):
+    def _string_dict(self):
         ret = {self.name: []}
         for policy_information in self.policy_information:
-            ret[self.name].append(policy_information.string_dict())
+            ret[self.name].append(policy_information._string_dict())
 
         return ret
 
@@ -244,7 +241,7 @@ class AlternativeName(Extension):
 
         return cls(general_names=names)
 
-    def string_dict(self):
+    def _string_dict(self):
         return {self.name: self.general_names}
 
 
@@ -274,7 +271,7 @@ class SubjectDirectoryAttributes(Extension):
 
         return cls(attributes=attributes)
 
-    def string_dict(self):
+    def _string_dict(self):
         return {self.name: self.attributes}
 
 
@@ -286,7 +283,7 @@ class BasicConstraints(Extension):
     def from_cryptography(cls, extension: x509.BasicConstraints):
         return cls(ca=extension.ca, path_len_constraint=extension.path_length)
 
-    def string_dict(self):
+    def _string_dict(self):
         ret = {
             self.name: {
                 "CA": self.ca,
@@ -322,7 +319,7 @@ class NameConstraints(Extension):
             excluded_subtrees=excluded_subtrees,
         )
 
-    def string_dict(self):
+    def _string_dict(self):
         return {
             self.name: {
                 "Permitted Subtrees": self.permitted_subtrees,
@@ -342,7 +339,7 @@ class PolicyConstraints(Extension):
             inhibit_policy_mapping=extension.inhibit_policy_mapping,
         )
 
-    def string_dict(self):
+    def _string_dict(self):
         ret = {self.name: {}}
 
         if self.require_explicit_policy is not None:
@@ -426,7 +423,7 @@ class Extensions(BaseModel):
             logger.debug(f"Extension with OID: {oid._name} not found")
             return None
 
-    def string_dict(self):
+    def _string_dict(self):
         extensions = {}
         for field_name in self.model_fields:
             att_val = getattr(self, field_name)
@@ -434,7 +431,7 @@ class Extensions(BaseModel):
             if att_val is None or str(att_val) == "":
                 continue
 
-            extensions.update(att_val.string_dict())
+            extensions.update(att_val._string_dict())
 
         return extensions
 
@@ -447,11 +444,7 @@ def _general_name_to_str(general_name):
     elif isinstance(general_name, x509.RegisteredID):
         name_str += str(general_name.value.dotted_string)
     elif isinstance(general_name, x509.DirectoryName):
-        name = Name.from_cryptography(general_name.value)
-        name_list = []
-        for k, v in name.string_dict().items():
-            name_list.append(f"{k}: {v}")
-        name_str += ", ".join(name_list)
+        name_str += str(Name.from_cryptography(general_name.value))
     else:
         name_str += str(general_name.value)
     return name_str
