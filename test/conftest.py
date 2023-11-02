@@ -168,7 +168,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         encoding=serialization.Encoding.DER,
         format=serialization.PublicFormat.PKCS1,
     )
-    generic_names = [
+    general_names = [
         x509.DNSName(value="TEST_DNS_NAME"),
         x509.DirectoryName(value=subject),
         x509.IPAddress(ipaddress.IPv4Network("192.168.1.0/24")),
@@ -181,11 +181,11 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
     ]
 
     cert_builder = cert_builder.add_extension(
-        x509.SubjectAlternativeName(generic_names), critical=False
+        x509.SubjectAlternativeName(general_names), critical=False
     )
 
     cert_builder = cert_builder.add_extension(
-        x509.IssuerAlternativeName(generic_names), critical=False
+        x509.IssuerAlternativeName(general_names), critical=False
     )
 
     cert_builder = cert_builder.add_extension(
@@ -198,7 +198,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
 
     cert_builder = cert_builder.add_extension(
         x509.NameConstraints(
-            permitted_subtrees=generic_names, excluded_subtrees=generic_names
+            permitted_subtrees=general_names, excluded_subtrees=general_names
         ),
         critical=False,
     )
@@ -235,16 +235,36 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             x509.CRLDistributionPoints(
                 [
                     x509.DistributionPoint(
-                        full_name=[
-                            x509.UniformResourceIdentifier(
-                                value=TEST_DISTRIBUTION_POINT_URL,
-                            ),
-                        ],
-                        relative_name=None,
-                        reasons=None,
-                        crl_issuer=None,
+                        full_name=None,
+                        relative_name=x509.RelativeDistinguishedName(
+                            [
+                                x509.NameAttribute(
+                                    oid=x509.ObjectIdentifier("1.2.3.4.5"),
+                                    value="TEST_VALUE",
+                                )
+                            ]
+                        ),
+                        reasons=frozenset(
+                            [
+                                x509.ReasonFlags.key_compromise,
+                                x509.ReasonFlags.ca_compromise,
+                                x509.ReasonFlags.affiliation_changed,
+                                x509.ReasonFlags.superseded,
+                                x509.ReasonFlags.cessation_of_operation,
+                                x509.ReasonFlags.certificate_hold,
+                                x509.ReasonFlags.privilege_withdrawn,
+                                x509.ReasonFlags.aa_compromise,
+                            ]
+                        ),
+                        crl_issuer=general_names,
                     ),
-                ]
+                    x509.DistributionPoint(
+                        full_name=general_names,
+                        relative_name=None,
+                        reasons=frozenset([x509.ReasonFlags.key_compromise]),
+                        crl_issuer=general_names,
+                    ),
+                ],
             ),
             critical=False,
         )

@@ -374,13 +374,89 @@ class ExtendedKeyUsage(Extension):
         for key_usage in extension:
             name = EKU_OID_MAPPING.get(
                 key_usage.dotted_string,
-                f"Unkown OID ({key_usage.dotted_string})",
+                f"Unknown OID ({key_usage.dotted_string})",
             )
             ext_key_usage_syntax.append(name)
         return cls(ext_key_usage_syntax=ext_key_usage_syntax)
 
     def _string_dict(self):
         return {self.name: self.ext_key_usage_syntax}
+
+
+class DistributionPoint(Extension):
+    full_name: Optional[list[str]]
+    name_relative_to_crl_issuer: Optional[list[str]]
+    reasons: Optional[list[str]]
+    crl_issuer: Optional[list[str]]
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.DistributionPoint):
+        full_names = None
+        if extension.full_name is not None:
+            full_names = []
+            for full_name in extension.full_name:
+                full_names.append(_general_name_to_str(full_name))
+
+        relative_names = None
+        if extension.relative_name is not None:
+            relative_names = []
+            for rel_name in extension.relative_name:
+                relative_names.append(rel_name.rfc4514_string())
+
+        reasons = None
+        if extension.reasons is not None:
+            reasons = []
+            for reason in extension.reasons:
+                reasons.append(reason.value)
+
+        crl_issuers = None
+        if extension.crl_issuer is not None:
+            crl_issuers = []
+            for crl_issuer in extension.crl_issuer:
+                crl_issuers.append(_general_name_to_str(crl_issuer))
+
+        return cls(
+            full_name=full_names,
+            name_relative_to_crl_issuer=relative_names,
+            reasons=reasons,
+            crl_issuer=crl_issuers,
+        )
+
+    def _string_dict(self):
+        ret = {}
+        if self.full_name is not None:
+            ret["Full Name"] = self.full_name
+        if self.name_relative_to_crl_issuer is not None:
+            ret[
+                "Name Relative To CRL Issuer"
+            ] = self.name_relative_to_crl_issuer
+        if self.reasons is not None:
+            ret["Reasons"] = self.reasons
+        if self.crl_issuer is not None:
+            ret["CRL Issuer"] = self.crl_issuer
+        return ret
+
+
+class CrlDistributionPoints(Extension):
+    crl_distribution_points: list[DistributionPoint]
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.CRLDistributionPoints):
+        crl_distribution_points = []
+        for crl_distribution_point in extension:
+            parsed = DistributionPoint.from_cryptography(
+                crl_distribution_point
+            )
+            crl_distribution_points.append(parsed)
+
+        return cls(crl_distribution_points=crl_distribution_points)
+
+    def _string_dict(self):
+        ret = {self.name: []}
+        for dist_point in self.crl_distribution_points:
+            ret[self.name].append(dist_point._string_dict())
+
+        return ret
 
 
 class Extensions(BaseModel):
@@ -423,6 +499,10 @@ class Extensions(BaseModel):
     )
     extended_key_usage: Optional[ExtendedKeyUsage] = Field(
         alias=ExtensionOID.EXTENDED_KEY_USAGE.dotted_string,
+        default=None,
+    )
+    crl_distribution_points: Optional[CrlDistributionPoints] = Field(
+        alias=ExtensionOID.CRL_DISTRIBUTION_POINTS.dotted_string,
         default=None,
     )
 
@@ -470,6 +550,8 @@ class Extensions(BaseModel):
 
 
 def _general_name_to_str(general_name):
+    if general_name is None:
+        return None
     name_str = f"{type(general_name).__name__}: "
     if isinstance(general_name, x509.OtherName):
         value = _byte_to_hex(general_name.value)
