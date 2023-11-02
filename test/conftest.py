@@ -211,6 +211,25 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         critical=False,
     )
 
+    cert_builder = cert_builder.add_extension(
+        x509.ExtendedKeyUsage(
+            [
+                x509.ExtendedKeyUsageOID.SERVER_AUTH,
+                x509.ExtendedKeyUsageOID.CLIENT_AUTH,
+                x509.ExtendedKeyUsageOID.CODE_SIGNING,
+                x509.ExtendedKeyUsageOID.EMAIL_PROTECTION,
+                x509.ExtendedKeyUsageOID.TIME_STAMPING,
+                x509.ExtendedKeyUsageOID.OCSP_SIGNING,
+                x509.ExtendedKeyUsageOID.ANY_EXTENDED_KEY_USAGE,
+                x509.ExtendedKeyUsageOID.SMARTCARD_LOGON,
+                x509.ExtendedKeyUsageOID.KERBEROS_PKINIT_KDC,
+                x509.ExtendedKeyUsageOID.IPSEC_IKE,
+                x509.ExtendedKeyUsageOID.CERTIFICATE_TRANSPARENCY,
+            ]
+        ),
+        critical=False,
+    )
+
     if add_crl_extension:
         cert_builder = cert_builder.add_extension(
             x509.CRLDistributionPoints(

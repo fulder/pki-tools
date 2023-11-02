@@ -350,6 +350,39 @@ class PolicyConstraints(Extension):
         return ret
 
 
+EKU_OID_MAPPING = {
+    "1.3.6.1.5.5.7.3.1": "Server Authentication",
+    "1.3.6.1.5.5.7.3.2": "Client Authentication",
+    "1.3.6.1.5.5.7.3.3": "Code Signing",
+    "1.3.6.1.5.5.7.3.4": "Email Protection",
+    "1.3.6.1.5.5.7.3.8": "Time Stamping",
+    "1.3.6.1.5.5.7.3.9": "OCSP Signing",
+    "1.3.6.1.5.5.7.3.17": "IPsec IKE",
+    "2.5.29.37.0": "Any Extended Key Usage",
+    "1.3.6.1.4.1.311.20.2.2": "Smart Card Logon",
+    "1.3.6.1.5.2.3.5": "Kerberos PKINIT KDC",
+    "1.3.6.1.4.1.11129.2.4.4": "Certificate Transparency",
+}
+
+
+class ExtendedKeyUsage(Extension):
+    ext_key_usage_syntax: list[str]
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.ExtendedKeyUsage):
+        ext_key_usage_syntax = []
+        for key_usage in extension:
+            name = EKU_OID_MAPPING.get(
+                key_usage.dotted_string,
+                f"Unkown OID ({key_usage.dotted_string})",
+            )
+            ext_key_usage_syntax.append(name)
+        return cls(ext_key_usage_syntax=ext_key_usage_syntax)
+
+    def _string_dict(self):
+        return {self.name: self.ext_key_usage_syntax}
+
+
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -386,6 +419,10 @@ class Extensions(BaseModel):
     )
     policy_constraints: Optional[PolicyConstraints] = Field(
         alias=ExtensionOID.POLICY_CONSTRAINTS.dotted_string,
+        default=None,
+    )
+    extended_key_usage: Optional[ExtendedKeyUsage] = Field(
+        alias=ExtensionOID.EXTENDED_KEY_USAGE.dotted_string,
         default=None,
     )
 
