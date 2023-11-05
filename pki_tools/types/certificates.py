@@ -36,9 +36,8 @@ class CertsUri(BaseModel):
 class Certificates(CryptoParser):
     """
     Attributes:
-        certificates -- a
+        certificates -- a list of
         [Certificates](https://pki-tools.fulder.dev/pki_tools/types/#certificates)
-        object
     """
 
     certificates: List[Certificate]

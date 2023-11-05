@@ -1156,9 +1156,8 @@ Certificates</p>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L36">Show source in certificates.py:36</a></p>
 <h4 id="attributes">Attributes</h4>
 <ul>
-<li><code>certificates</code> - a
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificates">Certificates</a>
-object</li>
+<li><code>certificates</code> - a list of
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificates">Certificates</a></li>
 </ul>
 <h4 id="signature">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span> <span class="nc">Certificates</span><span class="p">(</span><span class="n">CryptoParser</span><span class="p">):</span> <span class="o">...</span>
@@ -1168,13 +1167,13 @@ object</li>
 <li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
 </ul>
 <h3 id="certificatesfrom_cryptography">Certificates.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L46">Show source in certificates.py:46</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L45">Show source in certificates.py:45</a></p>
 <h4 id="signature_1">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@classmethod</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">crypto_certs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">x509</span><span class="o">.</span><span class="n">Certificate</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="certificatesfrom_file">Certificates.from_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L55">Show source in certificates.py:55</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L54">Show source in certificates.py:54</a></p>
 <p>Reads a file containing one or more PEM certificate(s) into a
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#certificates">Certificates</a>
 object</p>
@@ -1191,13 +1190,13 @@ object representing the certificate(s) from file</p>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="certificatesfrom_pem_string">Certificates.from_pem_string</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L75">Show source in certificates.py:75</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L74">Show source in certificates.py:74</a></p>
 <h4 id="signature_3">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@classmethod</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">def</span> <span class="nf">from_pem_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">pem_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="certificatesfrom_uri">Certificates.from_uri</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L80">Show source in certificates.py:80</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L79">Show source in certificates.py:79</a></p>
 <p>Loads
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#certificates">Certificates</a>
 from a str URI</p>
@@ -1217,7 +1216,7 @@ should be cached, default is 1 month</li>
 <li><a href="#cache_time_seconds">CACHE_TIME_SECONDS</a></li>
 </ul>
 <h3 id="certificatesto_file">Certificates().to_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L116">Show source in certificates.py:116</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L115">Show source in certificates.py:115</a></p>
 <p>Saves one or more certificate(s) into a file</p>
 <h4 id="arguments_2">Arguments</h4>
 <ul>
