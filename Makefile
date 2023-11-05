@@ -6,7 +6,7 @@ format:
 
 .PHONY: pytest
 pytest:
-	poetry run python -m pytest -s --capture=no  ./test
+	poetry run python -m pytest -s --capture=no ./test
 	make clean
 
 .PHONY: docs-gen

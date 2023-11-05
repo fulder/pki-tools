@@ -1,0 +1,3190 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../crypto_parser/">
+      
+      
+        <link rel="next" href="../name/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.7">
+    
+    
+      
+        <title>Extensions - Pki-tools</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.4b4a2bd9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#extensions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Pki-tools" class="md-header__button md-logo" aria-label="Pki-tools" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.5 17-5 5-3.5-3.5 1.5-1.5 2 2 3.5-3.5 1.5 1.5m-10.41 3H6V4h7v5h5v4.09c.33-.05.66-.09 1-.09s.67.04 1 .09V8l-6-6H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h7.81c-.35-.61-.6-1.28-.72-2Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pki-tools
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Extensions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fulder/pki-tools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Pki-tools" class="md-nav__button md-logo" aria-label="Pki-tools" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.5 17-5 5-3.5-3.5 1.5-1.5 2 2 3.5-3.5 1.5 1.5m-10.41 3H6V4h7v5h5v4.09c.33-.05.66-.09 1-.09s.67.04 1 .09V8l-6-6H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h7.81c-.35-.61-.6-1.28-.72-2Z"/></svg>
+
+    </a>
+    Pki-tools
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fulder/pki-tools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pki-tools Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Pki tools
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Pki tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pki Tools
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Crl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exceptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exceptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ocsp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ocsp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utils
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Types
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Types
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../certificate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Certificate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../certificates/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Certificates
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Chain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Crl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crypto_parser/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CryptoParser
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Extensions
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Extensions
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#accessdescription" class="md-nav__link">
+    AccessDescription
+  </a>
+  
+    <nav class="md-nav" aria-label="AccessDescription">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accessdescriptionfrom_cryptography" class="md-nav__link">
+    AccessDescription.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="AccessDescription.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_1" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternativename" class="md-nav__link">
+    AlternativeName
+  </a>
+  
+    <nav class="md-nav" aria-label="AlternativeName">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_2" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_1" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternativenamefrom_cryptography" class="md-nav__link">
+    AlternativeName.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="AlternativeName.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_3" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authorityinformationaccess" class="md-nav__link">
+    AuthorityInformationAccess
+  </a>
+  
+    <nav class="md-nav" aria-label="AuthorityInformationAccess">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_4" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_2" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorityinformationaccessfrom_cryptography" class="md-nav__link">
+    AuthorityInformationAccess.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="AuthorityInformationAccess.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_5" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authoritykeyidentifier" class="md-nav__link">
+    AuthorityKeyIdentifier
+  </a>
+  
+    <nav class="md-nav" aria-label="AuthorityKeyIdentifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_6" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_3" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authoritykeyidentifierfrom_cryptography" class="md-nav__link">
+    AuthorityKeyIdentifier.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="AuthorityKeyIdentifier.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_7" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basicconstraints" class="md-nav__link">
+    BasicConstraints
+  </a>
+  
+    <nav class="md-nav" aria-label="BasicConstraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_8" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_4" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basicconstraintsfrom_cryptography" class="md-nav__link">
+    BasicConstraints.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="BasicConstraints.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_9" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificatepolicies" class="md-nav__link">
+    CertificatePolicies
+  </a>
+  
+    <nav class="md-nav" aria-label="CertificatePolicies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_10" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_5" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificatepoliciesfrom_cryptography" class="md-nav__link">
+    CertificatePolicies.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="CertificatePolicies.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_11" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crldistributionpoints" class="md-nav__link">
+    CrlDistributionPoints
+  </a>
+  
+    <nav class="md-nav" aria-label="CrlDistributionPoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_12" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_6" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crldistributionpointsfrom_cryptography" class="md-nav__link">
+    CrlDistributionPoints.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="CrlDistributionPoints.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_13" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distributionpoint" class="md-nav__link">
+    DistributionPoint
+  </a>
+  
+    <nav class="md-nav" aria-label="DistributionPoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_14" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_7" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributionpointfrom_cryptography" class="md-nav__link">
+    DistributionPoint.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="DistributionPoint.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_15" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extendedkeyusage" class="md-nav__link">
+    ExtendedKeyUsage
+  </a>
+  
+    <nav class="md-nav" aria-label="ExtendedKeyUsage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_16" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_8" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extendedkeyusagefrom_cryptography" class="md-nav__link">
+    ExtendedKeyUsage.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="ExtendedKeyUsage.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_17" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extension" class="md-nav__link">
+    Extension
+  </a>
+  
+    <nav class="md-nav" aria-label="Extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_18" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extensionname" class="md-nav__link">
+    Extension().name
+  </a>
+  
+    <nav class="md-nav" aria-label="Extension().name">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_19" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extensions_1" class="md-nav__link">
+    Extensions
+  </a>
+  
+    <nav class="md-nav" aria-label="Extensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_20" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extensionsfrom_cryptography" class="md-nav__link">
+    Extensions.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="Extensions.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_21" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#freshestcrl" class="md-nav__link">
+    FreshestCrl
+  </a>
+  
+    <nav class="md-nav" aria-label="FreshestCrl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_22" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_9" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inhibitanypolicy" class="md-nav__link">
+    InhibitAnyPolicy
+  </a>
+  
+    <nav class="md-nav" aria-label="InhibitAnyPolicy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_23" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_10" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inhibitanypolicyfrom_cryptography" class="md-nav__link">
+    InhibitAnyPolicy.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="InhibitAnyPolicy.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_24" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issueralternativename" class="md-nav__link">
+    IssuerAlternativeName
+  </a>
+  
+    <nav class="md-nav" aria-label="IssuerAlternativeName">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_25" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_11" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyusage" class="md-nav__link">
+    KeyUsage
+  </a>
+  
+    <nav class="md-nav" aria-label="KeyUsage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_26" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_12" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyusagefrom_cryptography" class="md-nav__link">
+    KeyUsage.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="KeyUsage.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_27" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nameconstraints" class="md-nav__link">
+    NameConstraints
+  </a>
+  
+    <nav class="md-nav" aria-label="NameConstraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_28" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_13" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nameconstraintsfrom_cryptography" class="md-nav__link">
+    NameConstraints.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="NameConstraints.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_29" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#noticereference" class="md-nav__link">
+    NoticeReference
+  </a>
+  
+    <nav class="md-nav" aria-label="NoticeReference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_30" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_14" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noticereferencefrom_cryptography" class="md-nav__link">
+    NoticeReference.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="NoticeReference.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_31" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policyconstraints" class="md-nav__link">
+    PolicyConstraints
+  </a>
+  
+    <nav class="md-nav" aria-label="PolicyConstraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_32" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_15" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policyconstraintsfrom_cryptography" class="md-nav__link">
+    PolicyConstraints.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="PolicyConstraints.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_33" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policyinformation" class="md-nav__link">
+    PolicyInformation
+  </a>
+  
+    <nav class="md-nav" aria-label="PolicyInformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_34" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_16" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policyinformationfrom_cryptography" class="md-nav__link">
+    PolicyInformation.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="PolicyInformation.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_35" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subjectalternativename" class="md-nav__link">
+    SubjectAlternativeName
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectAlternativeName">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_36" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_17" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subjectdirectoryattributes" class="md-nav__link">
+    SubjectDirectoryAttributes
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectDirectoryAttributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_37" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_18" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subjectdirectoryattributesfrom_cryptography" class="md-nav__link">
+    SubjectDirectoryAttributes.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectDirectoryAttributes.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_38" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subjectinformationaccess" class="md-nav__link">
+    SubjectInformationAccess
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectInformationAccess">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_39" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_19" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subjectkeyidentifier" class="md-nav__link">
+    SubjectKeyIdentifier
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectKeyIdentifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_40" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_20" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subjectkeyidentifierfrom_cryptography" class="md-nav__link">
+    SubjectKeyIdentifier.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectKeyIdentifier.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_41" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usernotice" class="md-nav__link">
+    UserNotice
+  </a>
+  
+    <nav class="md-nav" aria-label="UserNotice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_42" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_21" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usernoticefrom_cryptography" class="md-nav__link">
+    UserNotice.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="UserNotice.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_43" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../name/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Name
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ocsp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ocsp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Utils
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#accessdescription" class="md-nav__link">
+    AccessDescription
+  </a>
+  
+    <nav class="md-nav" aria-label="AccessDescription">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accessdescriptionfrom_cryptography" class="md-nav__link">
+    AccessDescription.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="AccessDescription.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_1" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternativename" class="md-nav__link">
+    AlternativeName
+  </a>
+  
+    <nav class="md-nav" aria-label="AlternativeName">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_2" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_1" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternativenamefrom_cryptography" class="md-nav__link">
+    AlternativeName.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="AlternativeName.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_3" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authorityinformationaccess" class="md-nav__link">
+    AuthorityInformationAccess
+  </a>
+  
+    <nav class="md-nav" aria-label="AuthorityInformationAccess">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_4" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_2" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorityinformationaccessfrom_cryptography" class="md-nav__link">
+    AuthorityInformationAccess.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="AuthorityInformationAccess.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_5" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authoritykeyidentifier" class="md-nav__link">
+    AuthorityKeyIdentifier
+  </a>
+  
+    <nav class="md-nav" aria-label="AuthorityKeyIdentifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_6" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_3" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authoritykeyidentifierfrom_cryptography" class="md-nav__link">
+    AuthorityKeyIdentifier.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="AuthorityKeyIdentifier.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_7" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basicconstraints" class="md-nav__link">
+    BasicConstraints
+  </a>
+  
+    <nav class="md-nav" aria-label="BasicConstraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_8" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_4" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basicconstraintsfrom_cryptography" class="md-nav__link">
+    BasicConstraints.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="BasicConstraints.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_9" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificatepolicies" class="md-nav__link">
+    CertificatePolicies
+  </a>
+  
+    <nav class="md-nav" aria-label="CertificatePolicies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_10" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_5" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificatepoliciesfrom_cryptography" class="md-nav__link">
+    CertificatePolicies.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="CertificatePolicies.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_11" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crldistributionpoints" class="md-nav__link">
+    CrlDistributionPoints
+  </a>
+  
+    <nav class="md-nav" aria-label="CrlDistributionPoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_12" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_6" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crldistributionpointsfrom_cryptography" class="md-nav__link">
+    CrlDistributionPoints.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="CrlDistributionPoints.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_13" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distributionpoint" class="md-nav__link">
+    DistributionPoint
+  </a>
+  
+    <nav class="md-nav" aria-label="DistributionPoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_14" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_7" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributionpointfrom_cryptography" class="md-nav__link">
+    DistributionPoint.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="DistributionPoint.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_15" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extendedkeyusage" class="md-nav__link">
+    ExtendedKeyUsage
+  </a>
+  
+    <nav class="md-nav" aria-label="ExtendedKeyUsage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_16" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_8" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extendedkeyusagefrom_cryptography" class="md-nav__link">
+    ExtendedKeyUsage.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="ExtendedKeyUsage.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_17" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extension" class="md-nav__link">
+    Extension
+  </a>
+  
+    <nav class="md-nav" aria-label="Extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_18" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extensionname" class="md-nav__link">
+    Extension().name
+  </a>
+  
+    <nav class="md-nav" aria-label="Extension().name">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_19" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extensions_1" class="md-nav__link">
+    Extensions
+  </a>
+  
+    <nav class="md-nav" aria-label="Extensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_20" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extensionsfrom_cryptography" class="md-nav__link">
+    Extensions.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="Extensions.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_21" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#freshestcrl" class="md-nav__link">
+    FreshestCrl
+  </a>
+  
+    <nav class="md-nav" aria-label="FreshestCrl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_22" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_9" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inhibitanypolicy" class="md-nav__link">
+    InhibitAnyPolicy
+  </a>
+  
+    <nav class="md-nav" aria-label="InhibitAnyPolicy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_23" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_10" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inhibitanypolicyfrom_cryptography" class="md-nav__link">
+    InhibitAnyPolicy.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="InhibitAnyPolicy.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_24" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issueralternativename" class="md-nav__link">
+    IssuerAlternativeName
+  </a>
+  
+    <nav class="md-nav" aria-label="IssuerAlternativeName">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_25" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_11" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyusage" class="md-nav__link">
+    KeyUsage
+  </a>
+  
+    <nav class="md-nav" aria-label="KeyUsage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_26" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_12" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyusagefrom_cryptography" class="md-nav__link">
+    KeyUsage.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="KeyUsage.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_27" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nameconstraints" class="md-nav__link">
+    NameConstraints
+  </a>
+  
+    <nav class="md-nav" aria-label="NameConstraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_28" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_13" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nameconstraintsfrom_cryptography" class="md-nav__link">
+    NameConstraints.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="NameConstraints.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_29" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#noticereference" class="md-nav__link">
+    NoticeReference
+  </a>
+  
+    <nav class="md-nav" aria-label="NoticeReference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_30" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_14" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noticereferencefrom_cryptography" class="md-nav__link">
+    NoticeReference.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="NoticeReference.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_31" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policyconstraints" class="md-nav__link">
+    PolicyConstraints
+  </a>
+  
+    <nav class="md-nav" aria-label="PolicyConstraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_32" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_15" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policyconstraintsfrom_cryptography" class="md-nav__link">
+    PolicyConstraints.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="PolicyConstraints.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_33" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policyinformation" class="md-nav__link">
+    PolicyInformation
+  </a>
+  
+    <nav class="md-nav" aria-label="PolicyInformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_34" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_16" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policyinformationfrom_cryptography" class="md-nav__link">
+    PolicyInformation.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="PolicyInformation.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_35" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subjectalternativename" class="md-nav__link">
+    SubjectAlternativeName
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectAlternativeName">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_36" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_17" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subjectdirectoryattributes" class="md-nav__link">
+    SubjectDirectoryAttributes
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectDirectoryAttributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_37" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_18" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subjectdirectoryattributesfrom_cryptography" class="md-nav__link">
+    SubjectDirectoryAttributes.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectDirectoryAttributes.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_38" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subjectinformationaccess" class="md-nav__link">
+    SubjectInformationAccess
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectInformationAccess">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_39" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_19" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subjectkeyidentifier" class="md-nav__link">
+    SubjectKeyIdentifier
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectKeyIdentifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_40" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_20" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subjectkeyidentifierfrom_cryptography" class="md-nav__link">
+    SubjectKeyIdentifier.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="SubjectKeyIdentifier.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_41" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usernotice" class="md-nav__link">
+    UserNotice
+  </a>
+  
+    <nav class="md-nav" aria-label="UserNotice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_42" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also_21" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usernoticefrom_cryptography" class="md-nav__link">
+    UserNotice.from_cryptography
+  </a>
+  
+    <nav class="md-nav" aria-label="UserNotice.from_cryptography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_43" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="extensions">Extensions</h1>
+<p><a href="../../../#pki-tools-index">Pki-tools Index</a> /
+<a href="../../#pki-tools">Pki Tools</a> /
+<a href="../#types">Types</a> /
+Extensions</p>
+<blockquote>
+<p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py">pki_tools.types.extensions</a> module.</p>
+</blockquote>
+<h2 id="accessdescription">AccessDescription</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L481">Show source in extensions.py:481</a></p>
+<h4 id="signature">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span> <span class="nc">AccessDescription</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="accessdescriptionfrom_cryptography">AccessDescription.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L485">Show source in extensions.py:485</a></p>
+<h4 id="signature_1">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">AccessDescription</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="alternativename">AlternativeName</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L230">Show source in extensions.py:230</a></p>
+<h4 id="signature_2">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span> <span class="nc">AlternativeName</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_1">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="alternativenamefrom_cryptography">AlternativeName.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L233">Show source in extensions.py:233</a></p>
+<h4 id="signature_3">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">SubjectAlternativeName</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="authorityinformationaccess">AuthorityInformationAccess</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L499">Show source in extensions.py:499</a></p>
+<h4 id="signature_4">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span> <span class="nc">AuthorityInformationAccess</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_2">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="authorityinformationaccessfrom_cryptography">AuthorityInformationAccess.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L505">Show source in extensions.py:505</a></p>
+<h4 id="signature_5">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">AuthorityInformationAccess</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="authoritykeyidentifier">AuthorityKeyIdentifier</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L34">Show source in extensions.py:34</a></p>
+<h4 id="signature_6">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span> <span class="nc">AuthorityKeyIdentifier</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_3">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="authoritykeyidentifierfrom_cryptography">AuthorityKeyIdentifier.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L39">Show source in extensions.py:39</a></p>
+<h4 id="signature_7">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">AuthorityKeyIdentifier</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="basicconstraints">BasicConstraints</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L275">Show source in extensions.py:275</a></p>
+<h4 id="signature_8">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">class</span> <span class="nc">BasicConstraints</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_4">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="basicconstraintsfrom_cryptography">BasicConstraints.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L279">Show source in extensions.py:279</a></p>
+<h4 id="signature_9">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">BasicConstraints</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="certificatepolicies">CertificatePolicies</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L210">Show source in extensions.py:210</a></p>
+<h4 id="signature_10">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">class</span> <span class="nc">CertificatePolicies</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_5">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="certificatepoliciesfrom_cryptography">CertificatePolicies.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L213">Show source in extensions.py:213</a></p>
+<h4 id="signature_11">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">CertificatePolicies</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="crldistributionpoints">CrlDistributionPoints</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L441">Show source in extensions.py:441</a></p>
+<h4 id="signature_12">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">class</span> <span class="nc">CrlDistributionPoints</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_6">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="crldistributionpointsfrom_cryptography">CrlDistributionPoints.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L447">Show source in extensions.py:447</a></p>
+<h4 id="signature_13">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">CRLDistributionPoints</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="distributionpoint">DistributionPoint</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L387">Show source in extensions.py:387</a></p>
+<h4 id="signature_14">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">class</span> <span class="nc">DistributionPoint</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_7">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="distributionpointfrom_cryptography">DistributionPoint.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L393">Show source in extensions.py:393</a></p>
+<h4 id="signature_15">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">DistributionPoint</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="extendedkeyusage">ExtendedKeyUsage</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L369">Show source in extensions.py:369</a></p>
+<h4 id="signature_16">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">class</span> <span class="nc">ExtendedKeyUsage</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_8">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="extendedkeyusagefrom_cryptography">ExtendedKeyUsage.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L372">Show source in extensions.py:372</a></p>
+<h4 id="signature_17">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">ExtendedKeyUsage</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="extension">Extension</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L21">Show source in extensions.py:21</a></p>
+<h4 id="signature_18">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">class</span> <span class="nc">Extension</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="extensionname">Extension().name</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L24">Show source in extensions.py:24</a></p>
+<h4 id="signature_19">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nd">@property</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="extensions_1">Extensions</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L526">Show source in extensions.py:526</a></p>
+<h4 id="signature_20">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">class</span> <span class="nc">Extensions</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="extensionsfrom_cryptography">Extensions.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L589">Show source in extensions.py:589</a></p>
+<h4 id="signature_21">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cert_extensions</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">Extensions</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="freshestcrl">FreshestCrl</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L477">Show source in extensions.py:477</a></p>
+<h4 id="signature_22">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">class</span> <span class="nc">FreshestCrl</span><span class="p">(</span><span class="n">CrlDistributionPoints</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_9">See also</h4>
+<ul>
+<li><a href="#crldistributionpoints">CrlDistributionPoints</a></li>
+</ul>
+<h2 id="inhibitanypolicy">InhibitAnyPolicy</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L466">Show source in extensions.py:466</a></p>
+<h4 id="signature_23">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">class</span> <span class="nc">InhibitAnyPolicy</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_10">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="inhibitanypolicyfrom_cryptography">InhibitAnyPolicy.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L469">Show source in extensions.py:469</a></p>
+<h4 id="signature_24">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">InhibitAnyPolicy</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="issueralternativename">IssuerAlternativeName</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L249">Show source in extensions.py:249</a></p>
+<h4 id="signature_25">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">class</span> <span class="nc">IssuerAlternativeName</span><span class="p">(</span><span class="n">AlternativeName</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_11">See also</h4>
+<ul>
+<li><a href="#alternativename">AlternativeName</a></li>
+</ul>
+<h2 id="keyusage">KeyUsage</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L85">Show source in extensions.py:85</a></p>
+<h4 id="signature_26">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">class</span> <span class="nc">KeyUsage</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_12">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="keyusagefrom_cryptography">KeyUsage.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L96">Show source in extensions.py:96</a></p>
+<h4 id="signature_27">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">KeyUsage</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="nameconstraints">NameConstraints</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L296">Show source in extensions.py:296</a></p>
+<h4 id="signature_28">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">class</span> <span class="nc">NameConstraints</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_13">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="nameconstraintsfrom_cryptography">NameConstraints.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L300">Show source in extensions.py:300</a></p>
+<h4 id="signature_29">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">NameConstraints</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="noticereference">NoticeReference</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L132">Show source in extensions.py:132</a></p>
+<h4 id="signature_30">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">class</span> <span class="nc">NoticeReference</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_14">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="noticereferencefrom_cryptography">NoticeReference.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L136">Show source in extensions.py:136</a></p>
+<h4 id="signature_31">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">notice_reference</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">NoticeReference</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="policyconstraints">PolicyConstraints</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L328">Show source in extensions.py:328</a></p>
+<h4 id="signature_32">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">class</span> <span class="nc">PolicyConstraints</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_15">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="policyconstraintsfrom_cryptography">PolicyConstraints.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L332">Show source in extensions.py:332</a></p>
+<h4 id="signature_33">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">PolicyConstraints</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="policyinformation">PolicyInformation</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L175">Show source in extensions.py:175</a></p>
+<h4 id="signature_34">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="k">class</span> <span class="nc">PolicyInformation</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_16">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="policyinformationfrom_cryptography">PolicyInformation.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L179">Show source in extensions.py:179</a></p>
+<h4 id="signature_35">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">policy_info</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">PolicyInformation</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="subjectalternativename">SubjectAlternativeName</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L245">Show source in extensions.py:245</a></p>
+<h4 id="signature_36">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="k">class</span> <span class="nc">SubjectAlternativeName</span><span class="p">(</span><span class="n">AlternativeName</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_17">See also</h4>
+<ul>
+<li><a href="#alternativename">AlternativeName</a></li>
+</ul>
+<h2 id="subjectdirectoryattributes">SubjectDirectoryAttributes</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L253">Show source in extensions.py:253</a></p>
+<h4 id="signature_37">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="k">class</span> <span class="nc">SubjectDirectoryAttributes</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_18">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="subjectdirectoryattributesfrom_cryptography">SubjectDirectoryAttributes.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L256">Show source in extensions.py:256</a></p>
+<h4 id="signature_38">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">UnrecognizedExtension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="subjectinformationaccess">SubjectInformationAccess</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L522">Show source in extensions.py:522</a></p>
+<h4 id="signature_39">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="k">class</span> <span class="nc">SubjectInformationAccess</span><span class="p">(</span><span class="n">AuthorityInformationAccess</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_19">See also</h4>
+<ul>
+<li><a href="#authorityinformationaccess">AuthorityInformationAccess</a></li>
+</ul>
+<h2 id="subjectkeyidentifier">SubjectKeyIdentifier</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L73">Show source in extensions.py:73</a></p>
+<h4 id="signature_40">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="k">class</span> <span class="nc">SubjectKeyIdentifier</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_20">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="subjectkeyidentifierfrom_cryptography">SubjectKeyIdentifier.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L76">Show source in extensions.py:76</a></p>
+<h4 id="signature_41">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">SubjectKeyIdentifier</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="usernotice">UserNotice</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L152">Show source in extensions.py:152</a></p>
+<h4 id="signature_42">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="k">class</span> <span class="nc">UserNotice</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also_21">See also</h4>
+<ul>
+<li><a href="#extension">Extension</a></li>
+</ul>
+<h3 id="usernoticefrom_cryptography">UserNotice.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/extensions.py#L156">Show source in extensions.py:156</a></p>
+<h4 id="signature_43">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">policy_info</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">UserNotice</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.expand", "navigation.instant", "navigation.tracking", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.aecac24b.min.js"></script>
+      
+    
+  </body>
+</html>

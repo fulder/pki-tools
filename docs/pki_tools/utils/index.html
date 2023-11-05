@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../ocsp/">
       
       
-        <link rel="next" href="../exceptions/">
+        <link rel="next" href="../types/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Crl - Pki-tools</title>
+        <title>Utils - Pki-tools</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#crl" class="md-skip">
+        <a href="#utils" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Crl
+              Utils
             
           </span>
         </div>
@@ -325,18 +325,9 @@
                 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../crl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -345,7 +336,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -395,9 +385,29 @@
                 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../utils/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Utils
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -406,6 +416,67 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#verify_signature" class="md-nav__link">
+    verify_signature
+  </a>
+  
+    <nav class="md-nav" aria-label="verify_signature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -684,6 +755,55 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#verify_signature" class="md-nav__link">
+    verify_signature
+  </a>
+  
+    <nav class="md-nav" aria-label="verify_signature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -700,13 +820,42 @@
   
 
 
-<h1 id="crl">Crl</h1>
+<h1 id="utils">Utils</h1>
 <p><a href="../../#pki-tools-index">Pki-tools Index</a> /
 <a href="../#pki-tools">Pki Tools</a> /
-Crl</p>
+Utils</p>
 <blockquote>
-<p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/crl.py">pki_tools.crl</a> module.</p>
+<p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/utils.py">pki_tools.utils</a> module.</p>
 </blockquote>
+<h2 id="verify_signature">verify_signature</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/utils.py#L18">Show source in utils.py:18</a></p>
+<p>Verifies a signature of a signed entity against the issuer certificate</p>
+<h4 id="arguments">Arguments</h4>
+<ul>
+<li><code>signed</code> - The signed certificate can either be a
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificate">Certificate</a>
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificaterevocationlist">CertificateRevocationList</a>
+or a
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#ocspresponse">OCSPResponse</a></li>
+<li><code>issuer</code> - The
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificate">Certificate</a>
+describing the issuer of the signed entity</li>
+</ul>
+<h4 id="raises">Raises</h4>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#invalidsignedtype">InvalidSignedType</a>
+-- When the issuer has a non-supported type
+<a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed">SignatureVerificationFailed</a>
+-- When the signature verification fails</p>
+<h4 id="signature">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">verify_signature</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">signed</span><span class="p">:</span> <span class="p">[</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">CertificateRevocationList</span><span class="p">,</span> <span class="n">OCSPResponse</span><span class="p">],</span> <span class="n">issuer</span><span class="p">:</span> <span class="n">Certificate</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also">See also</h4>
+<ul>
+<li><a href="../types/crl/#certificaterevocationlist">CertificateRevocationList</a></li>
+<li><a href="../types/certificate/#certificate">Certificate</a></li>
+</ul>
 
 
 

@@ -63,4 +63,5 @@ line_length = 79
 addopts = "--cov=pki_tools --cov-report term-missing --cov-report=html -v"
 
 [tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
+"./pki_tools/__init__.py" = ["F401"]
+"./pki_tools/types/__init__.py" = ["F401"]
