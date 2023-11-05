@@ -1,5 +1,5 @@
 import typing
-from typing import List, Optional
+from typing import List, Optional, Iterable, Union
 
 from cryptography import x509
 from cryptography.hazmat._oid import ExtensionOID
@@ -174,7 +174,7 @@ class UserNotice(Extension):
 
 class PolicyInformation(Extension):
     policy_identifier: str
-    policy_qualifiers: Optional[list[typing.Union[str, UserNotice]]]
+    policy_qualifiers: Optional[list[Union[str, UserNotice]]]
 
     @classmethod
     def from_cryptography(cls, policy_info: x509.PolicyInformation):
@@ -440,6 +440,9 @@ class DistributionPoint(Extension):
 
 class CrlDistributionPoints(Extension):
     crl_distribution_points: list[DistributionPoint]
+
+    def __iter__(self) -> Iterable[DistributionPoint]:
+        return iter(self.crl_distribution_points)
 
     @classmethod
     def from_cryptography(cls, extension: x509.CRLDistributionPoints):

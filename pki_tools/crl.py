@@ -28,15 +28,12 @@ def _is_revoked(
         serial=cert.hex_serial,
     )
 
-    dist_points = (
-        cert.extensions.crl_distribution_points.crl_distribution_points
-    )
-    if dist_points is None:
+    if cert.extensions.crl_distribution_points is None:
         log.debug("CRL extension missing")
         raise ExtensionMissing()
 
     http_dist = False
-    for dist_point in dist_points:
+    for dist_point in cert.extensions.crl_distribution_points:
         if dist_point.full_name is None:
             continue
 
