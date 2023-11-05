@@ -32,7 +32,7 @@ cert_pem = """
 -----END CERTIFICATE-----
 """
 
-cert = Certificate.from_pem(cert_pem)
+cert = Certificate.from_pem_string(cert_pem)
 ```
 
 #### Loading chain
@@ -45,7 +45,7 @@ issuer_cert_pem = """
 -----END CERTIFICATE-----
 """
 
-chain = Chain.from_pem(issuer_cert_pem)
+chain = Chain.from_pem_string(issuer_cert_pem)
 ```
 
 #### Checking revocation using OCSP with CRL fallback
