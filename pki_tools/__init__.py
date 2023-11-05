@@ -1,6 +1,6 @@
 from loguru import logger
 
-from .types import Chain, Certificate, Extensions, Name
+from .types import Chain, Certificate, Certificates, Extensions, Name
 
 from .exceptions import (
     ExtensionMissing,

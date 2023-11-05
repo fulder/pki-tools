@@ -112,6 +112,14 @@ class Certificates(CryptoParser):
 
         return cls(certificates=x509.load_pem_x509_certificate(ret.content))
 
+    @property
+    def pem_string(self):
+        all_certs = ""
+        for cert in self.certificates:
+            all_certs += cert.pem_string
+
+        return all_certs
+
     def to_file(self, file_path: str):
         """
         Saves one or more certificate(s) into a file
@@ -120,9 +128,6 @@ class Certificates(CryptoParser):
             file_path -- Path and filename where to store the certificate(s)
         """
         with open(file_path, "w") as f:
-            for cert in self.certificates:
-                cert = cert.pem_string
-
-                f.write(cert)
+            f.write(self.pem_string)
 
         logger.debug(f"Certificate(s) saved to {file_path}")

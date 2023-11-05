@@ -8,7 +8,7 @@ from conftest import TEST_SUBJECT, CURRENT_DIR
 from pki_tools import Certificate, CertLoadError
 
 
-def test_subject_to_crypto_name():
+def test_certificate_subject_to_crypto_name():
     name = TEST_SUBJECT.to_crypto_name()
 
     assert name == x509.Name(
@@ -39,29 +39,26 @@ def test_subject_to_crypto_name():
     )
 
 
-def test_from_cryptography(crypto_cert, cert_pem_string):
-    print(cert_pem_string)
-    pki_cert = Certificate.from_cryptography(crypto_cert)
-    print(pki_cert)
+def test_certificate__from_cryptography(crypto_cert, cert_pem_string):
+    Certificate.from_cryptography(crypto_cert)
 
 
-def test_from_pem_string_with_subject_directory_attributes(
+def test_certificate_from_pem_string_with_subject_directory_attributes(
     cert_with_subject_directory_attributes,
 ):
-    cert = Certificate.from_pem_string(cert_with_subject_directory_attributes)
-    print(cert)
+    Certificate.from_pem_string(cert_with_subject_directory_attributes)
 
 
-def test_from_pem_string_invalid_data():
+def test_certificate_from_pem_string_invalid_data():
     with pytest.raises(CertLoadError):
         Certificate.from_pem_string("BAD_PEM_DATA")
 
 
-def test_from_pem_string_with_space(cert_pem_string):
+def test_certificate__from_pem_string_with_space(cert_pem_string):
     Certificate.from_pem_string("\n\n" + cert_pem_string + "\n")
 
 
-def test_save_and_read_file(cert_pem_string):
+def test_certificate_save_and_read_file(cert_pem_string):
     cert = Certificate.from_pem_string(cert_pem_string)
 
     file_path = os.path.join(CURRENT_DIR, "tmp.pem")
