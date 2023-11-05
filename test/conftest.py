@@ -281,20 +281,23 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         x509.FreshestCRL(crl_dist_points), critical=False
     )
 
+    access_descriptions = [
+        x509.AccessDescription(
+            access_method=x509.AuthorityInformationAccessOID.OCSP,
+            access_location=x509.UniformResourceIdentifier(
+                value="http://TEST_URI",
+            ),
+        )
+    ]
     if add_aia_extension:
         cert_builder = cert_builder.add_extension(
-            x509.AuthorityInformationAccess(
-                [
-                    x509.AccessDescription(
-                        access_method=x509.AuthorityInformationAccessOID.OCSP,
-                        access_location=x509.UniformResourceIdentifier(
-                            value="http://TEST_URI",
-                        ),
-                    )
-                ]
-            ),
+            x509.AuthorityInformationAccess(access_descriptions),
             critical=False,
         )
+
+    cert_builder = cert_builder.add_extension(
+        x509.SubjectInformationAccess(access_descriptions), critical=False
+    )
 
     cert = cert_builder.sign(key_pair, hashes.SHA256())
 

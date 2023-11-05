@@ -519,6 +519,10 @@ class AuthorityInformationAccess(Extension):
         return {self.name: {"Access Description": access_descriptions}}
 
 
+class SubjectInformationAccess(AuthorityInformationAccess):
+    pass
+
+
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -577,6 +581,10 @@ class Extensions(BaseModel):
         alias=ExtensionOID.AUTHORITY_INFORMATION_ACCESS.dotted_string,
         default=None,
     )
+    subject_information_access: Optional[SubjectInformationAccess] = Field(
+        alias=ExtensionOID.SUBJECT_INFORMATION_ACCESS.dotted_string,
+        default=None,
+    )
 
     @classmethod
     def from_cryptography(cls, cert_extensions: x509.Extensions):
@@ -593,7 +601,7 @@ class Extensions(BaseModel):
                 extensions_dict[oid.dotted_string] = ext
                 extensions_dict[oid.dotted_string].critical = x509_ext.critical
             except ExtensionNotFound:
-                logger.debug(f"Extension with OID: {oid._name} not found")
+                logger.trace(f"Extension with OID: {oid._name} not found")
 
         return cls(**extensions_dict)
 
