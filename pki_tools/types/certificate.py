@@ -190,7 +190,7 @@ class Certificate(TbsCertificate, CryptoParser):
              exceptions.CertLoadError - If the certificate could not be loaded
         """
         try:
-            cert_pem = re.sub("\n\s*", "\n", cert_pem)
+            cert_pem = re.sub(r"\n\s*", "\n", cert_pem)
             if not _is_pem_string(cert_pem):
                 raise ValueError
 
