@@ -183,7 +183,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         ),
         x509.RFC822Name(value="TEST_RFC_NAME"),
         x509.RegisteredID(value=x509.ObjectIdentifier("1.2.3.4.5")),
-        x509.UniformResourceIdentifier(value="TEST_UNIFORM_RESOURCE_ID"),
+        x509.UniformResourceIdentifier(value="http://TEST_URI"),
     ]
 
     cert_builder = cert_builder.add_extension(
@@ -281,7 +281,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
                     x509.AccessDescription(
                         access_method=x509.AuthorityInformationAccessOID.OCSP,
                         access_location=x509.UniformResourceIdentifier(
-                            value=TEST_ACCESS_DESCRIPTION,
+                            value="http://TEST_URI",
                         ),
                     )
                 ]

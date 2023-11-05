@@ -35,12 +35,16 @@ def _is_revoked(
         log.debug("CRL extension missing")
         raise ExtensionMissing()
 
+    http_dist = False
     for dist_point in dist_points:
         if dist_point.full_name is None:
             continue
 
         for full_name in dist_point.full_name:
+            if "http" not in full_name:
+                continue
 
+            http_dist = True
             cache_ttl = round(time.time() / crl_cache_seconds)
             crl = _get_crl_from_url(full_name, cache_ttl=cache_ttl)
 
@@ -57,6 +61,10 @@ def _is_revoked(
                     "Certificate revoked"
                 )
                 return True
+
+    if not http_dist:
+        log.debug("CRL missing URI")
+        raise ExtensionMissing()
 
     log.debug("Certificate valid")
     return False
