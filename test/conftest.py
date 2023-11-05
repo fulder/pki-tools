@@ -16,7 +16,7 @@ from cryptography.x509 import ocsp, RFC822Name
 from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
-from pki_tools import Chain, Name
+from pki_tools import Chain, Name, Certificate
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -58,13 +58,19 @@ def key_pair():
 
 
 @pytest.fixture()
-def cert(key_pair):
+def cert(crypto_cert):
+    return Certificate.from_cryptography(crypto_cert)
+
+@pytest.fixture()
+def crypto_cert(key_pair):
     return _create_cert(key_pair)
+
+
 
 
 @pytest.fixture()
 def chain(cert_pem_string):
-    return Chain.from_pem_str(cert_pem_string)
+    return Chain.from_pem_string(cert_pem_string)
 
 
 TEST_SUBJECT = Name(
@@ -290,7 +296,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
 
 @pytest.fixture()
 def cert_pem_string(cert):
-    return cert.public_bytes(serialization.Encoding.PEM).decode()
+    return cert.pem_string
 
 
 @pytest.fixture()
@@ -321,6 +327,7 @@ def cert_with_subject_directory_attributes():
 def _create_mocked_ocsp_response(
     cert, key_pair, status=ocsp.OCSPCertStatus.GOOD, revocation_time=None
 ):
+    cert = cert._x509_cert
     builder = ocsp.OCSPResponseBuilder()
     builder = builder.add_response(
         cert=cert,
@@ -338,7 +345,7 @@ def _create_mocked_ocsp_response(
 def _create_crl(keypair, revoked_serials, cert):
     one_day = datetime.timedelta(days=1)
     crl = x509.CertificateRevocationListBuilder()
-    crl = crl.issuer_name(cert.subject)
+    crl = crl.issuer_name(cert._x509_cert.subject)
     crl = crl.last_update(datetime.datetime.today())
     crl = crl.next_update(datetime.datetime.today() + one_day)
 

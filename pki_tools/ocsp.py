@@ -24,28 +24,29 @@ from cryptography.x509.ocsp import (
 from cryptography.x509.oid import ExtensionOID
 from loguru import logger
 
-import pki_tools
-from pki_tools import exceptions, types
+from pki_tools.types.chain import Chain
+from pki_tools.types.certificate import Certificate
+from pki_tools.utils import HTTPX_CLIENT, verify_signature
+from pki_tools.exceptions import ExtensionMissing, OcspInvalidResponseStatus, \
+    OcspFetchFailure, Error
+from pki_tools.types.utils import _byte_to_hex
 
 OCSP_ALGORITHMS_TO_CHECK = [SHA256(), SHA1(), SHA512(), SHA224(), SHA384()]
 
 
 def _is_revoked_multiple_issuers(
-    cert: [x509.Certificate, types.PemCert],
-    cert_issuer: types.Chain,
-    ocsp_issuer: types.Chain,
+    cert: Certificate,
+    cert_issuer: Chain,
+    ocsp_issuer: Chain,
 ):
     cert_issuer.check_chain()
     ocsp_issuer.check_chain()
 
-    if types._is_pem_str(cert):
-        cert = pki_tools.cert_from_pem(cert)
-
     issuer = cert_issuer.get_issuer(cert)
 
     log = logger.bind(
-        cert=pki_tools.pem_from_cert(cert),
-        serial=pki_tools.get_cert_serial(cert),
+        cert=cert.pem_string,
+        serial=cert.serial_number,
     )
 
     try:
@@ -54,14 +55,14 @@ def _is_revoked_multiple_issuers(
         )
     except ExtensionNotFound:
         log.debug("OCSP extension missing")
-        raise exceptions.ExtensionMissing()
+        raise ExtensionMissing()
 
     for i, alg in enumerate(OCSP_ALGORITHMS_TO_CHECK):
         try:
             req_path = _construct_req_path(cert, issuer, alg)
 
             return _check_ocsp_status(aia_exs, req_path, cert, ocsp_issuer)
-        except exceptions.OcspInvalidResponseStatus:
+        except OcspInvalidResponseStatus:
             log.bind(alg=alg.name).debug(
                 "OCSP check failed, trying another algorithm"
             )
@@ -84,9 +85,9 @@ def _construct_req_path(cert, issuer_cert, alg):
 
 
 def _check_ocsp_status(
-    aia_exs, req_path, cert: x509.Certificate, issuer_chain: types.Chain
+    aia_exs, req_path, cert: Certificate, issuer_chain: Chain
 ):
-    log = logger.bind(serial=pki_tools.get_cert_serial(cert))
+    log = logger.bind(serial=cert.hex_serial)
 
     for aia_ex in aia_exs.value:
         if aia_ex.access_method == x509.AuthorityInformationAccessOID.OCSP:
@@ -107,14 +108,14 @@ def _check_ocsp_status(
 
 
 def _get_ocsp_status(uri) -> OCSPResponse:
-    ret = pki_tools.HTTPX_CLIENT.get(
+    ret = HTTPX_CLIENT.get(
         uri, headers={"Content-Type": "application/ocsp-request"}
     )
 
     log = logger.bind(status=ret.status_code)
     if ret.status_code != 200:
         log.error("OCSP status fetch failed")
-        raise exceptions.OcspFetchFailure(
+        raise OcspFetchFailure(
             f"Unexpected response status code: {ret.status_code}"
         )
 
@@ -123,7 +124,7 @@ def _get_ocsp_status(uri) -> OCSPResponse:
         log.bind(res=ocsp_res.response_status.name).debug(
             "Invalid OCSP response"
         )
-        raise exceptions.OcspInvalidResponseStatus(
+        raise OcspInvalidResponseStatus(
             f"Invalid OCSP Response status: {ocsp_res.response_status}"
         )
 
@@ -131,10 +132,10 @@ def _get_ocsp_status(uri) -> OCSPResponse:
 
 
 def _verify_ocsp_signature(
-    ocsp_response: OCSPResponse, issuer_chain: types.Chain
+    ocsp_response: OCSPResponse, issuer_chain: Chain
 ):
     try:
-        ocsp_response_key_hash = types._byte_to_hex(
+        ocsp_response_key_hash = _byte_to_hex(
             ocsp_response.issuer_key_hash
         )
     except Exception as e:
@@ -159,6 +160,6 @@ def _verify_ocsp_signature(
             break
     else:
         logger.error("Couldn't find OCSP response issuer")
-        raise exceptions.Error("Couldn't find OCSP response issuer")
+        raise Error("Couldn't find OCSP response issuer")
 
-    pki_tools.verify_signature(ocsp_response, issuer_cert)
+    verify_signature(ocsp_response, issuer_cert)

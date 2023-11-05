@@ -13,8 +13,9 @@ from cryptography.x509.extensions import (
 
 from loguru import logger
 from pydantic import BaseModel, Field, ConfigDict
-from pki_tools.types.certificate.name import Name
-from pki_tools.types import _byte_to_hex
+
+from pki_tools.types.name import Name
+from pki_tools.types.utils import _byte_to_hex
 
 
 class Extension(BaseModel):

@@ -1,19 +1,47 @@
-from datetime import datetime
+import re
 from typing import Union, Optional
 
 import yaml
-from cryptography import x509
+
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, ec, dsa, rsa
 from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
 
-from pydantic import BaseModel, ConfigDict
+from pki_tools.types.name import Name
+from pki_tools.types.extensions import Extensions
 
-from pki_tools.types.certificate.name import Name
-from pki_tools.types.certificate.extensions import Extensions
-from pki_tools.types import _byte_to_hex
+from pki_tools.exceptions import CertLoadError, ExtensionMissing
+from pki_tools.types.utils import _byte_to_hex
+
+import time
+from functools import lru_cache
+from typing import List, Type
+
+import httpx
+from cryptography import x509
+
+from pydantic import BaseModel, constr
+
+
+from pki_tools.exceptions import OcspIssuerFetchFailure
+from pki_tools.types.crypto_parser import CryptoParser
+
+from datetime import datetime
+
+from loguru import logger
+from pydantic import ConfigDict
+
+from pki_tools.exceptions import NotCompleteChain, CertExpired, \
+    CertIssuerMissingInChain
+from pki_tools.types.crl import CertificateRevocationList
+
+
+PEM_REGEX = re.compile(
+    r"\s*-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+\s*"
+)
+CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 
 
 class SignatureAlgorithm(BaseModel):
@@ -34,7 +62,7 @@ class Validity(BaseModel):
         }
 
 
-class SubjectPublicKeyInfo(BaseModel):
+class SubjectPublicKeyInfo(CryptoParser):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     algorithm: str
@@ -122,14 +150,15 @@ class TbsCertificate(BaseModel):
         )
 
 
-class Certificate(TbsCertificate):
+class Certificate(TbsCertificate, CryptoParser):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     signature_value: str
 
     @classmethod
-    def parse_certificate(cls, cert: x509.Certificate):
-        return cls(
+    def from_cryptography(cls: Type["Certificate"], cert: x509.Certificate) -> "Certificate":
+        print(type(cert))
+        ret = cls(
             version=cert.version.value,
             serial_number=cert.serial_number,
             signature_algorithm=SignatureAlgorithm(
@@ -148,6 +177,59 @@ class Certificate(TbsCertificate):
             extensions=Extensions.from_cryptography(cert.extensions),
             signature_value=_byte_to_hex(cert.signature),
         )
+        ret._x509_cert = cert
+        return ret
+
+    @classmethod
+    def from_pem_string(cls: Type["Certificate"], cert_pem) -> "Certificate":
+        """
+        Loads a certificate from a PEM string into a
+        [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
+        object
+
+        Arguments:
+            cert_pem -- The PEM encoded certificate in string format
+        Returns:
+            A
+            [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
+            created from the PEM
+        Raises:
+             exceptions.CertLoadError - If the certificate could not be loaded
+        """
+        try:
+            cert_pem = re.sub("\n\s*", "\n", cert_pem)
+            if not _is_pem_string(cert_pem):
+                raise ValueError
+
+            crypto_cert = x509.load_pem_x509_certificate(cert_pem.encode())
+            return Certificate.from_cryptography(crypto_cert)
+        except ValueError as e:
+            logger.bind(cert=cert_pem).debug("Failed to load cert from PEM")
+            raise CertLoadError(e)
+
+    @classmethod
+    def from_file(cls: Type["Certificate"], file_path: str) -> "Certificate":
+        """
+        Reads a file containing one PEM certificate into a
+        [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
+        object
+
+        Arguments:
+            file_path -- Path and filename of the PEM certificate
+        Returns:
+             The
+             [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
+             representing the certificate from file
+        """
+
+        with open(file_path, "r") as f:
+            cert_pem = f.read()
+
+        return Certificate.from_pem_string(cert_pem)
+
+    def to_file(self, file_path):
+        with open(file_path, "w") as f:
+            f.write(self.pem_string)
 
     def _string_dict(self):
         return {
@@ -157,6 +239,16 @@ class Certificate(TbsCertificate):
             }
         }
 
+    @property
+    def pem_string(self):
+        return self._x509_cert.public_bytes(
+            serialization.Encoding.PEM
+        ).decode()
+
+    @property
+    def public_key(self) -> CertificatePublicKeyTypes:
+        return self._x509_cert.public_key()
+
     def __str__(self) -> str:
         return yaml.safe_dump(
             self._string_dict(),
@@ -165,3 +257,9 @@ class Certificate(TbsCertificate):
             explicit_start=True,
             default_style="",
         )
+
+def _is_pem_string(check: str):
+    if not isinstance(check, str):
+        return False
+
+    return re.match(PEM_REGEX, check)

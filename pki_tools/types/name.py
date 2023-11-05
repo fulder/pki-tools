@@ -5,10 +5,12 @@ from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
 
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import  Field, ConfigDict
+
+from pki_tools.types.crypto_parser import CryptoParser
 
 
-class Name(BaseModel):
+class Name(CryptoParser):
     """
     Name type describes certificate subject or issuer.
     The attributes are following the

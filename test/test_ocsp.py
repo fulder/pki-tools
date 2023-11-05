@@ -1,6 +1,6 @@
 import pytest
 
-from pki_tools.exceptions import OcspFetchFailure
+from pki_tools import OcspFetchFailure
 from pki_tools.ocsp import _is_revoked_multiple_issuers
 
 

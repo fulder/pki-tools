@@ -1,9 +1,11 @@
+import os
+
+import pytest
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
-import pki_tools
-from conftest import TEST_SUBJECT
-from pki_tools import Certificate
+from conftest import TEST_SUBJECT, CURRENT_DIR
+from pki_tools import Certificate, CertLoadError
 
 
 def test_subject_to_crypto_name():
@@ -37,15 +39,35 @@ def test_subject_to_crypto_name():
     )
 
 
-def test_parse_cert(cert, cert_pem_string):
+def test_from_cryptography(crypto_cert, cert_pem_string):
     print(cert_pem_string)
-    pki_cert = Certificate.parse_certificate(cert)
+    pki_cert = Certificate.from_cryptography(crypto_cert)
     print(pki_cert)
 
 
-def test_parse_cert_with_subject_directory_attributes(
+def test_from_pem_string_with_subject_directory_attributes(
     cert_with_subject_directory_attributes,
 ):
-    cert = pki_tools.cert_from_pem(cert_with_subject_directory_attributes)
-    pki_cert = Certificate.parse_certificate(cert)
-    print(pki_cert)
+    cert = Certificate.from_pem_string(cert_with_subject_directory_attributes)
+    print(cert)
+
+
+def test_from_pem_string_invalid_data():
+    with pytest.raises(CertLoadError):
+        Certificate.from_pem_string("BAD_PEM_DATA")
+
+def test_from_pem_string_with_space(cert_pem_string):
+    Certificate.from_pem_string("\n\n" + cert_pem_string + "\n")
+
+
+def test_save_and_read_file(cert_pem_string):
+    cert = Certificate.from_pem_string(cert_pem_string)
+
+    file_path = os.path.join(CURRENT_DIR, "tmp.pem")
+    cert.to_file(file_path)
+
+    new_cert = Certificate.from_file(file_path)
+
+    os.remove(file_path)
+
+    assert cert.pem_string == new_cert.pem_string
