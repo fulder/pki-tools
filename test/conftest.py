@@ -109,10 +109,11 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             key_pair.public_key(),
         )
         .not_valid_before(
-            datetime.datetime.utcnow(),
+            datetime.datetime.now(datetime.timezone.utc),
         )
         .not_valid_after(
-            datetime.datetime.utcnow() + datetime.timedelta(days=10),
+            datetime.datetime.now(datetime.timezone.utc)
+            + datetime.timedelta(days=10),
         )
     )
 
