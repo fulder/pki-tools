@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../utils/">
+        <link rel="prev" href="../ocsp/">
       
       
-        <link rel="next" href="certificate/">
+        <link rel="next" href="../types/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Types - Pki-tools</title>
+        <title>Utils - Pki-tools</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#types" class="md-skip">
+        <a href="#utils" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Types
+              Utils
             
           </span>
         </div>
@@ -385,64 +385,6 @@
                 
   
   
-  
-    <li class="md-nav__item">
-      <a href="../utils/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Utils
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Types
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_6">
-            <span class="md-nav__icon md-icon"></span>
-            Types
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
     
   
   
@@ -458,7 +400,7 @@
           
   
   <span class="md-ellipsis">
-    Types
+    Utils
   </span>
   
 
@@ -469,7 +411,7 @@
         
   
   <span class="md-ellipsis">
-    Types
+    Utils
   </span>
   
 
@@ -491,9 +433,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#modules" class="md-nav__link">
-    Modules
+  <a href="#verify_signature" class="md-nav__link">
+    verify_signature
   </a>
+  
+    <nav class="md-nav" aria-label="verify_signature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -511,8 +487,66 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Types
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Types
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
-      <a href="certificate/" class="md-nav__link">
+      <a href="../types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Types
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types/certificate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -532,7 +566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="certificates/" class="md-nav__link">
+      <a href="../types/certificates/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -552,7 +586,7 @@
   
   
     <li class="md-nav__item">
-      <a href="chain/" class="md-nav__link">
+      <a href="../types/chain/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -572,7 +606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="crl/" class="md-nav__link">
+      <a href="../types/crl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -592,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="crypto_parser/" class="md-nav__link">
+      <a href="../types/crypto_parser/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -612,7 +646,7 @@
   
   
     <li class="md-nav__item">
-      <a href="extensions/" class="md-nav__link">
+      <a href="../types/extensions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -632,7 +666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="name/" class="md-nav__link">
+      <a href="../types/name/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -652,7 +686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ocsp/" class="md-nav__link">
+      <a href="../types/ocsp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -672,7 +706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="utils/" class="md-nav__link">
+      <a href="../types/utils/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -728,9 +762,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#modules" class="md-nav__link">
-    Modules
+  <a href="#verify_signature" class="md-nav__link">
+    verify_signature
   </a>
+  
+    <nav class="md-nav" aria-label="verify_signature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raises" class="md-nav__link">
+    Raises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    See also
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -752,24 +820,41 @@
   
 
 
-<h1 id="types">Types</h1>
+<h1 id="utils">Utils</h1>
 <p><a href="../../#pki-tools-index">Pki-tools Index</a> /
 <a href="../#pki-tools">Pki Tools</a> /
-Types</p>
+Utils</p>
 <blockquote>
-<p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/__init__.py">pki_tools.types</a> module.</p>
+<p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/utils.py">pki_tools.utils</a> module.</p>
 </blockquote>
-<h2 id="modules">Modules</h2>
+<h2 id="verify_signature">verify_signature</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/utils.py#L18">Show source in utils.py:18</a></p>
+<p>Verifies a signature of a signed entity against the issuer certificate</p>
+<h4 id="arguments">Arguments</h4>
 <ul>
-<li><a href="certificate/">Certificate</a></li>
-<li><a href="certificates/">Certificates</a></li>
-<li><a href="chain/">Chain</a></li>
-<li><a href="crl/">Crl</a></li>
-<li><a href="crypto_parser/">CryptoParser</a></li>
-<li><a href="extensions/">Extensions</a></li>
-<li><a href="name/">Name</a></li>
-<li><a href="ocsp/">Ocsp</a></li>
-<li><a href="utils/">Utils</a></li>
+<li><code>signed</code> - The signed certificate can either be a
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificate">Certificate</a>
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificaterevocationlist">CertificateRevocationList</a>
+or a
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#ocspresponse">OCSPResponse</a></li>
+<li><code>issuer</code> - The
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificate">Certificate</a>
+describing the issuer of the signed entity</li>
+</ul>
+<h4 id="raises">Raises</h4>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#invalidsignedtype">InvalidSignedType</a>
+-- When the issuer has a non-supported type
+<a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed">SignatureVerificationFailed</a>
+-- When the signature verification fails</p>
+<h4 id="signature">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">verify_signature</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">signed</span><span class="p">:</span> <span class="p">[</span><span class="n">Certificate</span><span class="p">,</span> <span class="n">CertificateRevocationList</span><span class="p">,</span> <span class="n">OCSPResponse</span><span class="p">],</span> <span class="n">issuer</span><span class="p">:</span> <span class="n">Certificate</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<h4 id="see-also">See also</h4>
+<ul>
+<li><a href="../types/crl/#certificaterevocationlist">CertificateRevocationList</a></li>
+<li><a href="../types/certificate/#certificate">Certificate</a></li>
 </ul>
 
 
