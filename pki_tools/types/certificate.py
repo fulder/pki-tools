@@ -151,7 +151,6 @@ class Certificate(TbsCertificate, CryptoParser):
     def from_cryptography(
         cls: Type["Certificate"], cert: x509.Certificate
     ) -> "Certificate":
-        print(type(cert))
         ret = cls(
             version=cert.version.value,
             serial_number=cert.serial_number,
@@ -171,7 +170,7 @@ class Certificate(TbsCertificate, CryptoParser):
             extensions=Extensions.from_cryptography(cert.extensions),
             signature_value=_byte_to_hex(cert.signature),
         )
-        ret._x509_cert = cert
+        ret._x509_obj = cert
         return ret
 
     @classmethod
@@ -221,6 +220,10 @@ class Certificate(TbsCertificate, CryptoParser):
 
         return Certificate.from_pem_string(cert_pem)
 
+    @property
+    def tbs_bytes(self) -> bytes:
+        return self._x509_obj.tbs_certificate_bytes
+
     def to_file(self, file_path):
         with open(file_path, "w") as f:
             f.write(self.pem_string)
@@ -235,13 +238,11 @@ class Certificate(TbsCertificate, CryptoParser):
 
     @property
     def pem_string(self):
-        return self._x509_cert.public_bytes(
-            serialization.Encoding.PEM
-        ).decode()
+        return self._x509_obj.public_bytes(serialization.Encoding.PEM).decode()
 
     @property
     def public_key(self) -> CertificatePublicKeyTypes:
-        return self._x509_cert.public_key()
+        return self._x509_obj.public_key()
 
     def __str__(self) -> str:
         return yaml.safe_dump(

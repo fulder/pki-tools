@@ -1,14 +1,13 @@
 import httpx
 
 
-from cryptography import x509
 from cryptography.hazmat.primitives.asymmetric import padding
 
 from cryptography.x509.ocsp import OCSPResponse
 from loguru import logger
 
 from pki_tools.types.certificate import Certificate
-from pki_tools.exceptions import InvalidSignedType, SignatureVerificationFailed
+from pki_tools.exceptions import SignatureVerificationFailed
 from pki_tools.types.crl import CertificateRevocationList
 
 HTTPX_CLIENT = httpx.Client(
@@ -38,24 +37,12 @@ def verify_signature(
         [SignatureVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed)
         -- When the signature verification fails
     """
-    issuer_public_key = issuer.public_key
-
-    tbs_bytes = None
-    if isinstance(signed, x509.Certificate):
-        tbs_bytes = signed.tbs_certificate_bytes
-    elif isinstance(signed, x509.CertificateRevocationList):
-        tbs_bytes = signed.tbs_certlist_bytes
-    elif hasattr(signed, "tbs_response_bytes"):
-        tbs_bytes = signed.tbs_response_bytes
-    else:
-        raise InvalidSignedType(type(signed))
-
     try:
-        issuer_public_key.verify(
-            signed.signature,
-            tbs_bytes,
+        issuer.public_key.verify(
+            signed._x509_obj.signature,
+            signed.tbs_bytes,
             padding.PKCS1v15(),
-            signed.signature_hash_algorithm,
+            signed._x509_obj.signature_hash_algorithm,
         )
         logger.trace("Signature valid")
     except Exception as e:
@@ -64,6 +51,6 @@ def verify_signature(
             exception=str(e),
         ).error("Signature verification failed")
         raise SignatureVerificationFailed(
-            f"signature doesn't match issuer"
-            f"with subject: {issuer.subject.rfc4514_string()}"
+            f"signature doesn't match issuer "
+            f"with subject: {str(issuer.subject)}"
         )

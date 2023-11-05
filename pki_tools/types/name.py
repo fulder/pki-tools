@@ -107,3 +107,4 @@ class Name(CryptoParser):
         for k, v in self._string_dict().items():
             name_list.append(f"{k}: {v}")
         return ", ".join(name_list)
+

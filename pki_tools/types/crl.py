@@ -14,4 +14,10 @@ class CertificateRevocationList(CryptoParser):
         cls: Type["CertificateRevocationList"],
         crypto_crl: x509.CertificateRevocationList,
     ) -> "CertificateRevocationList":
-        return cls(issuer=Name.from_cryptography(crypto_crl.issuer))
+        ret = cls(issuer=Name.from_cryptography(crypto_crl.issuer))
+        ret._x509_obj = crypto_crl
+        return ret
+
+    @property
+    def tbs_bytes(self) -> bytes:
+        return self._x509_obj.tbs_certlist_bytes

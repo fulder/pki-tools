@@ -474,6 +474,51 @@ class InhibitAnyPolicy(Extension):
         return {self.name: {"Skip Certs": self.skip_certs}}
 
 
+class FreshestCrl(CrlDistributionPoints):
+    pass
+
+
+class AccessDescription(Extension):
+    access_method: str
+    access_location: str
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.AccessDescription):
+        return cls(
+            access_method=extension.access_method._name,
+            access_location=_general_name_to_str(extension.access_location),
+        )
+
+    def _string_dict(self):
+        return {
+            "Access Method": self.access_method,
+            "Access Location": self.access_location,
+        }
+
+
+class AuthorityInformationAccess(Extension):
+    access_description: List[AccessDescription]
+
+    def __iter__(self) -> Iterable[AccessDescription]:
+        return iter(self.access_description)
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.AuthorityInformationAccess):
+        access_descriptions = []
+        for access_description in extension:
+            access_descriptions.append(
+                AccessDescription.from_cryptography(access_description)
+            )
+        return cls(access_description=access_descriptions)
+
+    def _string_dict(self):
+        access_descriptions = []
+        for access_description in self.access_description:
+            access_descriptions.append(access_description._string_dict())
+
+        return {self.name: {"Access Description": access_descriptions}}
+
+
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -522,6 +567,14 @@ class Extensions(BaseModel):
     )
     inhibit_any_policy: Optional[InhibitAnyPolicy] = Field(
         alias=ExtensionOID.INHIBIT_ANY_POLICY.dotted_string,
+        default=None,
+    )
+    freshest_crl: Optional[FreshestCrl] = Field(
+        alias=ExtensionOID.FRESHEST_CRL.dotted_string,
+        default=None,
+    )
+    authority_information_access: Optional[AuthorityInformationAccess] = Field(
+        alias=ExtensionOID.AUTHORITY_INFORMATION_ACCESS.dotted_string,
         default=None,
     )
 

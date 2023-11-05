@@ -68,8 +68,8 @@ def crypto_cert(key_pair):
 
 
 @pytest.fixture()
-def chain(cert_pem_string):
-    return Chain.from_pem_string(cert_pem_string)
+def chain(crypto_cert):
+    return Chain.from_cryptography([crypto_cert])
 
 
 TEST_SUBJECT = Name(
@@ -235,47 +235,50 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         critical=False,
     )
 
+    crl_dist_points = [
+        x509.DistributionPoint(
+            full_name=None,
+            relative_name=x509.RelativeDistinguishedName(
+                [
+                    x509.NameAttribute(
+                        oid=x509.ObjectIdentifier("1.2.3.4.5"),
+                        value="TEST_VALUE",
+                    )
+                ]
+            ),
+            reasons=frozenset(
+                [
+                    x509.ReasonFlags.key_compromise,
+                    x509.ReasonFlags.ca_compromise,
+                    x509.ReasonFlags.affiliation_changed,
+                    x509.ReasonFlags.superseded,
+                    x509.ReasonFlags.cessation_of_operation,
+                    x509.ReasonFlags.certificate_hold,
+                    x509.ReasonFlags.privilege_withdrawn,
+                    x509.ReasonFlags.aa_compromise,
+                ]
+            ),
+            crl_issuer=general_names,
+        ),
+        x509.DistributionPoint(
+            full_name=general_names,
+            relative_name=None,
+            reasons=frozenset([x509.ReasonFlags.key_compromise]),
+            crl_issuer=general_names,
+        ),
+    ]
     if add_crl_extension:
         cert_builder = cert_builder.add_extension(
-            x509.CRLDistributionPoints(
-                [
-                    x509.DistributionPoint(
-                        full_name=None,
-                        relative_name=x509.RelativeDistinguishedName(
-                            [
-                                x509.NameAttribute(
-                                    oid=x509.ObjectIdentifier("1.2.3.4.5"),
-                                    value="TEST_VALUE",
-                                )
-                            ]
-                        ),
-                        reasons=frozenset(
-                            [
-                                x509.ReasonFlags.key_compromise,
-                                x509.ReasonFlags.ca_compromise,
-                                x509.ReasonFlags.affiliation_changed,
-                                x509.ReasonFlags.superseded,
-                                x509.ReasonFlags.cessation_of_operation,
-                                x509.ReasonFlags.certificate_hold,
-                                x509.ReasonFlags.privilege_withdrawn,
-                                x509.ReasonFlags.aa_compromise,
-                            ]
-                        ),
-                        crl_issuer=general_names,
-                    ),
-                    x509.DistributionPoint(
-                        full_name=general_names,
-                        relative_name=None,
-                        reasons=frozenset([x509.ReasonFlags.key_compromise]),
-                        crl_issuer=general_names,
-                    ),
-                ],
-            ),
+            x509.CRLDistributionPoints(crl_dist_points),
             critical=False,
         )
 
     cert_builder = cert_builder.add_extension(
         x509.InhibitAnyPolicy(skip_certs=10), critical=False
+    )
+
+    cert_builder = cert_builder.add_extension(
+        x509.FreshestCRL(crl_dist_points), critical=False
     )
 
     if add_aia_extension:
@@ -331,7 +334,7 @@ def cert_with_subject_directory_attributes():
 def _create_mocked_ocsp_response(
     cert, key_pair, status=ocsp.OCSPCertStatus.GOOD, revocation_time=None
 ):
-    cert = cert._x509_cert
+    cert = cert._x509_obj
     builder = ocsp.OCSPResponseBuilder()
     builder = builder.add_response(
         cert=cert,
@@ -349,7 +352,7 @@ def _create_mocked_ocsp_response(
 def _create_crl(keypair, revoked_serials, cert):
     one_day = datetime.timedelta(days=1)
     crl = x509.CertificateRevocationListBuilder()
-    crl = crl.issuer_name(cert._x509_cert.subject)
+    crl = crl.issuer_name(cert._x509_obj.subject)
     crl = crl.last_update(datetime.datetime.today())
     crl = crl.next_update(datetime.datetime.today() + one_day)
 

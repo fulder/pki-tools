@@ -16,6 +16,7 @@ from pki_tools.exceptions import (
     CrlFetchFailure,
     CrlLoadError,
 )
+from pki_tools.types.crl import CertificateRevocationList
 
 
 def _is_revoked(
@@ -41,19 +42,21 @@ def _is_revoked(
             continue
 
         for full_name in dist_point.full_name:
-            if "http" not in full_name:
+            split = full_name.split("UniformResourceIdentifier: ")
+            if len(split) < 2:
                 continue
+            uri = split[1]
 
             http_dist = True
             cache_ttl = round(time.time() / crl_cache_seconds)
-            crl = _get_crl_from_url(full_name, cache_ttl=cache_ttl)
+            crl = _get_crl_from_url(uri, cache_ttl=cache_ttl)
 
             issuer = crl_issuer.get_issuer(crl)
 
             verify_signature(crl, issuer)
             logger.debug("CRL signature valid")
 
-            r = crl.get_revoked_certificate_by_serial_number(
+            r = crl._x509_obj.get_revoked_certificate_by_serial_number(
                 cert.serial_number,
             )
             if r is not None:
@@ -71,7 +74,7 @@ def _is_revoked(
 
 
 @lru_cache(maxsize=None)
-def _get_crl_from_url(crl_url, cache_ttl=None):
+def _get_crl_from_url(crl_url, cache_ttl=None) -> CertificateRevocationList:
     ret = HTTPX_CLIENT.get(crl_url)
 
     if ret.status_code != 200:
@@ -85,14 +88,16 @@ def _get_crl_from_url(crl_url, cache_ttl=None):
     return _crl_data_to_crypto(crl_data)
 
 
-def _crl_data_to_crypto(crl_data):
+def _crl_data_to_crypto(crl_data) -> CertificateRevocationList:
     try:
-        return x509.load_der_x509_crl(crl_data)
+        crypto_crl = x509.load_der_x509_crl(crl_data)
+        return CertificateRevocationList.from_cryptography(crypto_crl)
     except (TypeError, ValueError):
         pass
 
     try:
-        return x509.load_pem_x509_crl(crl_data)
+        crypto_crl = x509.load_pem_x509_crl(crl_data)
+        return CertificateRevocationList.from_cryptography(crypto_crl)
     except TypeError as e:
         logger.bind(crl=crl_data).error("Failed to load CRL")
         raise CrlLoadError(e) from None
