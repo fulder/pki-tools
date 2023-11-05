@@ -40,10 +40,13 @@ class Certificates(CryptoParser):
         [Certificates](https://pki-tools.fulder.dev/pki_tools/types/#certificates)
         object
     """
+
     certificates: List[Certificate]
 
     @classmethod
-    def from_cryptography(cls: Type[T], crypto_certs: List[x509.Certificate]) -> T:
+    def from_cryptography(
+        cls: Type[T], crypto_certs: List[x509.Certificate]
+    ) -> T:
         certificates = []
         for crypt_cert in crypto_certs:
             certificates.append(Certificate.from_cryptography(crypt_cert))
@@ -76,9 +79,9 @@ class Certificates(CryptoParser):
 
     @classmethod
     def from_uri(
-            cls: T,
-            uri: str,
-            cache_time_seconds: int = CACHE_TIME_SECONDS,
+        cls: T,
+        uri: str,
+        cache_time_seconds: int = CACHE_TIME_SECONDS,
     ) -> T:
         """
         Loads

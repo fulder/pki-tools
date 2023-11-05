@@ -1,14 +1,17 @@
 from datetime import datetime
-from typing import Type
 
 from loguru import logger
 from pydantic import ConfigDict
 
-from pki_tools.exceptions import NotCompleteChain, CertExpired, \
-    CertIssuerMissingInChain
+from pki_tools.exceptions import (
+    NotCompleteChain,
+    CertExpired,
+    CertIssuerMissingInChain,
+)
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.certificates import Certificates
 from pki_tools.types.crl import CertificateRevocationList
+from pki_tools.utils import verify_signature
 
 
 class Chain(Certificates):
@@ -29,6 +32,7 @@ class Chain(Certificates):
         chain.check_chain()
         chain.get_issuer(cert)
     """
+
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     def check_chain(self):
@@ -106,5 +110,3 @@ class Chain(Certificates):
                 return next_chain_cert
 
         raise CertIssuerMissingInChain()
-
-

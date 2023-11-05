@@ -56,6 +56,7 @@ def test_from_pem_string_invalid_data():
     with pytest.raises(CertLoadError):
         Certificate.from_pem_string("BAD_PEM_DATA")
 
+
 def test_from_pem_string_with_space(cert_pem_string):
     Certificate.from_pem_string("\n\n" + cert_pem_string + "\n")
 

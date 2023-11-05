@@ -27,8 +27,12 @@ from loguru import logger
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.utils import HTTPX_CLIENT, verify_signature
-from pki_tools.exceptions import ExtensionMissing, OcspInvalidResponseStatus, \
-    OcspFetchFailure, Error
+from pki_tools.exceptions import (
+    ExtensionMissing,
+    OcspInvalidResponseStatus,
+    OcspFetchFailure,
+    Error,
+)
 from pki_tools.types.utils import _byte_to_hex
 
 OCSP_ALGORITHMS_TO_CHECK = [SHA256(), SHA1(), SHA512(), SHA224(), SHA384()]
@@ -131,13 +135,9 @@ def _get_ocsp_status(uri) -> OCSPResponse:
     return ocsp_res
 
 
-def _verify_ocsp_signature(
-    ocsp_response: OCSPResponse, issuer_chain: Chain
-):
+def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: Chain):
     try:
-        ocsp_response_key_hash = _byte_to_hex(
-            ocsp_response.issuer_key_hash
-        )
+        ocsp_response_key_hash = _byte_to_hex(ocsp_response.issuer_key_hash)
     except Exception as e:
         logger.bind(
             exceptionType=type(e),

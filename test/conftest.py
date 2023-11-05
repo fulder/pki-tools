@@ -61,11 +61,10 @@ def key_pair():
 def cert(crypto_cert):
     return Certificate.from_cryptography(crypto_cert)
 
+
 @pytest.fixture()
 def crypto_cert(key_pair):
     return _create_cert(key_pair)
-
-
 
 
 @pytest.fixture()
@@ -274,6 +273,9 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             ),
             critical=False,
         )
+
+    cert_builder = cert_builder.add_extension(x509.InhibitAnyPolicy())
+
     if add_aia_extension:
         cert_builder = cert_builder.add_extension(
             x509.AuthorityInformationAccess(

@@ -9,7 +9,9 @@ class CryptoParser(BaseModel):
 
     @classmethod
     @abc.abstractmethod
-    def from_cryptography(cls: Type["CryptoParser"], crypto_obj) -> "CryptoParser":
+    def from_cryptography(
+        cls: Type["CryptoParser"], crypto_obj
+    ) -> "CryptoParser":
         """
         Parses a cryptography x509 object into a CryptoParser
 

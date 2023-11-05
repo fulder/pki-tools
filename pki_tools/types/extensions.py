@@ -463,6 +463,17 @@ class CrlDistributionPoints(Extension):
         return ret
 
 
+class InhibitAnyPolicy(Extension):
+    skip_cert: int
+
+    @classmethod
+    def from_cryptography(cls, extension: x509.InhibitAnyPolicy):
+        return cls(skip_certs=extension.skip_certs)
+
+    def _string_dict(self):
+        return {self.name: {"Skip Certs": self.skip_cert}}
+
+
 class Extensions(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -507,6 +518,10 @@ class Extensions(BaseModel):
     )
     crl_distribution_points: Optional[CrlDistributionPoints] = Field(
         alias=ExtensionOID.CRL_DISTRIBUTION_POINTS.dotted_string,
+        default=None,
+    )
+    inhibit_any_policy: Optional[InhibitAnyPolicy] = Field(
+        alias=ExtensionOID.INHIBIT_ANY_POLICY.dotted_string,
         default=None,
     )
 

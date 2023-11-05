@@ -1,5 +1,3 @@
-import binascii
-
 import httpx
 
 
@@ -69,6 +67,3 @@ def verify_signature(
             f"signature doesn't match issuer"
             f"with subject: {issuer.subject.rfc4514_string()}"
         )
-
-
-

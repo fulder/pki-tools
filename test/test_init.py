@@ -1,19 +1,17 @@
 import datetime
-import os
 from unittest.mock import MagicMock
 
 import pytest
 from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 
-import pki_tools
 from pki_tools.exceptions import (
-    CertLoadError,
     Error,
     OcspInvalidResponseStatus,
 )
 from pki_tools import (
-    is_revoked, Certificate,
+    is_revoked,
+    Certificate,
 )
 
 from conftest import (
@@ -40,6 +38,7 @@ def test_is_revoked_ocsp_good_status(
     ]
 
     assert not is_revoked(cert, chain)
+
 
 def test_is_revoked_ocsp_revoked_status(
     mocked_requests_get, cert, key_pair, chain
@@ -115,5 +114,3 @@ def test_is_revoked_missing_extensions(key_pair, chain):
 
     with pytest.raises(Error):
         is_revoked(cert, chain)
-
-

@@ -11,7 +11,7 @@ class CertificateRevocationList(CryptoParser):
 
     @classmethod
     def from_cryptography(
-            cls: Type["CertificateRevocationList"],
-            crypto_crl: x509.CertificateRevocationList
+        cls: Type["CertificateRevocationList"],
+        crypto_crl: x509.CertificateRevocationList,
     ) -> "CertificateRevocationList":
         return cls(issuer=Name.from_cryptography(crypto_crl.issuer))

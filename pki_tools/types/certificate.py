@@ -12,30 +12,22 @@ from cryptography.hazmat.primitives.asymmetric.types import (
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
-from pki_tools.exceptions import CertLoadError, ExtensionMissing
+from pki_tools.exceptions import CertLoadError
 from pki_tools.types.utils import _byte_to_hex
 
-import time
-from functools import lru_cache
-from typing import List, Type
+from typing import Type
 
-import httpx
 from cryptography import x509
 
-from pydantic import BaseModel, constr
+from pydantic import BaseModel
 
 
-from pki_tools.exceptions import OcspIssuerFetchFailure
 from pki_tools.types.crypto_parser import CryptoParser
 
 from datetime import datetime
 
 from loguru import logger
 from pydantic import ConfigDict
-
-from pki_tools.exceptions import NotCompleteChain, CertExpired, \
-    CertIssuerMissingInChain
-from pki_tools.types.crl import CertificateRevocationList
 
 
 PEM_REGEX = re.compile(
@@ -156,7 +148,9 @@ class Certificate(TbsCertificate, CryptoParser):
     signature_value: str
 
     @classmethod
-    def from_cryptography(cls: Type["Certificate"], cert: x509.Certificate) -> "Certificate":
+    def from_cryptography(
+        cls: Type["Certificate"], cert: x509.Certificate
+    ) -> "Certificate":
         print(type(cert))
         ret = cls(
             version=cert.version.value,
@@ -257,6 +251,7 @@ class Certificate(TbsCertificate, CryptoParser):
             explicit_start=True,
             default_style="",
         )
+
 
 def _is_pem_string(check: str):
     if not isinstance(check, str):

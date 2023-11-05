@@ -1,11 +1,6 @@
 from loguru import logger
 
-from .types import (
-    Chain,
-    Certificate,
-    Extensions,
-    Name
-)
+from .types import Chain, Certificate, Extensions, Name
 
 from .exceptions import (
     ExtensionMissing,
@@ -18,7 +13,8 @@ from .exceptions import (
     CertIssuerMissingInChain,
     CertExpired,
     InvalidSignedType,
-    SignatureVerificationFailed, CertLoadError,
+    SignatureVerificationFailed,
+    CertLoadError,
 )
 
 from .crl import _is_revoked
@@ -64,7 +60,6 @@ def is_revoked(
     return is_revoked_multiple_issuers(
         cert, chain, chain, chain, crl_cache_seconds
     )
-
 
 
 def is_revoked_multiple_issuers(
@@ -113,9 +108,7 @@ def is_revoked_multiple_issuers(
     """
 
     try:
-        return _is_revoked_multiple_issuers(
-            cert, cert_issuer, ocsp_issuer
-        )
+        return _is_revoked_multiple_issuers(cert, cert_issuer, ocsp_issuer)
     except (
         ExtensionMissing,
         OcspInvalidResponseStatus,
@@ -130,5 +123,3 @@ def is_revoked_multiple_issuers(
         err_message = "OCSP and CRL checks failed"
         logger.bind(exceptionType=type(e).__name__).error(err_message)
         raise RevokeCheckFailed(err_message) from None
-
-

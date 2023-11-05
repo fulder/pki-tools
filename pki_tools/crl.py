@@ -1,6 +1,5 @@
 import time
 from functools import lru_cache
-from typing import Union
 
 from cryptography import x509
 from loguru import logger
@@ -12,7 +11,11 @@ from pki_tools.types.chain import Chain
 
 from pki_tools.types.certificate import Certificate
 
-from pki_tools.exceptions import ExtensionMissing, CrlFetchFailure, CrlLoadError
+from pki_tools.exceptions import (
+    ExtensionMissing,
+    CrlFetchFailure,
+    CrlLoadError,
+)
 
 
 def _is_revoked(
