@@ -131,7 +131,7 @@ class KeyUsage(Extension):
 
 class NoticeReference(Extension):
     organization: str
-    notice_numbers: list[int]
+    notice_numbers: List[int]
 
     @classmethod
     def from_cryptography(cls, notice_reference: x509.NoticeReference):
@@ -174,7 +174,7 @@ class UserNotice(Extension):
 
 class PolicyInformation(Extension):
     policy_identifier: str
-    policy_qualifiers: Optional[list[Union[str, UserNotice]]]
+    policy_qualifiers: Optional[List[Union[str, UserNotice]]]
 
     @classmethod
     def from_cryptography(cls, policy_info: x509.PolicyInformation):
@@ -228,7 +228,7 @@ class CertificatePolicies(Extension):
 
 
 class AlternativeName(Extension):
-    general_names: list[str]
+    general_names: List[str]
 
     @classmethod
     def from_cryptography(cls, extension: x509.SubjectAlternativeName):
@@ -251,13 +251,13 @@ class IssuerAlternativeName(AlternativeName):
 
 
 class SubjectDirectoryAttributes(Extension):
-    attributes: list[str]
+    attributes: List[str]
 
     @classmethod
     def from_cryptography(cls, extension: x509.UnrecognizedExtension):
         attributes = []
         vals = extension.value
-        if not isinstance(vals, list):
+        if not isinstance(vals, List):
             vals = [vals]
 
         for val in vals:
@@ -294,8 +294,8 @@ class BasicConstraints(Extension):
 
 
 class NameConstraints(Extension):
-    permitted_subtrees: Optional[list[str]]
-    excluded_subtrees: Optional[list[str]]
+    permitted_subtrees: Optional[List[str]]
+    excluded_subtrees: Optional[List[str]]
 
     @classmethod
     def from_cryptography(cls, extension: x509.NameConstraints):
@@ -367,7 +367,7 @@ EKU_OID_MAPPING = {
 
 
 class ExtendedKeyUsage(Extension):
-    ext_key_usage_syntax: list[str]
+    ext_key_usage_syntax: List[str]
 
     @classmethod
     def from_cryptography(cls, extension: x509.ExtendedKeyUsage):
@@ -385,10 +385,10 @@ class ExtendedKeyUsage(Extension):
 
 
 class DistributionPoint(Extension):
-    full_name: Optional[list[str]]
-    name_relative_to_crl_issuer: Optional[list[str]]
-    reasons: Optional[list[str]]
-    crl_issuer: Optional[list[str]]
+    full_name: Optional[List[str]]
+    name_relative_to_crl_issuer: Optional[List[str]]
+    reasons: Optional[List[str]]
+    crl_issuer: Optional[List[str]]
 
     @classmethod
     def from_cryptography(cls, extension: x509.DistributionPoint):
@@ -439,7 +439,7 @@ class DistributionPoint(Extension):
 
 
 class CrlDistributionPoints(Extension):
-    crl_distribution_points: list[DistributionPoint]
+    crl_distribution_points: List[DistributionPoint]
 
     def __iter__(self) -> Iterable[DistributionPoint]:
         return iter(self.crl_distribution_points)
@@ -645,7 +645,7 @@ def _general_name_to_str(general_name):
     return name_str
 
 
-def _general_names_to_str(general_names: list[str]):
+def _general_names_to_str(general_names: List[str]):
     names = ""
     for general_name in general_names:
         names += f"""
