@@ -39,7 +39,7 @@ def test_certificate_subject_to_crypto_name():
     )
 
 
-def test_certificate__from_cryptography(crypto_cert, cert_pem_string):
+def test_certificate_from_cryptography(crypto_cert, cert_pem_string):
     Certificate.from_cryptography(crypto_cert)
 
 
@@ -54,7 +54,7 @@ def test_certificate_from_pem_string_invalid_data():
         Certificate.from_pem_string("BAD_PEM_DATA")
 
 
-def test_certificate__from_pem_string_with_space(cert_pem_string):
+def test_certificate_from_pem_string_with_space(cert_pem_string):
     Certificate.from_pem_string("\n\n" + cert_pem_string + "\n")
 
 

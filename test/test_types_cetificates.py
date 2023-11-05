@@ -1,10 +1,8 @@
 import os
 
-import pytest
 
 from conftest import CURRENT_DIR
-from pki_tools import Certificates, CertLoadError
-
+from pki_tools import Certificates
 
 
 def test_certificates_from_pem_string(cert_pem_string):
