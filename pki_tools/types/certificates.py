@@ -68,12 +68,12 @@ class Certificates(CryptoParser):
         with open(file_path, "r") as f:
             cert_pem = f.read()
 
-        crypto_certs = x509.load_pem_x509_objificates(cert_pem.encode())
+        crypto_certs = x509.load_pem_x509_certificates(cert_pem.encode())
         return cls.from_cryptography(crypto_certs)
 
     @classmethod
     def from_pem_string(cls: T, pem_string: str) -> T:
-        crypto_certs = x509.load_pem_x509_objificates(pem_string.encode())
+        crypto_certs = x509.load_pem_x509_certificates(pem_string.encode())
         return cls.from_cryptography(crypto_certs)
 
     @classmethod
@@ -110,7 +110,15 @@ class Certificates(CryptoParser):
                 f"Issuer URI fetch failed. Status: {ret.status_code}"
             )
 
-        return cls(certificates=x509.load_pem_x509_objificates(ret.content))
+        return cls(certificates=x509.load_pem_x509_certificate(ret.content))
+
+    @property
+    def pem_string(self):
+        all_certs = ""
+        for cert in self.certificates:
+            all_certs += cert.pem_string
+
+        return all_certs
 
     def to_file(self, file_path: str):
         """
@@ -120,9 +128,6 @@ class Certificates(CryptoParser):
             file_path -- Path and filename where to store the certificate(s)
         """
         with open(file_path, "w") as f:
-            for cert in self.certificates:
-                cert = cert.pem_string
-
-                f.write(cert)
+            f.write(self.pem_string)
 
         logger.debug(f"Certificate(s) saved to {file_path}")

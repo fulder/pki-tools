@@ -668,6 +668,26 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#certificatespem_string" class="md-nav__link">
+    Certificates().pem_string
+  </a>
+  
+    <nav class="md-nav" aria-label="Certificates().pem_string">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_5" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#certificatesto_file" class="md-nav__link">
     Certificates().to_file
   </a>
@@ -683,7 +703,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#signature_5" class="md-nav__link">
+  <a href="#signature_6" class="md-nav__link">
     Signature
   </a>
   
@@ -722,7 +742,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#signature_6" class="md-nav__link">
+  <a href="#signature_7" class="md-nav__link">
     Signature
   </a>
   
@@ -1061,6 +1081,26 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#certificatespem_string" class="md-nav__link">
+    Certificates().pem_string
+  </a>
+  
+    <nav class="md-nav" aria-label="Certificates().pem_string">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_5" class="md-nav__link">
+    Signature
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#certificatesto_file" class="md-nav__link">
     Certificates().to_file
   </a>
@@ -1076,7 +1116,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#signature_5" class="md-nav__link">
+  <a href="#signature_6" class="md-nav__link">
     Signature
   </a>
   
@@ -1115,7 +1155,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#signature_6" class="md-nav__link">
+  <a href="#signature_7" class="md-nav__link">
     Signature
   </a>
   
@@ -1215,22 +1255,28 @@ should be cached, default is 1 month</li>
 <ul>
 <li><a href="#cache_time_seconds">CACHE_TIME_SECONDS</a></li>
 </ul>
-<h3 id="certificatesto_file">Certificates().to_file</h3>
+<h3 id="certificatespem_string">Certificates().pem_string</h3>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L115">Show source in certificates.py:115</a></p>
+<h4 id="signature_5">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@property</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">def</span> <span class="nf">pem_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="certificatesto_file">Certificates().to_file</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L123">Show source in certificates.py:123</a></p>
 <p>Saves one or more certificate(s) into a file</p>
 <h4 id="arguments_2">Arguments</h4>
 <ul>
 <li><code>file_path</code> - Path and filename where to store the certificate(s)</li>
 </ul>
-<h4 id="signature_5">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
+<h4 id="signature_6">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span> <span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="certsuri">CertsUri</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificates.py#L19">Show source in certificates.py:19</a></p>
 <p>Describes a URI where one or more public certificate(s)
 can be downloaded</p>
 <h4 id="examples">Examples</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">CertsUri</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="s2">&quot;https://my.ca.link.com/ca.pem&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">CertsUri</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="s2">&quot;https://my.ca.link.com/ca.pem&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h4 id="attributes_1">Attributes</h4>
 <ul>
@@ -1238,8 +1284,8 @@ can be downloaded</p>
 <li><code>cache_time_seconds</code> - Specifies how long the public cert should be
 cached, default is 1 month.</li>
 </ul>
-<h4 id="signature_6">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">class</span> <span class="nc">CertsUri</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
+<h4 id="signature_7">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">class</span> <span class="nc">CertsUri</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 
 
