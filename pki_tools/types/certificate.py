@@ -1,5 +1,5 @@
 import re
-from typing import Union, Optional
+from typing import Union, Optional, Dict
 
 import yaml
 
@@ -58,7 +58,7 @@ class SubjectPublicKeyInfo(CryptoParser):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     algorithm: str
-    parameters: dict[str, str]
+    parameters: Dict[str, str]
 
     @classmethod
     def from_cryptography(cls, cert_public_key: CertificatePublicKeyTypes):
