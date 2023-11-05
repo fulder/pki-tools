@@ -274,7 +274,9 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             critical=False,
         )
 
-    cert_builder = cert_builder.add_extension(x509.InhibitAnyPolicy())
+    cert_builder = cert_builder.add_extension(
+        x509.InhibitAnyPolicy(skip_certs=10), critical=False
+    )
 
     if add_aia_extension:
         cert_builder = cert_builder.add_extension(

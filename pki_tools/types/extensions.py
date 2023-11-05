@@ -464,14 +464,14 @@ class CrlDistributionPoints(Extension):
 
 
 class InhibitAnyPolicy(Extension):
-    skip_cert: int
+    skip_certs: int
 
     @classmethod
     def from_cryptography(cls, extension: x509.InhibitAnyPolicy):
         return cls(skip_certs=extension.skip_certs)
 
     def _string_dict(self):
-        return {self.name: {"Skip Certs": self.skip_cert}}
+        return {self.name: {"Skip Certs": self.skip_certs}}
 
 
 class Extensions(BaseModel):
