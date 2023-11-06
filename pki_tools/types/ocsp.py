@@ -1,5 +1,5 @@
 import hashlib
-from typing import Type
+from typing import Type, Optional
 
 from cryptography.x509 import ocsp
 from loguru import logger
@@ -10,28 +10,34 @@ from pki_tools.types.utils import _byte_to_hex
 
 class OCSPResponse(CryptoParser):
     response_status: str
-    certificate_status: str
-    issuer_key_hash: str
+    certificate_status: Optional[str]
+    issuer_key_hash: Optional[str]
 
     @classmethod
     def from_cryptography(
         cls: Type["OCSPResponse"], crypto_ocsp_response: ocsp.OCSPResponse
     ) -> "OCSPResponse":
-        try:
-            ocsp_response_key_hash = _byte_to_hex(
-                crypto_ocsp_response.issuer_key_hash
-            )
-        except Exception as e:
-            logger.bind(
-                exceptionType=type(e),
-                exception=str(e),
-                issuerHash=crypto_ocsp_response.issuer_key_hash,
-            ).error("Couldn't convert issuer key hash to hex")
-            raise
+        response_status = crypto_ocsp_response.response_status.name
+
+        ocsp_response_key_hash = None
+        certificate_status = None
+        if response_status == "SUCCESSFUL":
+            certificate_status = crypto_ocsp_response.certificate_status.name
+            try:
+                ocsp_response_key_hash = _byte_to_hex(
+                    crypto_ocsp_response.issuer_key_hash
+                )
+            except Exception as e:
+                logger.bind(
+                    exceptionType=type(e),
+                    exception=str(e),
+                    issuerHash=crypto_ocsp_response.issuer_key_hash,
+                ).error("Couldn't convert issuer key hash to hex")
+                raise
 
         ret = cls(
-            response_status=crypto_ocsp_response.response_status.name,
-            certificate_status=crypto_ocsp_response.certificate_status.name,
+            response_status=response_status,
+            certificate_status=certificate_status,
             issuer_key_hash=ocsp_response_key_hash,
         )
         ret._x509_obj = crypto_ocsp_response

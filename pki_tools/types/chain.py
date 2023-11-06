@@ -64,10 +64,10 @@ class Chain(Certificates):
                 raise NotCompleteChain()
 
         for cert in self.certificates:
-            log = logger.bind(subject=cert.subject)
+            log = logger.bind(subject=cert.subject._string_dict())
             if (
-                cert.not_valid_after < datetime.now()
-                or cert.not_valid_before > datetime.now()
+                cert.validity.not_after < datetime.now()
+                or cert.validity.not_before > datetime.now()
             ):
                 log.error("Certificate expired")
                 raise CertExpired(
