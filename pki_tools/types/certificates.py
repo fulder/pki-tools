@@ -2,7 +2,6 @@ import time
 from functools import lru_cache
 from typing import List, Type, T
 
-import httpx
 from cryptography import x509
 from loguru import logger
 
@@ -12,6 +11,7 @@ from pydantic import BaseModel, constr
 from pki_tools.exceptions import OcspIssuerFetchFailure
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools.utils import HTTPX_CLIENT
 
 CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 
@@ -100,7 +100,7 @@ class Certificates(CryptoParser):
     @classmethod
     @lru_cache(maxsize=None)
     def _from_uri(cls: T, uri: str, ttl=None) -> T:
-        ret = httpx.get(uri)
+        ret = HTTPX_CLIENT.get(uri)
 
         if ret.status_code != 200:
             logger.bind(status=ret.status_code).error(
@@ -110,7 +110,7 @@ class Certificates(CryptoParser):
                 f"Issuer URI fetch failed. Status: {ret.status_code}"
             )
 
-        return cls(certificates=x509.load_pem_x509_certificate(ret.content))
+        return cls.from_pem_string(ret.text)
 
     @property
     def pem_string(self):
