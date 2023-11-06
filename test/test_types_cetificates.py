@@ -1,6 +1,5 @@
 import os
 
-
 from conftest import CURRENT_DIR
 from pki_tools import Certificates
 
@@ -26,5 +25,5 @@ def test_certificates_save_and_read_file(cert_pem_string):
 def test_certificates_from_uri(mocked_requests_get, cert_pem_string):
     mocked_requests_get.return_value.status_code = 200
     mocked_requests_get.return_value.text = cert_pem_string
-    
+
     Certificates.from_uri("http://TEST_URI")
