@@ -16,7 +16,7 @@ jobs:
         run: |
           pip install poetry
           poetry install
-          poetry install --with apitest,pytest
+          poetry install --with apitest,test
 
       - name: Run apitests
         run: |
