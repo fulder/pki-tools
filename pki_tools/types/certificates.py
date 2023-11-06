@@ -95,7 +95,7 @@ class Certificates(CryptoParser):
         """
         chain_uri = CertsUri(uri=uri, cache_time_seconds=cache_time_seconds)
         cache_ttl = round(time.time() / chain_uri.cache_time_seconds)
-        return T._from_uri(chain_uri.uri, cache_ttl)
+        return cls._from_uri(chain_uri.uri, cache_ttl)
 
     @classmethod
     @lru_cache(maxsize=None)
