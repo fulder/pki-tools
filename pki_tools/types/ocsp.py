@@ -35,7 +35,6 @@ class OCSPResponse(CryptoParser):
                 ).error("Couldn't convert issuer key hash to hex")
                 raise
 
-
         ret = cls(
             response_status=response_status,
             certificate_status=certificate_status,

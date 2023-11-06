@@ -5,10 +5,12 @@ import pytest
 
 from pki_tools import Chain, Certificate
 
+
 @pytest.fixture
 def root_ca_pem():
     ret = httpx.get("https://letsencrypt.org/certs/isrgrootx1.pem")
     return ret.text
+
 
 @pytest.fixture
 def intermediate_ca_pem():
@@ -27,6 +29,7 @@ def revoked_cert():
     cert_pem = ssl.get_server_certificate((hostname, 443))
 
     return Certificate.from_pem_string(cert_pem)
+
 
 @pytest.fixture
 def cert():
