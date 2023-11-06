@@ -110,7 +110,7 @@ class Certificates(CryptoParser):
                 f"Issuer URI fetch failed. Status: {ret.status_code}"
             )
 
-        return cls(certificates=x509.load_pem_x509_certificate(ret.content))
+        return cls(certificates=[x509.load_pem_x509_certificate(ret.content)])
 
     @property
     def pem_string(self):
