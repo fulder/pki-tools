@@ -46,6 +46,10 @@ ruff = ">=0.0.289,<0.1.5"
 mkdocs-material = "^9.4.7"
 handsdown = "^2.0.1"
 
+
+[tool.poetry.group.apitest.dependencies]
+httpx = "^0.25.1"
+
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"

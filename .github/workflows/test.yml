@@ -6,6 +6,22 @@ on:
       - main
 
 jobs:
+  apitest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Install requirements
+        run: |
+          pip install poetry
+          poetry install
+          poetry install --with apitests
+
+      - name: Run apitests
+        run: |
+          poetry run pytest ./apitest
+
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
