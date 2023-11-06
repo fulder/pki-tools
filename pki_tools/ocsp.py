@@ -95,7 +95,7 @@ def _check_ocsp_status(
     for access_description in aia:
         if access_description.access_method != "OCSP":
             continue
-        if "UniformResourceIdentifier: " not in access_description.access_location
+        if "UniformResourceIdentifier: " not in access_description.access_location:
             continue
 
         checked_status = True
