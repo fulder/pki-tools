@@ -24,6 +24,6 @@ def test_certificates_save_and_read_file(cert_pem_string):
 
 def test_certificates_from_uri(mocked_requests_get, cert_pem_string):
     mocked_requests_get.return_value.status_code = 200
-    mocked_requests_get.return_value.content = cert_pem_string
+    mocked_requests_get.return_value.content = cert_pem_string.encode()
     
     Certificates.from_uri("http://TEST_URI")
