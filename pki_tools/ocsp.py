@@ -95,10 +95,17 @@ def _check_ocsp_status(
     for access_description in aia:
         if access_description.access_method != "OCSP":
             continue
+        if (
+            "UniformResourceIdentifier: "
+            not in access_description.access_location
+        ):
+            continue
 
         checked_status = True
 
-        server = access_description.access_location
+        server = access_description.access_location.split(
+            "UniformResourceIdentifier: "
+        )[1]
 
         ocsp_res = _get_ocsp_status(f"{server}/{req_path}")
 
