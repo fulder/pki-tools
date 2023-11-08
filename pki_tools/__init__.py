@@ -25,6 +25,7 @@ def is_revoked(
     cert: Certificate,
     chain: Chain,
     crl_cache_seconds: int = 3600,
+    ocsp_res_cache_seconds: int = 3600,
 ) -> bool:
     """
     Checks if a certificate is revoked first using the OCSP extension and then
@@ -58,7 +59,7 @@ def is_revoked(
         -- When both OCSP and CRL checks fail
     """
     return is_revoked_multiple_issuers(
-        cert, chain, chain, chain, crl_cache_seconds
+        cert, chain, chain, chain, crl_cache_seconds, ocsp_res_cache_seconds
     )
 
 
@@ -68,6 +69,7 @@ def is_revoked_multiple_issuers(
     ocsp_issuer: Chain,
     crl_issuer: Chain,
     crl_cache_seconds: int = 3600,
+    ocsp_res_cache_seconds: int = 3600,
 ):
     """
     Checks if a certificate is revoked first using the OCSP extension and then
@@ -95,6 +97,8 @@ def is_revoked_multiple_issuers(
         for signing the CRL
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should be
         cached, default is 1 hour.
+        crl_cache_seconds -- [OCSP Only] Specifies how long the OCSP response
+        should be cached, default is 1 hour.
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
@@ -108,7 +112,7 @@ def is_revoked_multiple_issuers(
     """
 
     try:
-        return _is_revoked_multiple_issuers(cert, cert_issuer, ocsp_issuer)
+        return _is_revoked_multiple_issuers(cert, cert_issuer, ocsp_issuer, ocsp_res_cache_seconds)
     except (
         ExtensionMissing,
         OcspInvalidResponseStatus,
