@@ -47,6 +47,8 @@ def is_revoked(
         for examples how the chain can be created
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should
         be cached, default is 1 hour.
+        ocsp_res_cache_seconds -- [OCSP Only] Specifies how long the OCSP 
+        response should be cached, default is 1 hour.
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
@@ -97,8 +99,8 @@ def is_revoked_multiple_issuers(
         for signing the CRL
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should be
         cached, default is 1 hour.
-        crl_cache_seconds -- [OCSP Only] Specifies how long the OCSP response
-        should be cached, default is 1 hour.
+        ocsp_res_cache_seconds -- [OCSP Only] Specifies how long the OCSP 
+        response should be cached, default is 1 hour.
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
