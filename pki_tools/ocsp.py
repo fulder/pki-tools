@@ -112,7 +112,7 @@ def _check_ocsp_status(
             "UniformResourceIdentifier: "
         )[1]
 
-        cache_ttl = round(time.time() / ocsp_res_cache_seconds )
+        cache_ttl = round(time.time() / ocsp_res_cache_seconds)
         ocsp_res = _get_ocsp_status(f"{server}/{req_path}", cache_ttl=cache_ttl)
 
         _verify_ocsp_signature(ocsp_res, issuer_chain)
