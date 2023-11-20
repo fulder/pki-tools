@@ -43,7 +43,7 @@ ruff = ">=0.0.289,<0.1.5"
 
 
 [tool.poetry.group.dev.dependencies]
-mkdocs-material = "^9.4.8"
+mkdocs-material = "^9.4.10"
 handsdown = "^2.0.1"
 
 
