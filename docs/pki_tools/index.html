@@ -694,6 +694,26 @@
   
   
     <li class="md-nav__item">
+      <a href="types/enums/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enums
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
       <a href="types/extensions/" class="md-nav__link">
         
   
@@ -923,12 +943,12 @@ Pki Tools</p>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py">pki_tools</a> module.</p>
 </blockquote>
 <h2 id="is_revoked">is_revoked</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L24">Show source in <strong>init</strong>.py:24</a></p>
-<p>Checks if a certificate is revoked first using the OCSP extension and then
-the CRL extensions.</p>
-<p>Note that OCSP has precedence over CRL meaning that if OCSP check is
-successful this function will return the bool without checking CRL.</p>
-<p>Otherwise, if OCSP check fails, CRL will be tried next.</p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L31">Show source in <strong>init</strong>.py:31</a></p>
+<p>Checks if a certificate is revoked using OCSP extension and/or
+CRL extension.</p>
+<p>By default, the OCSP is checked first with a fallback to CRL. If you
+only want to check OCSP or only CRL set the "revoke_mode" to either
+RevokeMode.OCSP_ONLY or RevokeMode.CRL_ONLY</p>
 <h4 id="arguments">Arguments</h4>
 <ul>
 <li><code>cert</code> - The
@@ -941,6 +961,8 @@ issuer. See
 for examples how the chain can be created</li>
 <li><code>crl_cache_seconds</code> - [CRL Only] Specifies how long the CRL should
 be cached, default is 1 hour.</li>
+<li><code>revoke_mode</code> - Specifies how to check for revocation, default is OCSP
+with CRL fallback.</li>
 </ul>
 <h4 id="returns">Returns</h4>
 <p>True if the certificate is revoked, False otherwise</p>
@@ -953,11 +975,14 @@ or some signature in the chain is invalid</p>
 -- When both OCSP and CRL checks fail</p>
 <h4 id="signature">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span> <span class="nf">is_revoked</span><span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="n">Certificate</span><span class="p">,</span> <span class="n">chain</span><span class="p">:</span> <span class="n">Chain</span><span class="p">,</span> <span class="n">crl_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="n">Certificate</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">chain</span><span class="p">:</span> <span class="n">Chain</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">crl_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">revoke_mode</span><span class="p">:</span> <span class="n">RevokeMode</span> <span class="o">=</span> <span class="n">RevokeMode</span><span class="o">.</span><span class="n">OCSP_FALLBACK_CRL</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="is_revoked_multiple_issuers">is_revoked_multiple_issuers</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L65">Show source in <strong>init</strong>.py:65</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L74">Show source in <strong>init</strong>.py:74</a></p>
 <p>Checks if a certificate is revoked first using the OCSP extension and then
 the CRL extensions.</p>
 <p>Note that OCSP has precedence over CRL meaning that if OCSP check is
@@ -981,6 +1006,8 @@ for signing of the OCSP response</li>
 for signing the CRL</li>
 <li><code>crl_cache_seconds</code> - [CRL Only] Specifies how long the CRL should be
 cached, default is 1 hour.</li>
+<li><code>revoke_mode</code> - Specifies how to check for revocation, default is OCSP
+with CRL fallback.</li>
 </ul>
 <h4 id="returns_1">Returns</h4>
 <p>True if the certificate is revoked, False otherwise</p>
@@ -998,7 +1025,8 @@ or some signature in the chain is invalid</p>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">ocsp_issuer</span><span class="p">:</span> <span class="n">Chain</span><span class="p">,</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">crl_issuer</span><span class="p">:</span> <span class="n">Chain</span><span class="p">,</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">crl_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">):</span> <span class="o">...</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">revoke_mode</span><span class="p">:</span> <span class="n">RevokeMode</span> <span class="o">=</span> <span class="n">RevokeMode</span><span class="o">.</span><span class="n">OCSP_FALLBACK_CRL</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="modules">Modules</h2>
 <ul>
