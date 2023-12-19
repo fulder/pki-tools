@@ -53,7 +53,8 @@ def is_revoked(
         for examples how the chain can be created
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should
         be cached, default is 1 hour.
-        revoke_mode -- The method of checking revocation
+        revoke_mode -- Specifies how to check for revocation, default is OCSP
+        with CRL fallback.
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
@@ -104,6 +105,8 @@ def is_revoked_multiple_issuers(
         for signing the CRL
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should be
         cached, default is 1 hour.
+        revoke_mode -- Specifies how to check for revocation, default is OCSP
+        with CRL fallback.
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
