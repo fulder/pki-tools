@@ -1,4 +1,6 @@
 import base64
+import time
+from functools import lru_cache
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives._serialization import (
@@ -34,6 +36,7 @@ def _is_revoked_multiple_issuers(
     cert: Certificate,
     cert_issuer: Chain,
     ocsp_issuer: Chain,
+    ocsp_res_cache_seconds: int = 3600,
 ):
     cert_issuer.check_chain()
     ocsp_issuer.check_chain()
@@ -58,6 +61,7 @@ def _is_revoked_multiple_issuers(
                 req_path,
                 cert,
                 ocsp_issuer,
+                ocsp_res_cache_seconds=ocsp_res_cache_seconds,
             )
         except OcspInvalidResponseStatus:
             log.bind(alg=alg.name).debug(
@@ -88,6 +92,7 @@ def _check_ocsp_status(
     req_path,
     cert: Certificate,
     issuer_chain: Chain,
+    ocsp_res_cache_seconds: int = 3600,
 ):
     log = logger.bind(serial=cert.hex_serial)
 
@@ -107,7 +112,10 @@ def _check_ocsp_status(
             "UniformResourceIdentifier: "
         )[1]
 
-        ocsp_res = _get_ocsp_status(f"{server}/{req_path}")
+        cache_ttl = round(time.time() / ocsp_res_cache_seconds)
+        ocsp_res = _get_ocsp_status(
+            f"{server}/{req_path}", cache_ttl=cache_ttl
+        )
 
         _verify_ocsp_signature(ocsp_res, issuer_chain)
 
@@ -124,7 +132,8 @@ def _check_ocsp_status(
     return False
 
 
-def _get_ocsp_status(uri) -> OCSPResponse:
+@lru_cache(maxsize=None)
+def _get_ocsp_status(uri, cache_ttl=None) -> OCSPResponse:
     ret = HTTPX_CLIENT.get(
         uri, headers={"Content-Type": "application/ocsp-request"}
     )

@@ -636,6 +636,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attributes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#signature" class="md-nav__link">
     <span class="md-ellipsis">
       Signature
@@ -794,6 +803,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attributes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#signature" class="md-nav__link">
     <span class="md-ellipsis">
       Signature
@@ -837,6 +855,12 @@ Enums</p>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/enums.py#L4">Show source in enums.py:4</a></p>
 <p>Specifies in what precedence and protocols (OCSP, CRL)
 to check revocation status of a certificate</p>
+<h4 id="attributes">Attributes</h4>
+<ul>
+<li><code>OCSP_FALLBACK_CRL</code> - Check OCSP first and fallback to CRL if it fails</li>
+<li><code>OCSP_ONLY</code> - Only check OCSP and ignore CRL</li>
+<li><code>CRL_ONLY</code> - Only check CRL and ignore OCSP</li>
+</ul>
 <h4 id="signature">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span> <span class="nc">RevokeMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>

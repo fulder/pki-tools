@@ -32,6 +32,7 @@ def is_revoked(
     cert: Certificate,
     chain: Chain,
     crl_cache_seconds: int = 3600,
+    ocsp_res_cache_seconds: int = 3600,
     revoke_mode: RevokeMode = RevokeMode.OCSP_FALLBACK_CRL,
 ) -> bool:
     """
@@ -53,8 +54,11 @@ def is_revoked(
         for examples how the chain can be created
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should
         be cached, default is 1 hour.
-        revoke_mode -- Specifies how to check for revocation, default is OCSP
-        with CRL fallback.
+        ocsp_res_cache_seconds -- [OCSP Only] Specifies how long the OCSP
+        response should be cached, default is 1 hour.
+        revoke_mode -- A
+        [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/#revokemode)
+        specifying how to check for revocation, default is OCSP with CRL fallback
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
@@ -67,7 +71,13 @@ def is_revoked(
         -- When both OCSP and CRL checks fail
     """
     return is_revoked_multiple_issuers(
-        cert, chain, chain, chain, crl_cache_seconds, revoke_mode
+        cert,
+        chain,
+        chain,
+        chain,
+        crl_cache_seconds=crl_cache_seconds,
+        ocsp_res_cache_seconds=ocsp_res_cache_seconds,
+        revoke_mode=revoke_mode,
     )
 
 
@@ -77,6 +87,7 @@ def is_revoked_multiple_issuers(
     ocsp_issuer: Chain,
     crl_issuer: Chain,
     crl_cache_seconds: int = 3600,
+    ocsp_res_cache_seconds: int = 3600,
     revoke_mode: RevokeMode = RevokeMode.OCSP_FALLBACK_CRL,
 ):
     """
@@ -105,8 +116,11 @@ def is_revoked_multiple_issuers(
         for signing the CRL
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should be
         cached, default is 1 hour.
-        revoke_mode -- Specifies how to check for revocation, default is OCSP
-        with CRL fallback.
+        ocsp_res_cache_seconds -- [OCSP Only] Specifies how long the OCSP
+        response should be cached, default is 1 hour.
+        revoke_mode -- A
+        [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/#revokemode)
+        specifying how to check for revocation, default is OCSP with CRL fallback
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
@@ -120,7 +134,12 @@ def is_revoked_multiple_issuers(
     """
     if not revoke_mode == RevokeMode.CRL_ONLY:
         try:
-            return _is_revoked_multiple_issuers(cert, cert_issuer, ocsp_issuer)
+            return _is_revoked_multiple_issuers(
+                cert,
+                cert_issuer,
+                ocsp_issuer,
+                ocsp_res_cache_seconds=ocsp_res_cache_seconds,
+            )
         except (
             ExtensionMissing,
             OcspInvalidResponseStatus,

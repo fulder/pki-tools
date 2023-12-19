@@ -1024,8 +1024,11 @@ issuer. See
 for examples how the chain can be created</li>
 <li><code>crl_cache_seconds</code> - [CRL Only] Specifies how long the CRL should
 be cached, default is 1 hour.</li>
-<li><code>revoke_mode</code> - Specifies how to check for revocation, default is OCSP
-with CRL fallback.</li>
+<li><code>ocsp_res_cache_seconds</code> - [OCSP Only] Specifies how long the OCSP
+response should be cached, default is 1 hour.</li>
+<li><code>revoke_mode</code> - A
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#revokemode">types.RevokeMode</a>
+specifying how to check for revocation, default is OCSP with CRL fallback</li>
 </ul>
 <h4 id="returns">Returns</h4>
 <p>True if the certificate is revoked, False otherwise</p>
@@ -1041,11 +1044,12 @@ or some signature in the chain is invalid</p>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="n">Certificate</span><span class="p">,</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">chain</span><span class="p">:</span> <span class="n">Chain</span><span class="p">,</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">crl_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">revoke_mode</span><span class="p">:</span> <span class="n">RevokeMode</span> <span class="o">=</span> <span class="n">RevokeMode</span><span class="o">.</span><span class="n">OCSP_FALLBACK_CRL</span><span class="p">,</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">ocsp_res_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">revoke_mode</span><span class="p">:</span> <span class="n">RevokeMode</span> <span class="o">=</span> <span class="n">RevokeMode</span><span class="o">.</span><span class="n">OCSP_FALLBACK_CRL</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="is_revoked_multiple_issuers">is_revoked_multiple_issuers</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L74">Show source in <strong>init</strong>.py:74</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/__init__.py#L84">Show source in <strong>init</strong>.py:84</a></p>
 <p>Checks if a certificate is revoked first using the OCSP extension and then
 the CRL extensions.</p>
 <p>Note that OCSP has precedence over CRL meaning that if OCSP check is
@@ -1069,8 +1073,11 @@ for signing of the OCSP response</li>
 for signing the CRL</li>
 <li><code>crl_cache_seconds</code> - [CRL Only] Specifies how long the CRL should be
 cached, default is 1 hour.</li>
-<li><code>revoke_mode</code> - Specifies how to check for revocation, default is OCSP
-with CRL fallback.</li>
+<li><code>ocsp_res_cache_seconds</code> - [OCSP Only] Specifies how long the OCSP
+response should be cached, default is 1 hour.</li>
+<li><code>revoke_mode</code> - A
+<a href="https://pki-tools.fulder.dev/pki_tools/types/#revokemode">types.RevokeMode</a>
+specifying how to check for revocation, default is OCSP with CRL fallback</li>
 </ul>
 <h4 id="returns_1">Returns</h4>
 <p>True if the certificate is revoked, False otherwise</p>
@@ -1088,8 +1095,9 @@ or some signature in the chain is invalid</p>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">ocsp_issuer</span><span class="p">:</span> <span class="n">Chain</span><span class="p">,</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">crl_issuer</span><span class="p">:</span> <span class="n">Chain</span><span class="p">,</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">crl_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">revoke_mode</span><span class="p">:</span> <span class="n">RevokeMode</span> <span class="o">=</span> <span class="n">RevokeMode</span><span class="o">.</span><span class="n">OCSP_FALLBACK_CRL</span><span class="p">,</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">):</span> <span class="o">...</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">ocsp_res_cache_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">revoke_mode</span><span class="p">:</span> <span class="n">RevokeMode</span> <span class="o">=</span> <span class="n">RevokeMode</span><span class="o">.</span><span class="n">OCSP_FALLBACK_CRL</span><span class="p">,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="modules">Modules</h2>
 <ul>
