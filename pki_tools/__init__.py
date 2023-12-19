@@ -56,8 +56,9 @@ def is_revoked(
         be cached, default is 1 hour.
         ocsp_res_cache_seconds -- [OCSP Only] Specifies how long the OCSP
         response should be cached, default is 1 hour.
-        revoke_mode -- Specifies how to check for revocation, default is OCSP
-        with CRL fallback.
+        revoke_mode -- A
+        [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/#revokemode)
+        specifying how to check for revocation, default is OCSP with CRL fallback
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
@@ -117,8 +118,9 @@ def is_revoked_multiple_issuers(
         cached, default is 1 hour.
         ocsp_res_cache_seconds -- [OCSP Only] Specifies how long the OCSP
         response should be cached, default is 1 hour.
-        revoke_mode -- Specifies how to check for revocation, default is OCSP
-        with CRL fallback.
+        revoke_mode -- A
+        [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/#revokemode)
+        specifying how to check for revocation, default is OCSP with CRL fallback
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
