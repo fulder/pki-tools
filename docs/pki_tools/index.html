@@ -1015,12 +1015,12 @@ RevokeMode.OCSP_ONLY or RevokeMode.CRL_ONLY</p>
 <h4 id="arguments">Arguments</h4>
 <ul>
 <li><code>cert</code> - The
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#certificates">Certificates</a>
+<a href="https://pki-tools.fulder.dev/pki_tools/types/certificates">Certificates</a>
 certificate to check revocation for.</li>
 <li><code>chain</code> - The CA chain including one or more certificates and
 the issuer of the <code>cert</code>, signer of the OCSP response and CRL
 issuer. See
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#chain">types.Chain</a>
+<a href="https://pki-tools.fulder.dev/pki_tools/types/chain">types.Chain</a>
 for examples how the chain can be created</li>
 <li><code>crl_cache_seconds</code> - [CRL Only] Specifies how long the CRL should
 be cached, default is 1 hour.</li>
@@ -1033,7 +1033,7 @@ specifying how to check for revocation, default is OCSP with CRL fallback</li>
 <h4 id="returns">Returns</h4>
 <p>True if the certificate is revoked, False otherwise</p>
 <h4 id="raises">Raises</h4>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#chainverificationfailed">exceptions.ChainVerificationFailed</a>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed">exceptions.SignatureVerificationFailed</a>
 -- When the Chain contains more than one certificate and
 the trust fails either because of some certificate has expired
 or some signature in the chain is invalid</p>
@@ -1057,12 +1057,9 @@ successful this function will return the bool without checking CRL.</p>
 <p>Otherwise, if OCSP check fails, CRL will be tried next.</p>
 <h4 id="arguments_1">Arguments</h4>
 <ul>
-<li><code>cert</code> - The certificate to check revocation for. Can either be
-a
-<a href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">Certificate</a>
-or a
-<a href="https://pki-tools.fulder.dev/pki_tools/types/#pemcert">types.PemCert</a>
-string</li>
+<li><code>cert</code> - The
+<a href="https://pki-tools.fulder.dev/pki_tools/types/certificates">Certificates</a>
+certificate to check revocation for.</li>
 <li><code>cert_issuer</code> - The CA chain including one or more certificates and
 the issuer of the <code>cert</code>. See
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#chain">types.Chain</a>
@@ -1082,12 +1079,12 @@ specifying how to check for revocation, default is OCSP with CRL fallback</li>
 <h4 id="returns_1">Returns</h4>
 <p>True if the certificate is revoked, False otherwise</p>
 <h4 id="raises_1">Raises</h4>
-<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#chainverificationfailed">exceptions.ChainVerificationFailed</a>
+<p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed">exceptions.SignatureVerificationFailed</a>
 -- When the Chain contains more than one certificate and
 the trust fails either because of some certificate has expired
 or some signature in the chain is invalid</p>
 <p><a href="https://pki-tools.fulder.dev/pki_tools/exceptions/#revokecheckfailed">exceptions.RevokeCheckFailed</a>
--- When both OCSP and CRL checks fail</p>
+-- When OCSP and/or CRL checks fail(s)</p>
 <h4 id="signature_1">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">is_revoked_multiple_issuers</span><span class="p">(</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">cert</span><span class="p">:</span> <span class="n">Certificate</span><span class="p">,</span>
