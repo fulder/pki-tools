@@ -9,8 +9,10 @@
       
       
       
-        <link rel="prev" href="../ocsp/">
+        <link rel="prev" href="../crypto_parser/">
       
+      
+        <link rel="next" href="../extensions/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>Utils - Pki-tools</title>
+        <title>Enums - Pki-tools</title>
       
     
     
@@ -70,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#utils" class="md-skip">
+        <a href="#enums" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Utils
+              Enums
             
           </span>
         </div>
@@ -575,10 +577,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../enums/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Enums
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -587,6 +609,50 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#revokemode" class="md-nav__link">
+    <span class="md-ellipsis">
+      RevokeMode
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RevokeMode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -659,19 +725,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -680,7 +737,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -721,6 +777,38 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#revokemode" class="md-nav__link">
+    <span class="md-ellipsis">
+      RevokeMode
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RevokeMode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -737,14 +825,21 @@
   
 
 
-<h1 id="utils">Utils</h1>
+<h1 id="enums">Enums</h1>
 <p><a href="../../../#pki-tools-index">Pki-tools Index</a> /
 <a href="../../#pki-tools">Pki Tools</a> /
 <a href="../#types">Types</a> /
-Utils</p>
+Enums</p>
 <blockquote>
-<p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/utils.py">pki_tools.types.utils</a> module.</p>
+<p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/enums.py">pki_tools.types.enums</a> module.</p>
 </blockquote>
+<h2 id="revokemode">RevokeMode</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/enums.py#L4">Show source in enums.py:4</a></p>
+<p>Specifies in what precedence and protocols (OCSP, CRL)
+to check revocation status of a certificate</p>
+<h4 id="signature">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span> <span class="nc">RevokeMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
 
 
 
