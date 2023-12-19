@@ -45,24 +45,24 @@ def is_revoked(
 
     Arguments:
         cert -- The
-        [Certificates](https://pki-tools.fulder.dev/pki_tools/types/#certificates)
+        [Certificates](https://pki-tools.fulder.dev/pki_tools/types/certificates)
         certificate to check revocation for.
         chain -- The CA chain including one or more certificates and
         the issuer of the `cert`, signer of the OCSP response and CRL
         issuer. See
-        [types.Chain](https://pki-tools.fulder.dev/pki_tools/types/#chain)
+        [types.Chain](https://pki-tools.fulder.dev/pki_tools/types/chain)
         for examples how the chain can be created
         crl_cache_seconds -- [CRL Only] Specifies how long the CRL should
         be cached, default is 1 hour.
         ocsp_res_cache_seconds -- [OCSP Only] Specifies how long the OCSP
         response should be cached, default is 1 hour.
         revoke_mode -- A
-        [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/#revokemode)
+        [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/enums/#revokemode)
         specifying how to check for revocation, default is OCSP with CRL fallback
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
-        [exceptions.ChainVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#chainverificationfailed)
+        [exceptions.SignatureVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed)
         -- When the Chain contains more than one certificate and
         the trust fails either because of some certificate has expired
         or some signature in the chain is invalid
@@ -100,12 +100,9 @@ def is_revoked_multiple_issuers(
     Otherwise, if OCSP check fails, CRL will be tried next.
 
     Arguments:
-        cert -- The certificate to check revocation for. Can either be
-        a
-        [Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-        or a
-        [types.PemCert](https://pki-tools.fulder.dev/pki_tools/types/#pemcert)
-        string
+        cert -- The
+        [Certificates](https://pki-tools.fulder.dev/pki_tools/types/certificates)
+        certificate to check revocation for.
         cert_issuer -- The CA chain including one or more certificates and
         the issuer of the `cert`. See
         [types.Chain](https://pki-tools.fulder.dev/pki_tools/types/#chain)
@@ -119,18 +116,18 @@ def is_revoked_multiple_issuers(
         ocsp_res_cache_seconds -- [OCSP Only] Specifies how long the OCSP
         response should be cached, default is 1 hour.
         revoke_mode -- A
-        [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/#revokemode)
+        [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/enums/#revokemode)
         specifying how to check for revocation, default is OCSP with CRL fallback
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
-        [exceptions.ChainVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#chainverificationfailed)
+        [exceptions.SignatureVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed)
         -- When the Chain contains more than one certificate and
         the trust fails either because of some certificate has expired
         or some signature in the chain is invalid
 
         [exceptions.RevokeCheckFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#revokecheckfailed)
-        -- When both OCSP and CRL checks fail
+        -- When OCSP and/or CRL checks fail(s)
     """
     if not revoke_mode == RevokeMode.CRL_ONLY:
         try:
@@ -149,7 +146,7 @@ def is_revoked_multiple_issuers(
             if revoke_mode == RevokeMode.OCSP_ONLY:
                 err_msg = "OCSP revoke check failed"
                 logger.bind(exceptionType=type(e).__name__).error(err_msg)
-                raise
+                raise RevokeCheckFailed(err_msg) from None
 
             err_msg = "OCSP revoke check failed, trying CRL next"
             logger.bind(exceptionType=type(e).__name__).debug(err_msg)
