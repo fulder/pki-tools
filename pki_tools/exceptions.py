@@ -29,6 +29,9 @@ class CrlFetchFailure(Error):
 class CrlLoadError(Error):
     pass
 
+class CsrLoadError(Error):
+    pass
+
 
 class RevokeCheckFailed(Error):
     pass

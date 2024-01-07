@@ -13,6 +13,8 @@ from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
 from pki_tools.exceptions import CertLoadError
+from pki_tools.types.signature_algorithm import SignatureAlgorithm
+from pki_tools.types.subject_public_key_info import SubjectPublicKeyInfo
 from pki_tools.types.utils import _byte_to_hex
 
 from typing import Type
@@ -30,17 +32,14 @@ from loguru import logger
 from pydantic import ConfigDict
 
 
-PEM_REGEX = re.compile(
+PEM_CERT_REGEX = re.compile(
     r"\s*-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+\s*"
+)
+PEM_CSR_REGEX = re.compile(
+    r"\s*-+BEGIN CERTIFICATE REQUEST-+[\w+/\s=]*-+END CERTIFICATE REQUEST-+\s*"
 )
 CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 
-
-class SignatureAlgorithm(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
-    algorithm: hashes.HashAlgorithm
-    parameters: Union[None, padding.PSS, padding.PKCS1v15, ec.ECDSA] = None
 
 
 class Validity(BaseModel):
@@ -52,53 +51,6 @@ class Validity(BaseModel):
             "Not Before": self.not_before,
             "Not After": self.not_after,
         }
-
-
-class SubjectPublicKeyInfo(CryptoParser):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
-    algorithm: str
-    parameters: Dict[str, str]
-
-    @classmethod
-    def from_cryptography(cls, cert_public_key: CertificatePublicKeyTypes):
-        name = str(cert_public_key.__class__).split(".")[-2].upper()
-        parameters = {}
-        if isinstance(cert_public_key, dsa.DSAPublicKey):
-            pub_numbers = cert_public_key.public_numbers()
-            param_numbers = pub_numbers.parameter_numbers
-            parameters = {
-                "key_size": str(cert_public_key.key_size),
-                "public_key_y": pub_numbers.y,
-                "prime_p": param_numbers.p,
-                "subprime_q": param_numbers.q,
-                "generator_g": param_numbers.g,
-            }
-        elif isinstance(cert_public_key, rsa.RSAPublicKey):
-            pub_numbers = cert_public_key.public_numbers()
-            parameters = {
-                "key_size": str(cert_public_key.key_size),
-                "modulus_n": str(pub_numbers.n),
-                "exponent_e": str(pub_numbers.e),
-            }
-        elif isinstance(cert_public_key, ec.EllipticCurvePublicKey):
-            pub_numbers = cert_public_key.public_numbers()
-            parameters = {
-                "key_size": str(cert_public_key.key_size),
-                "x_coordinate": str(pub_numbers.x),
-                "y_coordinate": str(pub_numbers.y),
-                "curve": pub_numbers.curve.name,
-            }
-
-        return cls(algorithm=name, parameters=parameters)
-
-    def _string_dict(self):
-        params = {}
-        for k, v in self.parameters.items():
-            key = " ".join(ele.title() for ele in k.split("_"))
-            params[key] = v
-
-        return {"Public Key Algorithm": self.algorithm, "Parameters": params}
 
 
 class TbsCertificate(BaseModel):
@@ -191,7 +143,7 @@ class Certificate(TbsCertificate, CryptoParser):
         """
         try:
             cert_pem = re.sub(r"\n\s*", "\n", cert_pem)
-            if not _is_pem_string(cert_pem):
+            if not _is_pem_cert_string(cert_pem):
                 raise ValueError
 
             crypto_cert = x509.load_pem_x509_certificate(cert_pem.encode())
@@ -254,8 +206,15 @@ class Certificate(TbsCertificate, CryptoParser):
         )
 
 
-def _is_pem_string(check: str):
+def _is_pem_cert_string(check: str):
     if not isinstance(check, str):
         return False
 
-    return re.match(PEM_REGEX, check)
+    return re.match(PEM_CERT_REGEX, check)
+
+
+def _is_pem_csr_string(check: str):
+    if not isinstance(check, str):
+        return False
+
+    return re.match(PEM_CSR_REGEX, check)

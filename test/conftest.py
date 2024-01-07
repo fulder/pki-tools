@@ -2,6 +2,7 @@ import ipaddress
 import json
 import os
 
+from cryptography.hazmat._oid import AttributeOID
 from cryptography.hazmat.primitives.asymmetric import rsa
 
 
@@ -17,6 +18,7 @@ from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
 from pki_tools import Chain, Name, Certificate
+from pki_tools.types.csr import CertificateSigningRequest
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -304,6 +306,28 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
 
     return cert
 
+def _create_csr(key_pair):
+    builder = x509.CertificateSigningRequestBuilder()
+    builder = builder.subject_name(x509.Name([
+        x509.NameAttribute(x509.NameOID.COMMON_NAME, 'cryptography.io'),
+    ]))
+    builder = builder.add_extension(
+        x509.BasicConstraints(ca=False, path_length=None), critical=True,
+    )
+    builder = builder.add_attribute(
+        AttributeOID.CHALLENGE_PASSWORD, b"changeit"
+    )
+    return builder.sign(
+        key_pair, hashes.SHA256()
+    )
+
+@pytest.fixture()
+def crypto_csr(key_pair):
+    return _create_csr(key_pair)
+
+@pytest.fixture()
+def csr(crypto_csr):
+    return CertificateSigningRequest.from_cryptography(crypto_csr)
 
 @pytest.fixture()
 def cert_pem_string(cert):
