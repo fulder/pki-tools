@@ -96,14 +96,14 @@ class Name(CryptoParser):
         return x509.Name(name_list)
 
     def _string_dict(self):
-        ret = {}
+        ret = defaultdict(list)
         for a in self.model_dump():
             for val in getattr(self, a):
-                ret[a.upper()] = val
+                ret[a.upper()].append(val)
         return ret
 
     def __str__(self):
         name_list = []
         for k, v in self._string_dict().items():
-            name_list.append(f"{k}: {v}")
+            name_list.append(f"{k}: {','.join(v)}")
         return ", ".join(name_list)
