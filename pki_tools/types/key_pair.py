@@ -344,12 +344,12 @@ class KeyPair(CryptoParser):
     _key_pair: CryptoKeyPair
 
     @classmethod
-    def from_cryptography(cls, cert_private_key: Union[CertificateIssuerPrivateKeyTypes | CertificateIssuerPublicKeyTypes]):
-        name = str(cert_private_key.__class__.__name__).split("_")[1]
+    def from_cryptography(cls, key: Union[CertificateIssuerPrivateKeyTypes | CertificateIssuerPublicKeyTypes]):
+        name = str(key.__class__.__name__).split("_")[1]
         class_name = name.replace("PrivateKey", "KeyPair")
         class_name = class_name.replace("PublicKey", "KeyPair")
 
-        key_pair = globals()[class_name].from_cryptography(cert_private_key)
+        key_pair = globals()[class_name].from_cryptography(key)
 
         ret = cls(
             algorithm=name.replace("Private", ""),
@@ -363,6 +363,9 @@ class KeyPair(CryptoParser):
         params = {}
         for k, v in self.parameters.items():
             key = " ".join(ele.title() for ele in k.split("_"))
+            if v == "None":
+                continue
+
             params[key] = v
 
         return {"Public Key Algorithm": self.algorithm, "Parameters": params}

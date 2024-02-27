@@ -6,22 +6,26 @@ from cryptography import x509
 from cryptography.hazmat.primitives import serialization
 from loguru import logger
 
-from pki_tools.exceptions import CsrLoadError
+from pki_tools.exceptions import CsrLoadError, MissingPrivateKey
+from pki_tools.types import KeyPair, CryptoKeyPair
 from pki_tools.types.certificate import _is_pem_csr_string
 from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
-from pki_tools.types.signature_algorithm import SignatureAlgorithm
-from pki_tools.types.subject_public_key_info import SubjectPublicKeyInfo
+from pki_tools.types.signature_algorithm import SignatureAlgorithm, \
+    HashAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
 
 class CertificateSigningRequest(CryptoParser):
     subject: Name
-    extensions: Optional[Extensions]
-    signature_algorithm: Optional[SignatureAlgorithm]
-    public_key: SubjectPublicKeyInfo
-    attributes: Optional[dict]
+    signature_algorithm: SignatureAlgorithm
+
+    public_key: Optional[KeyPair] = None
+    extensions: Optional[Extensions] = None
+    attributes: Optional[dict[str, bytes]] = None
+
+    _private_key: Optional[CryptoKeyPair]
 
     @classmethod
     def from_cryptography(
@@ -36,17 +40,18 @@ class CertificateSigningRequest(CryptoParser):
             subject=Name.from_cryptography(crypto_csr.subject),
             extensions=Extensions.from_cryptography(crypto_csr.extensions),
             signature_algorithm=SignatureAlgorithm(
-                algorithm=crypto_csr.signature_hash_algorithm,
-                # Add after 42.0.0 release:
+                algorithm=HashAlgorithm.from_cryptography(crypto_csr.signature_hash_algorithm),
+                # TODO: Add after 42.0.0 release:
                 # parameters=crypto_csr.signature_algorithm_parameters
             ),
             signature_value=_byte_to_hex(crypto_csr.signature),
-            public_key=SubjectPublicKeyInfo.from_cryptography(
+            public_key=KeyPair.from_cryptography(
                 crypto_csr.public_key()
             ),
             attributes=attributes,
+            _x509_obj=crypto_csr,
         )
-        ret._x509_obj = crypto_csr
+        ret._x509_obj=crypto_csr
         return ret
 
     @classmethod
@@ -133,6 +138,32 @@ class CertificateSigningRequest(CryptoParser):
 
             ret["Certificate Signing Request"]["Attributes"] = attributes
         return ret
+
+    def sign(self, key_pair: CryptoKeyPair):
+        self._private_key = key_pair
+        self._x509_obj = self._to_cryptography()
+
+    def _to_cryptography(self) -> x509.CertificateSigningRequest:
+        if not hasattr(self, "_private_key"):
+            raise MissingPrivateKey("Please use 'sign' function")
+
+        crypto_key = self._private_key._to_cryptography()
+        if not hasattr(crypto_key, "public_key"):
+            raise MissingPrivateKey("Use private key not public")
+
+        builder = x509.CertificateSigningRequestBuilder()
+        builder = builder.subject_name(self.subject._to_cryptography())
+
+        if self.extensions is not None:
+            for extension in self.extensions:
+                builder = builder.add_extension(extension._to_cryptography(), extension.critical)
+
+        if self.attributes is not None:
+            for attribute_oid, value in self.attributes.items():
+                oid = x509.ObjectIdentifier(attribute_oid)
+                builder = builder.add_attribute(oid, value)
+
+        return builder.sign(crypto_key, self.signature_algorithm.algorithm._to_cryptography())
 
     def __str__(self) -> str:
         return yaml.safe_dump(

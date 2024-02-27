@@ -1,15 +1,21 @@
 import os
+from typing import Type
 
 import pytest
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.hashes import SHA512
 
+from pki_tools import Name
 from pki_tools.exceptions import CsrLoadError
+from pki_tools.types import RSAKeyPair
 from pki_tools.types.csr import CertificateSigningRequest
 from conftest import CURRENT_DIR
+from pki_tools.types.signature_algorithm import SignatureAlgorithm, \
+    HashAlgorithmName, HashAlgorithm, PKCS1v15Padding
 
 
 def test_csr_from_cryptography(crypto_csr):
     CertificateSigningRequest.from_cryptography(crypto_csr)
-
 
 
 def test_csr_from_pem_string_invalid_data():
@@ -32,3 +38,19 @@ def test_certificate_save_and_read_file(csr):
     os.remove(file_path)
 
     assert cert.pem_string == new_cert.pem_string
+
+
+def test_init_csr():
+    hash_alg = HashAlgorithm(
+        name=HashAlgorithmName.SHA512,
+        padding=PKCS1v15Padding()
+    )
+    csr = CertificateSigningRequest(
+        subject=Name(ou=["MY OU"]),
+        signature_algorithm=SignatureAlgorithm(algorithm=hash_alg)
+    )
+    csr.sign(RSAKeyPair.generate())
+
+    print(csr.pem_string)
+
+

@@ -12,7 +12,7 @@
         <link rel="prev" href="../crl/">
       
       
-        <link rel="next" href="../enums/">
+        <link rel="next" href="../csr/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -677,6 +677,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../csr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Csr
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../enums/" class="md-nav__link">
         
   
@@ -719,6 +740,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../key_pair/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KeyPair
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../name/" class="md-nav__link">
         
   
@@ -745,6 +787,27 @@
   
   <span class="md-ellipsis">
     Ocsp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../signature_algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SignatureAlgorithm
   </span>
   
 
@@ -900,12 +963,13 @@ CryptoParser</p>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py">pki_tools.types.crypto_parser</a> module.</p>
 </blockquote>
 <h2 id="cryptoparser_1">CryptoParser</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L7">Show source in crypto_parser.py:7</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L13">Show source in crypto_parser.py:13</a></p>
 <h4 id="signature">Signature</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span> <span class="nc">CryptoParser</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span> <span class="o">...</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span> <span class="nc">CryptoParser</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="cryptoparserfrom_cryptography">CryptoParser.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L10">Show source in crypto_parser.py:10</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L28">Show source in crypto_parser.py:28</a></p>
 <p>Parses a cryptography x509 object into a CryptoParser</p>
 <h4 id="arguments">Arguments</h4>
 <p>crypto_obj --The cryptography object</p>

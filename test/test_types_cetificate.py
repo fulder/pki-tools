@@ -6,6 +6,7 @@ from cryptography.hazmat._oid import NameOID
 
 from conftest import TEST_SUBJECT, CURRENT_DIR
 from pki_tools import Certificate, CertLoadError
+from pki_tools.types import KeyPair, RSAKeyPair
 
 
 def test_certificate_subject_to_crypto_name():
@@ -39,8 +40,27 @@ def test_certificate_subject_to_crypto_name():
     )
 
 
-def test_certificate_from_cryptography(crypto_cert, cert_pem_string):
-    Certificate.from_cryptography(crypto_cert)
+def test_certificate_from_to_cryptography(crypto_cert, cert_pem_string):
+    cert = Certificate.from_cryptography(crypto_cert)
+
+    cert.sign(RSAKeyPair.generate())
+    created_crypto_cert = cert._to_cryptography()
+
+    dict1 = cert._string_dict()
+    dict2 = Certificate.from_cryptography(created_crypto_cert)._string_dict()
+
+    del dict1["Certificate"]["Signature Value"]
+    del dict2["Certificate"]["Signature Value"]
+    remove_ext = [
+        "Serial Number",
+        "Validity",
+        "Subject Public Key Info"
+    ]
+    for ext in remove_ext:
+        del dict1["Certificate"]["TbsCertificate"][ext]
+        del dict2["Certificate"]["TbsCertificate"][ext]
+
+    assert dict1 == dict2
 
 
 def test_certificate_from_pem_string_with_subject_directory_attributes(
@@ -69,3 +89,9 @@ def test_certificate_save_and_read_file(cert_pem_string):
     os.remove(file_path)
 
     assert cert.pem_string == new_cert.pem_string
+
+
+def test_certificate_to_cryptography(cert, key_pair):
+    key = KeyPair.from_cryptography(key_pair)
+    cert.sign(key)
+    cert._to_cryptography()

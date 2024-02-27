@@ -1,10 +1,16 @@
 import hashlib
+from datetime import datetime
 from typing import Type, Optional
 
 from cryptography.x509 import ocsp
+from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger
 
-from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools import Certificate
+from pki_tools.exceptions import MissingPrivateKey
+from pki_tools.types import CryptoKeyPair
+from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
+from pki_tools.types.signature_algorithm import HashAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
 
@@ -59,3 +65,43 @@ class OCSPResponse(CryptoParser):
     @property
     def is_revoked(self):
         return self.certificate_status == "REVOKED"
+
+    def sign(
+            self,
+            cert: Certificate,
+            issuer: Certificate,
+            algorithm: HashAlgorithm,
+            key_pair: CryptoKeyPair,
+    ):
+        self._cert = cert
+        self._issuer = issuer
+        self._algorithm = algorithm
+        self._private_key = key_pair
+        self._x509_obj = self._to_cryptography()
+
+    def _to_cryptography(self) -> ocsp.OCSPResponse:
+        if not hasattr(self, "_private_key"):
+            raise MissingPrivateKey("Please use 'sign' function")
+
+        builder = ocsp.OCSPResponseBuilder()
+        builder = builder.add_response(
+            cert=self._cert._to_cryptography(),
+            issuer=self._issuer._to_cryptography(),
+            algorithm=self._algorithm._to_cryptography(),
+            cert_status=OCSPCertStatus[self.response_status],
+            this_update=datetime.now(),
+            next_update=datetime.now(),
+            revocation_reason=None
+        ).responder_id(ocsp.OCSPResponderEncoding.HASH, self._cert)
+
+        return builder.sign(
+            self._private_key._to_cryptography(),
+            self._algorithm.der_bytes
+        )
+
+    def _string_dict(self) -> dict[str, str]:
+        return {
+            "Response Status": self.response_status,
+            "Certificate Status": self.certificate_status,
+            "Issuer Key Hash": self.issuer_key_hash,
+        }

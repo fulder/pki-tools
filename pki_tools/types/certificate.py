@@ -1,5 +1,6 @@
 import re
-from typing import Union, Optional, Dict
+from typing import Optional
+import datetime
 
 import yaml
 
@@ -9,12 +10,13 @@ from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
 
+from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
-from pki_tools.exceptions import CertLoadError
-from pki_tools.types.signature_algorithm import SignatureAlgorithm
-from pki_tools.types.subject_public_key_info import SubjectPublicKeyInfo
+from pki_tools.exceptions import CertLoadError, MissingPrivateKey
+from pki_tools.types.signature_algorithm import SignatureAlgorithm, \
+    HashAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
 from typing import Type
@@ -25,8 +27,6 @@ from pydantic import BaseModel
 
 
 from pki_tools.types.crypto_parser import CryptoParser
-
-from datetime import datetime
 
 from loguru import logger
 from pydantic import ConfigDict
@@ -43,8 +43,8 @@ CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 
 
 class Validity(BaseModel):
-    not_before: datetime
-    not_after: datetime
+    not_before: datetime.datetime
+    not_after: datetime.datetime
 
     def _string_dict(self):
         return {
@@ -60,7 +60,7 @@ class TbsCertificate(BaseModel):
     issuer: Name
     validity: Validity
     subject: Name
-    subject_public_key_info: SubjectPublicKeyInfo
+    subject_public_key_info: KeyPair
     extensions: Optional[Extensions]
 
     def _string_dict(self):
@@ -99,16 +99,18 @@ class Certificate(TbsCertificate, CryptoParser):
 
     signature_value: str
 
+    _private_key: Optional[CryptoKeyPair]
+
     @classmethod
     def from_cryptography(
-        cls: Type["Certificate"], cert: x509.Certificate
+        cls: Type["Certificate"], cert: x509.Certificate,
     ) -> "Certificate":
         ret = cls(
             version=cert.version.value,
             serial_number=cert.serial_number,
-            signature_algorithm=SignatureAlgorithm(
-                algorithm=cert.signature_hash_algorithm,
-                parameters=cert.signature_algorithm_parameters,
+            signature_algorithm=SignatureAlgorithm.from_cryptography(
+                cert.signature_hash_algorithm,
+                cert.signature_algorithm_parameters,
             ),
             issuer=Name.from_cryptography(cert.issuer),
             validity=Validity(
@@ -116,11 +118,12 @@ class Certificate(TbsCertificate, CryptoParser):
                 not_after=cert.not_valid_after,
             ),
             subject=Name.from_cryptography(cert.subject),
-            subject_public_key_info=SubjectPublicKeyInfo.from_cryptography(
+            subject_public_key_info=KeyPair.from_cryptography(
                 cert.public_key()
             ),
             extensions=Extensions.from_cryptography(cert.extensions),
             signature_value=_byte_to_hex(cert.signature),
+            _x509_obj = cert
         )
         ret._x509_obj = cert
         return ret
@@ -204,6 +207,51 @@ class Certificate(TbsCertificate, CryptoParser):
             explicit_start=True,
             default_style="",
         )
+
+    def sign(self, key_pair: CryptoKeyPair):
+        self._private_key = key_pair
+        self._x509_obj = self._to_cryptography()
+
+    def _to_cryptography(self) -> x509.Certificate:
+        if not hasattr(self, "_private_key"):
+            raise MissingPrivateKey("Please use 'sign' function")
+
+        subject = issuer = self.subject._to_cryptography()
+        crypto_key = self._private_key._to_cryptography()
+        if not hasattr(crypto_key, "public_key"):
+            raise MissingPrivateKey()
+
+        cert_builder = (
+            x509.CertificateBuilder()
+            .subject_name(
+                subject,
+            )
+            .issuer_name(
+                issuer,
+            )
+            .serial_number(
+                x509.random_serial_number(),
+            )
+            .public_key(
+                crypto_key.public_key(),
+            )
+            .not_valid_before(
+                self.validity.not_before,
+            )
+            .not_valid_after(
+                self.validity.not_after,
+            )
+        )
+
+        for extension in self.extensions:
+            cert_builder = cert_builder.add_extension(
+                extension._to_cryptography(), extension.critical)
+
+        alg = self.signature_algorithm.algorithm._to_cryptography()
+        cert = cert_builder.sign(crypto_key, alg)
+
+        return cert
+
 
 
 def _is_pem_cert_string(check: str):

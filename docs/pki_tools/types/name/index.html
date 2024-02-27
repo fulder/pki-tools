@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../extensions/">
+        <link rel="prev" href="../key_pair/">
       
       
         <link rel="next" href="../ocsp/">
@@ -580,6 +580,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../csr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Csr
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../enums/" class="md-nav__link">
         
   
@@ -606,6 +627,27 @@
   
   <span class="md-ellipsis">
     Extensions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../key_pair/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KeyPair
   </span>
   
 
@@ -794,6 +836,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../signature_algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SignatureAlgorithm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../utils/" class="md-nav__link">
         
   
@@ -966,7 +1029,7 @@ Name</p>
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/name.py">pki_tools.types.name</a> module.</p>
 </blockquote>
 <h2 id="name_1">Name</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/name.py#L13">Show source in name.py:13</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/name.py#L14">Show source in name.py:14</a></p>
 <p>Name type describes certificate subject or issuer.
 The attributes are following the
 <a href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4">RFC5280#Section-4.1.2.4</a></p>
@@ -998,13 +1061,13 @@ multivalued RDNs.</p>
 <li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
 </ul>
 <h3 id="namefrom_cryptography">Name.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/name.py#L75">Show source in name.py:75</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/name.py#L76">Show source in name.py:76</a></p>
 <h4 id="signature_1">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@classmethod</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">x509</span><span class="o">.</span><span class="n">Name</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="nameto_crypto_name">Name().to_crypto_name</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/name.py#L83">Show source in name.py:83</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/name.py#L86">Show source in name.py:86</a></p>
 <h4 id="signature_2">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">to_crypto_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">x509</span><span class="o">.</span><span class="n">Name</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>

@@ -42,10 +42,11 @@ def _is_revoked(
             continue
 
         for full_name in dist_point.full_name:
-            split = full_name.split("UniformResourceIdentifier: ")
-            if len(split) < 2:
+            if full_name.name != "UniformResourceIdentifier":
+                logger.warning("CRL Distribution Point is not UniformResourceIdentifier")
                 continue
-            uri = split[1]
+
+            uri = full_name.value
 
             http_dist = True
             cache_ttl = round(time.time() / crl_cache_seconds)
@@ -92,7 +93,8 @@ def _crl_data_to_crypto(crl_data) -> CertificateRevocationList:
     try:
         crypto_crl = x509.load_der_x509_crl(crl_data)
         return CertificateRevocationList.from_cryptography(crypto_crl)
-    except (TypeError, ValueError):
+    except (TypeError, ValueError) as e:
+        logger.bind(error=str(e)).trace("Error during loading of CRL DER")
         pass
 
     try:

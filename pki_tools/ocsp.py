@@ -19,6 +19,7 @@ from loguru import logger
 
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
+from pki_tools.types.utils import oid_to_name
 from pki_tools.utils import HTTPX_CLIENT, verify_signature
 from pki_tools.exceptions import (
     ExtensionMissing,
@@ -98,19 +99,16 @@ def _check_ocsp_status(
 
     checked_status = False
     for access_description in aia:
-        if access_description.access_method != "OCSP":
+        if oid_to_name(access_description.access_method) != "OCSP":
+            logger.trace("Access method is not OCSP, try checking next access description")
             continue
-        if (
-            "UniformResourceIdentifier: "
-            not in access_description.access_location
-        ):
+
+        if access_description.access_location.name != "UniformResourceIdentifier":
             continue
 
         checked_status = True
 
-        server = access_description.access_location.split(
-            "UniformResourceIdentifier: "
-        )[1]
+        server = access_description.access_location.value
 
         cache_ttl = round(time.time() / ocsp_res_cache_seconds)
         ocsp_res = _get_ocsp_status(

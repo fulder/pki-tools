@@ -55,3 +55,10 @@ class SignatureVerificationFailed(Error):
 
 class InvalidSignedType(Error):
     pass
+
+
+class MissingPrivateKey(Error):
+    pass
+
+class MissingBlockSize(Error):
+    pass

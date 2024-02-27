@@ -10,7 +10,7 @@ from pydantic import BaseModel, constr
 
 from pki_tools.exceptions import OcspIssuerFetchFailure
 from pki_tools.types.certificate import Certificate
-from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
 from pki_tools.utils import HTTPX_CLIENT
 
 CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
@@ -49,7 +49,10 @@ class Certificates(CryptoParser):
         certificates = []
         for crypt_cert in crypto_certs:
             certificates.append(Certificate.from_cryptography(crypt_cert))
-        return cls(certificates=certificates)
+        return cls(
+            certificates=certificates,
+            _x509_obj=crypto_certs
+        )
 
     @classmethod
     def from_file(cls: T, file_path: str) -> T:
@@ -131,3 +134,15 @@ class Certificates(CryptoParser):
             f.write(self.pem_string)
 
         logger.debug(f"Certificate(s) saved to {file_path}")
+
+    def _to_cryptography(self) -> List[x509.Certificate]:
+        certs = []
+        for cert in self.certificates:
+            certs.append(cert._to_cryptography())
+        return certs
+
+    def _string_dict(self):
+        certs = {"Certificates": []}
+        for cert in self.certificates:
+            certs["Certificates"].append(cert._to_string_dict())
+        return certs
