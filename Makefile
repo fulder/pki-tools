@@ -1,7 +1,6 @@
 .PHONY: format
 format:
-	poetry run ruff check --fix .
-	poetry run black .
+	poetry run ruff format .
 	make clean
 
 .PHONY: pytest
