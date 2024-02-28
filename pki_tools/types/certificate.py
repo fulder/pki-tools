@@ -63,14 +63,16 @@ class TbsCertificate(BaseModel):
     subject_public_key_info: Optional[KeyPair] = None
 
     def _string_dict(self):
+        subject_key_info = self.subject_public_key_info._string_dict()
+        signature_alg = self.signature_algorithm.algorithm.name.value
         return {
             "Version": self.version,
             "Serial Number": self.hex_serial,
-            "Signature Algorithm": self.signature_algorithm.algorithm.name.value,
+            "Signature Algorithm": signature_alg,
             "Issuer": str(self.issuer),
             "Validity": self.validity._string_dict(),
             "Subject": str(self.subject),
-            "Subject Public Key Info": self.subject_public_key_info._string_dict(),
+            "Subject Public Key Info": subject_key_info,
             "Extensions": self.extensions._string_dict(),
         }
 

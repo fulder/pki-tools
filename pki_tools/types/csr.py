@@ -14,7 +14,6 @@ from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
-    HashAlgorithm,
 )
 from pki_tools.types.utils import _byte_to_hex
 
