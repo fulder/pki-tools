@@ -178,7 +178,11 @@ class SignatureAlgorithm(BaseModel):
     parameters: Optional[Union[PSSPadding, PKCS1v15Padding, ECDSAPadding]] = None
 
     @classmethod
-    def from_cryptography(cls: Type["SignatureAlgorithm"], algorithm: hashes.HashAlgorithm, parameters: Union[padding.PSS, padding.PKCS1v15, ec.ECDSA] = None) -> "SignatureAlgorithm":
+    def from_cryptography(
+            cls: Type["SignatureAlgorithm"],
+            algorithm: hashes.HashAlgorithm,
+            parameters: Union[padding.PSS, padding.PKCS1v15, ec.ECDSA] = None
+    ) -> "SignatureAlgorithm":
         algorithm = HashAlgorithm.from_cryptography(algorithm)
 
         if parameters is None:

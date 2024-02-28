@@ -4,14 +4,22 @@ import os
 import datetime
 
 import pytest
+from loguru import logger
 
 from pki_tools.crl import _get_crl_from_url
-from pki_tools import Chain, Certificate
+from pki_tools import Chain, Certificate, Name
 from pki_tools.types import RSAKeyPair, CertificateRevocationList
 from pki_tools.types.certificate import Validity
 from pki_tools.types.crl import RevokedCertificate
 from pki_tools.types.csr import CertificateSigningRequest
-from pki_tools.types.extensions import *
+from pki_tools.types.extensions import GeneralName, DistributionPoint, \
+    RelativeDistinguishedName, AccessDescription, AuthorityKeyIdentifier, \
+    Extensions, SubjectKeyIdentifier, KeyUsage, PolicyInformation, \
+    CertificatePolicies, UserNotice, NoticeReference, SubjectAlternativeName, \
+    IssuerAlternativeName, BasicConstraints, NameConstraints, PolicyConstraints, \
+    ExtendedKeyUsage, EKU_OID_MAPPING, InhibitAnyPolicy, FreshestCrl, \
+    CrlDistributionPoints, SubjectInformationAccess, AuthorityInformationAccess
+
 from pki_tools.types.ocsp import OCSPResponse
 from pki_tools.types.signature_algorithm import HashAlgorithm, \
     HashAlgorithmName, SignatureAlgorithm
@@ -148,7 +156,9 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         extensions=Extensions(
             authority_key_identifier=AuthorityKeyIdentifier(
                 key_identifier="TEST_KEY_IDENTIFIER".encode(),
-                authority_cert_issuer=[GeneralName(name="RFC822Name", value="TEST_NAME")],
+                authority_cert_issuer=[
+                    GeneralName(name="RFC822Name", value="TEST_NAME")
+                ],
                 authority_cert_serial_number=123123,
                 critical=True,
             ),
@@ -205,13 +215,15 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
                 inhibit_policy_mapping=2,
             ),
             extended_key_usage=ExtendedKeyUsage(
-                ext_key_usage_syntax=EKU_OID_MAPPING.keys()
+                ext_key_usage_syntax=
+                EKU_OID_MAPPING.keys()
             ),
             inhibit_any_policy=InhibitAnyPolicy(
                 skip_certs=10,
             ),
-            freshest_crl=FreshestCrl(
-                crl_distribution_points=CrlDistributionPoints(
+            freshest_crl=            FreshestCrl(
+                crl_distribution_points=
+                CrlDistributionPoints(
                     crl_distribution_points=crl_dist_points
                 )
             ),
@@ -333,5 +345,8 @@ def _create_crl(keypair, revoked_serials):
         next_update=today + one_day
     )
 
-    crl.sign(private_key=keypair, algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256))
+    crl.sign(
+        private_key=keypair,
+        algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256)
+    )
     return crl

@@ -37,7 +37,8 @@ def _is_revoked(
 
         for full_name in dist_point.full_name:
             if full_name.name != "UniformResourceIdentifier":
-                logger.warning("CRL Distribution Point is not UniformResourceIdentifier")
+                logger.warning("CRL Distribution Point is not "
+                               "UniformResourceIdentifier")
                 continue
 
             uri = full_name.value

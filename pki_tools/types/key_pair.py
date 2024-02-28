@@ -41,7 +41,10 @@ class DSAKeyPair(CryptoKeyPair):
         return DSAKeyPair.from_cryptography(new_key)
 
     @classmethod
-    def from_cryptography(cls: Type["DSAKeyPair"], key: Union[dsa.DSAPrivateKey, dsa.DSAPublicKey]) -> "DSAKeyPair":
+    def from_cryptography(
+            cls: Type["DSAKeyPair"],
+            key: Union[dsa.DSAPrivateKey, dsa.DSAPublicKey]
+    ) -> "DSAKeyPair":
         if isinstance(key, dsa.DSAPrivateKey):
             public_key = key.public_key()
             x = key.private_numbers().x
@@ -108,7 +111,11 @@ class RSAKeyPair(CryptoKeyPair):
     iqmp: Optional[int]
 
     @classmethod
-    def generate(cls: Type["RSAKeyPair"], key_size=2048, exponent=65537) -> "RSAKeyPair":
+    def generate(
+            cls: Type["RSAKeyPair"],
+            key_size=2048,
+            exponent=65537
+    ) -> "RSAKeyPair":
         new_key = rsa.generate_private_key(
             public_exponent=exponent,
             key_size=key_size,
@@ -116,7 +123,10 @@ class RSAKeyPair(CryptoKeyPair):
         return RSAKeyPair.from_cryptography(new_key)
 
     @classmethod
-    def from_cryptography(cls: Type["RSAKeyPair"], key: Union[rsa.RSAPrivateKey, rsa.RSAPublicKey]) -> "RSAKeyPair":
+    def from_cryptography(
+            cls: Type["RSAKeyPair"],
+            key: Union[rsa.RSAPrivateKey, rsa.RSAPublicKey]
+    ) -> "RSAKeyPair":
         if isinstance(key, rsa.RSAPrivateKey):
             private_numbers = key.private_numbers()
             public_numbers = private_numbers.public_numbers
@@ -198,7 +208,10 @@ class EllipticCurveKeyPair(CryptoKeyPair):
     d: Optional[int]
 
     @classmethod
-    def generate(cls: Type["EllipticCurveKeyPair"], curve_name: str) -> "EllipticCurveKeyPair":
+    def generate(
+            cls: Type["EllipticCurveKeyPair"],
+            curve_name: str
+    ) -> "EllipticCurveKeyPair":
         allowed = [val.__name__.upper() for val in ec._CURVE_TYPES.values()]
         if curve_name.upper() not in allowed:
             raise TypeError(f"Curve Name: {curve_name} "
@@ -211,7 +224,13 @@ class EllipticCurveKeyPair(CryptoKeyPair):
         return EllipticCurveKeyPair.from_cryptography(new_key)
 
     @classmethod
-    def from_cryptography(cls: Type["EllipticCurveKeyPair"], key: Union[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]) -> "EllipticCurveKeyPair":
+    def from_cryptography(
+            cls: Type["EllipticCurveKeyPair"],
+            key: Union[
+                ec.EllipticCurvePrivateKey,
+                ec.EllipticCurvePublicKey
+            ]
+    ) -> "EllipticCurveKeyPair":
         if isinstance(key, ec.EllipticCurvePrivateKey):
             private_numbers = key.private_numbers()
             public_key = key.public_key()
@@ -235,7 +254,9 @@ class EllipticCurveKeyPair(CryptoKeyPair):
         ret._x509_obj = key
         return ret
 
-    def _to_cryptography(self) -> Union[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]:
+    def _to_cryptography(
+            self
+    ) -> Union[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey]:
         curve = getattr(EC_MODULE, self.curve_name)()
         public_numbers = ec.EllipticCurvePublicNumbers(
             self.x, self.y, curve
@@ -269,7 +290,13 @@ class Ed25519KeyPair(CryptoKeyPair):
         return Ed25519KeyPair.from_cryptography(new_key)
 
     @classmethod
-    def from_cryptography(cls: Type["Ed25519KeyPair"], key: Union[ed25519.Ed25519PrivateKey, ed25519.Ed25519PublicKey]) -> "Ed25519KeyPair":
+    def from_cryptography(
+            cls: Type["Ed25519KeyPair"],
+            key: Union[
+                ed25519.Ed25519PrivateKey,
+                ed25519.Ed25519PublicKey
+            ]
+    ) -> "Ed25519KeyPair":
         private_bytes = None
 
         if isinstance(key, ed25519.Ed25519PrivateKey):
@@ -288,11 +315,17 @@ class Ed25519KeyPair(CryptoKeyPair):
         ret._x509_obj = key
         return ret
 
-    def _to_cryptography(self) -> Union[ed25519.Ed25519PrivateKey, ed25519.Ed25519PublicKey]:
+    def _to_cryptography(self) -> Union[
+        ed25519.Ed25519PrivateKey, ed25519.Ed25519PublicKey
+    ]:
         if self.private_bytes is not None:
-            return ed25519.Ed25519PrivateKey.from_private_bytes(_hex_to_byte(self.private_bytes))
+            return ed25519.Ed25519PrivateKey.from_private_bytes(
+                _hex_to_byte(self.private_bytes)
+            )
         else:
-            return ed25519.Ed25519PublicKey.from_public_bytes(_hex_to_byte(self.public_bytes))
+            return ed25519.Ed25519PublicKey.from_public_bytes(
+                _hex_to_byte(self.public_bytes)
+            )
 
     def _string_dict(self) -> dict[str, str]:
         return {
@@ -309,7 +342,10 @@ class Ed448KeyPair(CryptoKeyPair):
         return Ed448KeyPair.from_cryptography(new_key)
 
     @classmethod
-    def from_cryptography(cls: Type["Ed448KeyPair"], key: Union[ed448.Ed448PrivateKey, ed448.Ed448PublicKey]) -> "Ed448KeyPair":
+    def from_cryptography(
+            cls: Type["Ed448KeyPair"],
+            key: Union[ed448.Ed448PrivateKey, ed448.Ed448PublicKey]
+    ) -> "Ed448KeyPair":
         private_bytes = None
 
         if isinstance(key, ed448.Ed448PrivateKey):
@@ -330,9 +366,13 @@ class Ed448KeyPair(CryptoKeyPair):
 
     def _to_cryptography(self) -> Union[ed448.Ed448PrivateKey, ed448.Ed448PublicKey]:
         if self.private_bytes is not None:
-            return ed448.Ed448PrivateKey.from_private_bytes(_hex_to_byte(self.private_bytes))
+            return ed448.Ed448PrivateKey.from_private_bytes(
+                _hex_to_byte(self.private_bytes)
+            )
         else:
-            return ed448.Ed448PublicKey.from_public_bytes(_hex_to_byte(self.public_bytes))
+            return ed448.Ed448PublicKey.from_public_bytes(
+                _hex_to_byte(self.public_bytes)
+            )
 
     def _string_dict(self) -> dict[str, str]:
         return {
@@ -348,7 +388,12 @@ class KeyPair(CryptoParser):
     _key_pair: CryptoKeyPair
 
     @classmethod
-    def from_cryptography(cls, key: Union[CertificateIssuerPrivateKeyTypes | CertificateIssuerPublicKeyTypes]):
+    def from_cryptography(
+            cls,
+            key: Union[
+                CertificateIssuerPrivateKeyTypes |
+                CertificateIssuerPublicKeyTypes
+            ]):
         name = str(key.__class__.__name__).split("_")[1]
         class_name = name.replace("PrivateKey", "KeyPair")
         class_name = class_name.replace("PublicKey", "KeyPair")

@@ -55,7 +55,9 @@ class CertificateSigningRequest(CryptoParser):
         return ret
 
     @classmethod
-    def from_pem_string(cls: Type["CertificateSigningRequest"], csr_pem) -> "CertificateSigningRequest":
+    def from_pem_string(
+            cls: Type["CertificateSigningRequest"], csr_pem
+    ) -> "CertificateSigningRequest":
         """
         Loads a CSR from a PEM string into a
         [CertificateSigningRequest](https://pki-tools.fulder.dev/pki_tools/types/#certificatesigningrequest)
@@ -82,7 +84,10 @@ class CertificateSigningRequest(CryptoParser):
             raise CsrLoadError(e)
 
     @classmethod
-    def from_file(cls: Type["CertificateSigningRequest"], file_path: str) -> "CertificateSigningRequest":
+    def from_file(
+            cls: Type["CertificateSigningRequest"],
+            file_path: str
+    ) -> "CertificateSigningRequest":
         """
         Reads a file containing one PEM CSR into a
         [CertificateSigningRequest](https://pki-tools.fulder.dev/pki_tools/types/#certificatesigningrequest)
@@ -157,7 +162,10 @@ class CertificateSigningRequest(CryptoParser):
 
         if self.extensions is not None:
             for extension in self.extensions:
-                builder = builder.add_extension(extension._to_cryptography(), extension.critical)
+                builder = builder.add_extension(
+                    extension._to_cryptography(),
+                    extension.critical
+                )
 
         if self.attributes is not None:
             for attribute_oid, value in self.attributes.items():

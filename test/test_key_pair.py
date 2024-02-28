@@ -18,15 +18,70 @@ def test_crypto_keypair_abstract_methods():
         CryptoKeyPair()
 
 
-@pytest.mark.parametrize("key_pair_cls, args, expected_private, expected_public, expected_dict", [
-    (DSAKeyPair, (2048, ), dsa.DSAPrivateKey, dsa.DSAPublicKey, {"key_size": "2048", "generator_g": "", "prime_p": "", "public_key_y": "", "subprime_q": ""}),
-    (RSAKeyPair, (2048, ), rsa.RSAPrivateKey, rsa.RSAPublicKey, {"key_size": "2048", "public_exponent_e": "65537", "modulus_n": "", "private_exponent_d": "", "prime_p": "", "prime_q": "", "dmp1": "", "dmq1": "", "iqmp": ""}),
-    (EllipticCurveKeyPair, ("SECP192R1", ) , ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey, {"curve_name": "SECP192R1", "x_coordinate": "", "y_coordinate": "", "private_key_d": ""}),
-    (Ed25519KeyPair, (), ed25519.Ed25519PrivateKey, ed25519.Ed25519PublicKey, {"public_bytes": ""}),
-    (Ed448KeyPair, (), ed448.Ed448PrivateKey, ed448.Ed448PublicKey, {"public_bytes": ""})
-
-])
-def test_keypair_generate(key_pair_cls, args, expected_private, expected_public, expected_dict):
+@pytest.mark.parametrize(
+    "key_pair_cls, args, expected_private, expected_public, expected_dict",
+    [
+        (
+                DSAKeyPair,
+                (2048, ),
+                dsa.DSAPrivateKey,
+                dsa.DSAPublicKey,
+                {
+                    "key_size": "2048",
+                    "generator_g": "",
+                    "prime_p": "",
+                    "public_key_y": "",
+                    "subprime_q": ""
+                }
+        ),
+        (
+                RSAKeyPair,
+                (2048, ),
+                rsa.RSAPrivateKey,
+                rsa.RSAPublicKey,
+                {
+                    "key_size": "2048",
+                    "public_exponent_e": "65537",
+                    "modulus_n": "",
+                    "private_exponent_d": "",
+                    "prime_p": "",
+                    "prime_q": "",
+                    "dmp1": "",
+                    "dmq1": "",
+                    "iqmp": ""
+                }
+        ),
+        (
+                EllipticCurveKeyPair,
+                ("SECP192R1", ) ,
+                ec.EllipticCurvePrivateKey,
+                ec.EllipticCurvePublicKey,
+                {
+                    "curve_name": "SECP192R1",
+                    "x_coordinate": "",
+                    "y_coordinate": "",
+                    "private_key_d": ""
+                }
+        ),
+        (
+                Ed25519KeyPair,
+                (),
+                ed25519.Ed25519PrivateKey,
+                ed25519.Ed25519PublicKey,
+                {"public_bytes": ""}
+        ),
+        (
+                Ed448KeyPair,
+                (),
+                ed448.Ed448PrivateKey,
+                ed448.Ed448PublicKey,
+                {"public_bytes": ""}
+        )
+    ]
+)
+def test_keypair_generate(
+        key_pair_cls, args, expected_private, expected_public, expected_dict
+):
     # test generate
     key_pair = key_pair_cls.generate(*args)
 

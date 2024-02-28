@@ -136,7 +136,9 @@ class AuthorityKeyIdentifier(Extension):
     def _to_cryptography(self) -> x509.AuthorityKeyIdentifier:
         authority_cert_issuer = []
         for general_name in self.authority_cert_issuer:
-            authority = getattr(GENERAL_NAME_MODULE, general_name.name)(general_name.value)
+            authority = getattr(
+                GENERAL_NAME_MODULE, general_name.name
+            )(general_name.value)
             authority_cert_issuer.append(authority)
 
         return x509.AuthorityKeyIdentifier(
@@ -364,7 +366,11 @@ class AlternativeName(Extension):
     general_names: List[GeneralName]
 
     @classmethod
-    def from_cryptography(cls, extension: Union[x509.SubjectAlternativeName, x509.IssuerAlternativeName]):
+    def from_cryptography(
+            cls,
+            extension: Union[x509.SubjectAlternativeName,
+            x509.IssuerAlternativeName]
+    ):
         names = []
         for general_name in extension:
             names.append(GeneralName.from_cryptography(general_name))
@@ -380,7 +386,9 @@ class AlternativeName(Extension):
             general_names.append(general_name._string_dict())
         return {self.name: general_names}
 
-    def _to_cryptography(self) -> Union[x509.SubjectAlternativeName, x509.IssuerAlternativeName]:
+    def _to_cryptography(
+            self
+    ) -> Union[x509.SubjectAlternativeName, x509.IssuerAlternativeName]:
         general_names = []
         for general_name in self.general_names:
             general_names.append(general_name._to_cryptography())
