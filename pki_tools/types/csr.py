@@ -41,12 +41,9 @@ class CertificateSigningRequest(CryptoParser):
         ret = cls(
             subject=Name.from_cryptography(crypto_csr.subject),
             extensions=Extensions.from_cryptography(crypto_csr.extensions),
-            signature_algorithm=SignatureAlgorithm(
-                algorithm=HashAlgorithm.from_cryptography(
-                    crypto_csr.signature_hash_algorithm
-                ),
-                # TODO: Add after 42.0.0 release:
-                # parameters=crypto_csr.signature_algorithm_parameters
+            signature_algorithm=SignatureAlgorithm.from_cryptography(
+                crypto_csr.signature_hash_algorithm,
+                crypto_csr.signature_algorithm_parameters,
             ),
             signature_value=_byte_to_hex(crypto_csr.signature),
             public_key=KeyPair.from_cryptography(crypto_csr.public_key()),
