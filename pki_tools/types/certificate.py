@@ -4,8 +4,8 @@ import datetime
 
 import yaml
 
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import padding, ec, dsa, rsa
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives._serialization import Encoding, PublicFormat
 from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
@@ -15,8 +15,7 @@ from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
 from pki_tools.exceptions import CertLoadError, MissingPrivateKey
-from pki_tools.types.signature_algorithm import SignatureAlgorithm, \
-    HashAlgorithm
+from pki_tools.types.signature_algorithm import SignatureAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
 from typing import Type
@@ -199,6 +198,13 @@ class Certificate(TbsCertificate, CryptoParser):
     def public_key(self) -> CertificatePublicKeyTypes:
         return self._x509_obj.public_key()
 
+    @property
+    def der_public_key(self) -> bytes:
+        return self.public_key.public_bytes(
+            encoding=Encoding.DER,
+            format=PublicFormat.PKCS1,
+        )
+
     def __str__(self) -> str:
         return yaml.safe_dump(
             self._string_dict(),
@@ -213,6 +219,9 @@ class Certificate(TbsCertificate, CryptoParser):
         self._x509_obj = self._to_cryptography()
 
     def _to_cryptography(self) -> x509.Certificate:
+        if self._x509_obj is not None:
+            return self._x509_obj
+
         if not hasattr(self, "_private_key"):
             raise MissingPrivateKey("Please use 'sign' function")
 

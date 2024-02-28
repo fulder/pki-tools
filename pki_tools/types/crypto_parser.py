@@ -3,7 +3,7 @@ from typing import Type, TypeVar
 
 from pydantic import BaseModel
 
-from pki_tools.exceptions import MissingPrivateKey
+from pki_tools.exceptions import MissingPrivateKey, MissingOcspCert
 
 from loguru import logger
 
@@ -23,6 +23,10 @@ class CryptoParser(BaseModel, abc.ABC):
             except MissingPrivateKey:
                 logger.trace(
                     "Can't create crypto object before setting private key"
+                )
+            except MissingOcspCert:
+                logger.trace(
+                    "Can't create crypto object before setting ocsp cert"
                 )
 
     @classmethod

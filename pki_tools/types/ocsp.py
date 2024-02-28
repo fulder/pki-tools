@@ -1,15 +1,18 @@
+import base64
 import hashlib
 from datetime import datetime
 from typing import Type, Optional
 
+from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger
 
-from pki_tools import Certificate
-from pki_tools.exceptions import MissingPrivateKey
-from pki_tools.types import CryptoKeyPair
-from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
+from pki_tools.types.extensions import Extensions
+from pki_tools.types.certificate import Certificate
+from pki_tools.exceptions import MissingPrivateKey, MissingOcspCert
+from pki_tools.types.key_pair import CryptoKeyPair
+from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.types.signature_algorithm import HashAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
@@ -48,6 +51,11 @@ class OCSPResponse(CryptoParser):
         )
         ret._x509_obj = crypto_ocsp_response
         return ret
+
+    @classmethod
+    def from_der_bytes( cls: Type["OCSPResponse"], der: bytes) -> "OCSPResponse":
+        crypto_obj = ocsp.load_der_ocsp_response(der)
+        return OCSPResponse.from_cryptography(crypto_obj)
 
     @property
     def tbs_bytes(self) -> bytes:
@@ -105,3 +113,56 @@ class OCSPResponse(CryptoParser):
             "Certificate Status": self.certificate_status,
             "Issuer Key Hash": self.issuer_key_hash,
         }
+
+
+class OCSPRequest(CryptoParser):
+    hash_algorithm: HashAlgorithm
+
+    serial_number: Optional[int] = None
+    extensions: Optional[Extensions] = None
+
+
+    def from_cryptography(
+        cls: Type["OCSPRequest"], crypto_obj: ocsp.OCSPRequest
+    ) -> "OCSPRequest":
+        return cls(
+            serial_number=crypto_obj.serial_number,
+            extensions=Extensions.from_cryptography(crypto_obj.extensions),
+            _x590_obj=crypto_obj,
+        )
+
+    @property
+    def request_path(self):
+        if self._x509_obj is None:
+            raise MissingOcspCert("Please use 'create' function")
+
+        return base64.b64encode(
+            self._x509_obj.public_bytes(serialization.Encoding.DER)
+        ).decode()
+
+    def create(self, cert: Certificate, issuer_cert: Certificate):
+        self._cert = cert
+        self._issuer = issuer_cert
+        self._x509_obj = self._to_cryptography()
+
+    def _to_cryptography(self) -> ocsp.OCSPRequest:
+        if not hasattr(self, "_cert"):
+            raise MissingOcspCert("Please use 'create' function")
+
+        builder = ocsp.OCSPRequestBuilder()
+        builder = builder.add_certificate(
+            self._cert._to_cryptography(),
+            self._issuer._to_cryptography(),
+            self.hash_algorithm._to_cryptography(),
+        )
+        return builder.build()
+
+    def _string_dict(self) -> dict:
+        ret = self.hash_algorithm._string_dict()
+
+        if self.serial_number is not None:
+            ret["Serial Number"] = self.serial_number
+        if self.extensions is not None:
+            ret["Extensions"] = self.extensions._string_dict()
+
+        return ret

@@ -4,11 +4,10 @@ from typing import List
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 from cryptography.hazmat.bindings._rust import ObjectIdentifier
-from cryptography.x509 import oid
 
 from pydantic import Field, ConfigDict
 
-from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
+from pki_tools.types.crypto_parser import CryptoParser
 
 
 class Name(CryptoParser):

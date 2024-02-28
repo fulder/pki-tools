@@ -60,5 +60,9 @@ class InvalidSignedType(Error):
 class MissingPrivateKey(Error):
     pass
 
+class MissingOcspCert(Error):
+    pass
+
+
 class MissingBlockSize(Error):
     pass

@@ -10,7 +10,7 @@ from pydantic import BaseModel, constr
 
 from pki_tools.exceptions import OcspIssuerFetchFailure
 from pki_tools.types.certificate import Certificate
-from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
+from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.utils import HTTPX_CLIENT
 
 CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month

@@ -1,24 +1,11 @@
-import base64
 import time
 from functools import lru_cache
 
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives._serialization import (
-    Encoding,
-    PublicFormat,
-)
-from cryptography.hazmat.primitives.hashes import (
-    SHA256,
-    SHA1,
-    SHA512,
-    SHA384,
-    SHA224,
-)
-from cryptography.x509 import ocsp
 from loguru import logger
 
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
+from pki_tools.types.signature_algorithm import HashAlgorithm
 from pki_tools.types.utils import oid_to_name
 from pki_tools.utils import HTTPX_CLIENT, verify_signature
 from pki_tools.exceptions import (
@@ -28,9 +15,15 @@ from pki_tools.exceptions import (
     Error,
 )
 from pki_tools.types.extensions import AuthorityInformationAccess
-from pki_tools.types.ocsp import OCSPResponse
+from pki_tools.types.ocsp import OCSPResponse, OCSPRequest
 
-OCSP_ALGORITHMS_TO_CHECK = [SHA256(), SHA1(), SHA512(), SHA224(), SHA384()]
+OCSP_ALGORITHMS_TO_CHECK = [
+    HashAlgorithm(name="SHA256"),
+    HashAlgorithm(name="SHA1"),
+    HashAlgorithm(name="SHA512"),
+    HashAlgorithm(name="SHA224"),
+    HashAlgorithm(name="SHA384")
+]
 
 
 def _is_revoked_multiple_issuers(
@@ -65,12 +58,12 @@ def _is_revoked_multiple_issuers(
                 ocsp_res_cache_seconds=ocsp_res_cache_seconds,
             )
         except OcspInvalidResponseStatus:
-            log.bind(alg=alg.name).debug(
+            log.bind(alg=alg.name.value).debug(
                 "OCSP check failed, trying another algorithm"
             )
             if i + 1 == len(OCSP_ALGORITHMS_TO_CHECK):
                 log.bind(
-                    algs=[alg.name for alg in OCSP_ALGORITHMS_TO_CHECK]
+                    algs=[alg.name.value for alg in OCSP_ALGORITHMS_TO_CHECK]
                 ).debug("All algorithms check failed")
                 raise
 
@@ -78,14 +71,9 @@ def _is_revoked_multiple_issuers(
 
 
 def _construct_req_path(cert, issuer_cert, alg):
-    cert = cert._x509_obj
-    issuer_cert = issuer_cert._x509_obj
-    builder = ocsp.OCSPRequestBuilder()
-    builder = builder.add_certificate(cert, issuer_cert, alg)
-    req = builder.build()
-    return base64.b64encode(
-        req.public_bytes(serialization.Encoding.DER)
-    ).decode()
+    req = OCSPRequest(hash_algorithm=alg)
+    req.create(cert, issuer_cert)
+    return req.request_path
 
 
 def _check_ocsp_status(
@@ -143,8 +131,7 @@ def _get_ocsp_status(uri, cache_ttl=None) -> OCSPResponse:
             f"Unexpected response status code: {ret.status_code}"
         )
 
-    ocsp_res = ocsp.load_der_ocsp_response(ret.content)
-    ocsp_res = OCSPResponse.from_cryptography(ocsp_res)
+    ocsp_res = OCSPResponse.from_der_bytes(ret.content)
 
     if not ocsp_res.is_successful:
         log.bind(res=ocsp_res.response_status).debug("Invalid OCSP response")
@@ -157,11 +144,9 @@ def _get_ocsp_status(uri, cache_ttl=None) -> OCSPResponse:
 
 def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: Chain):
     for issuer_cert in issuer_chain.certificates:
-        der_key = issuer_cert.public_key.public_bytes(
-            encoding=Encoding.DER,
-            format=PublicFormat.PKCS1,
+        cert_public_hash = ocsp_response.hash_with_alg(
+            issuer_cert.der_public_key
         )
-        cert_public_hash = ocsp_response.hash_with_alg(der_key)
 
         if cert_public_hash == ocsp_response.issuer_key_hash:
             break

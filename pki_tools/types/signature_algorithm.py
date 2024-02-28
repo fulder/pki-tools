@@ -10,7 +10,7 @@ from cryptography.hazmat.primitives.asymmetric.utils import Prehashed
 from pydantic import BaseModel, ConfigDict
 
 from pki_tools.exceptions import MissingBlockSize
-from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
+from pki_tools.types.crypto_parser import CryptoParser
 
 HASHES_MODULE = importlib.import_module("cryptography.hazmat.primitives.hashes")
 

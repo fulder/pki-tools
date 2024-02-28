@@ -15,7 +15,7 @@ from cryptography.x509.extensions import (
 from loguru import logger
 from pydantic import Field, ConfigDict
 
-from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
+from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.types.name import Name
 from pki_tools.types.utils import _byte_to_hex, _hex_to_byte, oid_to_name
 

@@ -1,9 +1,6 @@
 import os
-from typing import Type
 
 import pytest
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.hashes import SHA512
 
 from pki_tools import Name
 from pki_tools.exceptions import CsrLoadError
@@ -50,7 +47,5 @@ def test_init_csr():
         signature_algorithm=SignatureAlgorithm(algorithm=hash_alg)
     )
     csr.sign(RSAKeyPair.generate())
-
-    print(csr.pem_string)
 
 

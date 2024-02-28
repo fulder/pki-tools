@@ -2,9 +2,10 @@ from datetime import datetime, timedelta
 from typing import Type, List, Optional
 
 from cryptography import x509
+from loguru import logger
 
 from pki_tools.types.extensions import Extensions
-from pki_tools.exceptions import MissingPrivateKey
+from pki_tools.exceptions import MissingPrivateKey, CrlLoadError
 from pki_tools.types.key_pair import CryptoKeyPair
 from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.types.name import Name
@@ -76,6 +77,22 @@ class CertificateRevocationList(CryptoParser):
         )
         ret._x509_obj = crypto_crl
         return ret
+
+    @classmethod
+    def from_bytes(cls, data: bytes):
+        try:
+            crypto_crl = x509.load_der_x509_crl(data)
+            return CertificateRevocationList.from_cryptography(crypto_crl)
+        except (TypeError, ValueError) as e:
+            logger.bind(error=str(e)).trace("Error during loading of CRL DER")
+            pass
+
+        try:
+            crypto_crl = x509.load_pem_x509_crl(data)
+            return CertificateRevocationList.from_cryptography(crypto_crl)
+        except TypeError as e:
+            logger.bind(crl=data).error("Failed to load CRL")
+            raise CrlLoadError(e) from None
 
     @property
     def tbs_bytes(self) -> bytes:
