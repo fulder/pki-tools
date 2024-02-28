@@ -51,13 +51,8 @@ def _is_revoked(
             verify_signature(crl, issuer)
             logger.debug("CRL signature valid")
 
-            r = crl._x509_obj.get_revoked_certificate_by_serial_number(
-                cert.serial_number,
-            )
-            if r is not None:
-                log.bind(date=str(r.revocation_date)).debug(
-                    "Certificate revoked"
-                )
+            if (r := crl.get_revoked(cert.serial_number)) is not None:
+                log.bind(date=str(r.date)).debug("Certificate revoked")
                 return True
 
     if not http_dist:

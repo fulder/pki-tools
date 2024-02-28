@@ -1,6 +1,7 @@
 import binascii
 
 from cryptography.hazmat.bindings._rust import ObjectIdentifier
+from cryptography.hazmat.primitives._serialization import Encoding, PublicFormat
 
 
 def oid_to_name(oid: str):
@@ -16,3 +17,10 @@ def _hex_to_byte(hex_string: str) -> bytes:
         byte_array.append(int(hex_string[i:i+2], 16))
 
     return bytes(byte_array)
+
+
+def _der_key(public_key) -> bytes:
+    return public_key.public_bytes(
+        encoding=Encoding.DER,
+        format=PublicFormat.PKCS1,
+    )

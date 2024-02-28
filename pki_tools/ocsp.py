@@ -6,7 +6,6 @@ from loguru import logger
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.signature_algorithm import HashAlgorithm
-from pki_tools.types.utils import oid_to_name
 from pki_tools.utils import HTTPX_CLIENT, verify_signature
 from pki_tools.exceptions import (
     ExtensionMissing,
@@ -87,7 +86,7 @@ def _check_ocsp_status(
 
     checked_status = False
     for access_description in aia:
-        if oid_to_name(access_description.access_method) != "OCSP":
+        if access_description.access_method != "OCSP":
             logger.trace("Access method is not OCSP, try checking next access description")
             continue
 

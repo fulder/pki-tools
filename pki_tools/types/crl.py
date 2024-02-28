@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Type, List, Optional
 
 from cryptography import x509
+from cryptography.hazmat.primitives import serialization
 from loguru import logger
 
 from pki_tools.types.extensions import Extensions
@@ -15,7 +16,7 @@ from pki_tools.types.signature_algorithm import HashAlgorithm
 class RevokedCertificate(CryptoParser):
     serial: int
     date: datetime
-    extensions: Optional[Extensions]
+    extensions: Optional[Extensions] = None
 
     @classmethod
     def from_cryptography(
@@ -60,6 +61,8 @@ class RevokedCertificate(CryptoParser):
 
 class CertificateRevocationList(CryptoParser):
     issuer: Name
+    last_update: datetime
+    next_update: datetime
     revoked_certs: List[RevokedCertificate]
 
     @classmethod
@@ -73,7 +76,9 @@ class CertificateRevocationList(CryptoParser):
 
         ret = cls(
             issuer=Name.from_cryptography(crypto_crl.issuer),
-            revoked_certs=revoked_certs
+            revoked_certs=revoked_certs,
+            last_update=crypto_crl.last_update,
+            next_update=crypto_crl.next_update,
         )
         ret._x509_obj = crypto_crl
         return ret
@@ -98,11 +103,20 @@ class CertificateRevocationList(CryptoParser):
     def tbs_bytes(self) -> bytes:
         return self._x509_obj.tbs_certlist_bytes
 
-    def sign(self, private_key: CryptoKeyPair, algorithm: HashAlgorithm, days=60):
+    @property
+    def der_bytes(self) -> bytes:
+        return self._x509_obj.public_bytes(serialization.Encoding.DER)
+
+    def sign(self, private_key: CryptoKeyPair, algorithm: HashAlgorithm):
         self._private_key = private_key
         self._algorithm = algorithm
-        self._days = days
         self._x509_obj = self._to_cryptography()
+
+    def get_revoked(self, cert_serial: int):
+        for cert in self.revoked_certs:
+            if cert.serial == cert_serial:
+                return cert
+        return None
 
     def _to_cryptography(self) -> x509.CertificateRevocationList:
         if not hasattr(self, "_private_key"):
@@ -110,11 +124,11 @@ class CertificateRevocationList(CryptoParser):
 
         builder = x509.CertificateRevocationListBuilder()
         builder = builder.issuer_name(self.issuer._to_cryptography())
-        builder = builder.last_update(datetime.today())
-        builder = builder.next_update(datetime.today() + timedelta(days=self._days))
+        builder = builder.last_update(self.last_update)
+        builder = builder.next_update(self.next_update)
 
-        for cert in self.certs:
-            builder.add_revoked_certificate(cert._to_cryptography())
+        for cert in self.revoked_certs:
+            builder = builder.add_revoked_certificate(cert._to_cryptography())
 
         return builder.sign(
             private_key=self._private_key._to_cryptography(),

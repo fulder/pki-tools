@@ -1,3 +1,4 @@
+import random
 import re
 from typing import Optional
 import datetime
@@ -5,7 +6,6 @@ import datetime
 import yaml
 
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives._serialization import Encoding, PublicFormat
 from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
@@ -16,7 +16,7 @@ from pki_tools.types.extensions import Extensions
 
 from pki_tools.exceptions import CertLoadError, MissingPrivateKey
 from pki_tools.types.signature_algorithm import SignatureAlgorithm
-from pki_tools.types.utils import _byte_to_hex
+from pki_tools.types.utils import _byte_to_hex, _der_key
 
 from typing import Type
 
@@ -53,14 +53,15 @@ class Validity(BaseModel):
 
 
 class TbsCertificate(BaseModel):
-    version: int
-    serial_number: int
-    signature_algorithm: SignatureAlgorithm
     issuer: Name
     validity: Validity
     subject: Name
-    subject_public_key_info: KeyPair
     extensions: Optional[Extensions]
+
+    serial_number: Optional[int] = None
+    version: Optional[int] = None
+    signature_algorithm: Optional[SignatureAlgorithm] = None
+    subject_public_key_info: Optional[KeyPair] = None
 
     def _string_dict(self):
         return {
@@ -96,7 +97,7 @@ class TbsCertificate(BaseModel):
 class Certificate(TbsCertificate, CryptoParser):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    signature_value: str
+    signature_value: Optional[str] = None
 
     _private_key: Optional[CryptoKeyPair]
 
@@ -200,10 +201,7 @@ class Certificate(TbsCertificate, CryptoParser):
 
     @property
     def der_public_key(self) -> bytes:
-        return self.public_key.public_bytes(
-            encoding=Encoding.DER,
-            format=PublicFormat.PKCS1,
-        )
+        return _der_key(self.public_key)
 
     def __str__(self) -> str:
         return yaml.safe_dump(
@@ -214,12 +212,14 @@ class Certificate(TbsCertificate, CryptoParser):
             default_style="",
         )
 
-    def sign(self, key_pair: CryptoKeyPair):
+    def sign(self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm):
         self._private_key = key_pair
+        self.serial_number = random.randint(1, 2**32 - 1)
+        self.signature_algorithm = signature_algorithm
         self._x509_obj = self._to_cryptography()
 
     def _to_cryptography(self) -> x509.Certificate:
-        if self._x509_obj is not None:
+        if hasattr(self, "_x509_obj"):
             return self._x509_obj
 
         if not hasattr(self, "_private_key"):

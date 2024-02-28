@@ -10,7 +10,7 @@ from cryptography.hazmat.primitives.asymmetric.types import \
 from pydantic import ConfigDict
 
 from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
-from pki_tools.types.utils import _byte_to_hex, _hex_to_byte
+from pki_tools.types.utils import _byte_to_hex, _hex_to_byte, _der_key
 
 
 class CryptoKeyPair(CryptoParser):
@@ -19,6 +19,10 @@ class CryptoKeyPair(CryptoParser):
     @abc.abstractmethod
     def generate(cls, *args) -> CryptoObject:
         raise NotImplementedError("Can't use 'generate' on CryptoKeyPair")
+
+    @property
+    def der_public_key(self):
+        return _der_key(self._x509_obj.public_key())
 
 
 class DSAKeyPair(CryptoKeyPair):

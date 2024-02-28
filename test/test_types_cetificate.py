@@ -6,7 +6,7 @@ from cryptography.hazmat._oid import NameOID
 
 from conftest import TEST_SUBJECT, CURRENT_DIR
 from pki_tools import Certificate, CertLoadError
-from pki_tools.types import KeyPair, RSAKeyPair
+from pki_tools.types import RSAKeyPair
 
 
 def test_certificate_subject_to_crypto_name():
@@ -43,7 +43,7 @@ def test_certificate_subject_to_crypto_name():
 def test_certificate_from_to_cryptography(crypto_cert, cert_pem_string):
     cert = Certificate.from_cryptography(crypto_cert)
 
-    cert.sign(RSAKeyPair.generate())
+    cert.sign(RSAKeyPair.generate(), cert.signature_algorithm)
     created_crypto_cert = cert._to_cryptography()
 
     dict1 = cert._string_dict()
@@ -92,6 +92,4 @@ def test_certificate_save_and_read_file(cert_pem_string):
 
 
 def test_certificate_to_cryptography(cert, key_pair):
-    key = KeyPair.from_cryptography(key_pair)
-    cert.sign(key)
     cert._to_cryptography()

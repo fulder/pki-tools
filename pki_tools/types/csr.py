@@ -19,11 +19,11 @@ from pki_tools.types.utils import _byte_to_hex
 
 class CertificateSigningRequest(CryptoParser):
     subject: Name
-    signature_algorithm: SignatureAlgorithm
 
     public_key: Optional[KeyPair] = None
     extensions: Optional[Extensions] = None
     attributes: Optional[dict[str, bytes]] = None
+    signature_algorithm: Optional[SignatureAlgorithm] = None
 
     _private_key: Optional[CryptoKeyPair]
 
@@ -139,8 +139,9 @@ class CertificateSigningRequest(CryptoParser):
             ret["Certificate Signing Request"]["Attributes"] = attributes
         return ret
 
-    def sign(self, key_pair: CryptoKeyPair):
+    def sign(self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm):
         self._private_key = key_pair
+        self.signature_algorithm = signature_algorithm
         self._x509_obj = self._to_cryptography()
 
     def _to_cryptography(self) -> x509.CertificateSigningRequest:
@@ -163,7 +164,10 @@ class CertificateSigningRequest(CryptoParser):
                 oid = x509.ObjectIdentifier(attribute_oid)
                 builder = builder.add_attribute(oid, value)
 
-        return builder.sign(crypto_key, self.signature_algorithm.algorithm._to_cryptography())
+        return builder.sign(
+            crypto_key,
+            self.signature_algorithm.algorithm._to_cryptography(),
+        )
 
     def __str__(self) -> str:
         return yaml.safe_dump(

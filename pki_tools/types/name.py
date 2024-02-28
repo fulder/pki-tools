@@ -119,3 +119,10 @@ class Name(CryptoParser):
         for k, v in self._string_dict().items():
             name_list.append(f"{k}: {','.join(v)}")
         return ", ".join(name_list)
+
+    def __eq__(self, other):
+        for key in self.model_dump():
+            val_list = getattr(self, key)
+            if set(val_list) != set(getattr(other, key)):
+                return False
+        return True

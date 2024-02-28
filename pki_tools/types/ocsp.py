@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Type, Optional
 
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives._serialization import Encoding
 from cryptography.x509 import ocsp
 from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger
@@ -19,8 +20,9 @@ from pki_tools.types.utils import _byte_to_hex
 
 class OCSPResponse(CryptoParser):
     response_status: str
-    certificate_status: Optional[str]
-    issuer_key_hash: Optional[str]
+    certificate_status: Optional[str] = None
+    issuer_key_hash: Optional[str] = None
+    revocation_time: Optional[datetime] = None
 
     @classmethod
     def from_cryptography(
@@ -44,10 +46,16 @@ class OCSPResponse(CryptoParser):
                 ).error("Couldn't convert issuer key hash to hex")
                 raise
 
+        revocation_time = None
+        if crypto_ocsp_response.revocation_time is not None:
+            revocation_time = crypto_ocsp_response.revocation_time
+
         ret = cls(
             response_status=response_status,
             certificate_status=certificate_status,
             issuer_key_hash=ocsp_response_key_hash,
+            revocation_time=revocation_time,
+            _x509_obj = crypto_ocsp_response,
         )
         ret._x509_obj = crypto_ocsp_response
         return ret
@@ -60,6 +68,10 @@ class OCSPResponse(CryptoParser):
     @property
     def tbs_bytes(self) -> bytes:
         return self._x509_obj.tbs_response_bytes
+
+    @property
+    def der_bytes(self) -> bytes:
+        return self._x509_obj.public_bytes(Encoding.DER)
 
     def hash_with_alg(self, der_key) -> str:
         hash_algorithm = hashlib.new(self._x509_obj.hash_algorithm.name)
@@ -92,19 +104,24 @@ class OCSPResponse(CryptoParser):
             raise MissingPrivateKey("Please use 'sign' function")
 
         builder = ocsp.OCSPResponseBuilder()
+        cert_status = None
+        if self.certificate_status is not None:
+            cert_status = getattr(OCSPCertStatus, self.certificate_status)
+
         builder = builder.add_response(
             cert=self._cert._to_cryptography(),
             issuer=self._issuer._to_cryptography(),
             algorithm=self._algorithm._to_cryptography(),
-            cert_status=OCSPCertStatus[self.response_status],
+            cert_status=cert_status,
             this_update=datetime.now(),
             next_update=datetime.now(),
-            revocation_reason=None
-        ).responder_id(ocsp.OCSPResponderEncoding.HASH, self._cert)
+            revocation_reason=None,
+            revocation_time=self.revocation_time,
+        ).responder_id(ocsp.OCSPResponderEncoding.HASH, self._cert._to_cryptography())
 
         return builder.sign(
             self._private_key._to_cryptography(),
-            self._algorithm.der_bytes
+            self._algorithm._to_cryptography()
         )
 
     def _string_dict(self) -> dict[str, str]:

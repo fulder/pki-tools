@@ -3,9 +3,8 @@ import typing
 from typing import List, Optional, Iterable, Union, Type
 
 from cryptography import x509
-from cryptography.hazmat._oid import ExtensionOID
+from cryptography.hazmat._oid import ExtensionOID, AuthorityInformationAccessOID
 from cryptography.hazmat.bindings._rust import ObjectIdentifier
-
 
 from cryptography.x509.extensions import (
     ExtensionNotFound,
@@ -17,7 +16,7 @@ from pydantic import Field, ConfigDict
 
 from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.types.name import Name
-from pki_tools.types.utils import _byte_to_hex, _hex_to_byte, oid_to_name
+from pki_tools.types.utils import _byte_to_hex, _hex_to_byte
 
 GENERAL_NAME_MODULE = importlib.import_module("cryptography.x509.general_name")
 EXTENSIONS_MODULE = importlib.import_module("cryptography.x509.extensions")
@@ -35,24 +34,84 @@ class Extension(CryptoParser):
         return name
 
 
+
+class GeneralName(CryptoParser):
+    name: str
+    value: Union[str, Name]
+
+    @classmethod
+    def from_cryptography(
+        cls: Type["GeneralName"], crypto_obj: x509.GeneralName
+    ) -> "GeneralName":
+        name = f"{crypto_obj.__class__.__name__}"
+
+        if isinstance(crypto_obj, x509.OtherName):
+            name += f"({crypto_obj.type_id.dotted_string})"
+            value = _byte_to_hex(crypto_obj.value)
+        elif isinstance(crypto_obj, x509.RegisteredID):
+            value = str(crypto_obj.value.dotted_string)
+        elif isinstance(crypto_obj.value, x509.Name):
+            value = Name.from_cryptography(crypto_obj.value)
+        else:
+            value = str(crypto_obj.value)
+
+        return cls(
+            name=name,
+            value=value,
+            _x509_obj=crypto_obj,
+        )
+
+    def _to_cryptography(self) -> x509.GeneralName:
+        if self.name == "DirectoryName":
+            return x509.DirectoryName(self.value._to_cryptography())
+        elif self.name == "RegisteredID":
+            return x509.RegisteredID(x509.ObjectIdentifier(self.value))
+        elif "OtherName" in self.name:
+            dotted_string = self.name.split("(")[1][:-1]
+            return x509.OtherName(
+                type_id=x509.ObjectIdentifier(dotted_string),
+                value=_hex_to_byte(self.value)
+            )
+        elif self.name == "IPAddress":
+            cls_name = "IPv4"
+            if ":" in self.value:
+                cls_name = "IPv6"
+
+            if "/" in self.value:
+                cls_name += "Network"
+            else:
+                cls_name += "Address"
+
+            module = importlib.import_module("ipaddress")
+            value = getattr(module, cls_name)(self.value)
+            return x509.IPAddress(value)
+        else:
+            return getattr(GENERAL_NAME_MODULE, self.name)(self.value)
+
+    def _string_dict(self) -> dict[str, str]:
+        return {
+            "name": self.name,
+            "value": self.value,
+        }
+
+
+
 class AuthorityKeyIdentifier(Extension):
     key_identifier: Optional[bytes]
-    authority_cert_issuer: Optional[typing.Dict[str, str]]
+    authority_cert_issuer: Optional[List[GeneralName]]
     authority_cert_serial_number: Optional[int]
 
     @classmethod
     def from_cryptography(cls, extension: x509.AuthorityKeyIdentifier):
-        issuers = {}
+        issuers = None
         if extension.authority_cert_issuer is not None:
+            issuers = []
             for general_name in extension.authority_cert_issuer:
-                issuers[general_name.__class__.__name__] = general_name.value
+                issuers.append(GeneralName.from_cryptography(general_name))
 
-        opt_issuers = None
-        if issuers:
-            opt_issuers = issuers
         return cls(
             key_identifier=extension.key_identifier,
-            authority_cert_issuer=opt_issuers,
+            authority_cert_issuer=issuers,
             authority_cert_serial_number=extension.authority_cert_serial_number,
             _x509_obj=extension,
         )
@@ -76,8 +135,8 @@ class AuthorityKeyIdentifier(Extension):
 
     def _to_cryptography(self) -> x509.AuthorityKeyIdentifier:
         authority_cert_issuer = []
-        for class_name, val in self.authority_cert_issuer.items():
-            authority = getattr(GENERAL_NAME_MODULE, class_name)(val)
+        for general_name in self.authority_cert_issuer:
+            authority = getattr(GENERAL_NAME_MODULE, general_name.name)(general_name.value)
             authority_cert_issuer.append(authority)
 
         return x509.AuthorityKeyIdentifier(
@@ -301,66 +360,6 @@ class CertificatePolicies(Extension):
         return x509.CertificatePolicies(policies)
 
 
-class GeneralName(CryptoParser):
-    name: str
-    value: Union[str, Name]
-
-    @classmethod
-    def from_cryptography(
-        cls: Type["GeneralName"], crypto_obj: x509.GeneralName
-    ) -> "GeneralName":
-        name = f"{crypto_obj.__class__.__name__}"
-
-        if isinstance(crypto_obj, x509.OtherName):
-            name += f"({crypto_obj.type_id.dotted_string})"
-            value = _byte_to_hex(crypto_obj.value)
-        elif isinstance(crypto_obj, x509.RegisteredID):
-            value = str(crypto_obj.value.dotted_string)
-        elif isinstance(crypto_obj.value, x509.Name):
-            value = Name.from_cryptography(crypto_obj.value)
-        else:
-            value = str(crypto_obj.value)
-
-        return cls(
-            name=name,
-            value=value,
-            _x509_obj=crypto_obj,
-        )
-
-    def _to_cryptography(self) -> x509.GeneralName:
-        if self.name == "DirectoryName":
-            return x509.DirectoryName(self.value._to_cryptography())
-        elif self.name == "RegisteredID":
-            return x509.RegisteredID(x509.ObjectIdentifier(self.value))
-        elif "OtherName" in self.name:
-            dotted_string = self.name.split("(")[1][:-1]
-            return x509.OtherName(
-                type_id=x509.ObjectIdentifier(dotted_string),
-                value=_hex_to_byte(self.value)
-            )
-        elif self.name == "IPAddress":
-            cls_name = "IPv4"
-            if ":" in self.value:
-                cls_name = "IPv6"
-
-            if "/" in self.value:
-                cls_name += "Network"
-            else:
-                cls_name += "Address"
-
-            module = importlib.import_module("ipaddress")
-            value = getattr(module, cls_name)(self.value)
-            return x509.IPAddress(value)
-        else:
-            return getattr(GENERAL_NAME_MODULE, self.name)(self.value)
-
-    def _string_dict(self) -> dict[str, str]:
-        return {
-            "name": self.name,
-            "value": self.value,
-        }
-
-
 class AlternativeName(Extension):
     general_names: List[GeneralName]
 
@@ -445,7 +444,7 @@ class SubjectDirectoryAttributes(Extension):
 
 class BasicConstraints(Extension):
     ca: bool
-    path_len_constraint: Optional[int]
+    path_len_constraint: Optional[int] = None
 
     @classmethod
     def from_cryptography(cls, extension: x509.BasicConstraints):
@@ -614,6 +613,9 @@ class ExtendedKeyUsage(Extension):
 class RelativeDistinguishedName(CryptoParser):
     attributes: typing.Dict[str, str]
 
+    def __iter__(self) -> Iterable:
+        return iter(self.attributes)
+
     @classmethod
     def from_cryptography(cls, x509_obj: x509.RelativeDistinguishedName):
         attributes = {}
@@ -625,7 +627,7 @@ class RelativeDistinguishedName(CryptoParser):
             _x509_obj=x509_obj
         )
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> dict:
         return {
             "RelativeDistinguishedName": self.attributes
         }
@@ -640,10 +642,10 @@ class RelativeDistinguishedName(CryptoParser):
 
 
 class DistributionPoint(CryptoParser):
-    full_name: Optional[List[GeneralName]]
-    name_relative_to_crl_issuer: Optional[List[RelativeDistinguishedName]]
-    reasons: Optional[List[str]]
-    crl_issuer: Optional[List[GeneralName]]
+    full_name: Optional[List[GeneralName]] = None
+    name_relative_to_crl_issuer: Optional[RelativeDistinguishedName] = None
+    reasons: Optional[List[str]] = None
+    crl_issuer: Optional[List[GeneralName]] = None
 
     @classmethod
     def from_cryptography(cls, extension: x509.DistributionPoint):
@@ -704,9 +706,7 @@ class DistributionPoint(CryptoParser):
 
         relative_names = None
         if self.name_relative_to_crl_issuer is not None:
-            relative_names = []
-            for relative_name in self.name_relative_to_crl_issuer:
-                relative_names.append(relative_name._to_cryptography())
+            relative_names = self.name_relative_to_crl_issuer._to_cryptography()
 
         reasons = None
         if self.reasons is not None:
@@ -796,7 +796,7 @@ class AccessDescription(CryptoParser):
     @classmethod
     def from_cryptography(cls, extension: x509.AccessDescription):
         return cls(
-            access_method=extension.access_method.dotted_string,
+            access_method=extension.access_method._name,
             access_location=GeneralName.from_cryptography(
                 extension.access_location
             ),
@@ -805,13 +805,13 @@ class AccessDescription(CryptoParser):
 
     def _string_dict(self):
         return {
-            "Access Method": oid_to_name(self.access_method),
+            "Access Method": self.access_method,
             "Access Location": self.access_location._string_dict(),
         }
 
     def _to_cryptography(self) -> x509.AccessDescription:
         return x509.AccessDescription(
-            access_method=x509.ObjectIdentifier(self.access_method),
+            access_method=getattr(AuthorityInformationAccessOID, self.access_method),
             access_location=self.access_location._to_cryptography(),
         )
 

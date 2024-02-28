@@ -44,8 +44,7 @@ def test_init_csr():
     )
     csr = CertificateSigningRequest(
         subject=Name(ou=["MY OU"]),
-        signature_algorithm=SignatureAlgorithm(algorithm=hash_alg)
     )
-    csr.sign(RSAKeyPair.generate())
+    csr.sign(RSAKeyPair.generate(), SignatureAlgorithm(algorithm=hash_alg))
 
 
