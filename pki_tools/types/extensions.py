@@ -91,7 +91,7 @@ class GeneralName(CryptoParser):
         else:
             return getattr(GENERAL_NAME_MODULE, self.name)(self.value)
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> typing.Dict[str, str]:
         return {
             "name": self.name,
             "value": self.value,
@@ -634,7 +634,7 @@ class RelativeDistinguishedName(CryptoParser):
 
         cls(attributes=attributes, _x509_obj=x509_obj)
 
-    def _string_dict(self) -> dict:
+    def _string_dict(self) -> typing.Dict:
         return {"RelativeDistinguishedName": self.attributes}
 
     def _to_cryptography(self) -> x509.RelativeDistinguishedName:

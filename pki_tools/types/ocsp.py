@@ -1,7 +1,7 @@
 import base64
 import hashlib
 from datetime import datetime
-from typing import Type, Optional
+from typing import Type, Optional, Dict
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives._serialization import Encoding
@@ -128,7 +128,7 @@ class OCSPResponse(CryptoParser):
             self._algorithm._to_cryptography(),
         )
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {
             "Response Status": self.response_status,
             "Certificate Status": self.certificate_status,
@@ -177,7 +177,7 @@ class OCSPRequest(CryptoParser):
         )
         return builder.build()
 
-    def _string_dict(self) -> dict:
+    def _string_dict(self) -> Dict:
         ret = self.hash_algorithm._string_dict()
 
         if self.serial_number is not None:

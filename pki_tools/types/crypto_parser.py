@@ -1,5 +1,5 @@
 import abc
-from typing import Type, TypeVar
+from typing import Type, TypeVar, Dict
 
 from pydantic import BaseModel
 
@@ -49,7 +49,7 @@ class CryptoParser(BaseModel, abc.ABC):
         """
 
     @abc.abstractmethod
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         """
         Creates a dict representation of the object
 

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Type, List, Optional
+from typing import Type, List, Optional, Dict
 
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
@@ -51,7 +51,7 @@ class RevokedCertificate(CryptoParser):
 
         return builder.build()
 
-    def _string_dict(self) -> dict:
+    def _string_dict(self) -> Dict:
         return {
             "Serial Number": self.serial,
             "Revocation Date": str(self.date),
@@ -135,7 +135,7 @@ class CertificateRevocationList(CryptoParser):
             algorithm=self._algorithm._to_cryptography(),
         )
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         certs = []
         for cert in self.revoked_certs:
             certs.append(cert._string_dict())

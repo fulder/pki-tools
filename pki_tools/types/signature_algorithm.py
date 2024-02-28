@@ -1,7 +1,7 @@
 import importlib
 from abc import ABC
 from enum import Enum
-from typing import Type, Optional, Union
+from typing import Type, Optional, Union, Dict
 
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives._serialization import Encoding
@@ -65,7 +65,7 @@ class HashAlgorithm(CryptoParser):
 
         return getattr(HASHES_MODULE, self.name.value)()
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {"algorithm": self.name.value}
 
 
@@ -103,7 +103,7 @@ class PSSPadding(Padding):
             salt_length=getattr(padding, self.length.value),
         )
 
-    def _string_dict(self) -> dict:
+    def _string_dict(self) -> Dict:
         length = self.length
         if not isinstance(length, int):
             length = self.length.name
@@ -126,7 +126,7 @@ class PKCS1v15Padding(Padding):
     def _to_cryptography(self) -> padding.PKCS1v15:
         return padding.PKCS1v15()
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {"name": self._name}
 
 
@@ -158,7 +158,7 @@ class ECDSAPadding(Padding):
 
         return ec.ECDSA(algorithm=alg)
 
-    def _string_dict(self) -> dict:
+    def _string_dict(self) -> Dict:
         length = self.length
         if not isinstance(length, int):
             length = self.length.name

@@ -90,7 +90,7 @@ class DSAKeyPair(CryptoKeyPair):
         )
         return private_numbers.private_key()
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {
             "key_size": str(self.key_size),
             "public_key_y": self.y,
@@ -180,7 +180,7 @@ class RSAKeyPair(CryptoKeyPair):
         )
         return private_numbers.private_key()
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {
             "key_size": str(self.key_size),
             "public_exponent_e": str(self.e),
@@ -266,7 +266,7 @@ class EllipticCurveKeyPair(CryptoKeyPair):
 
         return private_numbers.private_key()
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {
             "curve_name": self.curve_name,
             "x_coordinate": str(self.x),
@@ -319,7 +319,7 @@ class Ed25519KeyPair(CryptoKeyPair):
                 _hex_to_byte(self.public_bytes)
             )
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {
             "public_bytes": self.public_bytes,
         }
@@ -369,7 +369,7 @@ class Ed448KeyPair(CryptoKeyPair):
                 _hex_to_byte(self.public_bytes)
             )
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {
             "public_bytes": self.public_bytes,
         }
@@ -403,7 +403,7 @@ class KeyPair(CryptoParser):
         ret._key_pair = key_pair
         return ret
 
-    def _string_dict(self) -> dict:
+    def _string_dict(self) -> Dict:
         params = {}
         for k, v in self.parameters.items():
             key = " ".join(ele.title() for ele in k.split("_"))
