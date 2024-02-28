@@ -211,7 +211,7 @@ class EllipticCurveKeyPair(CryptoKeyPair):
     def generate(
         cls: Type["EllipticCurveKeyPair"], curve_name: str
     ) -> "EllipticCurveKeyPair":
-        allowed = [val.__name__.upper() for val in ec._CURVE_TYPES.values()]
+        allowed = [val.name.upper() for val in ec._CURVE_TYPES.values()]
         if curve_name.upper() not in allowed:
             raise TypeError(
                 f"Curve Name: {curve_name} "
@@ -389,7 +389,7 @@ class KeyPair(CryptoParser):
             CertificateIssuerPrivateKeyTypes, CertificateIssuerPublicKeyTypes
         ],
     ):
-        name = str(key.__class__.__name__).split("_")[1]
+        name = str(key.__class__.__name__)
         class_name = name.replace("PrivateKey", "KeyPair")
         class_name = class_name.replace("PublicKey", "KeyPair")
 

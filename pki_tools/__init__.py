@@ -58,7 +58,8 @@ def is_revoked(
         response should be cached, default is 1 hour.
         revoke_mode -- A
         [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/enums/#revokemode)
-        specifying how to check for revocation, default is OCSP with CRL fallback
+        specifying how to check for revocation, default is OCSP with
+        CRL fallback
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
@@ -117,7 +118,8 @@ def is_revoked_multiple_issuers(
         response should be cached, default is 1 hour.
         revoke_mode -- A
         [types.RevokeMode](https://pki-tools.fulder.dev/pki_tools/types/enums/#revokemode)
-        specifying how to check for revocation, default is OCSP with CRL fallback
+        specifying how to check for revocation, default is OCSP with
+        CRL fallback
     Returns:
         True if the certificate is revoked, False otherwise
     Raises:
