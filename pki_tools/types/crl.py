@@ -36,10 +36,10 @@ class RevokedCertificate(CryptoParser):
         return ret
 
     def _to_cryptography(self) -> x509.RevokedCertificate:
-        builder = x509.RevokedCertificateBuilder().serial_number(
-            self.serial
-        ).revocation_date(
-            self.date
+        builder = (
+            x509.RevokedCertificateBuilder()
+            .serial_number(self.serial)
+            .revocation_date(self.date)
         )
 
         if self.extensions is not None:
@@ -55,7 +55,7 @@ class RevokedCertificate(CryptoParser):
         return {
             "Serial Number": self.serial,
             "Revocation Date": str(self.date),
-            "Extensions": self.extensions._string_dict()
+            "Extensions": self.extensions._string_dict(),
         }
 
 
@@ -140,7 +140,4 @@ class CertificateRevocationList(CryptoParser):
         for cert in self.revoked_certs:
             certs.append(cert._string_dict())
 
-        return {
-            "Issuer": self.name._string_dict(),
-            "Certs": certs
-        }
+        return {"Issuer": self.name._string_dict(), "Certs": certs}

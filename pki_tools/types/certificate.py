@@ -40,7 +40,6 @@ PEM_CSR_REGEX = re.compile(
 CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 
 
-
 class Validity(BaseModel):
     not_before: datetime.datetime
     not_after: datetime.datetime
@@ -67,7 +66,7 @@ class TbsCertificate(BaseModel):
         return {
             "Version": self.version,
             "Serial Number": self.hex_serial,
-            "Signature Algorithm": self.signature_algorithm.algorithm.name,
+            "Signature Algorithm": self.signature_algorithm.algorithm.name.value,
             "Issuer": str(self.issuer),
             "Validity": self.validity._string_dict(),
             "Subject": str(self.subject),
@@ -103,7 +102,8 @@ class Certificate(TbsCertificate, CryptoParser):
 
     @classmethod
     def from_cryptography(
-        cls: Type["Certificate"], cert: x509.Certificate,
+        cls: Type["Certificate"],
+        cert: x509.Certificate,
     ) -> "Certificate":
         ret = cls(
             version=cert.version.value,
@@ -123,7 +123,7 @@ class Certificate(TbsCertificate, CryptoParser):
             ),
             extensions=Extensions.from_cryptography(cert.extensions),
             signature_value=_byte_to_hex(cert.signature),
-            _x509_obj = cert
+            _x509_obj=cert,
         )
         ret._x509_obj = cert
         return ret
@@ -212,7 +212,9 @@ class Certificate(TbsCertificate, CryptoParser):
             default_style="",
         )
 
-    def sign(self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm):
+    def sign(
+        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
+    ):
         self._private_key = key_pair
         self.serial_number = random.randint(1, 2**32 - 1)
         self.signature_algorithm = signature_algorithm
@@ -254,13 +256,13 @@ class Certificate(TbsCertificate, CryptoParser):
 
         for extension in self.extensions:
             cert_builder = cert_builder.add_extension(
-                extension._to_cryptography(), extension.critical)
+                extension._to_cryptography(), extension.critical
+            )
 
         alg = self.signature_algorithm.algorithm._to_cryptography()
         cert = cert_builder.sign(crypto_key, alg)
 
         return cert
-
 
 
 def _is_pem_cert_string(check: str):

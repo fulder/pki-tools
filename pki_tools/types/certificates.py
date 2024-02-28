@@ -49,10 +49,7 @@ class Certificates(CryptoParser):
         certificates = []
         for crypt_cert in crypto_certs:
             certificates.append(Certificate.from_cryptography(crypt_cert))
-        return cls(
-            certificates=certificates,
-            _x509_obj=crypto_certs
-        )
+        return cls(certificates=certificates, _x509_obj=crypto_certs)
 
     @classmethod
     def from_file(cls: T, file_path: str) -> T:

@@ -17,7 +17,6 @@ class CryptoParser(BaseModel, abc.ABC):
         super().__init__(**kwargs)
 
         if "_x509_obj" not in kwargs:
-            print(f"MISSING x509 obj!! {type(self).__name__}")
             try:
                 self._x509_obj = self._to_cryptography()
             except MissingPrivateKey:

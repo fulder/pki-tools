@@ -7,8 +7,12 @@ from pki_tools.exceptions import CsrLoadError
 from pki_tools.types import RSAKeyPair
 from pki_tools.types.csr import CertificateSigningRequest
 from conftest import CURRENT_DIR
-from pki_tools.types.signature_algorithm import SignatureAlgorithm, \
-    HashAlgorithmName, HashAlgorithm, PKCS1v15Padding
+from pki_tools.types.signature_algorithm import (
+    SignatureAlgorithm,
+    HashAlgorithmName,
+    HashAlgorithm,
+    PKCS1v15Padding,
+)
 
 
 def test_csr_from_cryptography(crypto_csr):
@@ -39,12 +43,9 @@ def test_certificate_save_and_read_file(csr):
 
 def test_init_csr():
     hash_alg = HashAlgorithm(
-        name=HashAlgorithmName.SHA512,
-        padding=PKCS1v15Padding()
+        name=HashAlgorithmName.SHA512, padding=PKCS1v15Padding()
     )
     csr = CertificateSigningRequest(
         subject=Name(ou=["MY OU"]),
     )
     csr.sign(RSAKeyPair.generate(), SignatureAlgorithm(algorithm=hash_alg))
-
-

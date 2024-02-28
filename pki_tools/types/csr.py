@@ -12,8 +12,10 @@ from pki_tools.types.certificate import _is_pem_csr_string
 from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
-from pki_tools.types.signature_algorithm import SignatureAlgorithm, \
-    HashAlgorithm
+from pki_tools.types.signature_algorithm import (
+    SignatureAlgorithm,
+    HashAlgorithm,
+)
 from pki_tools.types.utils import _byte_to_hex
 
 
@@ -40,23 +42,23 @@ class CertificateSigningRequest(CryptoParser):
             subject=Name.from_cryptography(crypto_csr.subject),
             extensions=Extensions.from_cryptography(crypto_csr.extensions),
             signature_algorithm=SignatureAlgorithm(
-                algorithm=HashAlgorithm.from_cryptography(crypto_csr.signature_hash_algorithm),
+                algorithm=HashAlgorithm.from_cryptography(
+                    crypto_csr.signature_hash_algorithm
+                ),
                 # TODO: Add after 42.0.0 release:
                 # parameters=crypto_csr.signature_algorithm_parameters
             ),
             signature_value=_byte_to_hex(crypto_csr.signature),
-            public_key=KeyPair.from_cryptography(
-                crypto_csr.public_key()
-            ),
+            public_key=KeyPair.from_cryptography(crypto_csr.public_key()),
             attributes=attributes,
             _x509_obj=crypto_csr,
         )
-        ret._x509_obj=crypto_csr
+        ret._x509_obj = crypto_csr
         return ret
 
     @classmethod
     def from_pem_string(
-            cls: Type["CertificateSigningRequest"], csr_pem
+        cls: Type["CertificateSigningRequest"], csr_pem
     ) -> "CertificateSigningRequest":
         """
         Loads a CSR from a PEM string into a
@@ -85,8 +87,7 @@ class CertificateSigningRequest(CryptoParser):
 
     @classmethod
     def from_file(
-            cls: Type["CertificateSigningRequest"],
-            file_path: str
+        cls: Type["CertificateSigningRequest"], file_path: str
     ) -> "CertificateSigningRequest":
         """
         Reads a file containing one PEM CSR into a
@@ -122,8 +123,7 @@ class CertificateSigningRequest(CryptoParser):
 
     def _string_dict(self):
         ret = {
-            "Certificate Signing Request":
-                {
+            "Certificate Signing Request": {
                 "Subject": self.subject._string_dict(),
                 "Extensions": self.extensions._string_dict(),
                 "Signature Algorithm": self.signature_algorithm._string_dict(),
@@ -144,7 +144,9 @@ class CertificateSigningRequest(CryptoParser):
             ret["Certificate Signing Request"]["Attributes"] = attributes
         return ret
 
-    def sign(self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm):
+    def sign(
+        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
+    ):
         self._private_key = key_pair
         self.signature_algorithm = signature_algorithm
         self._x509_obj = self._to_cryptography()
@@ -163,8 +165,7 @@ class CertificateSigningRequest(CryptoParser):
         if self.extensions is not None:
             for extension in self.extensions:
                 builder = builder.add_extension(
-                    extension._to_cryptography(),
-                    extension.critical
+                    extension._to_cryptography(), extension.critical
                 )
 
         if self.attributes is not None:

@@ -3,7 +3,10 @@ import typing
 from typing import List, Optional, Iterable, Union, Type
 
 from cryptography import x509
-from cryptography.hazmat._oid import ExtensionOID, AuthorityInformationAccessOID
+from cryptography.hazmat._oid import (
+    ExtensionOID,
+    AuthorityInformationAccessOID,
+)
 from cryptography.hazmat.bindings._rust import ObjectIdentifier
 
 from cryptography.x509.extensions import (
@@ -21,6 +24,7 @@ from pki_tools.types.utils import _byte_to_hex, _hex_to_byte
 GENERAL_NAME_MODULE = importlib.import_module("cryptography.x509.general_name")
 EXTENSIONS_MODULE = importlib.import_module("cryptography.x509.extensions")
 
+
 class Extension(CryptoParser):
     critical: Optional[bool] = False
 
@@ -32,7 +36,6 @@ class Extension(CryptoParser):
         if self.critical:
             name += " (critical)"
         return name
-
 
 
 class GeneralName(CryptoParser):
@@ -70,7 +73,7 @@ class GeneralName(CryptoParser):
             dotted_string = self.name.split("(")[1][:-1]
             return x509.OtherName(
                 type_id=x509.ObjectIdentifier(dotted_string),
-                value=_hex_to_byte(self.value)
+                value=_hex_to_byte(self.value),
             )
         elif self.name == "IPAddress":
             cls_name = "IPv4"
@@ -93,7 +96,6 @@ class GeneralName(CryptoParser):
             "name": self.name,
             "value": self.value,
         }
-
 
 
 class AuthorityKeyIdentifier(Extension):
@@ -136,9 +138,9 @@ class AuthorityKeyIdentifier(Extension):
     def _to_cryptography(self) -> x509.AuthorityKeyIdentifier:
         authority_cert_issuer = []
         for general_name in self.authority_cert_issuer:
-            authority = getattr(
-                GENERAL_NAME_MODULE, general_name.name
-            )(general_name.value)
+            authority = getattr(GENERAL_NAME_MODULE, general_name.name)(
+                general_name.value
+            )
             authority_cert_issuer.append(authority)
 
         return x509.AuthorityKeyIdentifier(
@@ -225,6 +227,7 @@ class KeyUsage(Extension):
             encipher_only=self.encipher_only,
             decipher_only=self.decipher_only,
         )
+
 
 class NoticeReference(Extension):
     organization: str
@@ -367,9 +370,10 @@ class AlternativeName(Extension):
 
     @classmethod
     def from_cryptography(
-            cls,
-            extension: Union[x509.SubjectAlternativeName,
-            x509.IssuerAlternativeName]
+        cls,
+        extension: Union[
+            x509.SubjectAlternativeName, x509.IssuerAlternativeName
+        ],
     ):
         names = []
         for general_name in extension:
@@ -387,7 +391,7 @@ class AlternativeName(Extension):
         return {self.name: general_names}
 
     def _to_cryptography(
-            self
+        self,
     ) -> Union[x509.SubjectAlternativeName, x509.IssuerAlternativeName]:
         general_names = []
         for general_name in self.general_names:
@@ -422,10 +426,7 @@ class SubjectDirectoryAttributes(Extension):
 
             attributes.append(val)
 
-        return cls(
-            attributes=attributes,
-            _x509_obj=extension
-        )
+        return cls(attributes=attributes, _x509_obj=extension)
 
     def _to_cryptography(self) -> x509.UnrecognizedExtension:
         values = []
@@ -442,8 +443,7 @@ class SubjectDirectoryAttributes(Extension):
         else:
             values = bytes(values)
         return x509.UnrecognizedExtension(
-            oid=ObjectIdentifier("2.5.29.9"),
-            value=values
+            oid=ObjectIdentifier("2.5.29.9"), value=values
         )
 
     def _string_dict(self):
@@ -536,7 +536,7 @@ class NameConstraints(Extension):
 
         return x509.NameConstraints(
             permitted_subtrees=permitted_subtrees,
-            excluded_subtrees=excluded_subtrees
+            excluded_subtrees=excluded_subtrees,
         )
 
 
@@ -604,10 +604,12 @@ class ExtendedKeyUsage(Extension):
     def _string_dict(self):
         names = []
         for oid in self.ext_key_usage_syntax:
-            names.append(EKU_OID_MAPPING.get(
-                oid,
-                f"Unknown OID ({oid})",
-            ))
+            names.append(
+                EKU_OID_MAPPING.get(
+                    oid,
+                    f"Unknown OID ({oid})",
+                )
+            )
 
         return {self.name: names}
 
@@ -630,15 +632,10 @@ class RelativeDistinguishedName(CryptoParser):
         for name_attribute in x509_obj:
             attributes[name_attribute.oid.dotted_string] = name_attribute.value
 
-        cls(
-            attributes=attributes,
-            _x509_obj=x509_obj
-        )
+        cls(attributes=attributes, _x509_obj=x509_obj)
 
     def _string_dict(self) -> dict:
-        return {
-            "RelativeDistinguishedName": self.attributes
-        }
+        return {"RelativeDistinguishedName": self.attributes}
 
     def _to_cryptography(self) -> x509.RelativeDistinguishedName:
         name_attributes = []
@@ -714,7 +711,9 @@ class DistributionPoint(CryptoParser):
 
         relative_names = None
         if self.name_relative_to_crl_issuer is not None:
-            relative_names = self.name_relative_to_crl_issuer._to_cryptography()
+            relative_names = (
+                self.name_relative_to_crl_issuer._to_cryptography()
+            )
 
         reasons = None
         if self.reasons is not None:
@@ -819,7 +818,9 @@ class AccessDescription(CryptoParser):
 
     def _to_cryptography(self) -> x509.AccessDescription:
         return x509.AccessDescription(
-            access_method=getattr(AuthorityInformationAccessOID, self.access_method),
+            access_method=getattr(
+                AuthorityInformationAccessOID, self.access_method
+            ),
             access_location=self.access_location._to_cryptography(),
         )
 
@@ -937,9 +938,7 @@ class Extensions(CryptoParser):
 
     @classmethod
     def from_cryptography(cls, cert_extensions: x509.Extensions):
-        extensions_dict = {
-            "_x509_obj":cert_extensions
-        }
+        extensions_dict = {"_x509_obj": cert_extensions}
 
         for name, field_info in cls.model_fields.items():
             class_type = typing.get_args(field_info.annotation)[0]

@@ -21,7 +21,7 @@ OCSP_ALGORITHMS_TO_CHECK = [
     HashAlgorithm(name="SHA1"),
     HashAlgorithm(name="SHA512"),
     HashAlgorithm(name="SHA224"),
-    HashAlgorithm(name="SHA384")
+    HashAlgorithm(name="SHA384"),
 ]
 
 
@@ -87,11 +87,16 @@ def _check_ocsp_status(
     checked_status = False
     for access_description in aia:
         if access_description.access_method != "OCSP":
-            logger.trace("Access method is not OCSP, "
-                         "try checking next access description")
+            logger.trace(
+                "Access method is not OCSP, "
+                "try checking next access description"
+            )
             continue
 
-        if access_description.access_location.name != "UniformResourceIdentifier":
+        if (
+            access_description.access_location.name
+            != "UniformResourceIdentifier"
+        ):
             continue
 
         checked_status = True

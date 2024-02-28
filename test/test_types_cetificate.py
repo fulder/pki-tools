@@ -51,11 +51,7 @@ def test_certificate_from_to_cryptography(crypto_cert, cert_pem_string):
 
     del dict1["Certificate"]["Signature Value"]
     del dict2["Certificate"]["Signature Value"]
-    remove_ext = [
-        "Serial Number",
-        "Validity",
-        "Subject Public Key Info"
-    ]
+    remove_ext = ["Serial Number", "Validity", "Subject Public Key Info"]
     for ext in remove_ext:
         del dict1["Certificate"]["TbsCertificate"][ext]
         del dict2["Certificate"]["TbsCertificate"][ext]

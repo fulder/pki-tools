@@ -32,6 +32,7 @@ class OCSPResponse(CryptoParser):
 
         ocsp_response_key_hash = None
         certificate_status = None
+        revocation_time = None
         if response_status == "SUCCESSFUL":
             certificate_status = crypto_ocsp_response.certificate_status.name
             try:
@@ -46,22 +47,23 @@ class OCSPResponse(CryptoParser):
                 ).error("Couldn't convert issuer key hash to hex")
                 raise
 
-        revocation_time = None
-        if crypto_ocsp_response.revocation_time is not None:
-            revocation_time = crypto_ocsp_response.revocation_time
+            if crypto_ocsp_response.revocation_time is not None:
+                revocation_time = crypto_ocsp_response.revocation_time
 
         ret = cls(
             response_status=response_status,
             certificate_status=certificate_status,
             issuer_key_hash=ocsp_response_key_hash,
             revocation_time=revocation_time,
-            _x509_obj = crypto_ocsp_response,
+            _x509_obj=crypto_ocsp_response,
         )
         ret._x509_obj = crypto_ocsp_response
         return ret
 
     @classmethod
-    def from_der_bytes( cls: Type["OCSPResponse"], der: bytes) -> "OCSPResponse":
+    def from_der_bytes(
+        cls: Type["OCSPResponse"], der: bytes
+    ) -> "OCSPResponse":
         crypto_obj = ocsp.load_der_ocsp_response(der)
         return OCSPResponse.from_cryptography(crypto_obj)
 
@@ -87,11 +89,11 @@ class OCSPResponse(CryptoParser):
         return self.certificate_status == "REVOKED"
 
     def sign(
-            self,
-            cert: Certificate,
-            issuer: Certificate,
-            algorithm: HashAlgorithm,
-            key_pair: CryptoKeyPair,
+        self,
+        cert: Certificate,
+        issuer: Certificate,
+        algorithm: HashAlgorithm,
+        key_pair: CryptoKeyPair,
     ):
         self._cert = cert
         self._issuer = issuer
@@ -117,11 +119,13 @@ class OCSPResponse(CryptoParser):
             next_update=datetime.now(),
             revocation_reason=None,
             revocation_time=self.revocation_time,
-        ).responder_id(ocsp.OCSPResponderEncoding.HASH, self._cert._to_cryptography())
+        ).responder_id(
+            ocsp.OCSPResponderEncoding.HASH, self._cert._to_cryptography()
+        )
 
         return builder.sign(
             self._private_key._to_cryptography(),
-            self._algorithm._to_cryptography()
+            self._algorithm._to_cryptography(),
         )
 
     def _string_dict(self) -> dict[str, str]:
@@ -137,7 +141,6 @@ class OCSPRequest(CryptoParser):
 
     serial_number: Optional[int] = None
     extensions: Optional[Extensions] = None
-
 
     def from_cryptography(
         cls: Type["OCSPRequest"], crypto_obj: ocsp.OCSPRequest

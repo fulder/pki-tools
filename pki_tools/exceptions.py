@@ -29,6 +29,7 @@ class CrlFetchFailure(Error):
 class CrlLoadError(Error):
     pass
 
+
 class CsrLoadError(Error):
     pass
 
@@ -59,6 +60,7 @@ class InvalidSignedType(Error):
 
 class MissingPrivateKey(Error):
     pass
+
 
 class MissingOcspCert(Error):
     pass

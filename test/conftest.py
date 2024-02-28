@@ -12,17 +12,39 @@ from pki_tools.types import RSAKeyPair, CertificateRevocationList
 from pki_tools.types.certificate import Validity
 from pki_tools.types.crl import RevokedCertificate
 from pki_tools.types.csr import CertificateSigningRequest
-from pki_tools.types.extensions import GeneralName, DistributionPoint, \
-    RelativeDistinguishedName, AccessDescription, AuthorityKeyIdentifier, \
-    Extensions, SubjectKeyIdentifier, KeyUsage, PolicyInformation, \
-    CertificatePolicies, UserNotice, NoticeReference, SubjectAlternativeName, \
-    IssuerAlternativeName, BasicConstraints, NameConstraints, PolicyConstraints, \
-    ExtendedKeyUsage, EKU_OID_MAPPING, InhibitAnyPolicy, FreshestCrl, \
-    CrlDistributionPoints, SubjectInformationAccess, AuthorityInformationAccess
+from pki_tools.types.extensions import (
+    GeneralName,
+    DistributionPoint,
+    RelativeDistinguishedName,
+    AccessDescription,
+    AuthorityKeyIdentifier,
+    Extensions,
+    SubjectKeyIdentifier,
+    KeyUsage,
+    PolicyInformation,
+    CertificatePolicies,
+    UserNotice,
+    NoticeReference,
+    SubjectAlternativeName,
+    IssuerAlternativeName,
+    BasicConstraints,
+    NameConstraints,
+    PolicyConstraints,
+    ExtendedKeyUsage,
+    EKU_OID_MAPPING,
+    InhibitAnyPolicy,
+    FreshestCrl,
+    CrlDistributionPoints,
+    SubjectInformationAccess,
+    AuthorityInformationAccess,
+)
 
 from pki_tools.types.ocsp import OCSPResponse
-from pki_tools.types.signature_algorithm import HashAlgorithm, \
-    HashAlgorithmName, SignatureAlgorithm
+from pki_tools.types.signature_algorithm import (
+    HashAlgorithm,
+    HashAlgorithmName,
+    SignatureAlgorithm,
+)
 from pki_tools.types.utils import _byte_to_hex
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
@@ -70,6 +92,7 @@ def cert(key_pair):
 def crypto_cert(cert):
     return cert._to_cryptography()
 
+
 @pytest.fixture()
 def cert_pem_string(cert):
     return cert.pem_string
@@ -104,38 +127,39 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         GeneralName(name="DNSName", value="TEST_DNS_NAME"),
         GeneralName(name="DirectoryName", value=TEST_SUBJECT),
         GeneralName(name="IPAddress", value="192.168.1.0/24"),
-        GeneralName(name="OtherName (1.2.3.4.5)",
-                    value=_byte_to_hex(key_pair.der_public_key)),
+        GeneralName(
+            name="OtherName (1.2.3.4.5)",
+            value=_byte_to_hex(key_pair.der_public_key),
+        ),
         GeneralName(name="RFC822Name", value="TEST_RFC_NAME"),
         GeneralName(name="RegisteredID", value="1.2.3.4.5"),
         GeneralName(name="UniformResourceIdentifier", value="http://TEST_URI"),
     ]
 
     crl_dist_points = [
-                DistributionPoint(
-                    full_name=None,
-                    name_relative_to_crl_issuer=RelativeDistinguishedName(
-                        attributes={"1.2.3.4.5": "TEST_VALUE"},
-                    ),
-                    reasons=[
-                        "key_compromise",
-                        "ca_compromise",
-                        "affiliation_changed",
-                        "superseded",
-                        "cessation_of_operation",
-                        "certificate_hold",
-                        "privilege_withdrawn",
-                        "aa_compromise",
-                    ],
-                    crl_issuer=general_names
-                ),
-                DistributionPoint(
-                    full_name=general_names,
-                    reasons=["key_compromise"],
-                    crl_issuer=general_names
-                )
-            ]
-
+        DistributionPoint(
+            full_name=None,
+            name_relative_to_crl_issuer=RelativeDistinguishedName(
+                attributes={"1.2.3.4.5": "TEST_VALUE"},
+            ),
+            reasons=[
+                "key_compromise",
+                "ca_compromise",
+                "affiliation_changed",
+                "superseded",
+                "cessation_of_operation",
+                "certificate_hold",
+                "privilege_withdrawn",
+                "aa_compromise",
+            ],
+            crl_issuer=general_names,
+        ),
+        DistributionPoint(
+            full_name=general_names,
+            reasons=["key_compromise"],
+            crl_issuer=general_names,
+        ),
+    ]
 
     access_descriptions = [
         AccessDescription(
@@ -186,14 +210,14 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
                                     organization="TEST_ORGANIZATION",
                                     notice_numbers=[123, 456],
                                 ),
-                                explicit_text="TEST_EXPLICIT_TEXT"
+                                explicit_text="TEST_EXPLICIT_TEXT",
                             )
-                        ]
+                        ],
                     ),
                     PolicyInformation(
                         policy_identifier="2.23.140.1.2.1",
                         policy_qualifiers=["TEST_CPS"],
-                    )
+                    ),
                 ],
             ),
             subject_alternative_name=SubjectAlternativeName(
@@ -215,21 +239,19 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
                 inhibit_policy_mapping=2,
             ),
             extended_key_usage=ExtendedKeyUsage(
-                ext_key_usage_syntax=
-                EKU_OID_MAPPING.keys()
+                ext_key_usage_syntax=EKU_OID_MAPPING.keys()
             ),
             inhibit_any_policy=InhibitAnyPolicy(
                 skip_certs=10,
             ),
-            freshest_crl=            FreshestCrl(
-                crl_distribution_points=
-                CrlDistributionPoints(
+            freshest_crl=FreshestCrl(
+                crl_distribution_points=CrlDistributionPoints(
                     crl_distribution_points=crl_dist_points
                 )
             ),
             subject_information_access=SubjectInformationAccess(
                 access_description=access_descriptions
-            )
+            ),
         ),
         validity=Validity(
             not_before=today,
@@ -243,8 +265,8 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         )
 
     if add_aia_extension:
-        cert.extensions.authority_information_access = AuthorityInformationAccess(
-            access_description=access_descriptions
+        cert.extensions.authority_information_access = (
+            AuthorityInformationAccess(access_description=access_descriptions)
         )
 
     signature_algorithm = SignatureAlgorithm(
@@ -253,16 +275,14 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
     cert.sign(key_pair, signature_algorithm)
     return cert
 
+
 def _create_csr(key_pair):
     csr = CertificateSigningRequest(
         subject=TEST_SUBJECT,
         extensions=Extensions(
-            basic_constraints=BasicConstraints(
-                ca=False,
-                critical=True
-            ),
-            attributes={"1.2.840.113549.1.9.7": b"changit"}
-        )
+            basic_constraints=BasicConstraints(ca=False, critical=True),
+            attributes={"1.2.840.113549.1.9.7": b"changit"},
+        ),
     )
 
     signature_algorithm = SignatureAlgorithm(
@@ -276,11 +296,10 @@ def _create_csr(key_pair):
 def crypto_csr(csr):
     return csr._to_cryptography()
 
+
 @pytest.fixture()
 def csr(key_pair):
     return _create_csr(key_pair)
-
-
 
 
 @pytest.fixture()
@@ -332,21 +351,23 @@ def _create_crl(keypair, revoked_serials):
 
     revoked_certs = []
     for serial in revoked_serials:
-        revoked_certs.append(RevokedCertificate(
-            serial=serial,
-            date=today,
-        ))
+        revoked_certs.append(
+            RevokedCertificate(
+                serial=serial,
+                date=today,
+            )
+        )
     print(revoked_certs)
 
     crl = CertificateRevocationList(
         issuer=TEST_SUBJECT,
         revoked_certs=revoked_certs,
         last_update=today,
-        next_update=today + one_day
+        next_update=today + one_day,
     )
 
     crl.sign(
         private_key=keypair,
-        algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256)
+        algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256),
     )
     return crl

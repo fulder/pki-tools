@@ -104,9 +104,7 @@ class Chain(Certificates):
         cert_issuer = signed.issuer
         log = logger.bind(issuer=cert_issuer._string_dict())
 
-        print(cert_issuer)
         for next_chain_cert in self.certificates:
-            print(next_chain_cert.subject)
             if cert_issuer == next_chain_cert.subject:
                 log.trace("Found issuer cert in chain")
                 return next_chain_cert
