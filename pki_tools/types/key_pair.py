@@ -386,7 +386,7 @@ class KeyPair(CryptoParser):
     def from_cryptography(
         cls,
         key: Union[
-            CertificateIssuerPrivateKeyTypes | CertificateIssuerPublicKeyTypes
+            CertificateIssuerPrivateKeyTypes, CertificateIssuerPublicKeyTypes
         ],
     ):
         name = str(key.__class__.__name__).split("_")[1]
