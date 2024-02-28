@@ -1,4 +1,4 @@
-from typing import Type, Optional
+from typing import Type, Optional, Dict
 import re
 
 import yaml
@@ -24,7 +24,7 @@ class CertificateSigningRequest(CryptoParser):
 
     public_key: Optional[KeyPair] = None
     extensions: Optional[Extensions] = None
-    attributes: Optional[dict[str, bytes]] = None
+    attributes: Optional[Dict[str, bytes]] = None
     signature_algorithm: Optional[SignatureAlgorithm] = None
 
     _private_key: Optional[CryptoKeyPair]
