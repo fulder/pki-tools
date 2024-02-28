@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pki-tools"
-version = "0.0.0"
+version = "0.0.30.post4.dev0+69dbe84"
 description = "PKI tools for e.g. checking certificate CRL/OCSP revocation"
 authors = ["Michal Sadowski <misad90@gmail.com>"]
 license = "MIT"
@@ -51,7 +51,7 @@ handsdown = "^2.0.1"
 httpx = "^0.25.2"
 
 [tool.poetry-dynamic-versioning]
-enable = true
+enable = false
 vcs = "git"
 
 [build-system]

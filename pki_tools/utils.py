@@ -1,14 +1,12 @@
 import httpx
 
-
-from cryptography.hazmat.primitives.asymmetric import padding
-
-from cryptography.x509.ocsp import OCSPResponse
 from loguru import logger
 
 from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import SignatureVerificationFailed
 from pki_tools.types.crl import CertificateRevocationList
+from pki_tools.types.ocsp import OCSPResponse
+from pki_tools.types.signature_algorithm import PKCS1v15Padding
 
 HTTPX_CLIENT = httpx.Client(
     transport=httpx.HTTPTransport(retries=2), timeout=15
@@ -41,7 +39,7 @@ def verify_signature(
         issuer.public_key.verify(
             signed._x509_obj.signature,
             signed.tbs_bytes,
-            padding.PKCS1v15(),
+            PKCS1v15Padding()._to_cryptography(),
             signed._x509_obj.signature_hash_algorithm,
         )
         logger.trace("Signature valid")

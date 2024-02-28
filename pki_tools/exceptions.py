@@ -30,6 +30,10 @@ class CrlLoadError(Error):
     pass
 
 
+class CsrLoadError(Error):
+    pass
+
+
 class RevokeCheckFailed(Error):
     pass
 
@@ -51,4 +55,16 @@ class SignatureVerificationFailed(Error):
 
 
 class InvalidSignedType(Error):
+    pass
+
+
+class MissingPrivateKey(Error):
+    pass
+
+
+class MissingOcspCert(Error):
+    pass
+
+
+class MissingBlockSize(Error):
     pass

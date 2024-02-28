@@ -3,7 +3,7 @@ from typing import List
 
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
-
+from cryptography.hazmat.bindings._rust import ObjectIdentifier
 
 from pydantic import Field, ConfigDict
 
@@ -78,6 +78,8 @@ class Name(CryptoParser):
         for attribute in name:
             for att in name.get_attributes_for_oid(attribute.oid):
                 subject[att.oid.dotted_string].add(att.value)
+        subject = dict(subject)
+        subject["_x509_obj"] = name
         return cls(**subject)
 
     def to_crypto_name(self) -> x509.Name:
@@ -95,15 +97,32 @@ class Name(CryptoParser):
 
         return x509.Name(name_list)
 
+    def _to_cryptography(self) -> x509.Name:
+        name_attributes = []
+        for name, field in self.model_fields.items():
+            object_identifier = ObjectIdentifier(field.alias)
+            field_vals = getattr(self, name)
+            for val in field_vals:
+                name_attr = x509.NameAttribute(object_identifier, val)
+                name_attributes.append(name_attr)
+        return x509.Name(name_attributes)
+
     def _string_dict(self):
-        ret = {}
-        for a in self.model_dump():
+        ret = defaultdict(list)
+        for a in set(self.model_dump()):
             for val in getattr(self, a):
-                ret[a.upper()] = val
+                ret[a.upper()].append(val)
         return ret
 
     def __str__(self):
         name_list = []
         for k, v in self._string_dict().items():
-            name_list.append(f"{k}: {v}")
+            name_list.append(f"{k}: {','.join(v)}")
         return ", ".join(name_list)
+
+    def __eq__(self, other):
+        for key in self.model_dump():
+            val_list = getattr(self, key)
+            if set(val_list) != set(getattr(other, key)):
+                return False
+        return True
