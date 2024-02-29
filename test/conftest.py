@@ -44,6 +44,7 @@ from pki_tools.types.extensions import (
     RegisteredId,
     UniformResourceIdentifier,
     Reason,
+    AttributeTypeAndValue,
 )
 
 from pki_tools.types.ocsp import OCSPResponse
@@ -146,7 +147,9 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         DistributionPoint(
             full_name=None,
             name_relative_to_crl_issuer=RelativeDistinguishedName(
-                attributes={"1.2.3.4.5": "TEST_VALUE"},
+                attributes=[
+                    AttributeTypeAndValue(oid="1.2.3.4.5", value="TEST_VALUE")
+                ]
             ),
             reasons=[
                 Reason.key_compromise,

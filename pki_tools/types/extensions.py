@@ -1,7 +1,7 @@
 import importlib
 import typing
 from enum import Enum
-from typing import List, Optional, Iterable, Union, Type
+from typing import List, Optional, Iterable, Union, Type, Dict
 
 from cryptography import x509
 from cryptography.hazmat._oid import (
@@ -672,29 +672,58 @@ class ExtendedKeyUsage(Extension):
         return x509.ExtendedKeyUsage(oids)
 
 
+class AttributeTypeAndValue(CryptoParser):
+    oid: str
+    value: str
+
+    @classmethod
+    def from_cryptography(cls, x509_obj: x509.NameAttribute):
+        return cls(
+            oid=x509_obj.oid.dotted_string,
+            value=x509_obj.value,
+            _x509_obj=x509_obj,
+        )
+
+    def _to_cryptography(self) -> x509.NameAttribute:
+        return x509.NameAttribute(
+            oid=x509.ObjectIdentifier(self.oid),
+            value=self.value,
+        )
+
+    def _string_dict(self) -> Dict[str, str]:
+        return {
+            "OID": self.oid,
+            "Value": self.value,
+        }
+
+
 class RelativeDistinguishedName(CryptoParser):
-    attributes: typing.Dict[str, str]
+    attributes: List[AttributeTypeAndValue]
 
     def __iter__(self) -> Iterable:
         return iter(self.attributes)
 
     @classmethod
     def from_cryptography(cls, x509_obj: x509.RelativeDistinguishedName):
-        attributes = {}
+        attributes = []
         for name_attribute in x509_obj:
-            attributes[name_attribute.oid.dotted_string] = name_attribute.value
+            attributes.append(
+                AttributeTypeAndValue.from_cryptography(name_attribute)
+            )
 
         cls(attributes=attributes, _x509_obj=x509_obj)
 
     def _string_dict(self) -> typing.Dict:
-        return {"RelativeDistinguishedName": self.attributes}
+        attributes = []
+        for att in self.attributes:
+            attributes.append(att._string_dict())
+
+        return {"RelativeDistinguishedName": attributes}
 
     def _to_cryptography(self) -> x509.RelativeDistinguishedName:
         name_attributes = []
-        for oid, value in self.attributes.items():
-            name_attributes.append(
-                x509.NameAttribute(x509.ObjectIdentifier(oid), value)
-            )
+        for att in self.attributes:
+            name_attributes.append(att._to_cryptography())
         return x509.RelativeDistinguishedName(name_attributes)
 
 
