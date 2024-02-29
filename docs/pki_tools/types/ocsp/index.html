@@ -1074,6 +1074,54 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ocspcertificatestatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      OcspCertificateStatus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OcspCertificateStatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocspresponsestatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      OcspResponseStatus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OcspResponseStatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1514,6 +1562,54 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ocspcertificatestatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      OcspCertificateStatus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OcspCertificateStatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ocspresponsestatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      OcspResponseStatus
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OcspResponseStatus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1538,7 +1634,7 @@
 <p>Auto-generated documentation for <a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py">pki_tools.types.ocsp</a> module.</p>
 </blockquote>
 <h2 id="ocsprequest">OCSPRequest</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L139">Show source in ocsp.py:139</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L155">Show source in ocsp.py:155</a></p>
 <h4 id="signature">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span> <span class="nc">OCSPRequest</span><span class="p">(</span><span class="n">CryptoParser</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
@@ -1547,7 +1643,7 @@
 <li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
 </ul>
 <h3 id="ocsprequestcreate">OCSPRequest().create</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L163">Show source in ocsp.py:163</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L179">Show source in ocsp.py:179</a></p>
 <h4 id="signature_1">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert</span><span class="p">:</span> <span class="n">Certificate</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">:</span> <span class="n">Certificate</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
@@ -1556,20 +1652,20 @@
 <li><a href="../certificate/#certificate">Certificate</a></li>
 </ul>
 <h3 id="ocsprequestfrom_cryptography">OCSPRequest().from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L145">Show source in ocsp.py:145</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L161">Show source in ocsp.py:161</a></p>
 <h4 id="signature_2">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;OCSPRequest&quot;</span><span class="p">],</span> <span class="n">crypto_obj</span><span class="p">:</span> <span class="n">ocsp</span><span class="o">.</span><span class="n">OCSPRequest</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OCSPRequest&quot;</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="ocsprequestrequest_path">OCSPRequest().request_path</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L154">Show source in ocsp.py:154</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L170">Show source in ocsp.py:170</a></p>
 <h4 id="signature_3">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@property</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">def</span> <span class="nf">request_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h2 id="ocspresponse">OCSPResponse</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L21">Show source in ocsp.py:21</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L37">Show source in ocsp.py:37</a></p>
 <h4 id="signature_4">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span> <span class="nc">OCSPResponse</span><span class="p">(</span><span class="n">CryptoParser</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
@@ -1578,13 +1674,13 @@
 <li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
 </ul>
 <h3 id="ocspresponseder_bytes">OCSPResponse().der_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L74">Show source in ocsp.py:74</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L90">Show source in ocsp.py:90</a></p>
 <h4 id="signature_5">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@property</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">def</span> <span class="nf">der_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="ocspresponsefrom_cryptography">OCSPResponse.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L27">Show source in ocsp.py:27</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L43">Show source in ocsp.py:43</a></p>
 <h4 id="signature_6">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@classmethod</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">def</span> <span class="nf">from_cryptography</span><span class="p">(</span>
@@ -1592,30 +1688,30 @@
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OCSPResponse&quot;</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="ocspresponsefrom_der_bytes">OCSPResponse.from_der_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L63">Show source in ocsp.py:63</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L79">Show source in ocsp.py:79</a></p>
 <h4 id="signature_7">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@classmethod</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">def</span> <span class="nf">from_der_bytes</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;OCSPResponse&quot;</span><span class="p">],</span> <span class="n">der</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OCSPResponse&quot;</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="ocspresponsehash_with_alg">OCSPResponse().hash_with_alg</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L78">Show source in ocsp.py:78</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L94">Show source in ocsp.py:94</a></p>
 <h4 id="signature_8">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">def</span> <span class="nf">hash_with_alg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">der_key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="ocspresponseis_revoked">OCSPResponse().is_revoked</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L87">Show source in ocsp.py:87</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L103">Show source in ocsp.py:103</a></p>
 <h4 id="signature_9">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nd">@property</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">def</span> <span class="nf">is_revoked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="ocspresponseis_successful">OCSPResponse().is_successful</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L83">Show source in ocsp.py:83</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L99">Show source in ocsp.py:99</a></p>
 <h4 id="signature_10">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@property</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">def</span> <span class="nf">is_successful</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 <h3 id="ocspresponsesign">OCSPResponse().sign</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L91">Show source in ocsp.py:91</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L107">Show source in ocsp.py:107</a></p>
 <h4 id="signature_11">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">def</span> <span class="nf">sign</span><span class="p">(</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="bp">self</span><span class="p">,</span>
@@ -1632,10 +1728,20 @@
 <li><a href="../signature_algorithm/#hashalgorithm">HashAlgorithm</a></li>
 </ul>
 <h3 id="ocspresponsetbs_bytes">OCSPResponse().tbs_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L70">Show source in ocsp.py:70</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L86">Show source in ocsp.py:86</a></p>
 <h4 id="signature_12">Signature</h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nd">@property</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">def</span> <span class="nf">tbs_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="ocspcertificatestatus">OcspCertificateStatus</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L31">Show source in ocsp.py:31</a></p>
+<h4 id="signature_13">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">class</span> <span class="nc">OcspCertificateStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h2 id="ocspresponsestatus">OcspResponseStatus</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L22">Show source in ocsp.py:22</a></p>
+<h4 id="signature_14">Signature</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">class</span> <span class="nc">OcspResponseStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span> <span class="o">...</span>
 </code></pre></div>
 
 

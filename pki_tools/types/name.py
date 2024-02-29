@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List
+from typing import List, Type
 
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
@@ -73,7 +73,7 @@ class Name(CryptoParser):
     )
 
     @classmethod
-    def from_cryptography(cls, name: x509.Name):
+    def from_cryptography(cls: Type["Name"], name: x509.Name) -> "Name":
         subject = defaultdict(set)
         for attribute in name:
             for att in name.get_attributes_for_oid(attribute.oid):
