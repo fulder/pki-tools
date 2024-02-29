@@ -14,7 +14,7 @@ docs-gen:
 	cp ./README.md ./HANDSDOWN.md
 	cp ./docs/CNAME ./CNAME
 	rm -r ./docs
-	poetry run handsdown --external `git config --get remote.origin.url` --create-configs --theme=material
+	poetry run handsdown --clean --external `git config --get remote.origin.url` --create-configs --theme=readthedocs
 	poetry run mkdocs build
 	rm -r ./docs
 	mv ./site ./docs
