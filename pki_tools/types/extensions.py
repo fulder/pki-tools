@@ -892,14 +892,22 @@ class FreshestCrl(CrlDistributionPoints):
         return x509.FreshestCRL(dist_points)
 
 
+class AccessDescriptionId(Enum):
+    CA_ISSUERS = "1.3.6.1.5.5.7.48.2"
+    OCSP = "1.3.6.1.5.5.7.48.1"
+
+
 class AccessDescription(CryptoParser):
-    access_method: str
+    access_method: AccessDescriptionId
     access_location: GeneralName
 
     @classmethod
     def from_cryptography(cls, extension: x509.AccessDescription):
+        access_method = getattr(
+            AccessDescriptionId, extension.access_method._name
+        )
         return cls(
-            access_method=extension.access_method._name,
+            access_method=access_method,
             access_location=GeneralName.from_cryptography(
                 extension.access_location
             ),
@@ -915,7 +923,7 @@ class AccessDescription(CryptoParser):
     def _to_cryptography(self) -> x509.AccessDescription:
         return x509.AccessDescription(
             access_method=getattr(
-                AuthorityInformationAccessOID, self.access_method
+                AuthorityInformationAccessOID, self.access_method.name
             ),
             access_location=self.access_location._to_cryptography(),
         )

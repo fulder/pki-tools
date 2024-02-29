@@ -16,6 +16,7 @@ from pki_tools.exceptions import (
 from pki_tools.types.extensions import (
     AuthorityInformationAccess,
     UniformResourceIdentifier,
+    AccessDescriptionId,
 )
 from pki_tools.types.ocsp import OCSPResponse, OCSPRequest
 
@@ -89,7 +90,7 @@ def _check_ocsp_status(
 
     checked_status = False
     for access_description in aia:
-        if access_description.access_method != "OCSP":
+        if access_description.access_method != AccessDescriptionId.OCSP:
             logger.trace(
                 "Access method is not OCSP, "
                 "try checking next access description"

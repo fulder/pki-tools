@@ -45,6 +45,7 @@ from pki_tools.types.extensions import (
     UniformResourceIdentifier,
     Reason,
     AttributeTypeAndValue,
+    AccessDescriptionId,
 )
 
 from pki_tools.types.ocsp import OCSPResponse
@@ -172,7 +173,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
 
     access_descriptions = [
         AccessDescription(
-            access_method="OCSP",
+            access_method=AccessDescriptionId.OCSP,
             access_location=UniformResourceIdentifier("http://TEST_URI"),
         )
     ]
