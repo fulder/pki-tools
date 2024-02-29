@@ -60,7 +60,6 @@ The following example uses `cert` and `chain` from the loading examples above
 ```python
 from pki_tools import is_revoked
 
-
 if is_revoked(cert, chain):
     print("Certificate Revoked!")
 ```
