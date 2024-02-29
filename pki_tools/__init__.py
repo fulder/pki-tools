@@ -13,7 +13,11 @@ from .types import (
     Validity,
     CertificateSigningRequest,
     CertificateRevocationList,
+    DSAKeyPair,
     RSAKeyPair,
+    EllipticCurveKeyPair,
+    Ed25519KeyPair,
+    Ed448KeyPair,
 )
 
 from .exceptions import (
