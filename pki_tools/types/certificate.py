@@ -116,8 +116,8 @@ class Certificate(TbsCertificate, CryptoParser):
             ),
             issuer=Name.from_cryptography(cert.issuer),
             validity=Validity(
-                not_before=cert.not_valid_before,
-                not_after=cert.not_valid_after,
+                not_before=cert.not_valid_before_utc,
+                not_after=cert.not_valid_after_utc,
             ),
             subject=Name.from_cryptography(cert.subject),
             subject_public_key_info=KeyPair.from_cryptography(
