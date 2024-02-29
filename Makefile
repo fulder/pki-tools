@@ -14,14 +14,16 @@ docs-gen:
 	cp ./README.md ./HANDSDOWN.md
 	cp ./docs/CNAME ./CNAME
 	rm -r ./docs
-	poetry run handsdown --clean --external `git config --get remote.origin.url` --create-configs --theme=readthedocs
+	poetry run handsdown --external `git config --get remote.origin.url` --create-configs --theme=readthedocs
 	poetry run mkdocs build
 	rm -r ./docs
 	mv ./site ./docs
+	head -n -4 ./docs/index.html > tmp.html
+	mv tmp.html ./docs/index.html
 	mv ./CNAME ./docs/CNAME
-	rm ./docs/sitemap.xml.gz
+	rm -f ./docs/sitemap.xml.gz
 	make clean
-	rm ./HANDSDOWN.md
+	rm -f ./HANDSDOWN.md
 
 
 .PHONY: clean
