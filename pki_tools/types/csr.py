@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives import serialization
 from loguru import logger
 
 from pki_tools.exceptions import CsrLoadError, MissingPrivateKey
-from pki_tools.types import KeyPair, CryptoKeyPair
+from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
 from pki_tools.types.certificate import _is_pem_csr_string
 from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.types.name import Name

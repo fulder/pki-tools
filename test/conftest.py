@@ -366,7 +366,6 @@ def _create_crl(keypair, revoked_serials):
                 date=today,
             )
         )
-    print(revoked_certs)
 
     crl = CertificateRevocationList(
         issuer=TEST_SUBJECT,

@@ -55,8 +55,8 @@ class TbsCertificate(BaseModel):
     issuer: Name
     validity: Validity
     subject: Name
-    extensions: Optional[Extensions]
 
+    extensions: Optional[Extensions] = None
     serial_number: Optional[int] = None
     version: Optional[int] = None
     signature_algorithm: Optional[SignatureAlgorithm] = None
@@ -256,10 +256,11 @@ class Certificate(TbsCertificate, CryptoParser):
             )
         )
 
-        for extension in self.extensions:
-            cert_builder = cert_builder.add_extension(
-                extension._to_cryptography(), extension.critical
-            )
+        if self.extensions is not None:
+            for extension in self.extensions:
+                cert_builder = cert_builder.add_extension(
+                    extension._to_cryptography(), extension.critical
+                )
 
         alg = self.signature_algorithm.algorithm._to_cryptography()
         cert = cert_builder.sign(crypto_key, alg)
