@@ -13,7 +13,10 @@ from pki_tools.exceptions import (
     OcspFetchFailure,
     Error,
 )
-from pki_tools.types.extensions import AuthorityInformationAccess
+from pki_tools.types.extensions import (
+    AuthorityInformationAccess,
+    UniformResourceIdentifier,
+)
 from pki_tools.types.ocsp import OCSPResponse, OCSPRequest
 
 OCSP_ALGORITHMS_TO_CHECK = [
@@ -93,9 +96,8 @@ def _check_ocsp_status(
             )
             continue
 
-        if (
-            access_description.access_location.name
-            != "UniformResourceIdentifier"
+        if not isinstance(
+            access_description.access_location, UniformResourceIdentifier
         ):
             continue
 

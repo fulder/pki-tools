@@ -13,7 +13,6 @@ from pki_tools.types.certificate import Validity
 from pki_tools.types.crl import RevokedCertificate
 from pki_tools.types.csr import CertificateSigningRequest
 from pki_tools.types.extensions import (
-    GeneralName,
     DistributionPoint,
     RelativeDistinguishedName,
     AccessDescription,
@@ -37,6 +36,13 @@ from pki_tools.types.extensions import (
     CrlDistributionPoints,
     SubjectInformationAccess,
     AuthorityInformationAccess,
+    DnsName,
+    DirectoryName,
+    IpAddress,
+    OtherName,
+    RFC822Name,
+    RegisteredId,
+    UniformResourceIdentifier,
 )
 
 from pki_tools.types.ocsp import OCSPResponse
@@ -124,16 +130,15 @@ TEST_SUBJECT = Name(
 
 def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
     general_names = [
-        GeneralName(name="DNSName", value="TEST_DNS_NAME"),
-        GeneralName(name="DirectoryName", value=TEST_SUBJECT),
-        GeneralName(name="IPAddress", value="192.168.1.0/24"),
-        GeneralName(
-            name="OtherName (1.2.3.4.5)",
-            value=_byte_to_hex(key_pair.der_public_key),
+        DnsName("TEST_DNS_NAME"),
+        DirectoryName(TEST_SUBJECT),
+        IpAddress("192.168.1.0/24"),
+        OtherName(
+            oid="1.2.3.4.5", value=_byte_to_hex(key_pair.der_public_key)
         ),
-        GeneralName(name="RFC822Name", value="TEST_RFC_NAME"),
-        GeneralName(name="RegisteredID", value="1.2.3.4.5"),
-        GeneralName(name="UniformResourceIdentifier", value="http://TEST_URI"),
+        RFC822Name("TEST_RFC_NAME"),
+        RegisteredId("1.2.3.4.5"),
+        UniformResourceIdentifier("http://TEST_URI"),
     ]
 
     crl_dist_points = [
@@ -164,10 +169,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
     access_descriptions = [
         AccessDescription(
             access_method="OCSP",
-            access_location=GeneralName(
-                name="UniformResourceIdentifier",
-                value="http://TEST_URI",
-            ),
+            access_location=UniformResourceIdentifier("http://TEST_URI"),
         )
     ]
 
@@ -180,9 +182,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         extensions=Extensions(
             authority_key_identifier=AuthorityKeyIdentifier(
                 key_identifier="TEST_KEY_IDENTIFIER".encode(),
-                authority_cert_issuer=[
-                    GeneralName(name="RFC822Name", value="TEST_NAME")
-                ],
+                authority_cert_issuer=[RFC822Name("TEST_NAME")],
                 authority_cert_serial_number=123123,
                 critical=True,
             ),

@@ -3,6 +3,7 @@ from functools import lru_cache
 
 from loguru import logger
 
+from pki_tools.types.extensions import UniformResourceIdentifier
 from pki_tools.utils import HTTPX_CLIENT, verify_signature
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
@@ -36,7 +37,7 @@ def _is_revoked(
             continue
 
         for full_name in dist_point.full_name:
-            if full_name.name != "UniformResourceIdentifier":
+            if not isinstance(full_name, UniformResourceIdentifier):
                 logger.warning(
                     "CRL Distribution Point is not "
                     "UniformResourceIdentifier"

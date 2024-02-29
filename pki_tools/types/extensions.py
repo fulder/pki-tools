@@ -47,16 +47,7 @@ class GeneralName(CryptoParser):
         cls: Type["GeneralName"], crypto_obj: x509.GeneralName
     ) -> "GeneralName":
         name = f"{crypto_obj.__class__.__name__}"
-
-        if isinstance(crypto_obj, x509.OtherName):
-            name += f"({crypto_obj.type_id.dotted_string})"
-            value = _byte_to_hex(crypto_obj.value)
-        elif isinstance(crypto_obj, x509.RegisteredID):
-            value = str(crypto_obj.value.dotted_string)
-        elif isinstance(crypto_obj.value, x509.Name):
-            value = Name.from_cryptography(crypto_obj.value)
-        else:
-            value = str(crypto_obj.value)
+        value = str(crypto_obj.value)
 
         return cls(
             name=name,
@@ -65,37 +56,97 @@ class GeneralName(CryptoParser):
         )
 
     def _to_cryptography(self) -> x509.GeneralName:
-        if self.name == "DirectoryName":
-            return x509.DirectoryName(self.value._to_cryptography())
-        elif self.name == "RegisteredID":
-            return x509.RegisteredID(x509.ObjectIdentifier(self.value))
-        elif "OtherName" in self.name:
-            dotted_string = self.name.split("(")[1][:-1]
-            return x509.OtherName(
-                type_id=x509.ObjectIdentifier(dotted_string),
-                value=_hex_to_byte(self.value),
-            )
-        elif self.name == "IPAddress":
-            cls_name = "IPv4"
-            if ":" in self.value:
-                cls_name = "IPv6"
-
-            if "/" in self.value:
-                cls_name += "Network"
-            else:
-                cls_name += "Address"
-
-            module = importlib.import_module("ipaddress")
-            value = getattr(module, cls_name)(self.value)
-            return x509.IPAddress(value)
-        else:
-            return getattr(GENERAL_NAME_MODULE, self.name)(self.value)
+        return getattr(GENERAL_NAME_MODULE, self.name)(self.value)
 
     def _string_dict(self) -> typing.Dict[str, str]:
         return {
             "name": self.name,
             "value": self.value,
         }
+
+
+class DnsName(GeneralName):
+    def __init__(self, value: str):
+        super().__init__(name="DNSName", value=value)
+
+
+class DirectoryName(GeneralName):
+    def __init__(self, value: Name):
+        super().__init__(name="DNSName", value=value)
+
+    @classmethod
+    def from_cryptography(
+        cls: Type["DirectoryName"], crypto_obj: x509.GeneralName
+    ) -> "DirectoryName":
+        return cls(value=Name.from_cryptography(crypto_obj.value))
+
+    def _to_cryptography(self) -> x509.GeneralName:
+        return x509.DirectoryName(self.value._to_cryptography())
+
+
+class IpAddress(GeneralName):
+    def __init__(self, value: str):
+        super().__init__(name="IPAddress", value=value)
+
+    def _to_cryptography(self) -> x509.GeneralName:
+        cls_name = "IPv4"
+        if ":" in self.value:
+            cls_name = "IPv6"
+
+        if "/" in self.value:
+            cls_name += "Network"
+        else:
+            cls_name += "Address"
+
+        module = importlib.import_module("ipaddress")
+        value = getattr(module, cls_name)(self.value)
+        return x509.IPAddress(value)
+
+
+class OtherName(GeneralName):
+    oid: str
+
+    def __init__(self, value: str, oid: str):
+        super().__init__(name="OtherName", value=value, oid=oid)
+
+    @classmethod
+    def from_cryptography(
+        cls: Type["OtherName"], crypto_obj: x509.OtherName
+    ) -> "OtherName":
+        return cls(
+            value=_byte_to_hex(crypto_obj.value),
+            oid=crypto_obj.type_id.dotted_string,
+        )
+
+    def _to_cryptography(self) -> x509.OtherName:
+        return x509.OtherName(
+            type_id=x509.ObjectIdentifier(self.oid),
+            value=_hex_to_byte(self.value),
+        )
+
+
+class RFC822Name(GeneralName):
+    def __init__(self, value: str):
+        super().__init__(name="RFC822Name", value=value)
+
+
+class RegisteredId(GeneralName):
+    def __init__(self, value: str):
+        super().__init__(name="RegisteredID", value=value)
+
+    @classmethod
+    def from_cryptography(
+        cls: Type["RegisteredId"], crypto_obj: x509.RegisteredID
+    ) -> "RegisteredId":
+        return cls(value=str(crypto_obj.value.dotted_string))
+
+    def _to_cryptography(self) -> x509.RegisteredID:
+        return x509.RegisteredID(x509.ObjectIdentifier(self.value))
+
+
+class UniformResourceIdentifier(GeneralName):
+    def __init__(self, value: str):
+        super().__init__(name="UniformResourceIdentifier", value=value)
 
 
 class AuthorityKeyIdentifier(Extension):
