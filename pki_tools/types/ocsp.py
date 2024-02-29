@@ -1,6 +1,7 @@
 import base64
 import hashlib
 from datetime import datetime
+from enum import Enum
 from typing import Type, Optional, Dict
 
 from cryptography.hazmat.primitives import serialization
@@ -18,9 +19,24 @@ from pki_tools.types.signature_algorithm import HashAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
 
+class OcspResponseStatus(Enum):
+    SUCCESSFUL = "SUCCESSFUL"
+    MALFORMED_REQUEST = "MALFORMED_REQUEST"
+    INTERNAL_ERROR = "INTERNAL_ERROR"
+    TRY_LATER = "TRY_LATER"
+    SIG_REQUIRED = "SIG_REQUIRED"
+    UNAUTHORIZED = "UNAUTHORIZED"
+
+
+class OcspCertificateStatus(Enum):
+    GOOD = "GOOD"
+    REVOKED = "REVOKED"
+    UNKNOWN = "UNKNOWN"
+
+
 class OCSPResponse(CryptoParser):
-    response_status: str
-    certificate_status: Optional[str] = None
+    response_status: OcspResponseStatus
+    certificate_status: Optional[OcspCertificateStatus] = None
     issuer_key_hash: Optional[str] = None
     revocation_time: Optional[datetime] = None
 
@@ -28,12 +44,12 @@ class OCSPResponse(CryptoParser):
     def from_cryptography(
         cls: Type["OCSPResponse"], crypto_ocsp_response: ocsp.OCSPResponse
     ) -> "OCSPResponse":
-        response_status = crypto_ocsp_response.response_status.name
+        response_status = crypto_ocsp_response.response_status
 
         ocsp_response_key_hash = None
         certificate_status = None
         revocation_time = None
-        if response_status == "SUCCESSFUL":
+        if response_status == ocsp.OCSPResponseStatus.SUCCESSFUL:
             certificate_status = crypto_ocsp_response.certificate_status.name
             try:
                 ocsp_response_key_hash = _byte_to_hex(
@@ -51,7 +67,7 @@ class OCSPResponse(CryptoParser):
                 revocation_time = crypto_ocsp_response.revocation_time
 
         ret = cls(
-            response_status=response_status,
+            response_status=getattr(OcspResponseStatus, response_status.name),
             certificate_status=certificate_status,
             issuer_key_hash=ocsp_response_key_hash,
             revocation_time=revocation_time,
@@ -82,11 +98,11 @@ class OCSPResponse(CryptoParser):
 
     @property
     def is_successful(self):
-        return self.response_status == "SUCCESSFUL"
+        return self.response_status == OcspResponseStatus.SUCCESSFUL
 
     @property
     def is_revoked(self):
-        return self.certificate_status == "REVOKED"
+        return self.certificate_status == OcspCertificateStatus.REVOKED
 
     def sign(
         self,
@@ -108,7 +124,7 @@ class OCSPResponse(CryptoParser):
         builder = ocsp.OCSPResponseBuilder()
         cert_status = None
         if self.certificate_status is not None:
-            cert_status = getattr(OCSPCertStatus, self.certificate_status)
+            cert_status = getattr(OCSPCertStatus, self.certificate_status.name)
 
         builder = builder.add_response(
             cert=self._cert._to_cryptography(),

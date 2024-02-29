@@ -16,6 +16,7 @@ from conftest import (
     _create_cert,
     _create_crl,
 )
+from pki_tools.types.ocsp import OcspCertificateStatus
 
 
 def test_is_revoked_ocsp_good_status(
@@ -43,7 +44,7 @@ def test_is_revoked_ocsp_revoked_status(
     mocked_requests_get.return_value.content = _create_mocked_ocsp_response(
         cert,
         key_pair,
-        status="REVOKED",
+        status=OcspCertificateStatus.REVOKED,
         revocation_time=datetime.datetime.now(),
     )
 

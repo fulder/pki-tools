@@ -48,7 +48,11 @@ from pki_tools.types.extensions import (
     AccessDescriptionId,
 )
 
-from pki_tools.types.ocsp import OCSPResponse
+from pki_tools.types.ocsp import (
+    OCSPResponse,
+    OcspResponseStatus,
+    OcspCertificateStatus,
+)
 from pki_tools.types.signature_algorithm import (
     HashAlgorithm,
     HashAlgorithmName,
@@ -333,10 +337,10 @@ def cert_with_subject_directory_attributes():
 
 
 def _create_mocked_ocsp_response(
-    cert, key_pair, status="GOOD", revocation_time=None
+    cert, key_pair, status=OcspCertificateStatus.GOOD, revocation_time=None
 ):
     res = OCSPResponse(
-        response_status="SUCCESSFUL",
+        response_status=OcspResponseStatus.SUCCESSFUL,
         certificate_status=status,
         revocation_time=revocation_time,
     )
