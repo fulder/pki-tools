@@ -34,4 +34,3 @@ clean:
 	rm -rf ./.ruff_cache
 	rm .readthedocs.yml
 	rm mkdocs.yml
-	rm requirements.mkdocs.txt
