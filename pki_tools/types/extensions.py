@@ -47,14 +47,18 @@ class GeneralName(CryptoParser):
     def from_cryptography(
         cls: Type["GeneralName"], crypto_obj: x509.GeneralName
     ) -> "GeneralName":
-        name = f"{crypto_obj.__class__.__name__}"
-        value = str(crypto_obj.value)
+        if isinstance(crypto_obj, x509.DNSName):
+            return DnsName(crypto_obj.value)
+        elif isinstance(crypto_obj, x509.IPAddress):
+            return IpAddress(str(crypto_obj.value))
+        elif isinstance(crypto_obj, x509.DirectoryName):
+            return DirectoryName.from_cryptography(crypto_obj)
+        elif isinstance(crypto_obj, x509.OtherName):
+            return OtherName.from_cryptography(crypto_obj)
+        elif isinstance(crypto_obj, x509.RegisteredID):
+            return RegisteredId.from_cryptography(crypto_obj)
 
-        return cls(
-            name=name,
-            value=value,
-            _x509_obj=crypto_obj,
-        )
+        return globals()[crypto_obj.__class__.__name__](crypto_obj.value)
 
     def _to_cryptography(self) -> x509.GeneralName:
         return getattr(GENERAL_NAME_MODULE, self.name)(self.value)
@@ -73,7 +77,7 @@ class DnsName(GeneralName):
 
 class DirectoryName(GeneralName):
     def __init__(self, value: Name):
-        super().__init__(name="DNSName", value=value)
+        super().__init__(name="DirectoryName", value=value)
 
     @classmethod
     def from_cryptography(
@@ -903,8 +907,8 @@ class AccessDescription(CryptoParser):
 
     @classmethod
     def from_cryptography(cls, extension: x509.AccessDescription):
-        access_method = getattr(
-            AccessDescriptionId, extension.access_method._name
+        access_method = AccessDescriptionId(
+            extension.access_method.dotted_string
         )
         return cls(
             access_method=access_method,
@@ -916,7 +920,7 @@ class AccessDescription(CryptoParser):
 
     def _string_dict(self):
         return {
-            "Access Method": self.access_method,
+            "Access Method": self.access_method.name,
             "Access Location": self.access_location._string_dict(),
         }
 

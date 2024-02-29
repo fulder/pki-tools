@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import pytz
 from loguru import logger
 from pydantic import ConfigDict
 
@@ -65,10 +66,9 @@ class Chain(Certificates):
 
         for cert in self.certificates:
             log = logger.bind(subject=cert.subject._string_dict())
-            if (
-                cert.validity.not_after < datetime.now()
-                or cert.validity.not_before > datetime.now()
-            ):
+            if cert.validity.not_after < datetime.now(
+                pytz.utc
+            ) or cert.validity.not_before > datetime.now(pytz.utc):
                 log.error("Certificate expired")
                 raise CertExpired(
                     f"Certificate in chain with subject: '{cert.subject}' "

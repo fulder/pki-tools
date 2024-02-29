@@ -1,6 +1,6 @@
 import abc
 import importlib
-from typing import Dict, Type, Union, Optional
+from typing import Dict, Type, Union, Optional, get_args
 
 from cryptography.hazmat.primitives.asymmetric import (
     dsa,
@@ -389,7 +389,19 @@ class KeyPair(CryptoParser):
             CertificateIssuerPrivateKeyTypes, CertificateIssuerPublicKeyTypes
         ],
     ):
-        name = str(key.__class__.__name__)
+        types = get_args(
+            Union[
+                CertificateIssuerPrivateKeyTypes,
+                CertificateIssuerPublicKeyTypes,
+            ]
+        )
+
+        name = None
+        for check_type in types:
+            if isinstance(key, check_type):
+                name = check_type.__name__
+                break
+
         class_name = name.replace("PrivateKey", "KeyPair")
         class_name = class_name.replace("PublicKey", "KeyPair")
 
