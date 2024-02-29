@@ -1,5 +1,6 @@
 import importlib
 import typing
+from enum import Enum
 from typing import List, Optional, Iterable, Union, Type
 
 from cryptography import x509
@@ -697,10 +698,23 @@ class RelativeDistinguishedName(CryptoParser):
         return x509.RelativeDistinguishedName(name_attributes)
 
 
+class Reason(Enum):
+    unspecified = "unspecified"
+    key_compromise = "key_compromise"
+    ca_compromise = "ca_compromise"
+    affiliation_changed = "affiliation_changed"
+    superseded = "superseded"
+    cessation_of_operation = "cessation_of_operation"
+    certificate_hold = "certificate_hold"
+    privilege_withdrawn = "privilege_withdrawn"
+    aa_compromise = "aa_compromise"
+    remove_from_crl = "remove_from_crl"
+
+
 class DistributionPoint(CryptoParser):
     full_name: Optional[List[GeneralName]] = None
     name_relative_to_crl_issuer: Optional[RelativeDistinguishedName] = None
-    reasons: Optional[List[str]] = None
+    reasons: Optional[List[Reason]] = None
     crl_issuer: Optional[List[GeneralName]] = None
 
     @classmethod
@@ -721,7 +735,7 @@ class DistributionPoint(CryptoParser):
         if extension.reasons is not None:
             reasons = []
             for reason in extension.reasons:
-                reasons.append(reason.name)
+                reasons.append(getattr(Reason, reason.name))
 
         crl_issuers = None
         if extension.crl_issuer is not None:
@@ -748,7 +762,9 @@ class DistributionPoint(CryptoParser):
         if self.reasons is not None:
             ret["Reasons"] = []
             for reason in self.reasons:
-                ret["Reasons"].append(getattr(x509.ReasonFlags, reason).value)
+                ret["Reasons"].append(
+                    getattr(x509.ReasonFlags, reason.name).value
+                )
         if self.crl_issuer is not None:
             ret["CRL Issuer"] = self.crl_issuer
         return ret
@@ -770,7 +786,7 @@ class DistributionPoint(CryptoParser):
         if self.reasons is not None:
             reasons = []
             for reason in self.reasons:
-                reasons.append(getattr(x509.ReasonFlags, reason))
+                reasons.append(getattr(x509.ReasonFlags, reason.name))
 
         crl_issuers = None
         if self.crl_issuer is not None:

@@ -43,6 +43,7 @@ from pki_tools.types.extensions import (
     RFC822Name,
     RegisteredId,
     UniformResourceIdentifier,
+    Reason,
 )
 
 from pki_tools.types.ocsp import OCSPResponse
@@ -148,20 +149,20 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
                 attributes={"1.2.3.4.5": "TEST_VALUE"},
             ),
             reasons=[
-                "key_compromise",
-                "ca_compromise",
-                "affiliation_changed",
-                "superseded",
-                "cessation_of_operation",
-                "certificate_hold",
-                "privilege_withdrawn",
-                "aa_compromise",
+                Reason.key_compromise,
+                Reason.ca_compromise,
+                Reason.affiliation_changed,
+                Reason.superseded,
+                Reason.cessation_of_operation,
+                Reason.certificate_hold,
+                Reason.privilege_withdrawn,
+                Reason.aa_compromise,
             ],
             crl_issuer=general_names,
         ),
         DistributionPoint(
             full_name=general_names,
-            reasons=["key_compromise"],
+            reasons=[Reason.key_compromise],
             crl_issuer=general_names,
         ),
     ]
