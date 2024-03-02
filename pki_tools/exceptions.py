@@ -64,3 +64,7 @@ class MissingInit(Error):
 
 class MissingBlockSize(Error):
     pass
+
+
+class InvalidKeyType(Error):
+    pass
