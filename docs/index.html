@@ -197,9 +197,7 @@ from pki_tools import (
     Name,
     Validity,
     RSAKeyPair,
-    SignatureAlgorithm,
-    HashAlgorithm,
-    HashAlgorithmName,
+    SHA512,
 )
 
 name = Name(cn=[&quot;Cert CN&quot;])
@@ -213,33 +211,23 @@ cert = Certificate(
     ),
 )
 
-sha512_alg = SignatureAlgorithm(
-    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA512)
-)
-
-cert.sign(RSAKeyPair.generate(), sha512_alg)
+cert.sign(RSAKeyPair.generate(), SHA512)
 
 print(cert.pem_string)
 </code></pre>
 <h4 id="create-csr">Create CSR</h4>
 <pre><code class="language-python">from pki_tools import (
-  Name,
-  HashAlgorithm,
-  HashAlgorithmName,
-  CertificateSigningRequest,
-  SignatureAlgorithm,
-  RSAKeyPair,
+    Name,
+    CertificateSigningRequest,
+    RSAKeyPair,
+    SHA512,
 )
 
 name = Name(cn=[&quot;Cert CN&quot;])
 
 csr = CertificateSigningRequest(subject=name)
 
-sha512_alg = SignatureAlgorithm(
-  algorithm=HashAlgorithm(name=HashAlgorithmName.SHA512)
-)
-
-csr.sign(RSAKeyPair.generate(), sha512_alg)
+csr.sign(RSAKeyPair.generate(), SHA512)
 
 print(csr.pem_string)
 </code></pre>

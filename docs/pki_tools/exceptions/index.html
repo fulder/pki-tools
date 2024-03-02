@@ -113,7 +113,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#invalidsignedtype">InvalidSignedType</a>
+    <li class="toctree-l2"><a class="reference internal" href="#invalidkeytype">InvalidKeyType</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#signature_8">Signature</a>
     </li>
@@ -121,7 +121,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#missingblocksize">MissingBlockSize</a>
+    <li class="toctree-l2"><a class="reference internal" href="#invalidsignedtype">InvalidSignedType</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#signature_9">Signature</a>
     </li>
@@ -129,7 +129,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#missingocspcert">MissingOcspCert</a>
+    <li class="toctree-l2"><a class="reference internal" href="#missingblocksize">MissingBlockSize</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#signature_10">Signature</a>
     </li>
@@ -137,7 +137,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#missingprivatekey">MissingPrivateKey</a>
+    <li class="toctree-l2"><a class="reference internal" href="#missinginit">MissingInit</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#signature_11">Signature</a>
     </li>
@@ -272,10 +272,10 @@
 <li><a href="#csrloaderror">CsrLoadError</a></li>
 <li><a href="#error">Error</a></li>
 <li><a href="#extensionmissing">ExtensionMissing</a></li>
+<li><a href="#invalidkeytype">InvalidKeyType</a></li>
 <li><a href="#invalidsignedtype">InvalidSignedType</a></li>
 <li><a href="#missingblocksize">MissingBlockSize</a></li>
-<li><a href="#missingocspcert">MissingOcspCert</a></li>
-<li><a href="#missingprivatekey">MissingPrivateKey</a></li>
+<li><a href="#missinginit">MissingInit</a></li>
 <li><a href="#notcompletechain">NotCompleteChain</a></li>
 <li><a href="#ocspfetchfailure">OcspFetchFailure</a></li>
 <li><a href="#ocspinvalidresponsestatus">OcspInvalidResponseStatus</a></li>
@@ -351,37 +351,37 @@
 <ul>
 <li><a href="#error">Error</a></li>
 </ul>
-<h2 id="invalidsignedtype">InvalidSignedType</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/exceptions.py#L57">Show source in exceptions.py:57</a></p>
+<h2 id="invalidkeytype">InvalidKeyType</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/exceptions.py#L69">Show source in exceptions.py:69</a></p>
 <h4 id="signature_8">Signature</h4>
-<pre><code class="language-python">class InvalidSignedType(Error): ...
+<pre><code class="language-python">class InvalidKeyType(Error): ...
 </code></pre>
 <h4 id="see-also_7">See also</h4>
 <ul>
 <li><a href="#error">Error</a></li>
 </ul>
-<h2 id="missingblocksize">MissingBlockSize</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/exceptions.py#L69">Show source in exceptions.py:69</a></p>
+<h2 id="invalidsignedtype">InvalidSignedType</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/exceptions.py#L57">Show source in exceptions.py:57</a></p>
 <h4 id="signature_9">Signature</h4>
-<pre><code class="language-python">class MissingBlockSize(Error): ...
+<pre><code class="language-python">class InvalidSignedType(Error): ...
 </code></pre>
 <h4 id="see-also_8">See also</h4>
 <ul>
 <li><a href="#error">Error</a></li>
 </ul>
-<h2 id="missingocspcert">MissingOcspCert</h2>
+<h2 id="missingblocksize">MissingBlockSize</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/exceptions.py#L65">Show source in exceptions.py:65</a></p>
 <h4 id="signature_10">Signature</h4>
-<pre><code class="language-python">class MissingOcspCert(Error): ...
+<pre><code class="language-python">class MissingBlockSize(Error): ...
 </code></pre>
 <h4 id="see-also_9">See also</h4>
 <ul>
 <li><a href="#error">Error</a></li>
 </ul>
-<h2 id="missingprivatekey">MissingPrivateKey</h2>
+<h2 id="missinginit">MissingInit</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/exceptions.py#L61">Show source in exceptions.py:61</a></p>
 <h4 id="signature_11">Signature</h4>
-<pre><code class="language-python">class MissingPrivateKey(Error): ...
+<pre><code class="language-python">class MissingInit(Error): ...
 </code></pre>
 <h4 id="see-also_10">See also</h4>
 <ul>

@@ -81,6 +81,14 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#initcryptoparser">InitCryptoParser</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#signature_4">Signature</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#see-also_1">See also</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../csr/">Csr</a>
@@ -141,15 +149,16 @@
 <li><a href="#cryptoparserfrom_cryptography">CryptoParser.from_cryptography</a></li>
 </ul>
 </li>
+<li><a href="#initcryptoparser">InitCryptoParser</a></li>
 </ul>
 <h2 id="cryptoparser_1">CryptoParser</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L13">Show source in crypto_parser.py:13</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L15">Show source in crypto_parser.py:15</a></p>
 <h4 id="signature">Signature</h4>
 <pre><code class="language-python">class CryptoParser(BaseModel, abc.ABC):
     def __init__(self, **kwargs): ...
 </code></pre>
 <h3 id="cryptoparser_string_dict">CryptoParser()._string_dict</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L51">Show source in crypto_parser.py:51</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L47">Show source in crypto_parser.py:47</a></p>
 <p>Creates a dict representation of the object</p>
 <p>Returns: A dict containing all the keys in the CryptoParser</p>
 <h4 id="signature_1">Signature</h4>
@@ -157,7 +166,7 @@
 def _string_dict(self) -&gt; Dict[str, str]: ...
 </code></pre>
 <h3 id="cryptoparser_to_cryptography">CryptoParser()._to_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L43">Show source in crypto_parser.py:43</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L39">Show source in crypto_parser.py:39</a></p>
 <p>Creates a x509 cryptography object from this class</p>
 <p>Returns: A x509 cryptography object</p>
 <h4 id="signature_2">Signature</h4>
@@ -169,7 +178,7 @@ def _to_cryptography(self) -&gt; CryptoObject: ...
 <li><a href="#cryptoobject">CryptoObject</a></li>
 </ul>
 <h3 id="cryptoparserfrom_cryptography">CryptoParser.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L31">Show source in crypto_parser.py:31</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L27">Show source in crypto_parser.py:27</a></p>
 <p>Parses a cryptography x509 object into a CryptoParser</p>
 <h4 id="arguments">Arguments</h4>
 <p>crypto_obj --The cryptography object</p>
@@ -178,6 +187,15 @@ def _to_cryptography(self) -&gt; CryptoObject: ...
 @abc.abstractmethod
 def from_cryptography(cls: Type[&quot;CryptoParser&quot;], crypto_obj) -&gt; &quot;CryptoParser&quot;: ...
 </code></pre>
+<h2 id="initcryptoparser">InitCryptoParser</h2>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crypto_parser.py#L56">Show source in crypto_parser.py:56</a></p>
+<h4 id="signature_4">Signature</h4>
+<pre><code class="language-python">class InitCryptoParser(CryptoParser, abc.ABC): ...
+</code></pre>
+<h4 id="see-also_1">See also</h4>
+<ul>
+<li><a href="#cryptoparser">CryptoParser</a></li>
+</ul>
               
             </div>
           </div><footer>
