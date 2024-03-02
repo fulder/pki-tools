@@ -1,3 +1,4 @@
+import base64
 import random
 import re
 from typing import Optional
@@ -15,7 +16,11 @@ from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
 from pki_tools.exceptions import CertLoadError, MissingPrivateKey
-from pki_tools.types.signature_algorithm import SignatureAlgorithm
+from pki_tools.types.signature_algorithm import (
+    SignatureAlgorithm,
+    HashAlgorithm,
+    HashAlgorithmName,
+)
 from pki_tools.types.utils import _byte_to_hex, _der_key
 
 from typing import Type
@@ -180,6 +185,15 @@ class Certificate(TbsCertificate, CryptoParser):
     @property
     def tbs_bytes(self) -> bytes:
         return self._x509_obj.tbs_certificate_bytes
+
+    def digest(
+        self,
+        algorithm: HashAlgorithm = HashAlgorithm(
+            name=HashAlgorithmName.SHA512
+        ),
+    ):
+        fingerprint = self._x509_obj.fingerprint(algorithm._to_cryptography())
+        return base64.urlsafe_b64encode(fingerprint).decode("ascii")
 
     def to_file(self, file_path):
         with open(file_path, "w") as f:
