@@ -15,7 +15,7 @@ from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
-from pki_tools.exceptions import CertLoadError, MissingPrivateKey
+from pki_tools.exceptions import CertLoadError, MissingPrivateKey, MissingInit
 from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
     HashAlgorithm,
@@ -30,7 +30,7 @@ from cryptography import x509
 from pydantic import BaseModel
 
 
-from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools.types.crypto_parser import InitCryptoParser
 
 from loguru import logger
 from pydantic import ConfigDict
@@ -100,7 +100,7 @@ class TbsCertificate(BaseModel):
         )
 
 
-class Certificate(TbsCertificate, CryptoParser):
+class Certificate(TbsCertificate, InitCryptoParser):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     signature_value: Optional[str] = None
@@ -184,7 +184,7 @@ class Certificate(TbsCertificate, CryptoParser):
 
     @property
     def tbs_bytes(self) -> bytes:
-        return self._x509_obj.tbs_certificate_bytes
+        return self._crypto_object.tbs_certificate_bytes
 
     def digest(
         self,
@@ -192,7 +192,9 @@ class Certificate(TbsCertificate, CryptoParser):
             name=HashAlgorithmName.SHA512
         ),
     ):
-        fingerprint = self._x509_obj.fingerprint(algorithm._to_cryptography())
+        fingerprint = self._crypto_object.fingerprint(
+            algorithm._to_cryptography()
+        )
         return base64.urlsafe_b64encode(fingerprint).decode("ascii")
 
     def to_file(self, file_path):
@@ -209,11 +211,13 @@ class Certificate(TbsCertificate, CryptoParser):
 
     @property
     def pem_string(self):
-        return self._x509_obj.public_bytes(serialization.Encoding.PEM).decode()
+        return self._crypto_object.public_bytes(
+            serialization.Encoding.PEM
+        ).decode()
 
     @property
     def public_key(self) -> CertificatePublicKeyTypes:
-        return self._x509_obj.public_key()
+        return self._crypto_object.public_key()
 
     @property
     def der_public_key(self) -> bytes:
@@ -241,7 +245,9 @@ class Certificate(TbsCertificate, CryptoParser):
             return self._x509_obj
 
         if not hasattr(self, "_private_key"):
-            raise MissingPrivateKey("Please use 'sign' function")
+            raise MissingInit(
+                f"Please use Certificate.{self._init_func} " f"function"
+            )
 
         subject = issuer = self.subject._to_cryptography()
         crypto_key = self._private_key._to_cryptography()

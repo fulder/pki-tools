@@ -58,6 +58,10 @@ class InvalidSignedType(Error):
     pass
 
 
+class MissingInit(Error):
+    pass
+
+
 class MissingPrivateKey(Error):
     pass
 

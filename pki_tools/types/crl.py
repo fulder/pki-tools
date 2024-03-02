@@ -6,9 +6,9 @@ from cryptography.hazmat.primitives import serialization
 from loguru import logger
 
 from pki_tools.types.extensions import Extensions
-from pki_tools.exceptions import MissingPrivateKey, CrlLoadError
+from pki_tools.exceptions import CrlLoadError, MissingInit
 from pki_tools.types.key_pair import CryptoKeyPair
-from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools.types.crypto_parser import CryptoParser, InitCryptoParser
 from pki_tools.types.name import Name
 from pki_tools.types.signature_algorithm import HashAlgorithm
 
@@ -59,7 +59,7 @@ class RevokedCertificate(CryptoParser):
         }
 
 
-class CertificateRevocationList(CryptoParser):
+class CertificateRevocationList(InitCryptoParser):
     issuer: Name
     last_update: datetime
     next_update: datetime
@@ -101,11 +101,11 @@ class CertificateRevocationList(CryptoParser):
 
     @property
     def tbs_bytes(self) -> bytes:
-        return self._x509_obj.tbs_certlist_bytes
+        return self._crypto_object.tbs_certlist_bytes
 
     @property
     def der_bytes(self) -> bytes:
-        return self._x509_obj.public_bytes(serialization.Encoding.DER)
+        return self._crypto_object.public_bytes(serialization.Encoding.DER)
 
     def sign(self, private_key: CryptoKeyPair, algorithm: HashAlgorithm):
         self._private_key = private_key
@@ -120,7 +120,7 @@ class CertificateRevocationList(CryptoParser):
 
     def _to_cryptography(self) -> x509.CertificateRevocationList:
         if not hasattr(self, "_private_key"):
-            raise MissingPrivateKey("Please use 'sign' function")
+            raise MissingInit("Please use 'sign' function")
 
         builder = x509.CertificateRevocationListBuilder()
         builder = builder.issuer_name(self.issuer._to_cryptography())
