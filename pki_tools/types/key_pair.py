@@ -65,6 +65,14 @@ class CryptoKeyPair(InitCryptoParser):
 
         return self._crypto_object.private_bytes(**kwargs)
 
+    def private_key_to_file(self, file_path):
+        with open(file_path, "w") as f:
+            f.write(self.pem_private_key.decode())
+
+    def public_key_to_file(self, file_path):
+        with open(file_path, "w") as f:
+            f.write(self.pem_public_key.decode())
+
 
 class DSAKeyPair(CryptoKeyPair):
     key_size: int

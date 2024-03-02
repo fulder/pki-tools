@@ -118,6 +118,10 @@ class CertificateRevocationList(InitCryptoParser):
                 return cert
         return None
 
+    def to_file(self, file_path):
+        with open(file_path, "w") as f:
+            f.write(self.der_bytes.decode())
+
     def _to_cryptography(self) -> x509.CertificateRevocationList:
         if not hasattr(self, "_private_key"):
             raise MissingInit("Please use 'sign' function")
