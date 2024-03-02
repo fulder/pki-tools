@@ -7,19 +7,21 @@ import datetime
 import yaml
 
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric.types import (
-    CertificatePublicKeyTypes,
-)
 
 from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
-from pki_tools.exceptions import CertLoadError, MissingInit
+from pki_tools.exceptions import (
+    CertLoadError,
+    MissingInit,
+    SignatureVerificationFailed,
+)
 from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
     HashAlgorithm,
     HashAlgorithmName,
+    PKCS1v15Padding,
 )
 from pki_tools.types.utils import _byte_to_hex, _der_key
 
@@ -80,24 +82,6 @@ class TbsCertificate(BaseModel):
             "Subject Public Key Info": subject_key_info,
             "Extensions": self.extensions._string_dict(),
         }
-
-    @property
-    def hex_serial(self) -> str:
-        """
-        Parses the certificate serial into hex format
-
-        Returns:
-            String representing the hex value of the certificate serial number
-        """
-        hex_serial = format(self.serial_number, "x").zfill(32)
-        return hex_serial.upper()
-
-    @property
-    def public_key(self) -> bytes:
-        return self.subject_public_key_info.public_bytes(
-            serialization.Encoding.Raw,
-            serialization.PublicFormat.Raw,
-        )
 
 
 class Certificate(TbsCertificate, InitCryptoParser):
@@ -186,6 +170,41 @@ class Certificate(TbsCertificate, InitCryptoParser):
     def tbs_bytes(self) -> bytes:
         return self._crypto_object.tbs_certificate_bytes
 
+    @property
+    def pem_bytes(self) -> bytes:
+        return self._crypto_object.public_bytes(serialization.Encoding.PEM)
+
+    @property
+    def pem_string(self) -> str:
+        return self.pem_bytes.decode()
+
+    @property
+    def hex_serial(self) -> str:
+        """
+        Parses the certificate serial into hex format
+
+        Returns:
+            String representing the hex value of the certificate serial number
+        """
+        hex_serial = format(self.serial_number, "x").zfill(32)
+        return hex_serial.upper()
+
+    @property
+    def public_key(self) -> bytes:
+        return self._crypto_object.public_key().public_bytes(
+            serialization.Encoding.Raw,
+            serialization.PublicFormat.SubjectPublicKeyInfo,
+        )
+
+    @property
+    def sign_alg_oid_name(self) -> str:
+        name = self._crypto_object.signature_algorithm_oid._name.upper()
+        return name.replace("ENCRYPTION", "")
+
+    @property
+    def der_public_key(self) -> bytes:
+        return _der_key(self._crypto_object.public_key())
+
     def digest(
         self,
         algorithm: HashAlgorithm = HashAlgorithm(
@@ -201,34 +220,50 @@ class Certificate(TbsCertificate, InitCryptoParser):
         with open(file_path, "w") as f:
             f.write(self.pem_string)
 
-    def _string_dict(self):
-        return {
-            "Certificate": {
-                "TbsCertificate": super()._string_dict(),
-                "Signature Value": self.signature_value,
-            }
-        }
+    def verify_signature(
+        self: Type["Certificate"],
+        signed: InitCryptoParser,
+    ) -> None:
+        """
+        Verifies a signature of a signed entity against this issuer certificate
 
-    @property
-    def pem_bytes(self) -> bytes:
-        return self._crypto_object.public_bytes(serialization.Encoding.PEM)
+        Args:
+            signed: The signed entity can either be a
+            [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
+            [CertificateRevocationList](https://pki-tools.fulder.dev/pki_tools/types/#certificaterevocationlist)
+            or a
+            [OCSPResponse](https://pki-tools.fulder.dev/pki_tools/types/#ocspresponse)
+        Raises:
+            [InvalidSignedType](https://pki-tools.fulder.dev/pki_tools/exceptions/#invalidsignedtype)
+            -- When the issuer has a non-supported type
+            [SignatureVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed)
+            -- When the signature verification fails
+        """
+        try:
+            self._crypto_object.public_key().verify(
+                signed._crypto_object.signature,
+                signed.tbs_bytes,
+                PKCS1v15Padding()._to_cryptography(),
+                signed._crypto_object.signature_hash_algorithm,
+            )
+            logger.trace("Signature valid")
+        except Exception as e:
+            logger.bind(
+                exceptionType=type(e).__name__,
+                exception=str(e),
+            ).error("Signature verification failed")
+            raise SignatureVerificationFailed(
+                f"signature doesn't match issuer "
+                f"with subject: {str(self.subject)}"
+            )
 
-    @property
-    def pem_string(self) -> str:
-        return self.pem_bytes.decode()
-
-    @property
-    def public_key(self) -> CertificatePublicKeyTypes:
-        return self._crypto_object.public_key()
-
-    @property
-    def der_public_key(self) -> bytes:
-        return _der_key(self.public_key)
-
-    @property
-    def sign_alg_oid_name(self) -> str:
-        name = self._crypto_object.signature_algorithm_oid._name.upper()
-        return name.replace("ENCRYPTION", "")
+    def sign(
+        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
+    ):
+        self._private_key = key_pair
+        self.serial_number = random.randint(1, 2**32 - 1)
+        self.signature_algorithm = signature_algorithm
+        self._x509_obj = self._to_cryptography()
 
     def __str__(self) -> str:
         return yaml.safe_dump(
@@ -238,14 +273,6 @@ class Certificate(TbsCertificate, InitCryptoParser):
             explicit_start=True,
             default_style="",
         )
-
-    def sign(
-        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
-    ):
-        self._private_key = key_pair
-        self.serial_number = random.randint(1, 2**32 - 1)
-        self.signature_algorithm = signature_algorithm
-        self._x509_obj = self._to_cryptography()
 
     def _to_cryptography(self) -> x509.Certificate:
         if hasattr(self, "_x509_obj"):
@@ -293,6 +320,14 @@ class Certificate(TbsCertificate, InitCryptoParser):
         cert = cert_builder.sign(crypto_key, alg)
 
         return cert
+
+    def _string_dict(self):
+        return {
+            "Certificate": {
+                "TbsCertificate": super()._string_dict(),
+                "Signature Value": self.signature_value,
+            }
+        }
 
 
 def _is_pem_cert_string(check: str):
