@@ -6,7 +6,7 @@ from loguru import logger
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.signature_algorithm import HashAlgorithm
-from pki_tools.utils import HTTPX_CLIENT, verify_signature
+from pki_tools.utils import HTTPX_CLIENT
 from pki_tools.exceptions import (
     ExtensionMissing,
     OcspInvalidResponseStatus,
@@ -162,4 +162,4 @@ def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: Chain):
         logger.error("Couldn't find OCSP response issuer")
         raise Error("Couldn't find OCSP response issuer")
 
-    verify_signature(ocsp_response, issuer_cert)
+    issuer_cert.verify_signature(ocsp_response)

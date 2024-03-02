@@ -57,7 +57,7 @@ class InitCryptoParser(CryptoParser, abc.ABC):
     _init_func: str = "sign"
 
     @property
-    def _crypto_object(self):
+    def _crypto_object(self) -> CryptoObject:
         if not hasattr(self, "_x509_obj") or self._x509_obj is None:
             init_func = f"{self.__name__}.{self._init_func}"
             raise MissingInit(f"Please use the {init_func} first")

@@ -12,7 +12,6 @@ from pki_tools.exceptions import (
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.certificates import Certificates
 from pki_tools.types.crl import CertificateRevocationList
-from pki_tools.utils import verify_signature
 
 
 class Chain(Certificates):
@@ -76,8 +75,7 @@ class Chain(Certificates):
                 )
 
             issuer = self.get_issuer(cert)
-
-            verify_signature(cert, issuer)
+            issuer.verify_signature(cert)
 
     def get_issuer(
         self,

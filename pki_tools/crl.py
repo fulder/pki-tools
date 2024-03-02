@@ -4,7 +4,7 @@ from functools import lru_cache
 from loguru import logger
 
 from pki_tools.types.extensions import UniformResourceIdentifier
-from pki_tools.utils import HTTPX_CLIENT, verify_signature
+from pki_tools.utils import HTTPX_CLIENT
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import (
@@ -52,7 +52,7 @@ def _is_revoked(
 
             issuer = crl_issuer.get_issuer(crl)
 
-            verify_signature(crl, issuer)
+            issuer.verify_signature(crl)
             logger.debug("CRL signature valid")
 
             if (r := crl.get_revoked(cert.serial_number)) is not None:
