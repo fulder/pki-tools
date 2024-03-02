@@ -85,11 +85,13 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificaterevocationlisttbs_bytes">CertificateRevocationList().tbs_bytes</a>
     </li>
+    <li class="toctree-l4"><a class="reference internal" href="#certificaterevocationlistto_file">CertificateRevocationList().to_file</a>
+    </li>
         </ul>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#revokedcertificate">RevokedCertificate</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#signature_7">Signature</a>
+    <li class="toctree-l4"><a class="reference internal" href="#signature_8">Signature</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#see-also_2">See also</a>
     </li>
@@ -160,6 +162,7 @@
 <li><a href="#certificaterevocationlist()get_revoked">CertificateRevocationList().get_revoked</a></li>
 <li><a href="#certificaterevocationlist()sign">CertificateRevocationList().sign</a></li>
 <li><a href="#certificaterevocationlist()tbs_bytes">CertificateRevocationList().tbs_bytes</a></li>
+<li><a href="#certificaterevocationlist()to_file">CertificateRevocationList().to_file</a></li>
 </ul>
 </li>
 <li><a href="#revokedcertificate">RevokedCertificate</a><ul>
@@ -217,9 +220,14 @@ def from_cryptography(
 <pre><code class="language-python">@property
 def tbs_bytes(self) -&gt; bytes: ...
 </code></pre>
+<h3 id="certificaterevocationlistto_file">CertificateRevocationList().to_file</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L121">Show source in crl.py:121</a></p>
+<h4 id="signature_7">Signature</h4>
+<pre><code class="language-python">def to_file(self, file_path): ...
+</code></pre>
 <h2 id="revokedcertificate">RevokedCertificate</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L16">Show source in crl.py:16</a></p>
-<h4 id="signature_7">Signature</h4>
+<h4 id="signature_8">Signature</h4>
 <pre><code class="language-python">class RevokedCertificate(CryptoParser): ...
 </code></pre>
 <h4 id="see-also_2">See also</h4>
@@ -228,7 +236,7 @@ def tbs_bytes(self) -&gt; bytes: ...
 </ul>
 <h3 id="revokedcertificatefrom_cryptography">RevokedCertificate.from_cryptography</h3>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L21">Show source in crl.py:21</a></p>
-<h4 id="signature_8">Signature</h4>
+<h4 id="signature_9">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
     cls: Type[&quot;RevokedCertificate&quot;], crypto_obj: x509.RevokedCertificate
