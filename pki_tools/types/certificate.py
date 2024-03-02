@@ -15,7 +15,7 @@ from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
-from pki_tools.exceptions import CertLoadError, MissingPrivateKey, MissingInit
+from pki_tools.exceptions import CertLoadError, MissingInit
 from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
     HashAlgorithm,
@@ -252,7 +252,7 @@ class Certificate(TbsCertificate, InitCryptoParser):
         subject = issuer = self.subject._to_cryptography()
         crypto_key = self._private_key._to_cryptography()
         if not hasattr(crypto_key, "public_key"):
-            raise MissingPrivateKey()
+            raise MissingInit("Invalid key type, use private key")
 
         cert_builder = (
             x509.CertificateBuilder()

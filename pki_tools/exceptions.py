@@ -62,13 +62,5 @@ class MissingInit(Error):
     pass
 
 
-class MissingPrivateKey(Error):
-    pass
-
-
-class MissingOcspCert(Error):
-    pass
-
-
 class MissingBlockSize(Error):
     pass
