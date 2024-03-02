@@ -58,6 +58,10 @@ def test_certificate_from_to_cryptography(crypto_cert, cert_pem_string):
 
     assert dict1 == dict2
 
+    # Test getting cert properties
+    assert cert.digest() != ""
+    assert cert.hex_serial != ""
+
 
 def test_certificate_from_pem_string_with_subject_directory_attributes(
     cert_with_subject_directory_attributes,

@@ -210,10 +210,12 @@ class Certificate(TbsCertificate, InitCryptoParser):
         }
 
     @property
-    def pem_string(self):
-        return self._crypto_object.public_bytes(
-            serialization.Encoding.PEM
-        ).decode()
+    def pem_bytes(self) -> bytes:
+        return self._crypto_object.public_bytes(serialization.Encoding.PEM)
+
+    @property
+    def pem_string(self) -> str:
+        return self.pem_bytes.decode()
 
     @property
     def public_key(self) -> CertificatePublicKeyTypes:

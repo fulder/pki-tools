@@ -108,10 +108,14 @@ class CertificateSigningRequest(InitCryptoParser):
         return self._crypto_object.tbs_certrequest_bytes
 
     @property
-    def pem_string(self):
+    def pem_bytes(self):
         return self._crypto_object.public_bytes(
             encoding=serialization.Encoding.PEM
-        ).decode()
+        )
+
+    @property
+    def pem_string(self):
+        return self.pem_bytes.decode()
 
     def to_file(self, file_path):
         with open(file_path, "w") as f:
