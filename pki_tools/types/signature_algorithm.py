@@ -53,15 +53,19 @@ class HashAlgorithm(CryptoParser):
 
     @property
     def der_bytes(self):
-        self._to_cryptography().public_bytes(Encoding.DER)
+        return self._to_cryptography().public_bytes(Encoding.DER)
 
     def _to_cryptography(self) -> hashes.HashAlgorithm:
-        dynamic_block_size = ["BLAKE2b", "BLAKE2s", "SHAKE"]
-        for name in dynamic_block_size:
-            if name in self.name.value and self.block_size is None:
+        if "SHAKE" in self.name.value:
+            if self.block_size is None:
                 raise MissingBlockSize("Please set block_size")
-            elif name in self.name.value:
-                return getattr(HASHES_MODULE, self.name.value)(self.block_size)
+
+            return getattr(HASHES_MODULE, self.name.value)(self.block_size)
+
+        if self.name.value == "BLAKE2s":
+            return getattr(HASHES_MODULE, self.name.value)(32)
+        elif self.name.value == "BLAKE2b":
+            return getattr(HASHES_MODULE, self.name.value)(64)
 
         return getattr(HASHES_MODULE, self.name.value)()
 
@@ -203,3 +207,50 @@ class SignatureAlgorithm(BaseModel):
             ret["parameters"] = self.parameters._string_dict()
 
         return ret
+
+
+SHA1 = SignatureAlgorithm(algorithm=HashAlgorithm(name=HashAlgorithmName.SHA1))
+SHA512_224 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA512_224)
+)
+SHA512_256 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA512_256)
+)
+SHA224 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA224)
+)
+SHA256 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256)
+)
+SHA384 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA384)
+)
+SHA512 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA512)
+)
+SHA3_224 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA3_224)
+)
+SHA3_256 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA3_256)
+)
+SHA3_384 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA3_384)
+)
+SHA3_512 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA3_512)
+)
+SHAKE128 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHAKE128, block_size=64)
+)
+SHAKE256 = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.SHAKE256, block_size=64)
+)
+MD5 = SignatureAlgorithm(algorithm=HashAlgorithm(name=HashAlgorithmName.MD5))
+BLAKE2b = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.BLAKE2b)
+)
+BLAKE2s = SignatureAlgorithm(
+    algorithm=HashAlgorithm(name=HashAlgorithmName.BLAKE2s)
+)
+SM3 = SignatureAlgorithm(algorithm=HashAlgorithm(name=HashAlgorithmName.SM3))

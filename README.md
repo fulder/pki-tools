@@ -74,9 +74,7 @@ from pki_tools import (
     Name,
     Validity,
     RSAKeyPair,
-    SignatureAlgorithm,
-    HashAlgorithm,
-    HashAlgorithmName,
+    SHA512,
 )
 
 name = Name(cn=["Cert CN"])
@@ -90,11 +88,7 @@ cert = Certificate(
     ),
 )
 
-sha512_alg = SignatureAlgorithm(
-    algorithm=HashAlgorithm(name=HashAlgorithmName.SHA512)
-)
-
-cert.sign(RSAKeyPair.generate(), sha512_alg)
+cert.sign(RSAKeyPair.generate(), SHA512)
 
 print(cert.pem_string)
 ```
@@ -103,27 +97,20 @@ print(cert.pem_string)
 
 ```python
 from pki_tools import (
-  Name,
-  HashAlgorithm,
-  HashAlgorithmName,
-  CertificateSigningRequest,
-  SignatureAlgorithm,
-  RSAKeyPair,
+    Name,
+    CertificateSigningRequest,
+    RSAKeyPair,
+    SHA512,
 )
 
 name = Name(cn=["Cert CN"])
 
 csr = CertificateSigningRequest(subject=name)
 
-sha512_alg = SignatureAlgorithm(
-  algorithm=HashAlgorithm(name=HashAlgorithmName.SHA512)
-)
-
-csr.sign(RSAKeyPair.generate(), sha512_alg)
+csr.sign(RSAKeyPair.generate(), SHA512)
 
 print(csr.pem_string)
 ```
-
 
 
 [pydantic-docs]: https://docs.pydantic.dev/latest/

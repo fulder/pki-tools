@@ -56,7 +56,8 @@ from pki_tools.types.ocsp import (
 from pki_tools.types.signature_algorithm import (
     HashAlgorithm,
     HashAlgorithmName,
-    SignatureAlgorithm,
+    SHA256,
+    SHA512,
 )
 from pki_tools.types.utils import _byte_to_hex
 
@@ -278,10 +279,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             AuthorityInformationAccess(access_description=access_descriptions)
         )
 
-    signature_algorithm = SignatureAlgorithm(
-        algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256)
-    )
-    cert.sign(key_pair, signature_algorithm)
+    cert.sign(key_pair, SHA256)
     return cert
 
 
@@ -294,10 +292,7 @@ def _create_csr(key_pair):
         ),
     )
 
-    signature_algorithm = SignatureAlgorithm(
-        algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256)
-    )
-    csr.sign(key_pair, signature_algorithm)
+    csr.sign(key_pair, SHA512)
     return csr
 
 
