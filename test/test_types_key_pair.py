@@ -106,6 +106,10 @@ def test_keypair_generate(
     # Check that dumped key is a private crypto class
     assert isinstance(key_pair._to_cryptography(), expected_private)
 
+    # Test getting private/public PEM bytes
+    assert "PRIVATE KEY-----" in key_pair.pem_private_key.decode()
+    assert "PUBLIC KEY-----" in key_pair.pem_public_key.decode()
+
     # Test dumping public crypto key and parsing it again
     public_crypto_key = key_pair._to_cryptography().public_key()
     key_pair = key_pair_cls.from_cryptography(public_crypto_key)

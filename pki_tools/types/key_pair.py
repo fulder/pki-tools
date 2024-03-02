@@ -2,6 +2,7 @@ import abc
 import importlib
 from typing import Dict, Type, Union, Optional, get_args
 
+from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import (
     dsa,
     ec,
@@ -16,11 +17,18 @@ from cryptography.hazmat.primitives.asymmetric.types import (
 
 from pydantic import ConfigDict
 
-from pki_tools.types.crypto_parser import CryptoParser, CryptoObject
+from pki_tools.exceptions import InvalidKeyType
+from pki_tools.types.crypto_parser import (
+    CryptoParser,
+    CryptoObject,
+    InitCryptoParser,
+)
 from pki_tools.types.utils import _byte_to_hex, _hex_to_byte, _der_key
 
 
-class CryptoKeyPair(CryptoParser):
+class CryptoKeyPair(InitCryptoParser):
+    _init_func = "generate"
+
     @classmethod
     @abc.abstractmethod
     def generate(cls, *args) -> CryptoObject:
@@ -28,7 +36,34 @@ class CryptoKeyPair(CryptoParser):
 
     @property
     def der_public_key(self):
-        return _der_key(self._x509_obj.public_key())
+        return _der_key(self._crypto_object.public_key())
+
+    @property
+    def pem_public_key(self) -> bytes:
+        public_key = self._crypto_object
+        if hasattr(self._crypto_object, "public_key"):
+            public_key = public_key.public_key()
+
+        return public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo,
+        )
+
+    @property
+    def pem_private_key(self) -> bytes:
+        if not hasattr(self._crypto_object, "public_key"):
+            raise InvalidKeyType("Can't get private key using public key")
+
+        kwargs = {
+            "encoding": serialization.Encoding.PEM,
+            "encryption_algorithm": serialization.NoEncryption(),
+            "format": serialization.PrivateFormat.TraditionalOpenSSL,
+        }
+
+        if "Ed" in self.__class__.__name__:
+            kwargs["format"] = serialization.PrivateFormat.PKCS8
+
+        return self._crypto_object.private_bytes(**kwargs)
 
 
 class DSAKeyPair(CryptoKeyPair):

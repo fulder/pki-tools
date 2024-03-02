@@ -6,10 +6,10 @@ from cryptography import x509
 from cryptography.hazmat.primitives import serialization
 from loguru import logger
 
-from pki_tools.exceptions import CsrLoadError, MissingPrivateKey
+from pki_tools.exceptions import CsrLoadError, MissingInit
 from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
 from pki_tools.types.certificate import _is_pem_csr_string
-from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools.types.crypto_parser import InitCryptoParser
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 from pki_tools.types.signature_algorithm import (
@@ -18,7 +18,7 @@ from pki_tools.types.signature_algorithm import (
 from pki_tools.types.utils import _byte_to_hex
 
 
-class CertificateSigningRequest(CryptoParser):
+class CertificateSigningRequest(InitCryptoParser):
     subject: Name
 
     public_key: Optional[KeyPair] = None
@@ -105,13 +105,17 @@ class CertificateSigningRequest(CryptoParser):
 
     @property
     def tbs_bytes(self) -> bytes:
-        return self._x509_obj.tbs_certrequest_bytes
+        return self._crypto_object.tbs_certrequest_bytes
+
+    @property
+    def pem_bytes(self):
+        return self._crypto_object.public_bytes(
+            encoding=serialization.Encoding.PEM
+        )
 
     @property
     def pem_string(self):
-        return self._x509_obj.public_bytes(
-            encoding=serialization.Encoding.PEM
-        ).decode()
+        return self.pem_bytes.decode()
 
     def to_file(self, file_path):
         with open(file_path, "w") as f:
@@ -149,11 +153,14 @@ class CertificateSigningRequest(CryptoParser):
 
     def _to_cryptography(self) -> x509.CertificateSigningRequest:
         if not hasattr(self, "_private_key"):
-            raise MissingPrivateKey("Please use 'sign' function")
+            raise MissingInit(
+                f"Please use CertificateSigningRequest."
+                f"{self._init_func} function"
+            )
 
         crypto_key = self._private_key._to_cryptography()
         if not hasattr(crypto_key, "public_key"):
-            raise MissingPrivateKey("Use private key not public")
+            raise MissingInit("Use private key not public")
 
         builder = x509.CertificateSigningRequestBuilder()
         builder = builder.subject_name(self.subject._to_cryptography())

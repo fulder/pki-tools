@@ -69,17 +69,23 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificateder_public_key">Certificate().der_public_key</a>
     </li>
+    <li class="toctree-l4"><a class="reference internal" href="#certificatedigest">Certificate().digest</a>
+    </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatefrom_cryptography">Certificate.from_cryptography</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatefrom_file">Certificate.from_file</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatefrom_pem_string">Certificate.from_pem_string</a>
     </li>
+    <li class="toctree-l4"><a class="reference internal" href="#certificatepem_bytes">Certificate().pem_bytes</a>
+    </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatepem_string">Certificate().pem_string</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatepublic_key">Certificate().public_key</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatesign">Certificate().sign</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#certificatesign_alg_oid_name">Certificate().sign_alg_oid_name</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatetbs_bytes">Certificate().tbs_bytes</a>
     </li>
@@ -89,7 +95,7 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#tbscertificate">TbsCertificate</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#signature_10">Signature</a>
+    <li class="toctree-l4"><a class="reference internal" href="#signature_13">Signature</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#tbscertificatehex_serial">TbsCertificate().hex_serial</a>
     </li>
@@ -99,7 +105,7 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#validity">Validity</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#signature_13">Signature</a>
+    <li class="toctree-l4"><a class="reference internal" href="#signature_16">Signature</a>
     </li>
         </ul>
     </li>
@@ -167,12 +173,15 @@
 <li><a href="#certificate">Certificate</a></li>
 <li><a href="#certificate-1">Certificate</a><ul>
 <li><a href="#certificate()der_public_key">Certificate().der_public_key</a></li>
+<li><a href="#certificate()digest">Certificate().digest</a></li>
 <li><a href="#certificatefrom_cryptography">Certificate.from_cryptography</a></li>
 <li><a href="#certificatefrom_file">Certificate.from_file</a></li>
 <li><a href="#certificatefrom_pem_string">Certificate.from_pem_string</a></li>
+<li><a href="#certificate()pem_bytes">Certificate().pem_bytes</a></li>
 <li><a href="#certificate()pem_string">Certificate().pem_string</a></li>
 <li><a href="#certificate()public_key">Certificate().public_key</a></li>
 <li><a href="#certificate()sign">Certificate().sign</a></li>
+<li><a href="#certificate()sign_alg_oid_name">Certificate().sign_alg_oid_name</a></li>
 <li><a href="#certificate()tbs_bytes">Certificate().tbs_bytes</a></li>
 <li><a href="#certificate()to_file">Certificate().to_file</a></li>
 </ul>
@@ -185,31 +194,42 @@
 <li><a href="#validity">Validity</a></li>
 </ul>
 <h2 id="certificate_1">Certificate</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L98">Show source in certificate.py:98</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L103">Show source in certificate.py:103</a></p>
 <h4 id="signature">Signature</h4>
-<pre><code class="language-python">class Certificate(TbsCertificate, CryptoParser): ...
+<pre><code class="language-python">class Certificate(TbsCertificate, InitCryptoParser): ...
 </code></pre>
 <h4 id="see-also">See also</h4>
 <ul>
-<li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
+<li><a href="../crypto_parser/#initcryptoparser">InitCryptoParser</a></li>
 <li><a href="#tbscertificate">TbsCertificate</a></li>
 </ul>
 <h3 id="certificateder_public_key">Certificate().der_public_key</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L204">Show source in certificate.py:204</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L224">Show source in certificate.py:224</a></p>
 <h4 id="signature_1">Signature</h4>
 <pre><code class="language-python">@property
 def der_public_key(self) -&gt; bytes: ...
 </code></pre>
-<h3 id="certificatefrom_cryptography">Certificate.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L105">Show source in certificate.py:105</a></p>
+<h3 id="certificatedigest">Certificate().digest</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L189">Show source in certificate.py:189</a></p>
 <h4 id="signature_2">Signature</h4>
+<pre><code class="language-python">def digest(
+    self, algorithm: HashAlgorithm = HashAlgorithm(name=HashAlgorithmName.SHA512)
+): ...
+</code></pre>
+<h4 id="see-also_1">See also</h4>
+<ul>
+<li><a href="../signature_algorithm/#hashalgorithm">HashAlgorithm</a></li>
+</ul>
+<h3 id="certificatefrom_cryptography">Certificate.from_cryptography</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L110">Show source in certificate.py:110</a></p>
+<h4 id="signature_3">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
     cls: Type[&quot;Certificate&quot;], cert: x509.Certificate
 ) -&gt; &quot;Certificate&quot;: ...
 </code></pre>
 <h3 id="certificatefrom_file">Certificate.from_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L160">Show source in certificate.py:160</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L165">Show source in certificate.py:165</a></p>
 <p>Reads a file containing one PEM certificate into a
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#certificate">Certificate</a>
 object</p>
@@ -221,12 +241,12 @@ object</p>
 <p>The
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#certificate">Certificate</a>
 representing the certificate from file</p>
-<h4 id="signature_3">Signature</h4>
+<h4 id="signature_4">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_file(cls: Type[&quot;Certificate&quot;], file_path: str) -&gt; &quot;Certificate&quot;: ...
 </code></pre>
 <h3 id="certificatefrom_pem_string">Certificate.from_pem_string</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L133">Show source in certificate.py:133</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L138">Show source in certificate.py:138</a></p>
 <p>Loads a certificate from a PEM string into a
 <a href="https://pki-tools.fulder.dev/pki_tools/types/#certificate">Certificate</a>
 object</p>
@@ -240,66 +260,78 @@ object</p>
 created from the PEM</p>
 <h4 id="raises">Raises</h4>
 <p>exceptions.CertLoadError - If the certificate could not be loaded</p>
-<h4 id="signature_4">Signature</h4>
+<h4 id="signature_5">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_pem_string(cls: Type[&quot;Certificate&quot;], cert_pem) -&gt; &quot;Certificate&quot;: ...
 </code></pre>
-<h3 id="certificatepem_string">Certificate().pem_string</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L196">Show source in certificate.py:196</a></p>
-<h4 id="signature_5">Signature</h4>
+<h3 id="certificatepem_bytes">Certificate().pem_bytes</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L212">Show source in certificate.py:212</a></p>
+<h4 id="signature_6">Signature</h4>
 <pre><code class="language-python">@property
-def pem_string(self): ...
+def pem_bytes(self) -&gt; bytes: ...
+</code></pre>
+<h3 id="certificatepem_string">Certificate().pem_string</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L216">Show source in certificate.py:216</a></p>
+<h4 id="signature_7">Signature</h4>
+<pre><code class="language-python">@property
+def pem_string(self) -&gt; str: ...
 </code></pre>
 <h3 id="certificatepublic_key">Certificate().public_key</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L200">Show source in certificate.py:200</a></p>
-<h4 id="signature_6">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L220">Show source in certificate.py:220</a></p>
+<h4 id="signature_8">Signature</h4>
 <pre><code class="language-python">@property
 def public_key(self) -&gt; CertificatePublicKeyTypes: ...
 </code></pre>
 <h3 id="certificatesign">Certificate().sign</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L217">Show source in certificate.py:217</a></p>
-<h4 id="signature_7">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L242">Show source in certificate.py:242</a></p>
+<h4 id="signature_9">Signature</h4>
 <pre><code class="language-python">def sign(self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm): ...
 </code></pre>
-<h4 id="see-also_1">See also</h4>
+<h4 id="see-also_2">See also</h4>
 <ul>
 <li><a href="../key_pair/#cryptokeypair">CryptoKeyPair</a></li>
 <li><a href="../signature_algorithm/#signaturealgorithm">SignatureAlgorithm</a></li>
 </ul>
+<h3 id="certificatesign_alg_oid_name">Certificate().sign_alg_oid_name</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L228">Show source in certificate.py:228</a></p>
+<h4 id="signature_10">Signature</h4>
+<pre><code class="language-python">@property
+def sign_alg_oid_name(self) -&gt; str: ...
+</code></pre>
 <h3 id="certificatetbs_bytes">Certificate().tbs_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L180">Show source in certificate.py:180</a></p>
-<h4 id="signature_8">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L185">Show source in certificate.py:185</a></p>
+<h4 id="signature_11">Signature</h4>
 <pre><code class="language-python">@property
 def tbs_bytes(self) -&gt; bytes: ...
 </code></pre>
 <h3 id="certificateto_file">Certificate().to_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L184">Show source in certificate.py:184</a></p>
-<h4 id="signature_9">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L200">Show source in certificate.py:200</a></p>
+<h4 id="signature_12">Signature</h4>
 <pre><code class="language-python">def to_file(self, file_path): ...
 </code></pre>
 <h2 id="tbscertificate">TbsCertificate</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L54">Show source in certificate.py:54</a></p>
-<h4 id="signature_10">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L59">Show source in certificate.py:59</a></p>
+<h4 id="signature_13">Signature</h4>
 <pre><code class="language-python">class TbsCertificate(BaseModel): ...
 </code></pre>
 <h3 id="tbscertificatehex_serial">TbsCertificate().hex_serial</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L79">Show source in certificate.py:79</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L84">Show source in certificate.py:84</a></p>
 <p>Parses the certificate serial into hex format</p>
 <h4 id="returns_2">Returns</h4>
 <p>String representing the hex value of the certificate serial number</p>
-<h4 id="signature_11">Signature</h4>
+<h4 id="signature_14">Signature</h4>
 <pre><code class="language-python">@property
 def hex_serial(self) -&gt; str: ...
 </code></pre>
 <h3 id="tbscertificatepublic_key">TbsCertificate().public_key</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L90">Show source in certificate.py:90</a></p>
-<h4 id="signature_12">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L95">Show source in certificate.py:95</a></p>
+<h4 id="signature_15">Signature</h4>
 <pre><code class="language-python">@property
 def public_key(self) -&gt; bytes: ...
 </code></pre>
 <h2 id="validity">Validity</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L43">Show source in certificate.py:43</a></p>
-<h4 id="signature_13">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L48">Show source in certificate.py:48</a></p>
+<h4 id="signature_16">Signature</h4>
 <pre><code class="language-python">class Validity(BaseModel): ...
 </code></pre>
               

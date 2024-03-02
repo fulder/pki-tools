@@ -83,6 +83,8 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatesigningrequestfrom_pem_string">CertificateSigningRequest.from_pem_string</a>
     </li>
+    <li class="toctree-l4"><a class="reference internal" href="#certificatesigningrequestpem_bytes">CertificateSigningRequest().pem_bytes</a>
+    </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatesigningrequestpem_string">CertificateSigningRequest().pem_string</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#certificatesigningrequestsign">CertificateSigningRequest().sign</a>
@@ -149,6 +151,7 @@
 <li><a href="#certificatesigningrequestfrom_cryptography">CertificateSigningRequest.from_cryptography</a></li>
 <li><a href="#certificatesigningrequestfrom_file">CertificateSigningRequest.from_file</a></li>
 <li><a href="#certificatesigningrequestfrom_pem_string">CertificateSigningRequest.from_pem_string</a></li>
+<li><a href="#certificatesigningrequest()pem_bytes">CertificateSigningRequest().pem_bytes</a></li>
 <li><a href="#certificatesigningrequest()pem_string">CertificateSigningRequest().pem_string</a></li>
 <li><a href="#certificatesigningrequest()sign">CertificateSigningRequest().sign</a></li>
 <li><a href="#certificatesigningrequest()tbs_bytes">CertificateSigningRequest().tbs_bytes</a></li>
@@ -159,11 +162,11 @@
 <h2 id="certificatesigningrequest">CertificateSigningRequest</h2>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L21">Show source in csr.py:21</a></p>
 <h4 id="signature">Signature</h4>
-<pre><code class="language-python">class CertificateSigningRequest(CryptoParser): ...
+<pre><code class="language-python">class CertificateSigningRequest(InitCryptoParser): ...
 </code></pre>
 <h4 id="see-also">See also</h4>
 <ul>
-<li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
+<li><a href="../crypto_parser/#initcryptoparser">InitCryptoParser</a></li>
 </ul>
 <h3 id="certificatesigningrequestfrom_cryptography">CertificateSigningRequest.from_cryptography</h3>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L31">Show source in csr.py:31</a></p>
@@ -213,15 +216,21 @@ def from_pem_string(
     cls: Type[&quot;CertificateSigningRequest&quot;], csr_pem
 ) -&gt; &quot;CertificateSigningRequest&quot;: ...
 </code></pre>
-<h3 id="certificatesigningrequestpem_string">CertificateSigningRequest().pem_string</h3>
+<h3 id="certificatesigningrequestpem_bytes">CertificateSigningRequest().pem_bytes</h3>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L110">Show source in csr.py:110</a></p>
 <h4 id="signature_4">Signature</h4>
+<pre><code class="language-python">@property
+def pem_bytes(self): ...
+</code></pre>
+<h3 id="certificatesigningrequestpem_string">CertificateSigningRequest().pem_string</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L116">Show source in csr.py:116</a></p>
+<h4 id="signature_5">Signature</h4>
 <pre><code class="language-python">@property
 def pem_string(self): ...
 </code></pre>
 <h3 id="certificatesigningrequestsign">CertificateSigningRequest().sign</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L143">Show source in csr.py:143</a></p>
-<h4 id="signature_5">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L147">Show source in csr.py:147</a></p>
+<h4 id="signature_6">Signature</h4>
 <pre><code class="language-python">def sign(self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm): ...
 </code></pre>
 <h4 id="see-also_1">See also</h4>
@@ -231,13 +240,13 @@ def pem_string(self): ...
 </ul>
 <h3 id="certificatesigningrequesttbs_bytes">CertificateSigningRequest().tbs_bytes</h3>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L106">Show source in csr.py:106</a></p>
-<h4 id="signature_6">Signature</h4>
+<h4 id="signature_7">Signature</h4>
 <pre><code class="language-python">@property
 def tbs_bytes(self) -&gt; bytes: ...
 </code></pre>
 <h3 id="certificatesigningrequestto_file">CertificateSigningRequest().to_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L116">Show source in csr.py:116</a></p>
-<h4 id="signature_7">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/csr.py#L120">Show source in csr.py:120</a></p>
+<h4 id="signature_8">Signature</h4>
 <pre><code class="language-python">def to_file(self, file_path): ...
 </code></pre>
               

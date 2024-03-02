@@ -194,16 +194,16 @@
 <li><a href="#ocspresponsestatus">OcspResponseStatus</a></li>
 </ul>
 <h2 id="ocsprequest">OCSPRequest</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L155">Show source in ocsp.py:155</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L159">Show source in ocsp.py:159</a></p>
 <h4 id="signature">Signature</h4>
-<pre><code class="language-python">class OCSPRequest(CryptoParser): ...
+<pre><code class="language-python">class OCSPRequest(InitCryptoParser): ...
 </code></pre>
 <h4 id="see-also">See also</h4>
 <ul>
-<li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
+<li><a href="../crypto_parser/#initcryptoparser">InitCryptoParser</a></li>
 </ul>
 <h3 id="ocsprequestcreate">OCSPRequest().create</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L179">Show source in ocsp.py:179</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L182">Show source in ocsp.py:182</a></p>
 <h4 id="signature_1">Signature</h4>
 <pre><code class="language-python">def create(self, cert: Certificate, issuer_cert: Certificate): ...
 </code></pre>
@@ -212,35 +212,35 @@
 <li><a href="../certificate/#certificate">Certificate</a></li>
 </ul>
 <h3 id="ocsprequestfrom_cryptography">OCSPRequest().from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L161">Show source in ocsp.py:161</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L167">Show source in ocsp.py:167</a></p>
 <h4 id="signature_2">Signature</h4>
 <pre><code class="language-python">def from_cryptography(
     cls: Type[&quot;OCSPRequest&quot;], crypto_obj: ocsp.OCSPRequest
 ) -&gt; &quot;OCSPRequest&quot;: ...
 </code></pre>
 <h3 id="ocsprequestrequest_path">OCSPRequest().request_path</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L170">Show source in ocsp.py:170</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L176">Show source in ocsp.py:176</a></p>
 <h4 id="signature_3">Signature</h4>
 <pre><code class="language-python">@property
 def request_path(self): ...
 </code></pre>
 <h2 id="ocspresponse">OCSPResponse</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L37">Show source in ocsp.py:37</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L39">Show source in ocsp.py:39</a></p>
 <h4 id="signature_4">Signature</h4>
-<pre><code class="language-python">class OCSPResponse(CryptoParser): ...
+<pre><code class="language-python">class OCSPResponse(InitCryptoParser): ...
 </code></pre>
 <h4 id="see-also_2">See also</h4>
 <ul>
-<li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
+<li><a href="../crypto_parser/#initcryptoparser">InitCryptoParser</a></li>
 </ul>
 <h3 id="ocspresponseder_bytes">OCSPResponse().der_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L90">Show source in ocsp.py:90</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L92">Show source in ocsp.py:92</a></p>
 <h4 id="signature_5">Signature</h4>
 <pre><code class="language-python">@property
 def der_bytes(self) -&gt; bytes: ...
 </code></pre>
 <h3 id="ocspresponsefrom_cryptography">OCSPResponse.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L43">Show source in ocsp.py:43</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L45">Show source in ocsp.py:45</a></p>
 <h4 id="signature_6">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
@@ -248,30 +248,30 @@ def from_cryptography(
 ) -&gt; &quot;OCSPResponse&quot;: ...
 </code></pre>
 <h3 id="ocspresponsefrom_der_bytes">OCSPResponse.from_der_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L79">Show source in ocsp.py:79</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L81">Show source in ocsp.py:81</a></p>
 <h4 id="signature_7">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_der_bytes(cls: Type[&quot;OCSPResponse&quot;], der: bytes) -&gt; &quot;OCSPResponse&quot;: ...
 </code></pre>
 <h3 id="ocspresponsehash_with_alg">OCSPResponse().hash_with_alg</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L94">Show source in ocsp.py:94</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L96">Show source in ocsp.py:96</a></p>
 <h4 id="signature_8">Signature</h4>
 <pre><code class="language-python">def hash_with_alg(self, der_key) -&gt; str: ...
 </code></pre>
 <h3 id="ocspresponseis_revoked">OCSPResponse().is_revoked</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L103">Show source in ocsp.py:103</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L105">Show source in ocsp.py:105</a></p>
 <h4 id="signature_9">Signature</h4>
 <pre><code class="language-python">@property
 def is_revoked(self): ...
 </code></pre>
 <h3 id="ocspresponseis_successful">OCSPResponse().is_successful</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L99">Show source in ocsp.py:99</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L101">Show source in ocsp.py:101</a></p>
 <h4 id="signature_10">Signature</h4>
 <pre><code class="language-python">@property
 def is_successful(self): ...
 </code></pre>
 <h3 id="ocspresponsesign">OCSPResponse().sign</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L107">Show source in ocsp.py:107</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L109">Show source in ocsp.py:109</a></p>
 <h4 id="signature_11">Signature</h4>
 <pre><code class="language-python">def sign(
     self,
@@ -288,18 +288,18 @@ def is_successful(self): ...
 <li><a href="../signature_algorithm/#hashalgorithm">HashAlgorithm</a></li>
 </ul>
 <h3 id="ocspresponsetbs_bytes">OCSPResponse().tbs_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L86">Show source in ocsp.py:86</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L88">Show source in ocsp.py:88</a></p>
 <h4 id="signature_12">Signature</h4>
 <pre><code class="language-python">@property
 def tbs_bytes(self) -&gt; bytes: ...
 </code></pre>
 <h2 id="ocspcertificatestatus">OcspCertificateStatus</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L31">Show source in ocsp.py:31</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L33">Show source in ocsp.py:33</a></p>
 <h4 id="signature_13">Signature</h4>
 <pre><code class="language-python">class OcspCertificateStatus(Enum): ...
 </code></pre>
 <h2 id="ocspresponsestatus">OcspResponseStatus</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L22">Show source in ocsp.py:22</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/ocsp.py#L24">Show source in ocsp.py:24</a></p>
 <h4 id="signature_14">Signature</h4>
 <pre><code class="language-python">class OcspResponseStatus(Enum): ...
 </code></pre>

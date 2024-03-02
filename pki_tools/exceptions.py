@@ -58,13 +58,13 @@ class InvalidSignedType(Error):
     pass
 
 
-class MissingPrivateKey(Error):
-    pass
-
-
-class MissingOcspCert(Error):
+class MissingInit(Error):
     pass
 
 
 class MissingBlockSize(Error):
+    pass
+
+
+class InvalidKeyType(Error):
     pass

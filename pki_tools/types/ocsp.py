@@ -12,9 +12,11 @@ from loguru import logger
 
 from pki_tools.types.extensions import Extensions
 from pki_tools.types.certificate import Certificate
-from pki_tools.exceptions import MissingPrivateKey, MissingOcspCert
+from pki_tools.exceptions import (
+    MissingInit,
+)
 from pki_tools.types.key_pair import CryptoKeyPair
-from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools.types.crypto_parser import InitCryptoParser
 from pki_tools.types.signature_algorithm import HashAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
@@ -34,7 +36,7 @@ class OcspCertificateStatus(Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class OCSPResponse(CryptoParser):
+class OCSPResponse(InitCryptoParser):
     response_status: OcspResponseStatus
     certificate_status: Optional[OcspCertificateStatus] = None
     issuer_key_hash: Optional[str] = None
@@ -85,14 +87,14 @@ class OCSPResponse(CryptoParser):
 
     @property
     def tbs_bytes(self) -> bytes:
-        return self._x509_obj.tbs_response_bytes
+        return self._crypto_object.tbs_response_bytes
 
     @property
     def der_bytes(self) -> bytes:
-        return self._x509_obj.public_bytes(Encoding.DER)
+        return self._crypto_object.public_bytes(Encoding.DER)
 
     def hash_with_alg(self, der_key) -> str:
-        hash_algorithm = hashlib.new(self._x509_obj.hash_algorithm.name)
+        hash_algorithm = hashlib.new(self._crypto_object.hash_algorithm.name)
         hash_algorithm.update(der_key)
         return hash_algorithm.hexdigest().upper()
 
@@ -119,7 +121,9 @@ class OCSPResponse(CryptoParser):
 
     def _to_cryptography(self) -> ocsp.OCSPResponse:
         if not hasattr(self, "_private_key"):
-            raise MissingPrivateKey("Please use 'sign' function")
+            raise MissingInit(
+                f"Please use OCSPResponse.{self._init_func} function"
+            )
 
         builder = ocsp.OCSPResponseBuilder()
         cert_status = None
@@ -152,11 +156,13 @@ class OCSPResponse(CryptoParser):
         }
 
 
-class OCSPRequest(CryptoParser):
+class OCSPRequest(InitCryptoParser):
     hash_algorithm: HashAlgorithm
 
     serial_number: Optional[int] = None
     extensions: Optional[Extensions] = None
+
+    _init_func = "create"
 
     def from_cryptography(
         cls: Type["OCSPRequest"], crypto_obj: ocsp.OCSPRequest
@@ -169,11 +175,8 @@ class OCSPRequest(CryptoParser):
 
     @property
     def request_path(self):
-        if self._x509_obj is None:
-            raise MissingOcspCert("Please use 'create' function")
-
         return base64.b64encode(
-            self._x509_obj.public_bytes(serialization.Encoding.DER)
+            self._crypto_object.public_bytes(serialization.Encoding.DER)
         ).decode()
 
     def create(self, cert: Certificate, issuer_cert: Certificate):
@@ -183,7 +186,9 @@ class OCSPRequest(CryptoParser):
 
     def _to_cryptography(self) -> ocsp.OCSPRequest:
         if not hasattr(self, "_cert"):
-            raise MissingOcspCert("Please use 'create' function")
+            raise MissingInit(
+                f"Please use " f"OCSPRequest.{self._init_func} function"
+            )
 
         builder = ocsp.OCSPRequestBuilder()
         builder = builder.add_certificate(

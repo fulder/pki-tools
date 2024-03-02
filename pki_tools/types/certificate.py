@@ -1,3 +1,4 @@
+import base64
 import random
 import re
 from typing import Optional
@@ -14,8 +15,12 @@ from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
-from pki_tools.exceptions import CertLoadError, MissingPrivateKey
-from pki_tools.types.signature_algorithm import SignatureAlgorithm
+from pki_tools.exceptions import CertLoadError, MissingInit
+from pki_tools.types.signature_algorithm import (
+    SignatureAlgorithm,
+    HashAlgorithm,
+    HashAlgorithmName,
+)
 from pki_tools.types.utils import _byte_to_hex, _der_key
 
 from typing import Type
@@ -25,7 +30,7 @@ from cryptography import x509
 from pydantic import BaseModel
 
 
-from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools.types.crypto_parser import InitCryptoParser
 
 from loguru import logger
 from pydantic import ConfigDict
@@ -95,7 +100,7 @@ class TbsCertificate(BaseModel):
         )
 
 
-class Certificate(TbsCertificate, CryptoParser):
+class Certificate(TbsCertificate, InitCryptoParser):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     signature_value: Optional[str] = None
@@ -179,7 +184,18 @@ class Certificate(TbsCertificate, CryptoParser):
 
     @property
     def tbs_bytes(self) -> bytes:
-        return self._x509_obj.tbs_certificate_bytes
+        return self._crypto_object.tbs_certificate_bytes
+
+    def digest(
+        self,
+        algorithm: HashAlgorithm = HashAlgorithm(
+            name=HashAlgorithmName.SHA512
+        ),
+    ):
+        fingerprint = self._crypto_object.fingerprint(
+            algorithm._to_cryptography()
+        )
+        return base64.urlsafe_b64encode(fingerprint).decode("ascii")
 
     def to_file(self, file_path):
         with open(file_path, "w") as f:
@@ -194,16 +210,25 @@ class Certificate(TbsCertificate, CryptoParser):
         }
 
     @property
-    def pem_string(self):
-        return self._x509_obj.public_bytes(serialization.Encoding.PEM).decode()
+    def pem_bytes(self) -> bytes:
+        return self._crypto_object.public_bytes(serialization.Encoding.PEM)
+
+    @property
+    def pem_string(self) -> str:
+        return self.pem_bytes.decode()
 
     @property
     def public_key(self) -> CertificatePublicKeyTypes:
-        return self._x509_obj.public_key()
+        return self._crypto_object.public_key()
 
     @property
     def der_public_key(self) -> bytes:
         return _der_key(self.public_key)
+
+    @property
+    def sign_alg_oid_name(self) -> str:
+        name = self._crypto_object.signature_algorithm_oid._name.upper()
+        return name.replace("ENCRYPTION", "")
 
     def __str__(self) -> str:
         return yaml.safe_dump(
@@ -227,12 +252,14 @@ class Certificate(TbsCertificate, CryptoParser):
             return self._x509_obj
 
         if not hasattr(self, "_private_key"):
-            raise MissingPrivateKey("Please use 'sign' function")
+            raise MissingInit(
+                f"Please use Certificate.{self._init_func} " f"function"
+            )
 
         subject = issuer = self.subject._to_cryptography()
         crypto_key = self._private_key._to_cryptography()
         if not hasattr(crypto_key, "public_key"):
-            raise MissingPrivateKey()
+            raise MissingInit("Invalid key type, use private key")
 
         cert_builder = (
             x509.CertificateBuilder()

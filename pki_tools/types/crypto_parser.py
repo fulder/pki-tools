@@ -3,7 +3,9 @@ from typing import Type, TypeVar, Dict
 
 from pydantic import BaseModel
 
-from pki_tools.exceptions import MissingPrivateKey, MissingOcspCert
+from pki_tools.exceptions import (
+    MissingInit,
+)
 
 from loguru import logger
 
@@ -19,14 +21,8 @@ class CryptoParser(BaseModel, abc.ABC):
         if "_x509_obj" not in kwargs:
             try:
                 self._x509_obj = self._to_cryptography()
-            except MissingPrivateKey:
-                logger.trace(
-                    "Can't create crypto object before setting private key"
-                )
-            except MissingOcspCert:
-                logger.trace(
-                    "Can't create crypto object before setting ocsp cert"
-                )
+            except MissingInit:
+                logger.trace("Can't create crypto object before init")
 
     @classmethod
     @abc.abstractmethod
@@ -55,3 +51,15 @@ class CryptoParser(BaseModel, abc.ABC):
 
         Returns: A dict containing all the keys in the CryptoParser
         """
+
+
+class InitCryptoParser(CryptoParser, abc.ABC):
+    _init_func: str = "sign"
+
+    @property
+    def _crypto_object(self):
+        if not hasattr(self, "_x509_obj") or self._x509_obj is None:
+            init_func = f"{self.__name__}.{self._init_func}"
+            raise MissingInit(f"Please use the {init_func} first")
+
+        return self._x509_obj
