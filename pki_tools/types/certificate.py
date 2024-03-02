@@ -225,6 +225,11 @@ class Certificate(TbsCertificate, InitCryptoParser):
     def der_public_key(self) -> bytes:
         return _der_key(self.public_key)
 
+    @property
+    def sign_alg_oid_name(self) -> str:
+        name = self._crypto_object.signature_algorithm_oid._name.upper()
+        return name.replace("ENCRYPTION", "")
+
     def __str__(self) -> str:
         return yaml.safe_dump(
             self._string_dict(),
