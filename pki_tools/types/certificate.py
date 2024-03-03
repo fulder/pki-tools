@@ -261,18 +261,18 @@ class Certificate(TbsCertificate, InitCryptoParser):
         self,
         key_pair: CryptoKeyPair,
         signature_algorithm: SignatureAlgorithm,
-        public_key: Optional[CryptoKeyPair],
+        req_key: Optional[CryptoKeyPair] = None,
     ):
         self._private_key = key_pair
         self.serial_number = random.randint(1, 2**32 - 1)
         self.signature_algorithm = signature_algorithm
 
-        if public_key is not None:
+        if req_key is not None:
             self.subject_public_key_info = KeyPair(
-                algorithm=public_key.__class__.__name__,
-                parameters=public_key._string_dict(),
+                algorithm=req_key.__class__.__name__,
+                parameters=req_key._string_dict(),
             )
-            self.subject_public_key_info.create(public_key)
+            self.subject_public_key_info.create(req_key)
 
         self._x509_obj = self._to_cryptography()
 

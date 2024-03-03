@@ -456,12 +456,13 @@ class KeyPair(InitCryptoParser):
             parameters=key_pair._string_dict(),
             _x509_obj=key_pair._x509_obj,
         )
+        ret._x509_obj = key_pair._x509_obj
         ret._key_pair = key_pair
         return ret
 
     def create(self, key_pair: CryptoKeyPair):
         self._key_pair = key_pair
-        self._x509_obj = self._to_cryptography()
+        self._x509_obj = self._key_pair._to_cryptography()
 
     def _string_dict(self) -> Dict:
         params = {}
@@ -475,4 +476,4 @@ class KeyPair(InitCryptoParser):
         return {"Public Key Algorithm": self.algorithm, "Parameters": params}
 
     def _to_cryptography(self) -> CryptoObject:
-        return self._key_pair._to_cryptography()
+        return self._crypto_object
