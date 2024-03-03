@@ -19,7 +19,6 @@ from pydantic import ConfigDict
 
 from pki_tools.exceptions import InvalidKeyType
 from pki_tools.types.crypto_parser import (
-    CryptoParser,
     CryptoObject,
     InitCryptoParser,
 )
@@ -418,11 +417,13 @@ class Ed448KeyPair(CryptoKeyPair):
         }
 
 
-class KeyPair(CryptoParser):
+class KeyPair(InitCryptoParser):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     algorithm: str
     parameters: Dict[str, str]
+
+    _init_func = "create"
     _key_pair: CryptoKeyPair
 
     @classmethod
@@ -457,6 +458,10 @@ class KeyPair(CryptoParser):
         )
         ret._key_pair = key_pair
         return ret
+
+    def create(self, key_pair: CryptoKeyPair):
+        self._key_pair = key_pair
+        self._x509_obj = self._to_cryptography()
 
     def _string_dict(self) -> Dict:
         params = {}
