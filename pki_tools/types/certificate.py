@@ -192,7 +192,7 @@ class Certificate(TbsCertificate, InitCryptoParser):
     @property
     def public_key(self) -> bytes:
         return self._crypto_object.public_key().public_bytes(
-            serialization.Encoding.Raw,
+            serialization.Encoding.PEM,
             serialization.PublicFormat.SubjectPublicKeyInfo,
         )
 

@@ -62,6 +62,11 @@ def test_certificate_from_to_cryptography(crypto_cert, cert_pem_string):
     assert cert.digest() != ""
     assert cert.hex_serial != ""
     assert cert.sign_alg_oid_name == "SHA256WITHRSA"
+    assert "-----BEGIN PUBLIC KEY-----" in cert.public_key.decode()
+    assert cert.der_public_key != ""
+    assert cert.tbs_bytes != ""
+    assert "-----BEGIN CERTIFICATE-----" in cert.pem_bytes.decode()
+    assert "-----BEGIN CERTIFICATE-----" in cert.pem_string
 
 
 def test_certificate_from_pem_string_with_subject_directory_attributes(
