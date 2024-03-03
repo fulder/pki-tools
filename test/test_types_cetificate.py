@@ -99,3 +99,14 @@ def test_certificate_save_and_read_file(cert_pem_string):
 
 def test_certificate_to_cryptography(cert, key_pair):
     cert._to_cryptography()
+
+
+def test_certificate_sign_another_key(cert):
+    signing_key = RSAKeyPair.generate()
+    csr_key = RSAKeyPair.generate()
+
+    cert.sign(signing_key, cert.signature_algorithm, req_key=csr_key)
+
+    rel = cert.subject_public_key_info._key_pair._string_dict()
+    exp = csr_key._string_dict()
+    assert rel == exp

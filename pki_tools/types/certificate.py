@@ -258,11 +258,22 @@ class Certificate(TbsCertificate, InitCryptoParser):
             )
 
     def sign(
-        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
+        self,
+        key_pair: CryptoKeyPair,
+        signature_algorithm: SignatureAlgorithm,
+        req_key: Optional[CryptoKeyPair] = None,
     ):
         self._private_key = key_pair
         self.serial_number = random.randint(1, 2**32 - 1)
         self.signature_algorithm = signature_algorithm
+
+        if req_key is not None:
+            self.subject_public_key_info = KeyPair(
+                algorithm=req_key.__class__.__name__,
+                parameters=req_key._string_dict(),
+            )
+            self.subject_public_key_info.create(req_key)
+
         self._x509_obj = self._to_cryptography()
 
     def __str__(self) -> str:
@@ -288,6 +299,11 @@ class Certificate(TbsCertificate, InitCryptoParser):
         if not hasattr(crypto_key, "public_key"):
             raise MissingInit("Invalid key type, use private key")
 
+        public_key = crypto_key.public_key()
+        if self.subject_public_key_info is not None:
+            pub_key_pair = self.subject_public_key_info._key_pair
+            public_key = pub_key_pair._to_cryptography().public_key()
+
         cert_builder = (
             x509.CertificateBuilder()
             .subject_name(
@@ -299,9 +315,7 @@ class Certificate(TbsCertificate, InitCryptoParser):
             .serial_number(
                 x509.random_serial_number(),
             )
-            .public_key(
-                crypto_key.public_key(),
-            )
+            .public_key(public_key)
             .not_valid_before(
                 self.validity.not_before,
             )

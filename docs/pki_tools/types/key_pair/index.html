@@ -151,15 +151,17 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#see-also_6">See also</a>
     </li>
+    <li class="toctree-l4"><a class="reference internal" href="#keypaircreate">KeyPair().create</a>
+    </li>
     <li class="toctree-l4"><a class="reference internal" href="#keypairfrom_cryptography">KeyPair.from_cryptography</a>
     </li>
         </ul>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#rsakeypair">RSAKeyPair</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#signature_21">Signature</a>
+    <li class="toctree-l4"><a class="reference internal" href="#signature_22">Signature</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#see-also_7">See also</a>
+    <li class="toctree-l4"><a class="reference internal" href="#see-also_8">See also</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#rsakeypairfrom_cryptography">RSAKeyPair.from_cryptography</a>
     </li>
@@ -243,6 +245,7 @@
 </ul>
 </li>
 <li><a href="#keypair-1">KeyPair</a><ul>
+<li><a href="#keypair()create">KeyPair().create</a></li>
 <li><a href="#keypairfrom_cryptography">KeyPair.from_cryptography</a></li>
 </ul>
 </li>
@@ -253,7 +256,7 @@
 </li>
 </ul>
 <h2 id="cryptokeypair">CryptoKeyPair</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L29">Show source in key_pair.py:29</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L28">Show source in key_pair.py:28</a></p>
 <h4 id="signature">Signature</h4>
 <pre><code class="language-python">class CryptoKeyPair(InitCryptoParser): ...
 </code></pre>
@@ -262,13 +265,13 @@
 <li><a href="../crypto_parser/#initcryptoparser">InitCryptoParser</a></li>
 </ul>
 <h3 id="cryptokeypairder_public_key">CryptoKeyPair().der_public_key</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L37">Show source in key_pair.py:37</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L36">Show source in key_pair.py:36</a></p>
 <h4 id="signature_1">Signature</h4>
 <pre><code class="language-python">@property
 def der_public_key(self): ...
 </code></pre>
 <h3 id="cryptokeypairgenerate">CryptoKeyPair.generate</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L32">Show source in key_pair.py:32</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L31">Show source in key_pair.py:31</a></p>
 <h4 id="signature_2">Signature</h4>
 <pre><code class="language-python">@classmethod
 @abc.abstractmethod
@@ -279,29 +282,29 @@ def generate(cls, *args) -&gt; CryptoObject: ...
 <li><a href="../crypto_parser/#cryptoobject">CryptoObject</a></li>
 </ul>
 <h3 id="cryptokeypairpem_private_key">CryptoKeyPair().pem_private_key</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L52">Show source in key_pair.py:52</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L51">Show source in key_pair.py:51</a></p>
 <h4 id="signature_3">Signature</h4>
 <pre><code class="language-python">@property
 def pem_private_key(self) -&gt; bytes: ...
 </code></pre>
 <h3 id="cryptokeypairpem_public_key">CryptoKeyPair().pem_public_key</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L41">Show source in key_pair.py:41</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L40">Show source in key_pair.py:40</a></p>
 <h4 id="signature_4">Signature</h4>
 <pre><code class="language-python">@property
 def pem_public_key(self) -&gt; bytes: ...
 </code></pre>
 <h3 id="cryptokeypairprivate_key_to_file">CryptoKeyPair().private_key_to_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L68">Show source in key_pair.py:68</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L67">Show source in key_pair.py:67</a></p>
 <h4 id="signature_5">Signature</h4>
 <pre><code class="language-python">def private_key_to_file(self, file_path): ...
 </code></pre>
 <h3 id="cryptokeypairpublic_key_to_file">CryptoKeyPair().public_key_to_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L72">Show source in key_pair.py:72</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L71">Show source in key_pair.py:71</a></p>
 <h4 id="signature_6">Signature</h4>
 <pre><code class="language-python">def public_key_to_file(self, file_path): ...
 </code></pre>
 <h2 id="dsakeypair">DSAKeyPair</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L77">Show source in key_pair.py:77</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L76">Show source in key_pair.py:76</a></p>
 <h4 id="signature_7">Signature</h4>
 <pre><code class="language-python">class DSAKeyPair(CryptoKeyPair): ...
 </code></pre>
@@ -310,7 +313,7 @@ def pem_public_key(self) -&gt; bytes: ...
 <li><a href="#cryptokeypair">CryptoKeyPair</a></li>
 </ul>
 <h3 id="dsakeypairfrom_cryptography">DSAKeyPair.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L92">Show source in key_pair.py:92</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L91">Show source in key_pair.py:91</a></p>
 <h4 id="signature_8">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
@@ -318,13 +321,13 @@ def from_cryptography(
 ) -&gt; &quot;DSAKeyPair&quot;: ...
 </code></pre>
 <h3 id="dsakeypairgenerate">DSAKeyPair.generate</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L87">Show source in key_pair.py:87</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L86">Show source in key_pair.py:86</a></p>
 <h4 id="signature_9">Signature</h4>
 <pre><code class="language-python">@classmethod
 def generate(cls: Type[&quot;DSAKeyPair&quot;], key_size) -&gt; &quot;DSAKeyPair&quot;: ...
 </code></pre>
 <h2 id="ed25519keypair">Ed25519KeyPair</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L321">Show source in key_pair.py:321</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L320">Show source in key_pair.py:320</a></p>
 <h4 id="signature_10">Signature</h4>
 <pre><code class="language-python">class Ed25519KeyPair(CryptoKeyPair): ...
 </code></pre>
@@ -333,7 +336,7 @@ def generate(cls: Type[&quot;DSAKeyPair&quot;], key_size) -&gt; &quot;DSAKeyPair
 <li><a href="#cryptokeypair">CryptoKeyPair</a></li>
 </ul>
 <h3 id="ed25519keypairfrom_cryptography">Ed25519KeyPair.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L330">Show source in key_pair.py:330</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L329">Show source in key_pair.py:329</a></p>
 <h4 id="signature_11">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
@@ -342,13 +345,13 @@ def from_cryptography(
 ) -&gt; &quot;Ed25519KeyPair&quot;: ...
 </code></pre>
 <h3 id="ed25519keypairgenerate">Ed25519KeyPair.generate</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L325">Show source in key_pair.py:325</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L324">Show source in key_pair.py:324</a></p>
 <h4 id="signature_12">Signature</h4>
 <pre><code class="language-python">@classmethod
 def generate(cls: Type[&quot;Ed25519KeyPair&quot;]) -&gt; &quot;Ed25519KeyPair&quot;: ...
 </code></pre>
 <h2 id="ed448keypair">Ed448KeyPair</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L371">Show source in key_pair.py:371</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L370">Show source in key_pair.py:370</a></p>
 <h4 id="signature_13">Signature</h4>
 <pre><code class="language-python">class Ed448KeyPair(CryptoKeyPair): ...
 </code></pre>
@@ -357,7 +360,7 @@ def generate(cls: Type[&quot;Ed25519KeyPair&quot;]) -&gt; &quot;Ed25519KeyPair&q
 <li><a href="#cryptokeypair">CryptoKeyPair</a></li>
 </ul>
 <h3 id="ed448keypairfrom_cryptography">Ed448KeyPair.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L380">Show source in key_pair.py:380</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L379">Show source in key_pair.py:379</a></p>
 <h4 id="signature_14">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
@@ -365,13 +368,13 @@ def from_cryptography(
 ) -&gt; &quot;Ed448KeyPair&quot;: ...
 </code></pre>
 <h3 id="ed448keypairgenerate">Ed448KeyPair.generate</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L375">Show source in key_pair.py:375</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L374">Show source in key_pair.py:374</a></p>
 <h4 id="signature_15">Signature</h4>
 <pre><code class="language-python">@classmethod
 def generate(cls: Type[&quot;Ed448KeyPair&quot;]) -&gt; &quot;Ed448KeyPair&quot;: ...
 </code></pre>
 <h2 id="ellipticcurvekeypair">EllipticCurveKeyPair</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L245">Show source in key_pair.py:245</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L244">Show source in key_pair.py:244</a></p>
 <h4 id="signature_16">Signature</h4>
 <pre><code class="language-python">class EllipticCurveKeyPair(CryptoKeyPair): ...
 </code></pre>
@@ -380,7 +383,7 @@ def generate(cls: Type[&quot;Ed448KeyPair&quot;]) -&gt; &quot;Ed448KeyPair&quot;
 <li><a href="#cryptokeypair">CryptoKeyPair</a></li>
 </ul>
 <h3 id="ellipticcurvekeypairfrom_cryptography">EllipticCurveKeyPair.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L270">Show source in key_pair.py:270</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L269">Show source in key_pair.py:269</a></p>
 <h4 id="signature_17">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
@@ -389,7 +392,7 @@ def from_cryptography(
 ) -&gt; &quot;EllipticCurveKeyPair&quot;: ...
 </code></pre>
 <h3 id="ellipticcurvekeypairgenerate">EllipticCurveKeyPair.generate</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L253">Show source in key_pair.py:253</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L252">Show source in key_pair.py:252</a></p>
 <h4 id="signature_18">Signature</h4>
 <pre><code class="language-python">@classmethod
 def generate(
@@ -397,42 +400,51 @@ def generate(
 ) -&gt; &quot;EllipticCurveKeyPair&quot;: ...
 </code></pre>
 <h2 id="keypair_1">KeyPair</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L421">Show source in key_pair.py:421</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L420">Show source in key_pair.py:420</a></p>
 <h4 id="signature_19">Signature</h4>
-<pre><code class="language-python">class KeyPair(CryptoParser): ...
+<pre><code class="language-python">class KeyPair(InitCryptoParser): ...
 </code></pre>
 <h4 id="see-also_6">See also</h4>
 <ul>
-<li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
+<li><a href="../crypto_parser/#initcryptoparser">InitCryptoParser</a></li>
+</ul>
+<h3 id="keypaircreate">KeyPair().create</h3>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L463">Show source in key_pair.py:463</a></p>
+<h4 id="signature_20">Signature</h4>
+<pre><code class="language-python">def create(self, key_pair: CryptoKeyPair): ...
+</code></pre>
+<h4 id="see-also_7">See also</h4>
+<ul>
+<li><a href="#cryptokeypair">CryptoKeyPair</a></li>
 </ul>
 <h3 id="keypairfrom_cryptography">KeyPair.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L428">Show source in key_pair.py:428</a></p>
-<h4 id="signature_20">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L429">Show source in key_pair.py:429</a></p>
+<h4 id="signature_21">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
     cls, key: Union[CertificateIssuerPrivateKeyTypes, CertificateIssuerPublicKeyTypes]
 ): ...
 </code></pre>
 <h2 id="rsakeypair">RSAKeyPair</h2>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L146">Show source in key_pair.py:146</a></p>
-<h4 id="signature_21">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L145">Show source in key_pair.py:145</a></p>
+<h4 id="signature_22">Signature</h4>
 <pre><code class="language-python">class RSAKeyPair(CryptoKeyPair): ...
 </code></pre>
-<h4 id="see-also_7">See also</h4>
+<h4 id="see-also_8">See also</h4>
 <ul>
 <li><a href="#cryptokeypair">CryptoKeyPair</a></li>
 </ul>
 <h3 id="rsakeypairfrom_cryptography">RSAKeyPair.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L169">Show source in key_pair.py:169</a></p>
-<h4 id="signature_22">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L168">Show source in key_pair.py:168</a></p>
+<h4 id="signature_23">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
     cls: Type[&quot;RSAKeyPair&quot;], key: Union[rsa.RSAPrivateKey, rsa.RSAPublicKey]
 ) -&gt; &quot;RSAKeyPair&quot;: ...
 </code></pre>
 <h3 id="rsakeypairgenerate">RSAKeyPair.generate</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L159">Show source in key_pair.py:159</a></p>
-<h4 id="signature_23">Signature</h4>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/key_pair.py#L158">Show source in key_pair.py:158</a></p>
+<h4 id="signature_24">Signature</h4>
 <pre><code class="language-python">@classmethod
 def generate(cls: Type[&quot;RSAKeyPair&quot;], key_size=2048, exponent=65537) -&gt; &quot;RSAKeyPair&quot;: ...
 </code></pre>

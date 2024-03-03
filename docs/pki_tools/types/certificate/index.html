@@ -292,7 +292,12 @@ def public_key(self) -&gt; bytes: ...
 <h3 id="certificatesign">Certificate().sign</h3>
 <p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/certificate.py#L260">Show source in certificate.py:260</a></p>
 <h4 id="signature_10">Signature</h4>
-<pre><code class="language-python">def sign(self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm): ...
+<pre><code class="language-python">def sign(
+    self,
+    key_pair: CryptoKeyPair,
+    signature_algorithm: SignatureAlgorithm,
+    req_key: Optional[CryptoKeyPair] = None,
+): ...
 </code></pre>
 <h4 id="see-also_2">See also</h4>
 <ul>
