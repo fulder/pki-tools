@@ -31,7 +31,7 @@ pytz = "^2024.1"
 optional = true
 
 [tool.poetry.group.test.dependencies]
-pytest = "^8.0.2"
+pytest = "^8.1.0"
 pytest-mock = "^3.12.0"
 pytest-cov = "^4.0.0"
 
@@ -39,10 +39,10 @@ pytest-cov = "^4.0.0"
 optional = true
 
 [tool.poetry.group.lint.dependencies]
-ruff = ">=0.0.289,<0.2.3"
+ruff = ">=0.0.289,<0.3.1"
 
 [tool.poetry.group.dev.dependencies]
-mkdocs-material = "^9.5.11"
+mkdocs-material = "^9.5.12"
 handsdown = "^2.1.0"
 
 [tool.poetry.group.apitest.dependencies]
