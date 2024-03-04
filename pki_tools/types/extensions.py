@@ -820,6 +820,7 @@ class DistributionPoint(CryptoParser):
             reasons = []
             for reason in self.reasons:
                 reasons.append(getattr(x509.ReasonFlags, reason.name))
+            reasons = frozenset(reasons)
 
         crl_issuers = None
         if self.crl_issuer is not None:
@@ -830,7 +831,7 @@ class DistributionPoint(CryptoParser):
         return x509.DistributionPoint(
             full_name=full_names,
             relative_name=relative_names,
-            reasons=frozenset(reasons),
+            reasons=reasons,
             crl_issuer=crl_issuers,
         )
 
