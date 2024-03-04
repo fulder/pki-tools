@@ -23,7 +23,7 @@ class RevokedCertificate(CryptoParser):
         cls: Type["RevokedCertificate"], crypto_obj: x509.RevokedCertificate
     ) -> "RevokedCertificate":
         extensions = None
-        if crypto_obj.extensions is not None:
+        if crypto_obj.extensions:
             extensions = Extensions.from_cryptography(crypto_obj.extensions)
 
         ret = cls(
