@@ -93,7 +93,7 @@
         <ul>
     <li class="toctree-l4"><a class="reference internal" href="#signature_8">Signature</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#see-also_2">See also</a>
+    <li class="toctree-l4"><a class="reference internal" href="#see-also_3">See also</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#revokedcertificatefrom_cryptography">RevokedCertificate.from_cryptography</a>
     </li>
@@ -180,19 +180,19 @@
 <li><a href="../crypto_parser/#initcryptoparser">InitCryptoParser</a></li>
 </ul>
 <h3 id="certificaterevocationlistder_bytes">CertificateRevocationList().der_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L106">Show source in crl.py:106</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L100">Show source in crl.py:100</a></p>
 <h4 id="signature_1">Signature</h4>
 <pre><code class="language-python">@property
 def der_bytes(self) -&gt; bytes: ...
 </code></pre>
 <h3 id="certificaterevocationlistfrom_bytes">CertificateRevocationList.from_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L86">Show source in crl.py:86</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L80">Show source in crl.py:80</a></p>
 <h4 id="signature_2">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_bytes(cls, data: bytes): ...
 </code></pre>
 <h3 id="certificaterevocationlistfrom_cryptography">CertificateRevocationList.from_cryptography</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L68">Show source in crl.py:68</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L67">Show source in crl.py:67</a></p>
 <h4 id="signature_3">Signature</h4>
 <pre><code class="language-python">@classmethod
 def from_cryptography(
@@ -200,28 +200,32 @@ def from_cryptography(
 ) -&gt; &quot;CertificateRevocationList&quot;: ...
 </code></pre>
 <h3 id="certificaterevocationlistget_revoked">CertificateRevocationList().get_revoked</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L115">Show source in crl.py:115</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L109">Show source in crl.py:109</a></p>
 <h4 id="signature_4">Signature</h4>
-<pre><code class="language-python">def get_revoked(self, cert_serial: int): ...
+<pre><code class="language-python">def get_revoked(self, cert_serial: int) -&gt; Optional[RevokedCertificate]: ...
 </code></pre>
+<h4 id="see-also_1">See also</h4>
+<ul>
+<li><a href="#revokedcertificate">RevokedCertificate</a></li>
+</ul>
 <h3 id="certificaterevocationlistsign">CertificateRevocationList().sign</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L110">Show source in crl.py:110</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L104">Show source in crl.py:104</a></p>
 <h4 id="signature_5">Signature</h4>
 <pre><code class="language-python">def sign(self, private_key: CryptoKeyPair, algorithm: HashAlgorithm): ...
 </code></pre>
-<h4 id="see-also_1">See also</h4>
+<h4 id="see-also_2">See also</h4>
 <ul>
 <li><a href="../key_pair/#cryptokeypair">CryptoKeyPair</a></li>
 <li><a href="../signature_algorithm/#hashalgorithm">HashAlgorithm</a></li>
 </ul>
 <h3 id="certificaterevocationlisttbs_bytes">CertificateRevocationList().tbs_bytes</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L102">Show source in crl.py:102</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L96">Show source in crl.py:96</a></p>
 <h4 id="signature_6">Signature</h4>
 <pre><code class="language-python">@property
 def tbs_bytes(self) -&gt; bytes: ...
 </code></pre>
 <h3 id="certificaterevocationlistto_file">CertificateRevocationList().to_file</h3>
-<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L121">Show source in crl.py:121</a></p>
+<p><a href="https://github.com/fulder/pki-tools/blob/main/pki_tools/types/crl.py#L119">Show source in crl.py:119</a></p>
 <h4 id="signature_7">Signature</h4>
 <pre><code class="language-python">def to_file(self, file_path): ...
 </code></pre>
@@ -230,7 +234,7 @@ def tbs_bytes(self) -&gt; bytes: ...
 <h4 id="signature_8">Signature</h4>
 <pre><code class="language-python">class RevokedCertificate(CryptoParser): ...
 </code></pre>
-<h4 id="see-also_2">See also</h4>
+<h4 id="see-also_3">See also</h4>
 <ul>
 <li><a href="../crypto_parser/#cryptoparser">CryptoParser</a></li>
 </ul>
