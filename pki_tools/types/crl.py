@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Type, List, Optional, Dict
+from typing import Type, Optional, Dict
 
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
@@ -63,20 +63,14 @@ class CertificateRevocationList(InitCryptoParser):
     issuer: Name
     last_update: datetime
     next_update: datetime
-    revoked_certs: List[RevokedCertificate]
 
     @classmethod
     def from_cryptography(
         cls: Type["CertificateRevocationList"],
         crypto_crl: x509.CertificateRevocationList,
     ) -> "CertificateRevocationList":
-        revoked_certs = []
-        for cert in crypto_crl:
-            revoked_certs.append(RevokedCertificate.from_cryptography(cert))
-
         ret = cls(
             issuer=Name.from_cryptography(crypto_crl.issuer),
-            revoked_certs=revoked_certs,
             last_update=crypto_crl.last_update,
             next_update=crypto_crl.next_update,
         )
@@ -112,10 +106,14 @@ class CertificateRevocationList(InitCryptoParser):
         self._algorithm = algorithm
         self._x509_obj = self._to_cryptography()
 
-    def get_revoked(self, cert_serial: int):
-        for cert in self.revoked_certs:
-            if cert.serial == cert_serial:
-                return cert
+    def get_revoked(self, cert_serial: int) -> Optional[RevokedCertificate]:
+        crypto_revoked = (
+            self._crypto_object.get_revoked_certificate_by_serial_number(
+                cert_serial
+            )
+        )
+        if crypto_revoked is not None:
+            return RevokedCertificate.from_cryptography(crypto_revoked)
         return None
 
     def to_file(self, file_path):
