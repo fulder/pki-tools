@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Type, Optional, Dict
+from typing import Type, Optional, Dict, List
 
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
@@ -64,7 +64,7 @@ class CertificateRevocationList(InitCryptoParser):
     last_update: datetime
     next_update: datetime
 
-    revoked_certs: Optional[list[RevokedCertificate]] = None
+    revoked_certs: Optional[List[RevokedCertificate]] = None
 
     @classmethod
     def from_cryptography(
