@@ -64,6 +64,8 @@ class CertificateRevocationList(InitCryptoParser):
     last_update: datetime
     next_update: datetime
 
+    revoked_certs: Optional[list[RevokedCertificate]] = None
+
     @classmethod
     def from_cryptography(
         cls: Type["CertificateRevocationList"],
