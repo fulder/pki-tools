@@ -141,5 +141,5 @@ class Certificates(CryptoParser):
     def _string_dict(self):
         certs = {"Certificates": []}
         for cert in self.certificates:
-            certs["Certificates"].append(cert._to_string_dict())
+            certs["Certificates"].append(cert._string_dict())
         return certs
