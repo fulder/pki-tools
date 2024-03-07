@@ -1,0 +1,38 @@
+site_name: "PKI Tools"
+
+theme:
+  name: "readthedocs"
+
+repo_name: fulder/pki-tools
+repo_url: https://github.com/fulder/pki-tools
+
+nav:
+  - Home: index.md
+  - Reference:
+      - Certificate: refs/certificate.md
+      - CRL: refs/crl.md
+      - Name: refs/name.md
+
+plugins:
+  - search
+  - autorefs
+  - mkdocstrings:
+      enabled: true
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_root_heading: true
+            show_source: false
+            annotations_path: brief
+            separate_signature: true
+            show_signature_annotations: true
+            signature_crossrefs: true
+            heading_level: 4
+
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+      title: Page contents
