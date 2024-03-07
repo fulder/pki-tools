@@ -1,6 +1,6 @@
 import pytest
 
-
+from pki_tools import Certificate, Chain, Certificates
 from pki_tools.exceptions import (
     CrlFetchFailure,
     CrlLoadError,
