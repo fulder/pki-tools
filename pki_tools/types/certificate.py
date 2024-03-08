@@ -265,7 +265,7 @@ class Certificate(InitCryptoParser):
         )
         return base64.urlsafe_b64encode(fingerprint).decode("ascii")
 
-    def to_file(self, file_path: sr) -> None:
+    def to_file(self, file_path: str) -> None:
         """
         Saves the certificate PEM string to the specified file,
         creating it if it doesn't exist.

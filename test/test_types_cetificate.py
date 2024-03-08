@@ -49,12 +49,12 @@ def test_certificate_from_to_cryptography(crypto_cert, cert_pem_string):
     dict1 = cert._string_dict()
     dict2 = Certificate.from_cryptography(created_crypto_cert)._string_dict()
 
-    del dict1["Certificate"]["Signature Value"]
-    del dict2["Certificate"]["Signature Value"]
+    del dict1["Signature Value"]
+    del dict2["Signature Value"]
     remove_ext = ["Serial Number", "Validity", "Subject Public Key Info"]
     for ext in remove_ext:
-        del dict1["Certificate"]["TbsCertificate"][ext]
-        del dict2["Certificate"]["TbsCertificate"][ext]
+        del dict1[ext]
+        del dict2[ext]
 
     assert dict1 == dict2
 

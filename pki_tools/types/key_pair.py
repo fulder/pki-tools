@@ -41,6 +41,7 @@ class CryptoKeyPair(InitCryptoParser):
         Returns:
             The generated cryptographic key pair.
         """
+        raise NotImplementedError
 
     @property
     def der_public_key(self) -> bytes:
