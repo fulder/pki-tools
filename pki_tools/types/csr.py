@@ -19,6 +19,17 @@ from pki_tools.types.utils import _byte_to_hex
 
 
 class CertificateSigningRequest(InitCryptoParser):
+    """
+    Represents a certificate signing request (CSR).
+
+    Attributes:
+        subject: The subject of the CSR.
+        public_key: Public key associated with the CSR.
+        extensions: Extensions associated with the CSR.
+        attributes: Attributes of the CSR.
+        signature_algorithm: Signature algorithm used while signing the CSR.
+    """
+
     subject: Name
 
     public_key: Optional[KeyPair] = None
@@ -33,6 +44,16 @@ class CertificateSigningRequest(InitCryptoParser):
         cls: Type["CertificateSigningRequest"],
         crypto_csr: x509.CertificateSigningRequest,
     ) -> "CertificateSigningRequest":
+        """
+        Create a CertificateSigningRequest object from a cryptography
+        CertificateSigningRequest.
+
+        Args:
+            crypto_csr: Cryptography CertificateSigningRequest.
+
+        Returns:
+            Instance of CertificateSigningRequest.
+        """
         attributes = {}
         for att in crypto_csr.attributes:
             attributes[att.oid.dotted_string] = att.value
@@ -54,21 +75,19 @@ class CertificateSigningRequest(InitCryptoParser):
 
     @classmethod
     def from_pem_string(
-        cls: Type["CertificateSigningRequest"], csr_pem
+        cls: Type["CertificateSigningRequest"], csr_pem: str
     ) -> "CertificateSigningRequest":
         """
-        Loads a CSR from a PEM string into a
-        [CertificateSigningRequest](https://pki-tools.fulder.dev/pki_tools/types/#certificatesigningrequest)
-        object
+        Load a CSR from a PEM string into a CertificateSigningRequest object.
 
-        Arguments:
-            csr_pem -- The PEM encoded CSR in string format
+        Args:
+            csr_pem: PEM encoded CSR in string format.
+
         Returns:
-            A
-            [CertificateSigningRequest](https://pki-tools.fulder.dev/pki_tools/types/#certificatesigningrequest)
-            created from the PEM
+            Instance of CertificateSigningRequest.
+
         Raises:
-             exceptions.CsrLoadError - If the CSR could not be loaded
+            CsrLoadError: If the CSR could not be loaded.
         """
         try:
             csr_pem = re.sub(r"\n\s*", "\n", csr_pem)
@@ -86,18 +105,16 @@ class CertificateSigningRequest(InitCryptoParser):
         cls: Type["CertificateSigningRequest"], file_path: str
     ) -> "CertificateSigningRequest":
         """
-        Reads a file containing one PEM CSR into a
-        [CertificateSigningRequest](https://pki-tools.fulder.dev/pki_tools/types/#certificatesigningrequest)
-        object
+        Read a file containing a PEM CSR into a CertificateSigningRequest
+        object.
 
-        Arguments:
-            file_path -- Path and filename of the PEM CSR
+        Args:
+            file_path: Path and filename of the PEM CSR.
+
         Returns:
-             The
-             [CertificateSigningRequest](https://pki-tools.fulder.dev/pki_tools/types/#certificatesigningrequest)
-             representing the CSR loaded from file
+            Instance of CertificateSigningRequest representing the CSR loaded
+            from file.
         """
-
         with open(file_path, "r") as f:
             csr_pem = f.read()
 
@@ -105,21 +122,59 @@ class CertificateSigningRequest(InitCryptoParser):
 
     @property
     def tbs_bytes(self) -> bytes:
+        """
+        Get the bytes to be signed of the CSR.
+
+        Returns:
+            TBS bytes of the CSR.
+        """
         return self._crypto_object.tbs_certrequest_bytes
 
     @property
-    def pem_bytes(self):
+    def pem_bytes(self) -> bytes:
+        """
+        Get the PEM bytes of the CSR.
+
+        Returns:
+            PEM bytes of the CSR.
+        """
         return self._crypto_object.public_bytes(
             encoding=serialization.Encoding.PEM
         )
 
     @property
-    def pem_string(self):
+    def pem_string(self) -> str:
+        """
+        Get the PEM string representation of the CSR.
+
+        Returns:
+            PEM string of the CSR.
+        """
         return self.pem_bytes.decode()
 
-    def to_file(self, file_path):
+    def to_file(self, file_path: str) -> None:
+        """
+        Save the CSR to a file.
+
+        Args:
+            file_path: Path to save the file.
+        """
         with open(file_path, "w") as f:
             f.write(self.pem_string)
+
+    def sign(
+        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
+    ):
+        """
+        Sign the CSR with the provided key pair and signature algorithm.
+
+        Args:
+            key_pair: Key pair with the private key to use while signing the CSR
+            signature_algorithm: Signature algorithm to use for signing.
+        """
+        self._private_key = key_pair
+        self.signature_algorithm = signature_algorithm
+        self._x509_obj = self._to_cryptography()
 
     def _string_dict(self):
         ret = {
@@ -143,13 +198,6 @@ class CertificateSigningRequest(InitCryptoParser):
 
             ret["Certificate Signing Request"]["Attributes"] = attributes
         return ret
-
-    def sign(
-        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
-    ):
-        self._private_key = key_pair
-        self.signature_algorithm = signature_algorithm
-        self._x509_obj = self._to_cryptography()
 
     def _to_cryptography(self) -> x509.CertificateSigningRequest:
         if not hasattr(self, "_private_key"):

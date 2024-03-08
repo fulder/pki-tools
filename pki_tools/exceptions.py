@@ -37,6 +37,9 @@ class CrlLoadError(Error):
 
 
 class CsrLoadError(Error):
+    """
+    CsrLoadError
+    """
     pass
 
 
