@@ -26,4 +26,4 @@ jobs:
         run: poetry run mkdocs build
 
       - name: Deploy to gh-pages
-        run: poetry run mkdocs gh-deploy --force
+        run: poetry run mkdocs gh-deploy --force --config-file ./mkdocs.yml
