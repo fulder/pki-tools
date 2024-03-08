@@ -1,7 +1,7 @@
 import base64
 import random
 import re
-from typing import Optional
+from typing import Optional, Dict
 import datetime
 
 import yaml
@@ -59,7 +59,7 @@ class Validity(BaseModel):
     not_before: datetime.datetime
     not_after: datetime.datetime
 
-    def _string_dict(self) -> dict[str, str]:
+    def _string_dict(self) -> Dict[str, str]:
         return {
             "Not Before": str(self.not_before),
             "Not After": str(self.not_after),
