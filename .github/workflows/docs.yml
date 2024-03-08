@@ -1,0 +1,27 @@
+name: Deploy docs
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install --with dev
+
+      - name: Build site
+        run: mkdocs build
+
+      - name: Deploy to gh-pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: mkdocs gh-deploy --force
