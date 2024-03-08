@@ -79,7 +79,9 @@ class Certificates(CryptoParser):
         return cls.from_cryptography(crypto_certs)
 
     @classmethod
-    def from_pem_string(cls: Type["Certificates"], pem_string: str) -> "Certificates":
+    def from_pem_string(
+        cls: Type["Certificates"], pem_string: str
+    ) -> "Certificates":
         """
         Create a Certificates object from a PEM string.
 
@@ -118,7 +120,9 @@ class Certificates(CryptoParser):
 
     @classmethod
     @lru_cache(maxsize=None)
-    def _from_uri(cls: Type["Certificates"], uri: str, ttl=None) -> "Certificates":
+    def _from_uri(
+        cls: Type["Certificates"], uri: str, ttl=None
+    ) -> "Certificates":
         ret = HTTPX_CLIENT.get(uri)
 
         if ret.status_code != 200:
@@ -168,4 +172,3 @@ class Certificates(CryptoParser):
         for cert in self.certificates:
             certs["Certificates"].append(cert._to_string_dict())
         return certs
-

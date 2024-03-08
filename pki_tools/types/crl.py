@@ -101,7 +101,8 @@ class CertificateRevocationList(InitCryptoParser):
         crypto_crl: x509.CertificateRevocationList,
     ) -> "CertificateRevocationList":
         """
-        Create a CertificateRevocationList object from a cryptography CertificateRevocationList.
+        Create a CertificateRevocationList object from a cryptography
+        CertificateRevocationList.
 
         Args:
             crypto_crl: Cryptography CertificateRevocationList.
@@ -118,7 +119,9 @@ class CertificateRevocationList(InitCryptoParser):
         return ret
 
     @classmethod
-    def from_bytes(cls: Type["CertificateRevocationList"], data: bytes) -> "CertificateRevocationList":
+    def from_bytes(
+        cls: Type["CertificateRevocationList"], data: bytes
+    ) -> "CertificateRevocationList":
         """
         Load a CertificateRevocationList object from bytes data.
 
@@ -165,7 +168,9 @@ class CertificateRevocationList(InitCryptoParser):
         """
         return self._crypto_object.public_bytes(serialization.Encoding.DER)
 
-    def sign(self, private_key: CryptoKeyPair, algorithm: HashAlgorithm) -> None:
+    def sign(
+        self, private_key: CryptoKeyPair, algorithm: HashAlgorithm
+    ) -> None:
         """
         Sign the CRL with the provided private key and algorithm.
 

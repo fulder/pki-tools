@@ -10,6 +10,7 @@ class CertLoadError(Error):
     """
     Thrown when the cert could not be loaded e.g. due to invalid PEM format
     """
+
     pass
 
 
@@ -33,6 +34,7 @@ class CrlLoadError(Error):
     """
     Thrown when CRL could not be loaded due to e.g. invalid format
     """
+
     pass
 
 
@@ -40,6 +42,7 @@ class CsrLoadError(Error):
     """
     CsrLoadError
     """
+
     pass
 
 
@@ -51,6 +54,7 @@ class CertIssuerMissingInChain(Error):
     """
     CertIssuerMissingInChain
     """
+
     pass
 
 
@@ -58,6 +62,7 @@ class NotCompleteChain(Error):
     """
     NotCompleteChain
     """
+
     pass
 
 
@@ -65,6 +70,7 @@ class CertExpired(Error):
     """
     CertExpired
     """
+
     pass
 
 
@@ -72,6 +78,7 @@ class SignatureVerificationFailed(Error):
     """
     SignatureVerificationFailed
     """
+
     pass
 
 
@@ -79,6 +86,7 @@ class InvalidSignedType(Error):
     """
     InvalidSignedType
     """
+
     pass
 
 
@@ -88,6 +96,7 @@ class MissingInit(Error):
     [InitCryptoParser][pki_tools.types.crypto_parser.InitCryptoParser]
     has not been initialized.
     """
+
     pass
 
 

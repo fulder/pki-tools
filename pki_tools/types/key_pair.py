@@ -204,6 +204,7 @@ class DSAKeyPair(CryptoKeyPair):
             "generator_g": self.g,
         }
 
+
 class RSAKeyPair(CryptoKeyPair):
     """
     Represents an RSA cryptographic key pair.
@@ -223,7 +224,7 @@ class RSAKeyPair(CryptoKeyPair):
 
     @classmethod
     def generate(
-        cls: Type["RSAKeyPair"], key_size: int=2048, exponent: int=65537
+        cls: Type["RSAKeyPair"], key_size: int = 2048, exponent: int = 65537
     ) -> "RSAKeyPair":
         """
         Generate an RSA cryptographic key pair.
@@ -320,9 +321,11 @@ class RSAKeyPair(CryptoKeyPair):
             "iqmp": str(self.iqmp),
         }
 
+
 EC_MODULE = importlib.import_module(
     "cryptography.hazmat.primitives.asymmetric.ec"
 )
+
 
 class EllipticCurveKeyPair(CryptoKeyPair):
     """

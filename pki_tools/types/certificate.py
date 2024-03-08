@@ -4,7 +4,6 @@ import re
 from typing import Optional
 import datetime
 
-import cryptography
 import yaml
 
 from cryptography.hazmat.primitives import serialization
@@ -79,9 +78,11 @@ class Certificate(InitCryptoParser):
         extensions: Certificate (v3) extensions
         serial_number: Serial number
         version: The version of the certificate
-        signature_algorithm: Describes the algorithm used to sign the certificate
+        signature_algorithm: Describes the algorithm used to sign the
+            certificate
         subject_public_key_info: The public key information
     """
+
     issuer: Name
     validity: Validity
     subject: Name
@@ -104,7 +105,8 @@ class Certificate(InitCryptoParser):
         cert: x509.Certificate,
     ) -> "Certificate":
         """
-        Create a Certificate object from a [cryptography.x509.Certificate][] object.
+        Create a Certificate object from a [cryptography.x509.Certificate][]
+        object.
 
         Args:
             cert: The [cryptography.x509.Certificate][] object.
@@ -137,20 +139,22 @@ class Certificate(InitCryptoParser):
         return ret
 
     @classmethod
-    def from_pem_string(cls: Type["Certificate"], cert_pem: str) -> "Certificate":
+    def from_pem_string(
+        cls: Type["Certificate"], cert_pem: str
+    ) -> "Certificate":
         """
-            Loads a certificate from a PEM string into a
-            [Certificate][pki_tools.types.certificate.Certificate]
-            object
+        Loads a certificate from a PEM string into a
+        [Certificate][pki_tools.types.certificate.Certificate]
+        object
 
-            Arguments:
-                cert_pem: The PEM encoded certificate in string format
+        Arguments:
+            cert_pem: The PEM encoded certificate in string format
 
-            Returns:
-                A Certificate created from the PEM
+        Returns:
+            A Certificate created from the PEM
 
-            Raises:
-                CertLoadError: If the certificate could not be loaded
+        Raises:
+            CertLoadError: If the certificate could not be loaded
         """
         try:
             cert_pem = re.sub(r"\n\s*", "\n", cert_pem)
@@ -324,8 +328,8 @@ class Certificate(InitCryptoParser):
         [CryptoKeyPair][pki_tools.types.key_pair.CryptoKeyPair]
 
         Args:
-            key_pair: Keypair containing the private key to sing the certificate
-                with
+            key_pair: Keypair containing the private key to sing the
+                certificate with
             signature_algorithm: Algorithm to use for the signature
             req_key: Can be used to sign another public key, defaults to the
                 public key part in `key_pair`
@@ -401,7 +405,6 @@ class Certificate(InitCryptoParser):
         cert = cert_builder.sign(crypto_key, alg)
 
         return cert
-
 
     def _string_dict(self):
         subject_key_info = self.subject_public_key_info._string_dict()

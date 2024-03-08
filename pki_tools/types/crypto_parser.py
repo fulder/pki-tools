@@ -18,6 +18,7 @@ class CryptoParser(BaseModel, abc.ABC):
     parsing cryptography objects into [pki_tools][pki_tools.types.certificate]
     pydantic classes.
     """
+
     _x509_obj: CryptoObject
 
     def __init__(self, **kwargs):
@@ -74,6 +75,7 @@ class InitCryptoParser(CryptoParser, abc.ABC):
     sign (init) function first will result in a
     [MissingInit][pki_tools.exceptions.MissingInit] exception.
     """
+
     _init_func: str = "sign"
 
     @property

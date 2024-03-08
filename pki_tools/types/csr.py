@@ -169,7 +169,8 @@ class CertificateSigningRequest(InitCryptoParser):
         Sign the CSR with the provided key pair and signature algorithm.
 
         Args:
-            key_pair: Key pair with the private key to use while signing the CSR
+            key_pair: Key pair with the private key to use while signing the
+                CSR
             signature_algorithm: Signature algorithm to use for signing.
         """
         self._private_key = key_pair
