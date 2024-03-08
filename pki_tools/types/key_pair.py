@@ -34,7 +34,7 @@ class CryptoKeyPair(InitCryptoParser):
 
     @classmethod
     @abc.abstractmethod
-    def generate(cls: Type["CryptoKeyPair"], *args) -> Type["CryptoKeyPair"]:
+    def generate(cls: Type["CryptoKeyPair"], *args) -> "CryptoKeyPair":
         """
         Abstract method to generate a cryptographic key pair.
 
@@ -583,7 +583,7 @@ class KeyPair(InitCryptoParser):
         key: Union[
             CertificateIssuerPrivateKeyTypes, CertificateIssuerPublicKeyTypes
         ],
-    ) -> Type["KeyPair"]:
+    ) -> "KeyPair":
         """
         Create a KeyPair from a cryptography key.
 

@@ -45,7 +45,7 @@ class Certificates(CryptoParser):
     @classmethod
     def from_cryptography(
         cls: Type["Certificates"], crypto_certs: List[x509.Certificate]
-    ) -> Type["Certificates"]:
+    ) -> "Certificates":
         """
         Create a Certificates object from a list of cryptography certificates.
 
@@ -61,7 +61,7 @@ class Certificates(CryptoParser):
         return cls(certificates=certificates, _x509_obj=crypto_certs)
 
     @classmethod
-    def from_file(cls: Type["Certificates"], file_path: str) -> Type["Certificates"]:
+    def from_file(cls: Type["Certificates"], file_path: str) -> "Certificates":
         """
         Reads a file containing one or more PEM certificate(s) into a
         Certificates object.
@@ -79,7 +79,7 @@ class Certificates(CryptoParser):
         return cls.from_cryptography(crypto_certs)
 
     @classmethod
-    def from_pem_string(cls: Type["Certificates"], pem_string: str) -> Type["Certificates"]:
+    def from_pem_string(cls: Type["Certificates"], pem_string: str) -> "Certificates":
         """
         Create a Certificates object from a PEM string.
 
@@ -98,7 +98,7 @@ class Certificates(CryptoParser):
         cls: Type["Certificates"],
         uri: str,
         cache_time_seconds: int = CACHE_TIME_SECONDS,
-    ) -> Type["Certificates"]:
+    ) -> "Certificates":
         """
         Loads Certificates from a URI.
 
@@ -118,7 +118,7 @@ class Certificates(CryptoParser):
 
     @classmethod
     @lru_cache(maxsize=None)
-    def _from_uri(cls: Type["Certificates"], uri: str, ttl=None) -> Type["Certificates"]:
+    def _from_uri(cls: Type["Certificates"], uri: str, ttl=None) -> "Certificates":
         ret = HTTPX_CLIENT.get(uri)
 
         if ret.status_code != 200:

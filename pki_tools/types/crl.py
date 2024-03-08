@@ -14,6 +14,15 @@ from pki_tools.types.signature_algorithm import HashAlgorithm
 
 
 class RevokedCertificate(CryptoParser):
+    """
+    Represents a revoked certificate.
+
+    Attributes:
+        serial: The serial number of the certificate.
+        date: The revocation date of the certificate.
+        extensions: Extensions associated with the certificate.
+    """
+
     serial: int
     date: datetime
     extensions: Optional[Extensions] = None
@@ -22,6 +31,16 @@ class RevokedCertificate(CryptoParser):
     def from_cryptography(
         cls: Type["RevokedCertificate"], crypto_obj: x509.RevokedCertificate
     ) -> "RevokedCertificate":
+        """
+        Create a RevokedCertificate object from a cryptography
+        RevokedCertificate.
+
+        Args:
+            crypto_obj: Cryptography RevokedCertificate.
+
+        Returns:
+            RevokedCertificate: Instance of RevokedCertificate.
+        """
         extensions = None
         if crypto_obj.extensions:
             extensions = Extensions.from_cryptography(crypto_obj.extensions)
@@ -60,6 +79,16 @@ class RevokedCertificate(CryptoParser):
 
 
 class CertificateRevocationList(InitCryptoParser):
+    """
+    Represents a certificate revocation list (CRL).
+
+    Attributes:
+        issuer: The name of the issuer.
+        last_update: The last update time of the CRL.
+        next_update: The next update time of the CRL.
+        revoked_certs: List of revoked certificates.
+    """
+
     issuer: Name
     last_update: datetime
     next_update: datetime
@@ -71,6 +100,15 @@ class CertificateRevocationList(InitCryptoParser):
         cls: Type["CertificateRevocationList"],
         crypto_crl: x509.CertificateRevocationList,
     ) -> "CertificateRevocationList":
+        """
+        Create a CertificateRevocationList object from a cryptography CertificateRevocationList.
+
+        Args:
+            crypto_crl: Cryptography CertificateRevocationList.
+
+        Returns:
+            Instance of CertificateRevocationList.
+        """
         ret = cls(
             issuer=Name.from_cryptography(crypto_crl.issuer),
             last_update=crypto_crl.last_update,
@@ -80,7 +118,19 @@ class CertificateRevocationList(InitCryptoParser):
         return ret
 
     @classmethod
-    def from_bytes(cls, data: bytes):
+    def from_bytes(cls: Type["CertificateRevocationList"], data: bytes) -> "CertificateRevocationList":
+        """
+        Load a CertificateRevocationList object from bytes data.
+
+        Args:
+            data: Bytes data in DER or PEM format containing the CRL.
+
+        Raises:
+            CrlLoadError: If loading of CRL fails.
+
+        Returns:
+            Instance of CertificateRevocationList.
+        """
         try:
             crypto_crl = x509.load_der_x509_crl(data)
             return CertificateRevocationList.from_cryptography(crypto_crl)
@@ -97,18 +147,47 @@ class CertificateRevocationList(InitCryptoParser):
 
     @property
     def tbs_bytes(self) -> bytes:
+        """
+        Return the bytes to be signed of the CRL.
+
+        Returns:
+            TBS bytes of the CRL.
+        """
         return self._crypto_object.tbs_certlist_bytes
 
     @property
     def der_bytes(self) -> bytes:
+        """
+        Return the DER bytes of the CRL.
+
+        Returns:
+            DER bytes of the CRL.
+        """
         return self._crypto_object.public_bytes(serialization.Encoding.DER)
 
-    def sign(self, private_key: CryptoKeyPair, algorithm: HashAlgorithm):
+    def sign(self, private_key: CryptoKeyPair, algorithm: HashAlgorithm) -> None:
+        """
+        Sign the CRL with the provided private key and algorithm.
+
+        Args:
+            private_key: Key pair containing the private key used to
+                sign the CRL.
+            algorithm: Hash algorithm to use for signing.
+        """
         self._private_key = private_key
         self._algorithm = algorithm
         self._x509_obj = self._to_cryptography()
 
     def get_revoked(self, cert_serial: int) -> Optional[RevokedCertificate]:
+        """
+        Get a revoked certificate by serial number.
+
+        Args:
+            cert_serial: Serial number of the certificate.
+
+        Returns:
+            RevokedCertificate object if found, else None.
+        """
         crypto_revoked = (
             self._crypto_object.get_revoked_certificate_by_serial_number(
                 cert_serial
@@ -118,7 +197,13 @@ class CertificateRevocationList(InitCryptoParser):
             return RevokedCertificate.from_cryptography(crypto_revoked)
         return None
 
-    def to_file(self, file_path):
+    def to_file(self, file_path: str) -> None:
+        """
+        Save the CRL to a file.
+
+        Args:
+            file_path: Path to save the file.
+        """
         with open(file_path, "w") as f:
             f.write(self.der_bytes.decode())
 

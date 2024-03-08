@@ -30,6 +30,9 @@ class CrlFetchFailure(Error):
 
 
 class CrlLoadError(Error):
+    """
+    Thrown when CRL could not be loaded due to e.g. invalid format
+    """
     pass
 
 

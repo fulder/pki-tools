@@ -16,7 +16,7 @@ nav:
       - Certificate: refs/certificate.md
       - Certificates: refs/certificates.md
       - Chain: refs/chain.md
-      - CRL: refs/crl.md
+      - CertificateRevocationList: refs/crl.md
       - Name: refs/name.md
       - KeyPair: refs/key_pair.md
       - Exceptions: refs/exceptions.md
