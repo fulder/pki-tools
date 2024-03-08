@@ -73,8 +73,8 @@ class CertificateRevocationList(InitCryptoParser):
     ) -> "CertificateRevocationList":
         ret = cls(
             issuer=Name.from_cryptography(crypto_crl.issuer),
-            last_update=crypto_crl.last_update,
-            next_update=crypto_crl.next_update,
+            last_update=crypto_crl.last_update_utc,
+            next_update=crypto_crl.next_update_utc,
         )
         ret._x509_obj = crypto_crl
         return ret
