@@ -1,6 +1,7 @@
 site_name: "PKI Tools"
 
 theme:
+#  name: "material"
   name: "readthedocs"
 
 repo_name: fulder/pki-tools
@@ -12,23 +13,30 @@ nav:
       - Certificate: refs/certificate.md
       - CRL: refs/crl.md
       - Name: refs/name.md
+      - KeyPair: refs/key_pair.md
+      - Exceptions: refs/exceptions.md
 
 plugins:
   - search
   - autorefs
   - mkdocstrings:
+      enable_inventory: true
       enabled: true
       default_handler: python
       handlers:
         python:
+          paths: [pki_tools]
           options:
             show_root_heading: true
             show_source: false
-            annotations_path: brief
+            annotations_path: source
             separate_signature: true
             show_signature_annotations: true
             signature_crossrefs: true
             heading_level: 4
+            show_bases: true
+          import:
+            - https://cryptography.io/en/latest/objects.inv
 
 
 markdown_extensions:
@@ -36,3 +44,8 @@ markdown_extensions:
   - toc:
       permalink: true
       title: Page contents
+
+watch:
+  - docs
+  - pki_tools
+  - mkdocs.yml
