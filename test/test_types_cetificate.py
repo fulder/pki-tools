@@ -10,7 +10,7 @@ from pki_tools.types import RSAKeyPair
 
 
 def test_certificate_subject_to_crypto_name():
-    name = TEST_SUBJECT.to_crypto_name()
+    name = TEST_SUBJECT._to_cryptography()
 
     assert name == x509.Name(
         [

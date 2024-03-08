@@ -12,17 +12,21 @@ nav:
   - Examples:
       - Chain: examples/chain.md
       - CertUri: examples/certs_uri.md
-  - Reference:
-      - Certificate: refs/certificate.md
-      - CertificateRevocationList: refs/crl.md
-      - CertificateSigningRequest: refs/csr.md
-      - Certificates: refs/certificates.md
-      - Chain: refs/chain.md
-      - Enums: refs/enums.md
-      - Name: refs/name.md
-      - KeyPair: refs/key_pair.md
-      - Exceptions: refs/exceptions.md
-      - CryptoParser: refs/crypto_parser.md
+  - Utilities:
+      - CRL: utils/crl.md
+  - Types:
+      - Certificate: types/certificate.md
+      - CertificateRevocationList: types/crl.md
+      - CertificateSigningRequest: types/csr.md
+      - Certificates: types/certificates.md
+      - Chain: types/chain.md
+      - Enums: types/enums.md
+      - Name: types/name.md
+      - OCSP: types/ocsp.md
+      - Extensions: types/extensions.md
+      - KeyPair: types/key_pair.md
+      - Exceptions: types/exceptions.md
+      - CryptoParser: types/crypto_parser.md
 
 plugins:
   - search

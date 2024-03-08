@@ -279,7 +279,10 @@ class AuthorityKeyIdentifier(Extension):
     authority_cert_serial_number: Optional[int]
 
     @classmethod
-    def from_cryptography(cls, extension: x509.AuthorityKeyIdentifier):
+    def from_cryptography(
+        cls: Type["AuthorityKeyIdentifier"],
+        extension: x509.AuthorityKeyIdentifier,
+    ) -> "AuthorityKeyIdentifier":
         """
         Create an AuthorityKeyIdentifier instance from a cryptography
         AuthorityKeyIdentifier object.
@@ -346,7 +349,9 @@ class SubjectKeyIdentifier(Extension):
     subject_key_identifier: bytes
 
     @classmethod
-    def from_cryptography(cls, extension: x509.SubjectKeyIdentifier):
+    def from_cryptography(
+        cls: Type["SubjectKeyIdentifier"], extension: x509.SubjectKeyIdentifier
+    ) -> "SubjectKeyIdentifier":
         """
         Create a SubjectKeyIdentifier instance from a cryptography
         SubjectKeyIdentifier object.
@@ -397,7 +402,9 @@ class KeyUsage(Extension):
     decipher_only: bool = False
 
     @classmethod
-    def from_cryptography(cls, extension: x509.KeyUsage):
+    def from_cryptography(
+        cls: Type["KeyUsage"], extension: x509.KeyUsage
+    ) -> "KeyUsage":
         """
         Create a KeyUsage instance from a cryptography KeyUsage object.
 
@@ -553,7 +560,9 @@ class PolicyInformation(Extension):
     policy_qualifiers: Optional[List[Union[str, UserNotice]]]
 
     @classmethod
-    def from_cryptography(cls, policy_info: x509.PolicyInformation):
+    def from_cryptography(
+        cls: Type["PolicyInformation"], policy_info: x509.PolicyInformation
+    ) -> "PolicyInformation":
         """
         Create a PolicyInformation instance from a cryptography
         PolicyInformation object.
@@ -618,7 +627,9 @@ class CertificatePolicies(Extension):
     policy_information: List[PolicyInformation]
 
     @classmethod
-    def from_cryptography(cls, extension: x509.CertificatePolicies):
+    def from_cryptography(
+        cls: Type["CertificatePolicies"], extension: x509.CertificatePolicies
+    ) -> "CertificatePolicies":
         """
         Create a CertificatePolicies instance from a cryptography
         CertificatePolicies object.
@@ -666,18 +677,18 @@ class AlternativeName(Extension):
 
     @classmethod
     def from_cryptography(
-        cls,
+        cls: Type["AlternativeName"],
         extension: Union[
             x509.SubjectAlternativeName, x509.IssuerAlternativeName
         ],
-    ):
+    ) -> "AlternativeName":
         """
         Create an AlternativeName instance from a cryptography
         SubjectAlternativeName or IssuerAlternativeName object.
 
         Args:
             extension: The cryptography SubjectAlternativeName or
-            IssuerAlternativeName object.
+                IssuerAlternativeName object.
 
         Returns:
             The AlternativeName instance.
@@ -736,7 +747,10 @@ class SubjectDirectoryAttributes(Extension):
     attributes: List[str]
 
     @classmethod
-    def from_cryptography(cls, extension: x509.UnrecognizedExtension):
+    def from_cryptography(
+        cls: Type["SubjectDirectoryAttributes"],
+        extension: x509.UnrecognizedExtension,
+    ) -> "SubjectDirectoryAttributes":
         """
         Create a SubjectDirectoryAttributes instance from a cryptography
         UnrecognizedExtension object.
@@ -795,7 +809,9 @@ class BasicConstraints(Extension):
     path_len_constraint: Optional[int] = None
 
     @classmethod
-    def from_cryptography(cls, extension: x509.BasicConstraints):
+    def from_cryptography(
+        cls: Type["BasicConstraints"], extension: x509.BasicConstraints
+    ) -> "BasicConstraints":
         """
         Create a BasicConstraints instance from a cryptography
         BasicConstraints object.
@@ -965,7 +981,9 @@ class ExtendedKeyUsage(Extension):
     ext_key_usage_syntax: List[str]
 
     @classmethod
-    def from_cryptography(cls, extension: x509.ExtendedKeyUsage):
+    def from_cryptography(
+        cls: Type["ExtendedKeyUsage"], extension: x509.ExtendedKeyUsage
+    ) -> "ExtendedKeyUsage":
         """
         Constructs an ExtendedKeyUsage object from a cryptography
         ExtendedKeyUsage object.
@@ -1016,7 +1034,9 @@ class AttributeTypeAndValue(CryptoParser):
     value: str
 
     @classmethod
-    def from_cryptography(cls, x509_obj: x509.NameAttribute):
+    def from_cryptography(
+        cls: Type["AttributeTypeAndValue"], x509_obj: x509.NameAttribute
+    ) -> "AttributeTypeAndValue":
         """
         Constructs an AttributeTypeAndValue object from a cryptography
         NameAttribute object.
@@ -1060,7 +1080,10 @@ class RelativeDistinguishedName(CryptoParser):
         return iter(self.attributes)
 
     @classmethod
-    def from_cryptography(cls, x509_obj: x509.RelativeDistinguishedName):
+    def from_cryptography(
+        cls: Type["RelativeDistinguishedName"],
+        x509_obj: x509.RelativeDistinguishedName,
+    ) -> "RelativeDistinguishedName":
         """
         Constructs a RelativeDistinguishedName object from a cryptography
         RelativeDistinguishedName object.
@@ -1119,7 +1142,7 @@ class DistributionPoint(CryptoParser):
         name_relative_to_crl_issuer: Relative name to the CRL issuer.
         reasons: List of reasons for the distribution point.
         crl_issuer: List of CRL issuers associated with the distribution
-        point.
+            point.
     """
 
     full_name: Optional[List[GeneralName]] = None
@@ -1128,7 +1151,9 @@ class DistributionPoint(CryptoParser):
     crl_issuer: Optional[List[GeneralName]] = None
 
     @classmethod
-    def from_cryptography(cls, extension: x509.DistributionPoint):
+    def from_cryptography(
+        cls: Type["DistributionPoint"], extension: x509.DistributionPoint
+    ) -> "DistributionPoint":
         """
         Constructs a DistributionPoint object from a cryptography
         DistributionPoint object.
@@ -1237,7 +1262,10 @@ class CrlDistributionPoints(Extension):
         return iter(self.crl_distribution_points)
 
     @classmethod
-    def from_cryptography(cls, extension: x509.CRLDistributionPoints):
+    def from_cryptography(
+        cls: Type["CrlDistributionPoints"],
+        extension: x509.CRLDistributionPoints,
+    ) -> "CrlDistributionPoints":
         """
         Constructs a CrlDistributionPoints object from a cryptography
         CRLDistributionPoints object.
@@ -1286,7 +1314,9 @@ class InhibitAnyPolicy(Extension):
     skip_certs: int
 
     @classmethod
-    def from_cryptography(cls, extension: x509.InhibitAnyPolicy):
+    def from_cryptography(
+        cls: Type["InhibitAnyPolicy"], extension: x509.InhibitAnyPolicy
+    ) -> "InhibitAnyPolicy":
         """
         Constructs an InhibitAnyPolicy object from a cryptography
         InhibitAnyPolicy object.
@@ -1344,7 +1374,9 @@ class AccessDescription(CryptoParser):
     access_location: GeneralName
 
     @classmethod
-    def from_cryptography(cls, extension: x509.AccessDescription):
+    def from_cryptography(
+        cls: Type["AccessDescription"], extension: x509.AccessDescription
+    ) -> "AccessDescription":
         """
         Constructs an AccessDescription object from a cryptography
         AccessDescription object.
@@ -1396,7 +1428,10 @@ class AuthorityInformationAccess(Extension):
         return iter(self.access_description)
 
     @classmethod
-    def from_cryptography(cls, extension: x509.AuthorityInformationAccess):
+    def from_cryptography(
+        cls: Type["AuthorityInformationAccess"],
+        extension: x509.AuthorityInformationAccess,
+    ) -> "AuthorityInformationAccess":
         """
         Constructs an AuthorityInformationAccess object from a
         cryptography AuthorityInformationAccess object.
@@ -1538,7 +1573,9 @@ class Extensions(CryptoParser):
             yield getattr(self, field_name)
 
     @classmethod
-    def from_cryptography(cls, cert_extensions: x509.Extensions):
+    def from_cryptography(
+        cls: Type["Extensions"], cert_extensions: x509.Extensions
+    ) -> "Extensions":
         """
         Constructs an Extensions object from cryptography X.509 Extensions.
 

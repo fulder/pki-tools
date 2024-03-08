@@ -74,6 +74,15 @@ class Name(CryptoParser):
 
     @classmethod
     def from_cryptography(cls: Type["Name"], name: x509.Name) -> "Name":
+        """
+        Create a Name instance from a cryptography Name object.
+
+        Args:
+            name: The cryptography Name object.
+
+        Returns:
+            The Name instance.
+        """
         subject = defaultdict(set)
         for attribute in name:
             for att in name.get_attributes_for_oid(attribute.oid):
@@ -81,21 +90,6 @@ class Name(CryptoParser):
         subject = dict(subject)
         subject["_x509_obj"] = name
         return cls(**subject)
-
-    def to_crypto_name(self) -> x509.Name:
-        name_list = []
-        for attr_name in vars(self):
-            vals = getattr(self, attr_name)
-            if not vals:
-                continue
-
-            oid = Name.model_fields[attr_name].alias
-            for val in vals:
-                name_list.append(
-                    x509.NameAttribute(x509.ObjectIdentifier(oid), val)
-                )
-
-        return x509.Name(name_list)
 
     def _to_cryptography(self) -> x509.Name:
         name_attributes = []
