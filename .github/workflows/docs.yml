@@ -23,7 +23,7 @@ jobs:
           poetry install --with dev
 
       - name: Build site
-        run: mkdocs build
+        run: poetry run mkdocs build
 
       - name: Deploy to gh-pages
-        run: mkdocs gh-deploy --force
+        run: poetry run mkdocs gh-deploy --force

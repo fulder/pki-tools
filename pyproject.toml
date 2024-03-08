@@ -44,7 +44,6 @@ ruff = ">=0.0.289,<0.3.1"
 [tool.poetry.group.dev.dependencies]
 mkdocs-material = "^9.5.12"
 mkdocstrings = {extras = ["python"], version = "^0.24.1"}
-mkdocs = "^1.5.3"
 
 [tool.poetry.group.apitest.dependencies]
 httpx = "^0.27.0"

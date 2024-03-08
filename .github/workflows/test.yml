@@ -23,7 +23,7 @@ jobs:
           poetry run ruff check .
 
       - name: Test generate docs
-        run: mkdocs build
+        run: poetry run mkdocs build
 
   test:
     runs-on: ubuntu-latest
