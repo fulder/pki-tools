@@ -80,6 +80,11 @@ class InvalidSignedType(Error):
 
 
 class MissingInit(Error):
+    """
+    Risen when the
+    [InitCryptoParser][pki_tools.types.crypto_parser.InitCryptoParser]
+    has not been initialized.
+    """
     pass
 
 
