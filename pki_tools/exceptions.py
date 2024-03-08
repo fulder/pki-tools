@@ -7,6 +7,9 @@ class ExtensionMissing(Error):
 
 
 class CertLoadError(Error):
+    """
+    Thrown when the cert could not be loaded e.g. due to invalid PEM format
+    """
     pass
 
 
@@ -51,10 +54,16 @@ class CertExpired(Error):
 
 
 class SignatureVerificationFailed(Error):
+    """
+    SignatureVerificationFailed
+    """
     pass
 
 
 class InvalidSignedType(Error):
+    """
+    InvalidSignedType
+    """
     pass
 
 

@@ -12,7 +12,7 @@ from pki_tools.types.crypto_parser import CryptoParser
 
 class Name(CryptoParser):
     """
-    Name type describes certificate subject or issuer.
+    Name type describes e.g. certificate subject or issuer.
     The attributes are following the
     [RFC5280#Section-4.1.2.4](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.4)
 

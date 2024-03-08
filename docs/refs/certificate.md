@@ -1,3 +1,3 @@
-::: pki_tools.types.certificate.Certificate
+::: pki_tools.types.certificate
 
 
