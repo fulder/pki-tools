@@ -47,6 +47,10 @@ class CsrLoadError(Error):
 
 
 class RevokeCheckFailed(Error):
+    """
+    RevokeCheckFailed
+    """
+
     pass
 
 
@@ -101,8 +105,16 @@ class MissingInit(Error):
 
 
 class MissingBlockSize(Error):
+    """
+    MissingBlockSize
+    """
+
     pass
 
 
 class InvalidKeyType(Error):
+    """
+    MissingBlockSize
+    """
+
     pass

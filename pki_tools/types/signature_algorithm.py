@@ -18,6 +18,10 @@ HASHES_MODULE = importlib.import_module(
 
 
 class HashAlgorithmName(Enum):
+    """
+    Enumeration of hash algorithm names.
+    """
+
     SHA1 = "SHA1"
     SHA512_224 = "SHA512_224"
     SHA512_256 = "SHA512_256"
@@ -38,6 +42,14 @@ class HashAlgorithmName(Enum):
 
 
 class HashAlgorithm(CryptoParser):
+    """
+    Represents a hash algorithm.
+
+    Attributes:
+        name: The name of the hash algorithm.
+        block_size: The block size of the hash algorithm.
+    """
+
     name: HashAlgorithmName
     block_size: Optional[int] = None
 
@@ -45,6 +57,16 @@ class HashAlgorithm(CryptoParser):
     def from_cryptography(
         cls: Type["HashAlgorithm"], x509_obj: hashes.HashAlgorithm
     ) -> "HashAlgorithm":
+        """
+        Constructs a HashAlgorithm object from a cryptography HashAlgorithm
+        object.
+
+        Args:
+            x509_obj: The cryptography HashAlgorithm object.
+
+        Returns:
+            The constructed HashAlgorithm object.
+        """
         return cls(
             name=x509_obj.__class__.__name__,
             block_size=x509_obj.block_size,
@@ -74,16 +96,30 @@ class HashAlgorithm(CryptoParser):
 
 
 class Padding(CryptoParser, ABC):
-    pass
+    """
+    Abstract base class representing padding.
+    """
 
 
 class PSSPaddingLenght(Enum):
+    """
+    Enumeration of PSS padding lengths.
+    """
+
     _MaxLength = "_MaxLength"
     _Auto = "_Auto"
     _DigestLength = "_DigestLength"
 
 
 class PSSPadding(Padding):
+    """
+    Represents PSS padding.
+
+    Attributes:
+        mgf: The mask generation function.
+        length: The length of the padding.
+    """
+
     mgf: HashAlgorithm
     length: Union[int, PSSPaddingLenght]
 
@@ -91,11 +127,20 @@ class PSSPadding(Padding):
     def from_cryptography(
         cls: Type["PSSPadding"], crypto_obj: padding.PSS
     ) -> "PSSPadding":
+        """
+        Constructs a PSSPadding object from a cryptography PSS object.
+
+        Args:
+            crypto_obj: The cryptography PSS object.
+
+        Returns:
+            The constructed PSSPadding object.
+        """
         salt_length = crypto_obj._salt_length
         if not isinstance(salt_length, int):
             salt_length = PSSPaddingLenght[salt_length.__class__.__name__]
 
-        cls(
+        return cls(
             mgf=crypto_obj._mgf._algorithm,
             length=salt_length,
             _x509_obj=crypto_obj,
@@ -119,12 +164,26 @@ class PSSPadding(Padding):
 
 
 class PKCS1v15Padding(Padding):
+    """
+    Represents PKCS1v15 padding.
+    """
+
     _name: str
 
     @classmethod
     def from_cryptography(
-        cls: Type["CryptoParser"], crypto_obj: padding.PKCS1v15
-    ) -> "CryptoParser":
+        cls: Type["PKCS1v15Padding"], crypto_obj: padding.PKCS1v15
+    ) -> "PKCS1v15Padding":
+        """
+        Constructs a PKCS1v15Padding object from a cryptography PKCS1v15
+        object.
+
+        Args:
+            crypto_obj: The cryptography PKCS1v15 object.
+
+        Returns:
+            The constructed PKCS1v15Padding object.
+        """
         return cls(_name=crypto_obj.name, _x509_obj=crypto_obj)
 
     def _to_cryptography(self) -> padding.PKCS1v15:
@@ -135,6 +194,14 @@ class PKCS1v15Padding(Padding):
 
 
 class ECDSAPadding(Padding):
+    """
+    Represents ECDSA padding.
+
+    Attributes:
+        algorithm: The hash algorithm.
+        prehashed: Indicates if the data is prehashed.
+    """
+
     algorithm: HashAlgorithm
     prehashed: bool
 
@@ -142,6 +209,15 @@ class ECDSAPadding(Padding):
     def from_cryptography(
         cls: Type["ECDSAPadding"], crypto_obj: ec.ECDSA
     ) -> "ECDSAPadding":
+        """
+        Constructs an ECDSAPadding object from a cryptography ECDSA object.
+
+        Args:
+            crypto_obj: The cryptography ECDSA object.
+
+        Returns:
+            The constructed ECDSAPadding object.
+        """
         if isinstance(crypto_obj.algorithm, Prehashed):
             prehashed = True
             algorithm = crypto_obj.algorithm._algorithm
@@ -173,6 +249,14 @@ class ECDSAPadding(Padding):
 
 
 class SignatureAlgorithm(BaseModel):
+    """
+    Represents a signature algorithm.
+
+    Attributes:
+        algorithm: The hash algorithm.
+        parameters: The parameters of the signature algorithm.
+    """
+
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     algorithm: HashAlgorithm
@@ -186,6 +270,16 @@ class SignatureAlgorithm(BaseModel):
         algorithm: hashes.HashAlgorithm,
         parameters: Union[padding.PSS, padding.PKCS1v15, ec.ECDSA] = None,
     ) -> "SignatureAlgorithm":
+        """
+        Constructs a SignatureAlgorithm object from cryptography objects.
+
+        Args:
+            algorithm: The hash algorithm.
+            parameters: The parameters.
+
+        Returns:
+            The constructed SignatureAlgorithm object.
+        """
         algorithm = HashAlgorithm.from_cryptography(algorithm)
 
         if parameters is None:

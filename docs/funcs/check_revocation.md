@@ -1,0 +1,1 @@
+::: pki_tools.funcs.check_revocation

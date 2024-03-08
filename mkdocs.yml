@@ -12,8 +12,8 @@ nav:
   - Examples:
       - Chain: examples/chain.md
       - CertUri: examples/certs_uri.md
-  - Utilities:
-      - CRL: utils/crl.md
+  - Functions:
+      - Checking Revocation: funcs/check_revocation.md
   - Types:
       - Certificate: types/certificate.md
       - CertificateRevocationList: types/crl.md
@@ -27,6 +27,7 @@ nav:
       - KeyPair: types/key_pair.md
       - Exceptions: types/exceptions.md
       - CryptoParser: types/crypto_parser.md
+      - SignatureAlgorithm: types/signature_algorithm.md
 
 plugins:
   - search
