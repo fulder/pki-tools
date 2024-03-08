@@ -1,0 +1,66 @@
+site_name: "PKI Tools"
+
+theme:
+#  name: "material"
+  name: "readthedocs"
+
+repo_name: fulder/pki-tools
+repo_url: https://github.com/fulder/pki-tools
+
+nav:
+  - Home: index.md
+  - Examples:
+      - Check Revocation: examples/check_revocation.md
+      - Creating: examples/creating.md
+      - Parsing: examples/parsing.md
+      - Chain: examples/chain.md
+  - Functions:
+      - Checking Revocation: funcs/check_revocation.md
+  - Types:
+      - Certificate: types/certificate.md
+      - CertificateRevocationList: types/crl.md
+      - CertificateSigningRequest: types/csr.md
+      - Certificates: types/certificates.md
+      - Chain: types/chain.md
+      - Enums: types/enums.md
+      - Name: types/name.md
+      - OCSP: types/ocsp.md
+      - Extensions: types/extensions.md
+      - KeyPair: types/key_pair.md
+      - Exceptions: types/exceptions.md
+      - CryptoParser: types/crypto_parser.md
+      - SignatureAlgorithm: types/signature_algorithm.md
+
+plugins:
+  - search
+  - autorefs
+  - mkdocstrings:
+      enable_inventory: true
+      enabled: true
+      default_handler: python
+      handlers:
+        python:
+          paths: [pki_tools]
+          options:
+            show_root_heading: false
+            show_source: false
+            annotations_path: source
+            separate_signature: true
+            show_signature_annotations: true
+            signature_crossrefs: true
+            heading_level: 4
+            show_bases: true
+          import:
+            - https://cryptography.io/en/latest/objects.inv
+
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+      title: Page contents
+
+watch:
+  - docs
+  - pki_tools
+  - mkdocs.yml

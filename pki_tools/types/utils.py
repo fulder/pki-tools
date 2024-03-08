@@ -1,14 +1,9 @@
 import binascii
 
-from cryptography.hazmat.bindings._rust import ObjectIdentifier
 from cryptography.hazmat.primitives._serialization import (
     Encoding,
     PublicFormat,
 )
-
-
-def oid_to_name(oid: str):
-    return ObjectIdentifier(oid)._name
 
 
 def _byte_to_hex(bytes_in: bytes) -> str:

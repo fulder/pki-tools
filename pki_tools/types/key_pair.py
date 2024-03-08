@@ -26,19 +26,41 @@ from pki_tools.types.utils import _byte_to_hex, _hex_to_byte, _der_key
 
 
 class CryptoKeyPair(InitCryptoParser):
+    """
+    Represents a cryptographic key pair.
+    """
+
     _init_func = "generate"
 
     @classmethod
     @abc.abstractmethod
-    def generate(cls, *args) -> CryptoObject:
-        raise NotImplementedError("Can't use 'generate' on CryptoKeyPair")
+    def generate(cls: Type["CryptoKeyPair"], *args) -> "CryptoKeyPair":
+        """
+        Abstract method to generate a cryptographic key pair.
+
+        Returns:
+            The generated cryptographic key pair.
+        """
+        raise NotImplementedError
 
     @property
-    def der_public_key(self):
+    def der_public_key(self) -> bytes:
+        """
+        Property to get the DER encoding of the public key.
+
+        Returns:
+            bytes: The DER encoded public key.
+        """
         return _der_key(self._crypto_object.public_key())
 
     @property
     def pem_public_key(self) -> bytes:
+        """
+        Property to get the PEM encoding of the public key.
+
+        Returns:
+            bytes: The PEM encoded public key.
+        """
         public_key = self._crypto_object
         if hasattr(self._crypto_object, "public_key"):
             public_key = public_key.public_key()
@@ -50,6 +72,12 @@ class CryptoKeyPair(InitCryptoParser):
 
     @property
     def pem_private_key(self) -> bytes:
+        """
+        Property to get the PEM encoding of the private key.
+
+        Returns:
+            bytes: The PEM encoded private key.
+        """
         if not hasattr(self._crypto_object, "public_key"):
             raise InvalidKeyType("Can't get private key using public key")
 
@@ -64,16 +92,32 @@ class CryptoKeyPair(InitCryptoParser):
 
         return self._crypto_object.private_bytes(**kwargs)
 
-    def private_key_to_file(self, file_path):
+    def private_key_to_file(self, file_path: str) -> None:
+        """
+        Method to write the PEM-encoded private key to a file.
+
+        Args:
+            file_path (str): Path to the output file.
+        """
         with open(file_path, "w") as f:
             f.write(self.pem_private_key.decode())
 
-    def public_key_to_file(self, file_path):
+    def public_key_to_file(self, file_path: str):
+        """
+        Method to write the PEM-encoded public key to a file.
+
+        Args:
+            file_path (str): Path to the output file.
+        """
         with open(file_path, "w") as f:
             f.write(self.pem_public_key.decode())
 
 
 class DSAKeyPair(CryptoKeyPair):
+    """
+    Represents a DSA cryptographic key pair.
+    """
+
     key_size: int
 
     y: int
@@ -84,7 +128,16 @@ class DSAKeyPair(CryptoKeyPair):
     x: Optional[int]
 
     @classmethod
-    def generate(cls: Type["DSAKeyPair"], key_size) -> "DSAKeyPair":
+    def generate(cls: Type["DSAKeyPair"], key_size: int) -> "DSAKeyPair":
+        """
+        Generate a DSA cryptographic key pair.
+
+        Args:
+            key_size: The size of the key.
+
+        Returns:
+            The generated DSA key pair.
+        """
         new_key = dsa.generate_private_key(key_size=key_size)
         return DSAKeyPair.from_cryptography(new_key)
 
@@ -93,6 +146,16 @@ class DSAKeyPair(CryptoKeyPair):
         cls: Type["DSAKeyPair"],
         key: Union[dsa.DSAPrivateKey, dsa.DSAPublicKey],
     ) -> "DSAKeyPair":
+        """
+        Create a DSAKeyPair from a cryptography key.
+
+        Args:
+            key: The [cryptography.hazmat.primitives.asymmetric.dsa][]
+                public or private key.
+
+        Returns:
+            DSAKeyPair: The DSA key pair.
+        """
         if isinstance(key, dsa.DSAPrivateKey):
             public_key = key.public_key()
             x = key.private_numbers().x
@@ -143,6 +206,10 @@ class DSAKeyPair(CryptoKeyPair):
 
 
 class RSAKeyPair(CryptoKeyPair):
+    """
+    Represents an RSA cryptographic key pair.
+    """
+
     key_size: int
 
     e: int
@@ -157,8 +224,18 @@ class RSAKeyPair(CryptoKeyPair):
 
     @classmethod
     def generate(
-        cls: Type["RSAKeyPair"], key_size=2048, exponent=65537
+        cls: Type["RSAKeyPair"], key_size: int = 2048, exponent: int = 65537
     ) -> "RSAKeyPair":
+        """
+        Generate an RSA cryptographic key pair.
+
+        Args:
+            key_size: The size of the key. Defaults to `2048`.
+            exponent: The public exponent. Defaults to `65537`.
+
+        Returns:
+            The generated RSA key pair.
+        """
         new_key = rsa.generate_private_key(
             public_exponent=exponent,
             key_size=key_size,
@@ -170,6 +247,15 @@ class RSAKeyPair(CryptoKeyPair):
         cls: Type["RSAKeyPair"],
         key: Union[rsa.RSAPrivateKey, rsa.RSAPublicKey],
     ) -> "RSAKeyPair":
+        """
+        Create an RSAKeyPair from a cryptography key.
+
+        Args:
+            key: The cryptography key.
+
+        Returns:
+            The RSA key pair.
+        """
         if isinstance(key, rsa.RSAPrivateKey):
             private_numbers = key.private_numbers()
             public_numbers = private_numbers.public_numbers
@@ -242,6 +328,10 @@ EC_MODULE = importlib.import_module(
 
 
 class EllipticCurveKeyPair(CryptoKeyPair):
+    """
+    Represents an elliptic curve cryptographic key pair.
+    """
+
     curve_name: str
 
     x: int
@@ -253,6 +343,15 @@ class EllipticCurveKeyPair(CryptoKeyPair):
     def generate(
         cls: Type["EllipticCurveKeyPair"], curve_name: str
     ) -> "EllipticCurveKeyPair":
+        """
+        Generate an elliptic curve cryptographic key pair.
+
+        Args:
+            curve_name: The name of the curve.
+
+        Returns:
+            The generated elliptic curve key pair.
+        """
         allowed = [val.name.upper() for val in ec._CURVE_TYPES.values()]
         if curve_name.upper() not in allowed:
             raise TypeError(
@@ -271,6 +370,15 @@ class EllipticCurveKeyPair(CryptoKeyPair):
         cls: Type["EllipticCurveKeyPair"],
         key: Union[ec.EllipticCurvePrivateKey, ec.EllipticCurvePublicKey],
     ) -> "EllipticCurveKeyPair":
+        """
+        Create an EllipticCurveKeyPair from a cryptography key.
+
+        Args:
+            key: The cryptography key.
+
+        Returns:
+            The elliptic curve key pair.
+        """
         if isinstance(key, ec.EllipticCurvePrivateKey):
             private_numbers = key.private_numbers()
             public_key = key.public_key()
@@ -318,11 +426,21 @@ class EllipticCurveKeyPair(CryptoKeyPair):
 
 
 class Ed25519KeyPair(CryptoKeyPair):
+    """
+    Represents an Ed25519 cryptographic key pair.
+    """
+
     public_bytes: str
     private_bytes: Optional[str]
 
     @classmethod
     def generate(cls: Type["Ed25519KeyPair"]) -> "Ed25519KeyPair":
+        """
+        Generate an Ed25519 cryptographic key pair.
+
+        Returns:
+            The generated Ed25519 key pair.
+        """
         new_key = ed25519.Ed25519PrivateKey.generate()
         return Ed25519KeyPair.from_cryptography(new_key)
 
@@ -331,6 +449,15 @@ class Ed25519KeyPair(CryptoKeyPair):
         cls: Type["Ed25519KeyPair"],
         key: Union[ed25519.Ed25519PrivateKey, ed25519.Ed25519PublicKey],
     ) -> "Ed25519KeyPair":
+        """
+        Create an Ed25519KeyPair from a cryptography key.
+
+        Args:
+            key: The cryptography key.
+
+        Returns:
+            The Ed25519 key pair.
+        """
         private_bytes = None
 
         if isinstance(key, ed25519.Ed25519PrivateKey):
@@ -368,11 +495,21 @@ class Ed25519KeyPair(CryptoKeyPair):
 
 
 class Ed448KeyPair(CryptoKeyPair):
+    """
+    Represents an Ed448 cryptographic key pair.
+    """
+
     public_bytes: str
     private_bytes: Optional[str]
 
     @classmethod
     def generate(cls: Type["Ed448KeyPair"]) -> "Ed448KeyPair":
+        """
+        Generate an Ed448 cryptographic key pair.
+
+        Returns:
+            The generated Ed448 key pair.
+        """
         new_key = ed448.Ed448PrivateKey.generate()
         return Ed448KeyPair.from_cryptography(new_key)
 
@@ -381,6 +518,15 @@ class Ed448KeyPair(CryptoKeyPair):
         cls: Type["Ed448KeyPair"],
         key: Union[ed448.Ed448PrivateKey, ed448.Ed448PublicKey],
     ) -> "Ed448KeyPair":
+        """
+        Create an Ed448KeyPair from a cryptography key.
+
+        Args:
+            key: The cryptography key.
+
+        Returns:
+            The Ed448 key pair.
+        """
         private_bytes = None
 
         if isinstance(key, ed448.Ed448PrivateKey):
@@ -418,6 +564,14 @@ class Ed448KeyPair(CryptoKeyPair):
 
 
 class KeyPair(InitCryptoParser):
+    """
+    Represents a cryptographic key pair.
+
+    Attributes:
+        algorithm: The key algorithm in string format
+        parameters: The dict representation of the key
+    """
+
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     algorithm: str
@@ -428,11 +582,20 @@ class KeyPair(InitCryptoParser):
 
     @classmethod
     def from_cryptography(
-        cls,
+        cls: Type["KeyPair"],
         key: Union[
             CertificateIssuerPrivateKeyTypes, CertificateIssuerPublicKeyTypes
         ],
-    ):
+    ) -> "KeyPair":
+        """
+        Create a KeyPair from a cryptography key.
+
+        Args:
+            key: The cryptography key.
+
+        Returns:
+            The key pair.
+        """
         types = get_args(
             Union[
                 CertificateIssuerPrivateKeyTypes,
@@ -461,6 +624,12 @@ class KeyPair(InitCryptoParser):
         return ret
 
     def create(self, key_pair: CryptoKeyPair):
+        """
+        Create a KeyPair.
+
+        Args:
+            key_pair: The cryptographic key pair.
+        """
         self._key_pair = key_pair
         self._x509_obj = self._key_pair._to_cryptography()
 

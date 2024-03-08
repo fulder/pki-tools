@@ -1,6 +1,6 @@
 import time
 from functools import lru_cache
-from typing import List, Type, T
+from typing import List, Type
 
 from cryptography import x509
 from loguru import logger
@@ -21,12 +21,10 @@ class CertsUri(BaseModel):
     Describes a URI where one or more public certificate(s)
     can be downloaded
 
-    Examples::
-        CertsUri(uri="https://my.ca.link.com/ca.pem")
     Attributes:
-        uri -- The URI for the public certificate(s)
-        cache_time_seconds -- Specifies how long the public cert should be
-        cached, default is 1 month.
+        uri: The URI for the public certificate(s)
+            cache_time_seconds: Specifies how long the public cert should be
+            cached, default is 1 month.
     """
 
     uri: constr(pattern=r"https*://.*")
@@ -35,35 +33,44 @@ class CertsUri(BaseModel):
 
 class Certificates(CryptoParser):
     """
+    A list of one or more certificates
+
     Attributes:
-        certificates -- a list of
-        [Certificates](https://pki-tools.fulder.dev/pki_tools/types/#certificates)
+        certificates: a list of
+            [Certificate][pki_tools.types.certificate.Certificate]
     """
 
     certificates: List[Certificate]
 
     @classmethod
     def from_cryptography(
-        cls: Type[T], crypto_certs: List[x509.Certificate]
-    ) -> T:
+        cls: Type["Certificates"], crypto_certs: List[x509.Certificate]
+    ) -> "Certificates":
+        """
+        Create a Certificates object from a list of cryptography certificates.
+
+        Args:
+            crypto_certs: List of cryptography certificates.
+
+        Returns:
+            Instance of Certificates containing the provided certificates.
+        """
         certificates = []
         for crypt_cert in crypto_certs:
             certificates.append(Certificate.from_cryptography(crypt_cert))
         return cls(certificates=certificates, _x509_obj=crypto_certs)
 
     @classmethod
-    def from_file(cls: T, file_path: str) -> T:
+    def from_file(cls: Type["Certificates"], file_path: str) -> "Certificates":
         """
         Reads a file containing one or more PEM certificate(s) into a
-        [Certificates](https://pki-tools.fulder.dev/pki_tools/types/#certificates)
-        object
+        Certificates object.
 
-        Arguments:
-            file_path -- Path and filename of the PEM certificate
+        Args:
+            file_path: Path and filename of the PEM certificate.
+
         Returns:
-             A
-             [Certificates](https://pki-tools.fulder.dev/pki_tools/types/#certificates)
-             object representing the certificate(s) from file
+            A Certificates object representing the certificate(s) from file.
         """
         with open(file_path, "r") as f:
             cert_pem = f.read()
@@ -72,26 +79,40 @@ class Certificates(CryptoParser):
         return cls.from_cryptography(crypto_certs)
 
     @classmethod
-    def from_pem_string(cls: T, pem_string: str) -> T:
+    def from_pem_string(
+        cls: Type["Certificates"], pem_string: str
+    ) -> "Certificates":
+        """
+        Create a Certificates object from a PEM string.
+
+        Args:
+            pem_string: PEM string containing certificate(s).
+
+        Returns:
+            Instance of Certificates containing the certificates from the PEM
+            string.
+        """
         crypto_certs = x509.load_pem_x509_certificates(pem_string.encode())
         return cls.from_cryptography(crypto_certs)
 
     @classmethod
     def from_uri(
-        cls: T,
+        cls: Type["Certificates"],
         uri: str,
         cache_time_seconds: int = CACHE_TIME_SECONDS,
-    ) -> T:
+    ) -> "Certificates":
         """
-        Loads
-        [Certificates](https://pki-tools.fulder.dev/pki_tools/types/#certificates)
-        from a str URI
+        Loads Certificates from a URI.
 
-        Arguments:
-             uri -- A str containing the URI where the certificate(s)
-             can be downloaded.
-             cache_time_seconds -- Decides how long the certificates
-             should be cached, default is 1 month
+        Args:
+            uri: An URI where the certificate(s) can be downloaded.
+            cache_time_seconds: Specifies how long the certificates
+                should be cached, default is 1 month.
+                Defaults to CACHE_TIME_SECONDS.
+
+        Returns:
+            Instance of Certificates containing the certificates
+            fetched from the URI.
         """
         chain_uri = CertsUri(uri=uri, cache_time_seconds=cache_time_seconds)
         cache_ttl = round(time.time() / chain_uri.cache_time_seconds)
@@ -99,7 +120,9 @@ class Certificates(CryptoParser):
 
     @classmethod
     @lru_cache(maxsize=None)
-    def _from_uri(cls: T, uri: str, ttl=None) -> T:
+    def _from_uri(
+        cls: Type["Certificates"], uri: str, ttl=None
+    ) -> "Certificates":
         ret = HTTPX_CLIENT.get(uri)
 
         if ret.status_code != 200:
@@ -113,19 +136,25 @@ class Certificates(CryptoParser):
         return cls.from_pem_string(ret.text)
 
     @property
-    def pem_string(self):
+    def pem_string(self) -> str:
+        """
+        Returns a string containing the PEM-encoded certificates.
+
+        Returns:
+            PEM string containing all the certificates.
+        """
         all_certs = ""
         for cert in self.certificates:
             all_certs += cert.pem_string
 
         return all_certs
 
-    def to_file(self, file_path: str):
+    def to_file(self, file_path: str) -> None:
         """
-        Saves one or more certificate(s) into a file
+        Saves one or more certificate(s) into a file.
 
-        Arguments:
-            file_path -- Path and filename where to store the certificate(s)
+        Args:
+            file_path: Path and filename where to store the certificate(s).
         """
         with open(file_path, "w") as f:
             f.write(self.pem_string)

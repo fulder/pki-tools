@@ -22,10 +22,8 @@ jobs:
         run: |
           poetry run ruff check .
 
-      - name: Check generated docs
-        run: |
-          make docs-gen
-          git diff --exit-code ./docs
+      - name: Test generate docs
+        run: poetry run mkdocs build
 
   test:
     runs-on: ubuntu-latest

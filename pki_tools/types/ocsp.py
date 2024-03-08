@@ -22,6 +22,10 @@ from pki_tools.types.utils import _byte_to_hex
 
 
 class OcspResponseStatus(Enum):
+    """
+    Enumeration of OCSP response statuses.
+    """
+
     SUCCESSFUL = "SUCCESSFUL"
     MALFORMED_REQUEST = "MALFORMED_REQUEST"
     INTERNAL_ERROR = "INTERNAL_ERROR"
@@ -31,12 +35,26 @@ class OcspResponseStatus(Enum):
 
 
 class OcspCertificateStatus(Enum):
+    """
+    Enumeration of OCSP certificate statuses.
+    """
+
     GOOD = "GOOD"
     REVOKED = "REVOKED"
     UNKNOWN = "UNKNOWN"
 
 
 class OCSPResponse(InitCryptoParser):
+    """
+    Represents an OCSP response.
+
+    Attributes:
+        response_status: The OCSP response status.
+        certificate_status: The OCSP certificate status.
+        issuer_key_hash: The issuer key hash.
+        revocation_time: The revocation time.
+    """
+
     response_status: OcspResponseStatus
     certificate_status: Optional[OcspCertificateStatus] = None
     issuer_key_hash: Optional[str] = None
@@ -46,6 +64,16 @@ class OCSPResponse(InitCryptoParser):
     def from_cryptography(
         cls: Type["OCSPResponse"], crypto_ocsp_response: ocsp.OCSPResponse
     ) -> "OCSPResponse":
+        """
+        Constructs an OCSPResponse object from a cryptography
+        OCSPResponse object.
+
+        Args:
+            crypto_ocsp_response: The cryptography OCSPResponse object.
+
+        Returns:
+            OCSPResponse: The constructed OCSPResponse object.
+        """
         response_status = crypto_ocsp_response.response_status
 
         ocsp_response_key_hash = None
@@ -82,28 +110,70 @@ class OCSPResponse(InitCryptoParser):
     def from_der_bytes(
         cls: Type["OCSPResponse"], der: bytes
     ) -> "OCSPResponse":
+        """
+        Constructs an OCSPResponse object from DER-encoded bytes.
+
+        Args:
+            der: The DER-encoded bytes.
+
+        Returns:
+            The constructed OCSPResponse object.
+        """
         crypto_obj = ocsp.load_der_ocsp_response(der)
         return OCSPResponse.from_cryptography(crypto_obj)
 
     @property
     def tbs_bytes(self) -> bytes:
+        """
+        Returns the bytes to be singed of the OCSP response.
+
+        Returns:
+            bytes: The TBS bytes.
+        """
         return self._crypto_object.tbs_response_bytes
 
     @property
     def der_bytes(self) -> bytes:
+        """
+        Returns the DER bytes of the OCSP response.
+
+        Returns:
+            bytes: The DER bytes.
+        """
         return self._crypto_object.public_bytes(Encoding.DER)
 
-    def hash_with_alg(self, der_key) -> str:
+    def hash_with_alg(self, der_key: bytes) -> str:
+        """
+        Hashes a DER key bytes with the algorithm of the OCSP response.
+
+        Args:
+            der_key: The DER key.
+
+        Returns:
+            str: The hashed key.
+        """
         hash_algorithm = hashlib.new(self._crypto_object.hash_algorithm.name)
         hash_algorithm.update(der_key)
         return hash_algorithm.hexdigest().upper()
 
     @property
-    def is_successful(self):
+    def is_successful(self) -> bool:
+        """
+        Checks if the OCSP response is successful.
+
+        Returns:
+            True if the response is successful, False otherwise.
+        """
         return self.response_status == OcspResponseStatus.SUCCESSFUL
 
     @property
-    def is_revoked(self):
+    def is_revoked(self) -> bool:
+        """
+        Checks if the certificate is revoked.
+
+        Returns:
+            True if the certificate is revoked, False otherwise.
+        """
         return self.certificate_status == OcspCertificateStatus.REVOKED
 
     def sign(
@@ -113,6 +183,15 @@ class OCSPResponse(InitCryptoParser):
         algorithm: HashAlgorithm,
         key_pair: CryptoKeyPair,
     ):
+        """
+        Signs the OCSP response.
+
+        Args:
+            cert: The certificate.
+            issuer: The issuer certificate.
+            algorithm: The hash algorithm.
+            key_pair: The key pair.
+        """
         self._cert = cert
         self._issuer = issuer
         self._algorithm = algorithm
@@ -157,6 +236,15 @@ class OCSPResponse(InitCryptoParser):
 
 
 class OCSPRequest(InitCryptoParser):
+    """
+    Represents an OCSP request.
+
+    Attributes:
+        hash_algorithm: The hash algorithm.
+        serial_number: The serial number.
+        extensions: The extensions.
+    """
+
     hash_algorithm: HashAlgorithm
 
     serial_number: Optional[int] = None
@@ -167,6 +255,16 @@ class OCSPRequest(InitCryptoParser):
     def from_cryptography(
         cls: Type["OCSPRequest"], crypto_obj: ocsp.OCSPRequest
     ) -> "OCSPRequest":
+        """
+        Constructs an OCSPRequest object from a cryptography OCSPRequest
+        object.
+
+        Args:
+            crypto_obj: The cryptography OCSPRequest object.
+
+        Returns:
+            The constructed OCSPRequest object.
+        """
         return cls(
             serial_number=crypto_obj.serial_number,
             extensions=Extensions.from_cryptography(crypto_obj.extensions),
@@ -174,12 +272,25 @@ class OCSPRequest(InitCryptoParser):
         )
 
     @property
-    def request_path(self):
+    def request_path(self) -> str:
+        """
+        The request path of the OCSP Response.
+
+        Returns:
+            The request path.
+        """
         return base64.b64encode(
             self._crypto_object.public_bytes(serialization.Encoding.DER)
         ).decode()
 
     def create(self, cert: Certificate, issuer_cert: Certificate):
+        """
+        Creates an OCSP request.
+
+        Args:
+            cert: The certificate.
+            issuer_cert: The issuer of the OCSP Response.
+        """
         self._cert = cert
         self._issuer = issuer_cert
         self._x509_obj = self._to_cryptography()

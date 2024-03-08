@@ -1,4 +1,4 @@
-![Python Badge](https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&logo=python)
+# PKI Tools
 
 PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
@@ -14,11 +14,18 @@ PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
 `pip install pki-tools`
 
-## Docs
+## Functions
 
-Documentation is available
-at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
+* [Checking Revocation][checking-revocation] - checking
+  revocation status of certificates using OCSP and/or CRL
 
+## Examples:
+
+* [Creating objects][creating-objects]
+* [Parsing x509 objects][parsing-x509-objects]
+* [Loading Chain][loading-chain]
+
+For more types, parsing and usage see the types section.
 
 [pydantic-docs]: https://docs.pydantic.dev/latest/
 

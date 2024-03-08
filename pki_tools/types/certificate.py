@@ -1,7 +1,7 @@
 import base64
 import random
 import re
-from typing import Optional
+from typing import Optional, Dict
 import datetime
 
 import yaml
@@ -48,17 +48,41 @@ CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 
 
 class Validity(BaseModel):
+    """
+    Describes the validity of a certificate
+
+    Attributes:
+        not_before: The start date of when the certificate will be valid
+        not_after: The date of when the certificate expires
+    """
+
     not_before: datetime.datetime
     not_after: datetime.datetime
 
-    def _string_dict(self):
+    def _string_dict(self) -> Dict[str, str]:
         return {
-            "Not Before": self.not_before,
-            "Not After": self.not_after,
+            "Not Before": str(self.not_before),
+            "Not After": str(self.not_after),
         }
 
 
-class TbsCertificate(BaseModel):
+class Certificate(InitCryptoParser):
+    """
+    An object describing a x509 Certificate
+
+    Attributes:
+        issuer: Certificate issuer
+        subject: Certificate subject
+        validity: Contains information about NotBefore and NotAfter
+
+        extensions: Certificate (v3) extensions
+        serial_number: Serial number
+        version: The version of the certificate
+        signature_algorithm: Describes the algorithm used to sign the
+            certificate
+        subject_public_key_info: The public key information
+    """
+
     issuer: Name
     validity: Validity
     subject: Name
@@ -69,25 +93,9 @@ class TbsCertificate(BaseModel):
     signature_algorithm: Optional[SignatureAlgorithm] = None
     subject_public_key_info: Optional[KeyPair] = None
 
-    def _string_dict(self):
-        subject_key_info = self.subject_public_key_info._string_dict()
-        signature_alg = self.signature_algorithm.algorithm.name.value
-        return {
-            "Version": self.version,
-            "Serial Number": self.hex_serial,
-            "Signature Algorithm": signature_alg,
-            "Issuer": str(self.issuer),
-            "Validity": self.validity._string_dict(),
-            "Subject": str(self.subject),
-            "Subject Public Key Info": subject_key_info,
-            "Extensions": self.extensions._string_dict(),
-        }
-
-
-class Certificate(TbsCertificate, InitCryptoParser):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
     signature_value: Optional[str] = None
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     _private_key: Optional[CryptoKeyPair]
 
@@ -96,6 +104,17 @@ class Certificate(TbsCertificate, InitCryptoParser):
         cls: Type["Certificate"],
         cert: x509.Certificate,
     ) -> "Certificate":
+        """
+        Create a Certificate object from a [cryptography.x509.Certificate][]
+        object.
+
+        Args:
+            cert: The [cryptography.x509.Certificate][] object.
+
+        Returns:
+            Certificate: The created Certificate object.
+        """
+
         ret = cls(
             version=cert.version.value,
             serial_number=cert.serial_number,
@@ -120,20 +139,22 @@ class Certificate(TbsCertificate, InitCryptoParser):
         return ret
 
     @classmethod
-    def from_pem_string(cls: Type["Certificate"], cert_pem) -> "Certificate":
+    def from_pem_string(
+        cls: Type["Certificate"], cert_pem: str
+    ) -> "Certificate":
         """
         Loads a certificate from a PEM string into a
-        [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
+        [Certificate][pki_tools.types.certificate.Certificate]
         object
 
         Arguments:
-            cert_pem -- The PEM encoded certificate in string format
+            cert_pem: The PEM encoded certificate in string format
+
         Returns:
-            A
-            [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
-            created from the PEM
+            A Certificate created from the PEM
+
         Raises:
-             exceptions.CertLoadError - If the certificate could not be loaded
+            CertLoadError: If the certificate could not be loaded
         """
         try:
             cert_pem = re.sub(r"\n\s*", "\n", cert_pem)
@@ -150,15 +171,14 @@ class Certificate(TbsCertificate, InitCryptoParser):
     def from_file(cls: Type["Certificate"], file_path: str) -> "Certificate":
         """
         Reads a file containing one PEM certificate into a
-        [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
+        [Certificate][pki_tools.types.certificate.Certificate]
         object
 
         Arguments:
-            file_path -- Path and filename of the PEM certificate
+            file_path:  Path and filename of the PEM certificate
+
         Returns:
-             The
-             [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
-             representing the certificate from file
+             The Certificate loaded from the specified file
         """
 
         with open(file_path, "r") as f:
@@ -168,14 +188,26 @@ class Certificate(TbsCertificate, InitCryptoParser):
 
     @property
     def tbs_bytes(self) -> bytes:
+        """
+        Returns:
+            The to be signed bytes of this certificate
+        """
         return self._crypto_object.tbs_certificate_bytes
 
     @property
     def pem_bytes(self) -> bytes:
+        """
+        Returns:
+            Certificate PEM bytes
+        """
         return self._crypto_object.public_bytes(serialization.Encoding.PEM)
 
     @property
     def pem_string(self) -> str:
+        """
+        Returns:
+            Certificate PEM decoded into a string
+        """
         return self.pem_bytes.decode()
 
     @property
@@ -191,6 +223,10 @@ class Certificate(TbsCertificate, InitCryptoParser):
 
     @property
     def public_key(self) -> bytes:
+        """
+        Returns:
+            The bytes of the public key in PEM format
+        """
         return self._crypto_object.public_key().public_bytes(
             serialization.Encoding.PEM,
             serialization.PublicFormat.SubjectPublicKeyInfo,
@@ -198,11 +234,19 @@ class Certificate(TbsCertificate, InitCryptoParser):
 
     @property
     def sign_alg_oid_name(self) -> str:
+        """
+        Returns:
+            The name of the signature algorithm such as: `SHA512WITHRSA`
+        """
         name = self._crypto_object.signature_algorithm_oid._name.upper()
         return name.replace("ENCRYPTION", "")
 
     @property
     def der_public_key(self) -> bytes:
+        """
+        Returns:
+            The bytes of the public key in DER format
+        """
         return _der_key(self._crypto_object.public_key())
 
     def digest(
@@ -210,13 +254,30 @@ class Certificate(TbsCertificate, InitCryptoParser):
         algorithm: HashAlgorithm = HashAlgorithm(
             name=HashAlgorithmName.SHA512
         ),
-    ):
+    ) -> str:
+        """
+        Gets the base64 encoded fingerprint of the certificate
+
+        Args:
+            algorithm: The algorithm to use to hash the fingerprint with
+
+        Returns:
+            Hashed and base64 encoded certificate fingerprint
+        """
         fingerprint = self._crypto_object.fingerprint(
             algorithm._to_cryptography()
         )
         return base64.urlsafe_b64encode(fingerprint).decode("ascii")
 
-    def to_file(self, file_path):
+    def to_file(self, file_path: str) -> None:
+        """
+        Saves the certificate PEM string to the specified file,
+        creating it if it doesn't exist.
+
+        Args:
+            file_path: The path to the file (can be relative the caller or
+                absolute)
+        """
         with open(file_path, "w") as f:
             f.write(self.pem_string)
 
@@ -229,15 +290,13 @@ class Certificate(TbsCertificate, InitCryptoParser):
 
         Args:
             signed: The signed entity can either be a
-            [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
-            [CertificateRevocationList](https://pki-tools.fulder.dev/pki_tools/types/#certificaterevocationlist)
-            or a
-            [OCSPResponse](https://pki-tools.fulder.dev/pki_tools/types/#ocspresponse)
+                [Certificate][pki_tools.types.certificate.Certificate],
+                [CertificateRevocationList][pki_tools.types.crl.CertificateRevocationList]
+                or a [OCSPResponse][pki_tools.types.ocsp.OCSPResponse]
+
         Raises:
-            [InvalidSignedType](https://pki-tools.fulder.dev/pki_tools/exceptions/#invalidsignedtype)
-            -- When the issuer has a non-supported type
-            [SignatureVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed)
-            -- When the signature verification fails
+            InvalidSignedType: When the issuer has a non-supported type
+            SignatureVerificationFailed: When the signature verification fails
         """
         try:
             self._crypto_object.public_key().verify(
@@ -262,7 +321,19 @@ class Certificate(TbsCertificate, InitCryptoParser):
         key_pair: CryptoKeyPair,
         signature_algorithm: SignatureAlgorithm,
         req_key: Optional[CryptoKeyPair] = None,
-    ):
+    ) -> None:
+        """
+        Signs a created [Certificate][pki_tools.types.certificate.Certificate]
+        object with a given
+        [CryptoKeyPair][pki_tools.types.key_pair.CryptoKeyPair]
+
+        Args:
+            key_pair: Keypair containing the private key to sing the
+                certificate with
+            signature_algorithm: Algorithm to use for the signature
+            req_key: Can be used to sign another public key, defaults to the
+                public key part in `key_pair`
+        """
         self._private_key = key_pair
         self.serial_number = random.randint(1, 2**32 - 1)
         self.signature_algorithm = signature_algorithm
@@ -336,11 +407,18 @@ class Certificate(TbsCertificate, InitCryptoParser):
         return cert
 
     def _string_dict(self):
+        subject_key_info = self.subject_public_key_info._string_dict()
+        signature_alg = self.signature_algorithm.algorithm.name.value
         return {
-            "Certificate": {
-                "TbsCertificate": super()._string_dict(),
-                "Signature Value": self.signature_value,
-            }
+            "Version": self.version,
+            "Serial Number": self.hex_serial,
+            "Signature Algorithm": signature_alg,
+            "Issuer": str(self.issuer),
+            "Validity": self.validity._string_dict(),
+            "Subject": str(self.subject),
+            "Subject Public Key Info": subject_key_info,
+            "Extensions": self.extensions._string_dict(),
+            "Signature Value": self.signature_value,
         }
 
 

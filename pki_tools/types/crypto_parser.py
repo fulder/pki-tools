@@ -13,6 +13,12 @@ CryptoObject = TypeVar("CryptoObject")
 
 
 class CryptoParser(BaseModel, abc.ABC):
+    """
+    CryptoParser is an abstract class used by all the types
+    parsing cryptography objects into [pki_tools][pki_tools.types.certificate]
+    pydantic classes.
+    """
+
     _x509_obj: CryptoObject
 
     def __init__(self, **kwargs):
@@ -27,13 +33,17 @@ class CryptoParser(BaseModel, abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_cryptography(
-        cls: Type["CryptoParser"], crypto_obj
+        cls: Type["CryptoParser"], crypto_obj: CryptoObject
     ) -> "CryptoParser":
         """
-        Parses a cryptography x509 object into a CryptoParser
+        Parses a cryptography x509 object into a
+        [CryptoParser][pki_tools.types.crypto_parser.CryptoParser]
 
         Arguments:
-             crypto_obj --The cryptography object
+             crypto_obj: The cryptography object
+
+        Returns:
+            CryptoParser object
         """
 
     @abc.abstractmethod
@@ -54,6 +64,18 @@ class CryptoParser(BaseModel, abc.ABC):
 
 
 class InitCryptoParser(CryptoParser, abc.ABC):
+    """
+    Extends the CryptoParser into an object that requires initialization
+    before it can be used (while created as a
+    [pki_tools][pki_tools.types.certificate] object and not loaded from
+    cryptography). This can, for example, be a Certificate that needs
+    to be signed with a KeyPair containing the private key.
+
+    Attempt to e.g. dumping a certificate to a PEM string without using the
+    sign (init) function first will result in a
+    [MissingInit][pki_tools.exceptions.MissingInit] exception.
+    """
+
     _init_func: str = "sign"
 
     @property
