@@ -4,6 +4,7 @@ from .types import (
     Chain,
     Certificate,
     Certificates,
+    CertsUri,
     Extensions,
     Name,
     RevokeMode,

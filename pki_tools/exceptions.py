@@ -42,14 +42,23 @@ class RevokeCheckFailed(Error):
 
 
 class CertIssuerMissingInChain(Error):
+    """
+    CertIssuerMissingInChain
+    """
     pass
 
 
 class NotCompleteChain(Error):
+    """
+    NotCompleteChain
+    """
     pass
 
 
 class CertExpired(Error):
+    """
+    CertExpired
+    """
     pass
 
 

@@ -1,4 +1,4 @@
-from .certificates import Certificates
+from .certificates import Certificates, CertsUri
 from .certificate import Certificate, Validity
 from .chain import Chain
 from .crl import CertificateRevocationList

@@ -18,19 +18,6 @@ class Chain(Certificates):
     """
     Chain holds a list of certificates in a
     [chain of trust](https://en.wikipedia.org/wiki/Chain_of_trust)
-
-    Examples:
-    From File::
-        chain = Chain.from_file("/path/to/chain.pem")
-    From PEM::
-        pem_string="-----BEGIN CERTIFICATE-----...."
-        chain = Chain.from_pem_string(pem_string)
-    From URI::
-        chain = Chain.from_uri("https://chain.domain/chain.pem")
-    Using Chain::
-        cert: Certificate = ...
-        chain.check_chain()
-        chain.get_issuer(cert)
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -41,17 +28,11 @@ class Chain(Certificates):
         checking expiration and signatures of all certificates in the chain
 
         Raises:
-            [exceptions.NotCompleteChain](https://pki-tools.fulder.dev/pki_tools/exceptions/#notcompletechain)
-            -- When the chain contain only one not self-signed certificate
-
-            [exceptions.CertExpired](https://pki-tools.fulder.dev/pki_tools/exceptions/#certexpired)
-            -- If some certificate in the chain has expired
-
-            [exceptions.InvalidSignedType](https://pki-tools.fulder.dev/pki_tools/exceptions/#invalidsignedtype)
-            -- When the issuer has a non-supported type
-
-            [exceptions.SignatureVerificationFailed](https://pki-tools.fulder.dev/pki_tools/exceptions/#signatureverificationfailed)
-            -- When the signature verification fails
+            NotCompleteChain: When the chain contain only one not self-signed
+                certificate
+            CertExpired: If some certificate in the chain has expired
+            InvalidSignedType: When the issuer has a non-supported type
+            SignatureVerificationFailed: When the signature verification fails
         """
         if len(self.certificates) == 1:
             if self.certificates[0].issuer == self.certificates[0].subject:
@@ -89,15 +70,14 @@ class Chain(Certificates):
 
         Arguments:
             signed: The signed entity can either be a
-            [Certificate](https://pki-tools.fulder.dev/pki_tools/types/#certificate)
-            [CertificateRevocationList](https://pki-tools.fulder.dev/pki_tools/types/#certificaterevocationlist)
+                [Certificate][pki_tools.types.certificate.Certificate] or
+                [CertificateRevocationList][pki_tools.types.crl.CertificateRevocationList]
         Returns:
-            The
-            [Certificate](https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate)
-            representing the issuer of the `signed` entity
+            The issuer of the `signed` entity
+
         Raises:
-            [CertIssuerMissingInChain](https://pki-tools.fulder.dev/pki_tools/exceptions/#certissuermissinginchain)
-            -- When the issuer of the entity is missing in the chain
+            CertIssuerMissingInChain: When the issuer of the entity is missing
+                in the chain
         """
         cert_issuer = signed.issuer
         log = logger.bind(issuer=cert_issuer._string_dict())
