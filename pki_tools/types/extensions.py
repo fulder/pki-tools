@@ -1199,7 +1199,9 @@ class DistributionPoint(CryptoParser):
     def _string_dict(self):
         ret = {}
         if self.full_name is not None:
-            ret["Full Name"] = self.full_name
+            ret["Full Name"] = []
+            for full_name in self.full_name:
+                ret["Full Name"].append(full_name._string_dict())
         if self.name_relative_to_crl_issuer is not None:
             ret[
                 "Name Relative To CRL Issuer"

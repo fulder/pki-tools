@@ -1,6 +1,5 @@
 import pytest
 
-
 from pki_tools.exceptions import (
     CrlFetchFailure,
     CrlLoadError,

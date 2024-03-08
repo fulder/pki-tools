@@ -225,6 +225,8 @@ class ECDSAPadding(Padding):
             prehashed = False
             algorithm = crypto_obj.algorithm
 
+        algorithm = HashAlgorithm.from_cryptography(algorithm)
+
         return cls(
             algorithm=algorithm,
             prehashed=prehashed,
