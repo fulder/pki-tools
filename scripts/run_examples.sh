@@ -8,7 +8,7 @@ cd ./docs/examples/src
 error_flag=0
 for file in *.py; do
   echo "Running $file..."
-  output=$(PYTHONPATH=. python "$file" 2>&1)
+  output=$(poetry run python3 "$file" 2>&1)
 
   # Check the exit code of the Python command
   if [ $? -eq 0 ]; then
