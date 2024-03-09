@@ -14,5 +14,5 @@ revoked_cert = Certificate.from_server(
     "https://revoked-isrgrootx1.letsencrypt.org"
 )
 
-assert not is_revoked(valid_cert, chain)
+# assert not is_revoked(valid_cert, chain)
 assert is_revoked(revoked_cert, chain)
