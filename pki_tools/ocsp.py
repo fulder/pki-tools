@@ -111,6 +111,8 @@ def _check_ocsp_status(
             f"{server}/{req_path}", cache_ttl=cache_ttl
         )
 
+        print(ocsp_res._string_dict())
+
         _verify_ocsp_signature(ocsp_res, issuer_chain)
 
         if ocsp_res.is_revoked:
