@@ -36,7 +36,7 @@ def is_revoked(
             to check revocation for.
         chain: The CA chain including one or more certificates and
             the issuer of the `cert`, signer of the OCSP response and CRL
-            issuer. See [Chain Examples][loading-chain] for examples how the
+            issuer. See [Loading Chain][chain] for examples how the
             chain can be created
         crl_cache_seconds: [CRL Only] Specifies how long the CRL should
             be cached, default is 1 hour.
@@ -88,7 +88,7 @@ def is_revoked_multiple_issuers(
         cert: The [Certificate][pki_tools.types.certificate.Certificate]
             to check revocation for.
         cert_issuer: The CA chain including one or more certificates and
-            the issuer of the `cert`.See [Chain Examples][loading-chain]
+            the issuer of the `cert`. See [Loading Chain][chain]
             for examples how the chain can be created.
         ocsp_issuer: The CA chain including one or more certificates used
             for signing of the OCSP response

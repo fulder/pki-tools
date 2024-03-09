@@ -28,8 +28,7 @@ environment variable.
 ## Examples:
 
 * [Creating objects][creating-objects]
-* [Parsing x509 objects][parsing-x509-objects]
-* [Loading Chain][loading-chain]
+* [Loading objects][loading-objects]
 
 For more types, parsing and usage see the types section.
 

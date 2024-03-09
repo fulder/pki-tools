@@ -10,4 +10,4 @@ Certificate Revoked!
 ```
 
 For different ways of loading certificate and chain see: 
-[Parsing x509 objects][parsing-x509-objects].
+[Loading objects][loading-objects].

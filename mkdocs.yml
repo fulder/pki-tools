@@ -12,7 +12,7 @@ nav:
   - Examples:
       - Check Revocation: examples/check_revocation.md
       - Creating: examples/creating.md
-      - Parsing: examples/parsing.md
+      - Loading: examples/loading.md
   - Functions:
       - Checking Revocation: funcs/check_revocation.md
   - Types:
