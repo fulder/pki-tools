@@ -1,15 +1,12 @@
 import time
-from functools import lru_cache
 from typing import List, Type
 
 from cryptography import x509
 from loguru import logger
 
-from pki_tools.exceptions import OcspIssuerFetchFailure
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.crypto_parser import CryptoParser
-from pki_tools.types.utils import CACHE_TIME_SECONDS, CertsUri
-from pki_tools.utils import HTTPX_CLIENT
+from pki_tools.types.utils import CACHE_TIME_SECONDS
 
 
 class Certificates(CryptoParser):
@@ -79,14 +76,15 @@ class Certificates(CryptoParser):
     @classmethod
     def from_uri(
         cls: Type["Certificates"],
-        uri: str,
+        uris: [str],
         cache_time_seconds: int = CACHE_TIME_SECONDS,
     ) -> "Certificates":
         """
-        Loads Certificates from a URI.
+        Loads Certificates from one or more URI(s).
 
         Args:
-            uri: An URI where the certificate(s) can be downloaded.
+            uris: One or more URI(s) where the certificate(s) can
+                be downloaded.
             cache_time_seconds: Specifies how long the certificates
                 should be cached, default is 1 month.
                 Defaults to CACHE_TIME_SECONDS.
@@ -95,26 +93,13 @@ class Certificates(CryptoParser):
             Instance of Certificates containing the certificates
             fetched from the URI.
         """
-        chain_uri = CertsUri(uri=uri, cache_time_seconds=cache_time_seconds)
-        cache_ttl = round(time.time() / chain_uri.cache_time_seconds)
-        return cls._from_uri(chain_uri.uri, cache_ttl)
 
-    @classmethod
-    @lru_cache(maxsize=None)
-    def _from_uri(
-        cls: Type["Certificates"], uri: str, ttl: int = None
-    ) -> "Certificates":
-        ret = HTTPX_CLIENT.get(uri)
+        certificates = []
+        cache_ttl = round(time.time() / cache_time_seconds)
+        for uri in uris:
+            certificates.append(Certificate.from_uri(uri, cache_ttl))
 
-        if ret.status_code != 200:
-            logger.bind(status=ret.status_code).error(
-                "Failed to fetch issuer from URI"
-            )
-            raise OcspIssuerFetchFailure(
-                f"Issuer URI fetch failed. Status: {ret.status_code}"
-            )
-
-        return cls.from_pem_string(ret.text)
+        return cls(certificates=certificates)
 
     @property
     def pem_string(self) -> str:

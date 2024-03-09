@@ -4,7 +4,7 @@ from functools import lru_cache
 from loguru import logger
 
 from pki_tools.types.extensions import UniformResourceIdentifier
-from pki_tools.utils import HTTPX_CLIENT
+from pki_tools.types.utils import HTTPX_CLIENT
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import (
