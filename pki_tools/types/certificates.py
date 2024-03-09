@@ -138,3 +138,14 @@ class Certificates(CryptoParser):
         for cert in self.certificates:
             certs["Certificates"].append(cert._string_dict())
         return certs
+
+    def __str__(self):
+        ret = ""
+        count = 0
+        for cert in self.certificates:
+            count += 1
+            ret += f"{'-'*10}Certificate #{count}{'-'*10}\n"
+            ret += str(cert)
+            ret += f"{'-'*34}\n"
+        ret += f"Chain certificate count: {count}"
+        return ret

@@ -1,30 +1,63 @@
 # Parsing x509 objects
 
-## Loading from PEM
+## Certificate
+
+### From PEM
 
 ```python
-from pki_tools import Certificate, Chain, CertificateSigningRequest
+--8<-- "docs/examples/src/load_cert_pem.py"
+```
 
-cert_pem = """
------BEGIN CERTIFICATE-----
-<CERT_PEM_BYTES>
------END CERTIFICATE-----
-"""
+### From PEM file
+```python
+--8<-- "docs/examples/src/load_cert_file.py"
+```
 
-issuer_cert_pem = """
------BEGIN CERTIFICATE-----
-<ISSUER_CERT_PEM_BYTES>
------END CERTIFICATE-----
-"""
+### From URI
+```python
+--8<-- "docs/examples/src/load_cert_uri.py"
+```
 
-csr_pem= """
------BEGIN CERTIFICATE REQUEST-----
-<CSR_PEM_BYTES>
------END CERTIFICATE REQUEST-----
-"""
+### From server
+```python
+--8<-- "docs/examples/src/load_cert_server.py"
+```
 
 
-cert = Certificate.from_pem_string(cert_pem)
-chain = Chain.from_pem_string(issuer_cert_pem)
-csr = CertificateSigningRequest.from_pem_string(csr_pem)
+### From cryptography
+```python
+--8<-- "docs/examples/src/load_cert_crypto.py"
+```
+
+### Print example
+```yaml
+--8<-- "docs/examples/src/load_cert_output.yaml"
+```
+
+## Chain
+
+### From PEM
+
+```python
+--8<-- "docs/examples/src/load_chain_pem.py"
+```
+
+### From URI
+```python
+--8<-- "docs/examples/src/load_chain_uri.py"
+```
+
+### From file
+```python
+--8<-- "docs/examples/src/load_chain_file.py"
+```
+
+### From cryptography
+```python
+--8<-- "docs/examples/src/load_chain_crypto.py"
+```
+
+### Print example
+```yaml
+--8<-- "docs/examples/src/load_chain_output.yaml"
 ```

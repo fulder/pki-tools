@@ -1,4 +1,6 @@
-from .certificates import Certificates, CertsUri
+import yaml
+
+from .certificates import Certificates
 from .certificate import Certificate, Validity
 from .chain import Chain
 from .crl import CertificateRevocationList
@@ -37,3 +39,14 @@ from .signature_algorithm import (
     BLAKE2s,
     SM3,
 )
+
+MAX_YAML_LEN = 80
+def str_presenter(dumper, data):
+    if len(data) > MAX_YAML_LEN:
+        chunks = [data[i:i + MAX_YAML_LEN] for i in range(0, len(data), MAX_YAML_LEN)]
+
+        data = '\n'.join(chunks)
+        return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
+    return dumper.represent_scalar('tag:yaml.org,2002:str', data)
+
+yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
