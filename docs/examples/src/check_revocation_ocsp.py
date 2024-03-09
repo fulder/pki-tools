@@ -9,5 +9,4 @@ chain = Chain.from_uri(
     ]
 )
 
-if is_revoked(cert, chain, revoke_mode=RevokeMode.OCSP_ONLY):
-    print("Certificate Revoked!")
+assert is_revoked(cert, chain, revoke_mode=RevokeMode.OCSP_ONLY)
