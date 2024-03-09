@@ -52,7 +52,7 @@ jobs:
 
       - name: Debug
         run: |
-          poetry run LOGURU_LEVEL=TRACE python3 ./docs/examples/src/check_revocation.py
+          LOGURU_LEVEL=TRACE poetry run python3 ./docs/examples/src/check_revocation.py
 
       - name: Run tests
         run: | 
