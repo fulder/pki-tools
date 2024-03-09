@@ -120,6 +120,8 @@ def _check_ocsp_status(
                 date=str(ocsp_res._x509_obj.revocation_time),
             ).debug("Certificate revoked")
             return True
+        else:
+            return False
 
     if not checked_status:
         raise ExtensionMissing()
