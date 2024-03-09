@@ -1,7 +1,6 @@
 site_name: "PKI Tools"
 
 theme:
-#  name: "material"
   name: "readthedocs"
 
 repo_name: fulder/pki-tools
