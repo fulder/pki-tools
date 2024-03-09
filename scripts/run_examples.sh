@@ -15,6 +15,7 @@ for file in *.py; do
     echo "$file executed successfully"
   else
     printf "${RED}Error executing $file${NC}\n"
+    echo $output
   error_flag=1
   fi
 done
