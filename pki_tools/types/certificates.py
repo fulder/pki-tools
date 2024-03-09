@@ -5,30 +5,11 @@ from typing import List, Type
 from cryptography import x509
 from loguru import logger
 
-from pydantic import BaseModel, constr
-
-
 from pki_tools.exceptions import OcspIssuerFetchFailure
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.crypto_parser import CryptoParser
+from pki_tools.types.utils import CACHE_TIME_SECONDS, CertsUri
 from pki_tools.utils import HTTPX_CLIENT
-
-CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
-
-
-class CertsUri(BaseModel):
-    """
-    Describes a URI where one or more public certificate(s)
-    can be downloaded
-
-    Attributes:
-        uri: The URI for the public certificate(s)
-            cache_time_seconds: Specifies how long the public cert should be
-            cached, default is 1 month.
-    """
-
-    uri: constr(pattern=r"https*://.*")
-    cache_time_seconds: int = CACHE_TIME_SECONDS
 
 
 class Certificates(CryptoParser):
@@ -121,7 +102,7 @@ class Certificates(CryptoParser):
     @classmethod
     @lru_cache(maxsize=None)
     def _from_uri(
-        cls: Type["Certificates"], uri: str, ttl=None
+        cls: Type["Certificates"], uri: str, ttl: int = None
     ) -> "Certificates":
         ret = HTTPX_CLIENT.get(uri)
 

@@ -25,10 +25,7 @@ def chain(intermediate_ca_pem, root_ca_pem):
 
 @pytest.fixture
 def revoked_cert():
-    hostname = "revoked-isrgrootx1.letsencrypt.org"
-    cert_pem = ssl.get_server_certificate((hostname, 443))
-
-    return Certificate.from_pem_string(cert_pem)
+    return Certificate.from_uri("https://revoked-isrgrootx1.letsencrypt.org")
 
 
 @pytest.fixture
