@@ -120,6 +120,7 @@ class OCSPResponse(InitCryptoParser):
             The constructed OCSPResponse object.
         """
         crypto_obj = ocsp.load_der_ocsp_response(der)
+        print(crypto_obj)
         return OCSPResponse.from_cryptography(crypto_obj)
 
     @property
