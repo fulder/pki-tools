@@ -7,8 +7,6 @@ on:
 
 jobs:
   build-and-publish:
-    needs:
-      - apitest
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
