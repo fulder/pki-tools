@@ -136,7 +136,6 @@ def is_revoked_multiple_issuers(
     try:
         return _is_revoked(cert, crl_issuer, crl_cache_seconds)
     except Error as e:
-        print(e)
         err_message = "Revoke checks failed"
         logger.bind(exceptionType=type(e).__name__).error(err_message)
         raise RevokeCheckFailed(err_message) from None
