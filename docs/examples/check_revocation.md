@@ -4,9 +4,16 @@
 --8<-- "docs/examples/src/check_revocation.py"
 ```
 
-Output:
+## Only OCSP
+
+```python
+--8<-- "docs/examples/src/check_revocation_ocsp.py"
 ```
-Certificate Revoked!
+
+## Only CRL
+
+```python
+--8<-- "docs/examples/src/check_revocation_crl.py"
 ```
 
 For different ways of loading certificate and chain see: 

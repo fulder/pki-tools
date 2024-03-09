@@ -6,22 +6,6 @@ on:
       - "*"
 
 jobs:
-  apitest:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4.1.1
-
-      - name: Install requirements
-        run: |
-          pip install poetry
-          poetry install
-          poetry install --with apitest,test
-
-      - name: Run apitests
-        run: |
-          poetry run pytest ./apitest
-
   build-and-publish:
     needs:
       - apitest

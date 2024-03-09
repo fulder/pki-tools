@@ -1,7 +1,5 @@
 from pki_tools import Certificate, Chain, is_revoked
 
-cert = Certificate.from_server("https://revoked-isrgrootx1.letsencrypt.org")
-
 chain = Chain.from_uri(
     [
         "https://letsencrypt.org/certs/isrgrootx1.pem",
@@ -9,5 +7,12 @@ chain = Chain.from_uri(
     ]
 )
 
-if is_revoked(cert, chain):
-    print("Certificate Revoked!")
+valid_cert = Certificate.from_server(
+    "https://valid-isrgrootx1.letsencrypt.org"
+)
+revoked_cert = Certificate.from_server(
+    "https://revoked-isrgrootx1.letsencrypt.org"
+)
+
+assert not is_revoked(valid_cert, chain)
+assert is_revoked(revoked_cert, chain)
