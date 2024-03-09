@@ -1,34 +1,12 @@
 import time
-from functools import lru_cache
 from typing import List, Type
 
 from cryptography import x509
 from loguru import logger
 
-from pydantic import BaseModel, constr
-
-
-from pki_tools.exceptions import OcspIssuerFetchFailure
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.crypto_parser import CryptoParser
-from pki_tools.utils import HTTPX_CLIENT
-
-CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
-
-
-class CertsUri(BaseModel):
-    """
-    Describes a URI where one or more public certificate(s)
-    can be downloaded
-
-    Attributes:
-        uri: The URI for the public certificate(s)
-            cache_time_seconds: Specifies how long the public cert should be
-            cached, default is 1 month.
-    """
-
-    uri: constr(pattern=r"https*://.*")
-    cache_time_seconds: int = CACHE_TIME_SECONDS
+from pki_tools.types.utils import CACHE_TIME_SECONDS
 
 
 class Certificates(CryptoParser):
@@ -98,14 +76,15 @@ class Certificates(CryptoParser):
     @classmethod
     def from_uri(
         cls: Type["Certificates"],
-        uri: str,
+        uris: [str],
         cache_time_seconds: int = CACHE_TIME_SECONDS,
     ) -> "Certificates":
         """
-        Loads Certificates from a URI.
+        Loads Certificates from one or more URI(s).
 
         Args:
-            uri: An URI where the certificate(s) can be downloaded.
+            uris: One or more URI(s) where the certificate(s) can
+                be downloaded.
             cache_time_seconds: Specifies how long the certificates
                 should be cached, default is 1 month.
                 Defaults to CACHE_TIME_SECONDS.
@@ -114,26 +93,13 @@ class Certificates(CryptoParser):
             Instance of Certificates containing the certificates
             fetched from the URI.
         """
-        chain_uri = CertsUri(uri=uri, cache_time_seconds=cache_time_seconds)
-        cache_ttl = round(time.time() / chain_uri.cache_time_seconds)
-        return cls._from_uri(chain_uri.uri, cache_ttl)
 
-    @classmethod
-    @lru_cache(maxsize=None)
-    def _from_uri(
-        cls: Type["Certificates"], uri: str, ttl=None
-    ) -> "Certificates":
-        ret = HTTPX_CLIENT.get(uri)
+        certificates = []
+        cache_ttl = round(time.time() / cache_time_seconds)
+        for uri in uris:
+            certificates.append(Certificate.from_uri(uri, cache_ttl))
 
-        if ret.status_code != 200:
-            logger.bind(status=ret.status_code).error(
-                "Failed to fetch issuer from URI"
-            )
-            raise OcspIssuerFetchFailure(
-                f"Issuer URI fetch failed. Status: {ret.status_code}"
-            )
-
-        return cls.from_pem_string(ret.text)
+        return cls(certificates=certificates)
 
     @property
     def pem_string(self) -> str:
@@ -172,3 +138,14 @@ class Certificates(CryptoParser):
         for cert in self.certificates:
             certs["Certificates"].append(cert._string_dict())
         return certs
+
+    def __str__(self):
+        ret = ""
+        count = 0
+        for cert in self.certificates:
+            count += 1
+            ret += f"{'-'*10}Certificate #{count}{'-'*10}\n"
+            ret += str(cert)
+            ret += f"{'-'*34}\n"
+        ret += f"Chain certificate count: {count}"
+        return ret

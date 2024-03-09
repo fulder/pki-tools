@@ -18,6 +18,12 @@ class OcspFetchFailure(Error):
     pass
 
 
+class FetchFailure(Error):
+    """
+    FetchFailure
+    """
+
+
 class OcspInvalidResponseStatus(Error):
     pass
 

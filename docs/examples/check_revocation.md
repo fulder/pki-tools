@@ -1,14 +1,20 @@
 # Checking revocation
 
-See e.g. [Loading from PEM][loading-from-pem] for information how to
-get the `cert` and `chain` objects below.
+```python
+--8<-- "docs/examples/src/check_revocation.py"
+```
+
+## Only OCSP
 
 ```python
-from pki_tools import Certificate, Chain, is_revoked
-
-cert: Certificate = ...
-chain: Chain = ...
-
-if is_revoked(cert, chain):
-    print("Certificate Revoked!")
+--8<-- "docs/examples/src/check_revocation_ocsp.py"
 ```
+
+## Only CRL
+
+```python
+--8<-- "docs/examples/src/check_revocation_crl.py"
+```
+
+For different ways of loading certificate and chain see: 
+[Loading objects][loading-objects].

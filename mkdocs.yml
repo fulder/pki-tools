@@ -1,7 +1,6 @@
 site_name: "PKI Tools"
 
 theme:
-#  name: "material"
   name: "readthedocs"
 
 repo_name: fulder/pki-tools
@@ -12,8 +11,7 @@ nav:
   - Examples:
       - Check Revocation: examples/check_revocation.md
       - Creating: examples/creating.md
-      - Parsing: examples/parsing.md
-      - Chain: examples/chain.md
+      - Loading: examples/loading.md
   - Functions:
       - Checking Revocation: funcs/check_revocation.md
   - Types:
@@ -59,6 +57,7 @@ markdown_extensions:
   - toc:
       permalink: true
       title: Page contents
+  - pymdownx.snippets
 
 watch:
   - docs

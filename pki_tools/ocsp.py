@@ -6,7 +6,7 @@ from loguru import logger
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.signature_algorithm import HashAlgorithm
-from pki_tools.utils import HTTPX_CLIENT
+from pki_tools.types.utils import HTTPX_CLIENT
 from pki_tools.exceptions import (
     ExtensionMissing,
     OcspInvalidResponseStatus,
@@ -118,6 +118,8 @@ def _check_ocsp_status(
                 date=str(ocsp_res._x509_obj.revocation_time),
             ).debug("Certificate revoked")
             return True
+        else:
+            return False
 
     if not checked_status:
         raise ExtensionMissing()

@@ -1,6 +1,7 @@
 import base64
 import random
 import re
+import time
 from typing import Optional, Dict
 import datetime
 
@@ -23,7 +24,14 @@ from pki_tools.types.signature_algorithm import (
     HashAlgorithmName,
     PKCS1v15Padding,
 )
-from pki_tools.types.utils import _byte_to_hex, _der_key
+from pki_tools.types.utils import (
+    _byte_to_hex,
+    _der_key,
+    CertsUri,
+    CACHE_TIME_SECONDS,
+    _download_server_certificate,
+    _download_pem,
+)
 
 from typing import Type
 
@@ -44,7 +52,6 @@ PEM_CERT_REGEX = re.compile(
 PEM_CSR_REGEX = re.compile(
     r"\s*-+BEGIN CERTIFICATE REQUEST-+[\w+/\s=]*-+END CERTIFICATE REQUEST-+\s*"
 )
-CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 
 
 class Validity(BaseModel):
@@ -185,6 +192,54 @@ class Certificate(InitCryptoParser):
             cert_pem = f.read()
 
         return Certificate.from_pem_string(cert_pem)
+
+    @classmethod
+    def from_server(
+        cls: Type["Certificate"],
+        uri: str,
+        cache_time_seconds: int = CACHE_TIME_SECONDS,
+    ) -> "Certificate":
+        """
+        Loads a server certificate from a URI
+
+        Args:
+            uri: The https URI of the server containing the certificate
+            cache_time_seconds: How long the request should be cached in memory
+
+        Returns:
+            The loaded [Certificate][pki_tools.types.certificate] object
+        """
+        cert_uri = CertsUri(uri=uri, cache_time_seconds=cache_time_seconds)
+
+        cache_ttl = round(time.time() / cert_uri.cache_time_seconds)
+        pem = _download_server_certificate(cert_uri.hostname, cache_ttl)
+        return Certificate.from_pem_string(pem)
+
+    @classmethod
+    def from_uri(
+        cls: Type["Certificate"],
+        uri: str,
+        cache_time_seconds: int = CACHE_TIME_SECONDS,
+    ) -> "Certificate":
+        """
+        Loads Certificates from a URI.
+
+        Args:
+            uri: URI where the certificate can be downloaded.
+            cache_time_seconds: Specifies how long the certificate
+                should be cached, default is 1 month.
+                Defaults to CACHE_TIME_SECONDS.
+
+        Returns:
+            Instance of Certificate containing the certificates
+            fetched from the URI.
+        """
+
+        cache_ttl = round(time.time() / cache_time_seconds)
+        cert_uri = CertsUri(uri=uri)
+        pem = _download_pem(cert_uri.uri, cache_ttl)
+
+        return Certificate.from_pem_string(pem)
 
     @property
     def tbs_bytes(self) -> bytes:
@@ -352,7 +407,7 @@ class Certificate(InitCryptoParser):
             self._string_dict(),
             indent=2,
             default_flow_style=False,
-            explicit_start=True,
+            explicit_start=False,
             default_style="",
         )
 

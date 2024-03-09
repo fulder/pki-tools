@@ -14,6 +14,12 @@ PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
 `pip install pki-tools`
 
+## Log level
+
+`pki-tools` use [loguru] library for logging. Where the default log level
+is `DEBUG`, if you want to change it you could e.g. use the `LOGURU_LEVEL` 
+environment variable.
+
 ## Functions
 
 * [Checking Revocation][checking-revocation] - checking
@@ -22,8 +28,7 @@ PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 ## Examples:
 
 * [Creating objects][creating-objects]
-* [Parsing x509 objects][parsing-x509-objects]
-* [Loading Chain][loading-chain]
+* [Loading objects][loading-objects]
 
 For more types, parsing and usage see the types section.
 
@@ -34,3 +39,5 @@ For more types, parsing and usage see the types section.
 [crl-draft]: https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.1.13
 
 [ext-draft]: https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2
+
+[loguru]: https://github.com/Delgan/loguru
