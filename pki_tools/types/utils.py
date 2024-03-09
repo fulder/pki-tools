@@ -1,4 +1,5 @@
 import binascii
+import socket
 import ssl
 from functools import lru_cache
 
@@ -60,7 +61,11 @@ def _der_key(public_key) -> bytes:
 
 @lru_cache(maxsize=None)
 def _download_server_certificate(hostname: str, cache_ttl: int = None):
-    return ssl.get_server_certificate((hostname, 443))
+    context = ssl.create_default_context()
+    with socket.create_connection((hostname, 443)) as sock:
+        with context.wrap_socket(sock, server_hostname=hostname) as ssock:
+            der_cert = ssock.getpeercert(binary_form=True)
+            return ssl.DER_cert_to_PEM_cert(der_cert)
 
 
 @lru_cache(maxsize=None)
