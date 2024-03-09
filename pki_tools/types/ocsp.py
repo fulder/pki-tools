@@ -80,8 +80,6 @@ class OCSPResponse(InitCryptoParser):
         certificate_status = None
         revocation_time = None
         if response_status == ocsp.OCSPResponseStatus.SUCCESSFUL:
-            print(crypto_ocsp_response.certificate_status)
-            print(crypto_ocsp_response.serial_number)
             certificate_status = crypto_ocsp_response.certificate_status.name
             try:
                 ocsp_response_key_hash = _byte_to_hex(
