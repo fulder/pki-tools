@@ -51,10 +51,6 @@ jobs:
           pip install poetry
           poetry install --with test
 
-      - name: Debug
-        run: |
-          LOGURU_LEVEL=TRACE poetry run python3 ./docs/examples/src/check_revocation.py
-
       - name: Run tests
         run: | 
           poetry run python -m pytest ./test
