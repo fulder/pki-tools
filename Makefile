@@ -15,3 +15,7 @@ clean:
 	rm -f .coverage
 	rm -rf ./.pytest_cache
 	rm -rf ./.ruff_cache
+
+.PHONY: run-examples
+run-examples:
+	bash ./scripts/run_examples.sh

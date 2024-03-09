@@ -53,6 +53,7 @@ PEM_CSR_REGEX = re.compile(
     r"\s*-+BEGIN CERTIFICATE REQUEST-+[\w+/\s=]*-+END CERTIFICATE REQUEST-+\s*"
 )
 
+
 class Validity(BaseModel):
     """
     Describes the validity of a certificate

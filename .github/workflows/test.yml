@@ -53,3 +53,7 @@ jobs:
       - name: Run tests
         run: | 
           poetry run python -m pytest ./test
+
+      - name: Run example files
+        run: |
+          make run-examples
