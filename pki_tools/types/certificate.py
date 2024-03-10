@@ -40,7 +40,7 @@ from cryptography import x509
 from pydantic import BaseModel
 
 
-from pki_tools.types.crypto_parser import InitCryptoParser
+from pki_tools.types.crypto_parser import InitCryptoParser, IoCryptoParser
 
 from loguru import logger
 from pydantic import ConfigDict
@@ -73,7 +73,7 @@ class Validity(BaseModel):
         }
 
 
-class Certificate(InitCryptoParser):
+class Certificate(InitCryptoParser, IoCryptoParser):
     """
     An object describing a x509 Certificate
 
@@ -146,16 +146,14 @@ class Certificate(InitCryptoParser):
         return ret
 
     @classmethod
-    def from_pem_string(
-        cls: Type["Certificate"], cert_pem: str
-    ) -> "Certificate":
+    def from_pem_string(cls: Type["Certificate"], pem: str) -> "Certificate":
         """
         Loads a certificate from a PEM string into a
         [Certificate][pki_tools.types.certificate.Certificate]
         object
 
         Arguments:
-            cert_pem: The PEM encoded certificate in string format
+            pem: The PEM encoded certificate in string format
 
         Returns:
             A Certificate created from the PEM
@@ -164,34 +162,38 @@ class Certificate(InitCryptoParser):
             CertLoadError: If the certificate could not be loaded
         """
         try:
-            cert_pem = re.sub(r"\n\s*", "\n", cert_pem)
+            cert_pem = re.sub(r"\n\s*", "\n", pem)
             if not _is_pem_cert_string(cert_pem):
                 raise ValueError
 
             crypto_cert = x509.load_pem_x509_certificate(cert_pem.encode())
             return Certificate.from_cryptography(crypto_cert)
         except ValueError as e:
-            logger.bind(cert=cert_pem).debug("Failed to load cert from PEM")
+            logger.bind(cert=pem).debug("Failed to load cert from PEM")
             raise CertLoadError(e)
 
     @classmethod
-    def from_file(cls: Type["Certificate"], file_path: str) -> "Certificate":
+    def from_der_bytes(cls: Type["Certificate"], der: bytes) -> "Certificate":
         """
-        Reads a file containing one PEM certificate into a
+        Loads a certificate from DER bytes into a
         [Certificate][pki_tools.types.certificate.Certificate]
         object
 
         Arguments:
-            file_path:  Path and filename of the PEM certificate
+            der: The DER encoded certificate
 
         Returns:
-             The Certificate loaded from the specified file
+            A Certificate created from the DER bytes
+
+        Raises:
+            CertLoadError: If the certificate could not be loaded
         """
-
-        with open(file_path, "r") as f:
-            cert_pem = f.read()
-
-        return Certificate.from_pem_string(cert_pem)
+        try:
+            crypto_cert = x509.load_der_x509_certificate(der)
+            return Certificate.from_cryptography(crypto_cert)
+        except ValueError as e:
+            logger.debug("Failed to load cert from DER")
+            raise CertLoadError(e)
 
     @classmethod
     def from_server(
@@ -258,12 +260,12 @@ class Certificate(InitCryptoParser):
         return self._crypto_object.public_bytes(serialization.Encoding.PEM)
 
     @property
-    def pem_string(self) -> str:
+    def der_bytes(self) -> bytes:
         """
         Returns:
-            Certificate PEM decoded into a string
+            Certificate DER bytes
         """
-        return self.pem_bytes.decode()
+        return self._crypto_object.public_bytes(serialization.Encoding.DER)
 
     @property
     def hex_serial(self) -> str:
@@ -323,18 +325,6 @@ class Certificate(InitCryptoParser):
             algorithm._to_cryptography()
         )
         return base64.urlsafe_b64encode(fingerprint).decode("ascii")
-
-    def to_file(self, file_path: str) -> None:
-        """
-        Saves the certificate PEM string to the specified file,
-        creating it if it doesn't exist.
-
-        Args:
-            file_path: The path to the file (can be relative the caller or
-                absolute)
-        """
-        with open(file_path, "w") as f:
-            f.write(self.pem_string)
 
     def verify_signature(
         self: Type["Certificate"],
