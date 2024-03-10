@@ -5,7 +5,8 @@ from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
 from conftest import TEST_SUBJECT, CURRENT_DIR
-from pki_tools import Certificate, CertLoadError
+from pki_tools.types.certificate import Certificate
+from pki_tools.exceptions import LoadError
 from pki_tools.types import RSAKeyPair
 
 
@@ -76,7 +77,7 @@ def test_certificate_from_pem_string_with_subject_directory_attributes(
 
 
 def test_certificate_from_pem_string_invalid_data():
-    with pytest.raises(CertLoadError):
+    with pytest.raises(LoadError):
         Certificate.from_pem_string("BAD_PEM_DATA")
 
 

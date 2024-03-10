@@ -4,12 +4,14 @@ import re
 import yaml
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-from loguru import logger
 
-from pki_tools.exceptions import CsrLoadError, MissingInit
+from pki_tools.exceptions import MissingInit
 from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
-from pki_tools.types.certificate import _is_pem_csr_string
-from pki_tools.types.crypto_parser import InitCryptoParser
+from pki_tools.types.crypto_parser import (
+    InitCryptoParser,
+    IoCryptoParser,
+    CryptoConfig,
+)
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 from pki_tools.types.signature_algorithm import (
@@ -17,8 +19,12 @@ from pki_tools.types.signature_algorithm import (
 )
 from pki_tools.types.utils import _byte_to_hex
 
+PEM_CSR_REGEX = re.compile(
+    r"\s*-+BEGIN CERTIFICATE REQUEST-+[\w+/\s=]*-+END CERTIFICATE REQUEST-+\s*"
+)
 
-class CertificateSigningRequest(InitCryptoParser):
+
+class CertificateSigningRequest(IoCryptoParser, InitCryptoParser):
     """
     Represents a certificate signing request (CSR).
 
@@ -73,53 +79,6 @@ class CertificateSigningRequest(InitCryptoParser):
         ret._x509_obj = crypto_csr
         return ret
 
-    @classmethod
-    def from_pem_string(
-        cls: Type["CertificateSigningRequest"], csr_pem: str
-    ) -> "CertificateSigningRequest":
-        """
-        Load a CSR from a PEM string into a CertificateSigningRequest object.
-
-        Args:
-            csr_pem: PEM encoded CSR in string format.
-
-        Returns:
-            Instance of CertificateSigningRequest.
-
-        Raises:
-            CsrLoadError: If the CSR could not be loaded.
-        """
-        try:
-            csr_pem = re.sub(r"\n\s*", "\n", csr_pem)
-            if not _is_pem_csr_string(csr_pem):
-                raise ValueError
-
-            csr_cert = x509.load_pem_x509_csr(csr_pem.encode())
-            return CertificateSigningRequest.from_cryptography(csr_cert)
-        except ValueError as e:
-            logger.bind(csr=csr_pem).debug("Failed to load CSR from PEM")
-            raise CsrLoadError(e)
-
-    @classmethod
-    def from_file(
-        cls: Type["CertificateSigningRequest"], file_path: str
-    ) -> "CertificateSigningRequest":
-        """
-        Read a file containing a PEM CSR into a CertificateSigningRequest
-        object.
-
-        Args:
-            file_path: Path and filename of the PEM CSR.
-
-        Returns:
-            Instance of CertificateSigningRequest representing the CSR loaded
-            from file.
-        """
-        with open(file_path, "r") as f:
-            csr_pem = f.read()
-
-        return CertificateSigningRequest.from_pem_string(csr_pem)
-
     @property
     def tbs_bytes(self) -> bytes:
         """
@@ -141,26 +100,6 @@ class CertificateSigningRequest(InitCryptoParser):
         return self._crypto_object.public_bytes(
             encoding=serialization.Encoding.PEM
         )
-
-    @property
-    def pem_string(self) -> str:
-        """
-        Get the PEM string representation of the CSR.
-
-        Returns:
-            PEM string of the CSR.
-        """
-        return self.pem_bytes.decode()
-
-    def to_file(self, file_path: str) -> None:
-        """
-        Save the CSR to a file.
-
-        Args:
-            file_path: Path to save the file.
-        """
-        with open(file_path, "w") as f:
-            f.write(self.pem_string)
 
     def sign(
         self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
@@ -237,4 +176,12 @@ class CertificateSigningRequest(InitCryptoParser):
             default_flow_style=False,
             explicit_start=True,
             default_style="",
+        )
+
+    @classmethod
+    def _crypto_func_names(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem="load_pem_x509_csr",
+            load_der="load_der_x509_csr",
+            pem_regexp=PEM_CSR_REGEX,
         )

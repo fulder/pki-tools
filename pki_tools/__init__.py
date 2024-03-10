@@ -47,7 +47,7 @@ from .exceptions import (
     CertExpired,
     InvalidSignedType,
     SignatureVerificationFailed,
-    CertLoadError,
+    LoadError,
 )
 
 from .funcs import is_revoked, is_revoked_multiple_issuers

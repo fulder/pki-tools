@@ -6,14 +6,6 @@ class ExtensionMissing(Error):
     pass
 
 
-class CertLoadError(Error):
-    """
-    Thrown when the cert could not be loaded e.g. due to invalid PEM format
-    """
-
-    pass
-
-
 class OcspFetchFailure(Error):
     pass
 
@@ -44,12 +36,11 @@ class CrlLoadError(Error):
     pass
 
 
-class CsrLoadError(Error):
+class LoadError(Error):
     """
-    CsrLoadError
+    Risen when a IoCryptoParser implementing class could not be
+    loaded properly.
     """
-
-    pass
 
 
 class RevokeCheckFailed(Error):

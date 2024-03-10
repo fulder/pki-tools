@@ -1,16 +1,23 @@
 import abc
+import importlib
+import re
 from enum import Enum
 from typing import Type, TypeVar, Dict
 
+from cryptography.hazmat.primitives import serialization
 from pydantic import BaseModel
 
 from pki_tools.exceptions import (
     MissingInit,
+    LoadError,
 )
 
 from loguru import logger
 
 CryptoObject = TypeVar("CryptoObject")
+
+
+X509_MODULE = importlib.import_module("cryptography.x509")
 
 
 class CryptoParser(BaseModel, abc.ABC):
@@ -90,11 +97,19 @@ class InitCryptoParser(CryptoParser, abc.ABC):
 
 class Encoding(Enum):
     """
-    Describes the encoding used for writing/reading from/to files
+    Describes the encoding used for writing/reading
+    [IoCryptoParser][pki_tools.types.crypto_parser.IoCryptoParser]
+    objects.
     """
 
     PEM = "pem_string"
     DER = "der_bytes"
+
+
+class CryptoConfig(BaseModel):
+    load_pem: str
+    load_der: str
+    pem_regexp: re.Pattern
 
 
 class IoCryptoParser(CryptoParser, abc.ABC):
@@ -103,28 +118,7 @@ class IoCryptoParser(CryptoParser, abc.ABC):
     and write the implementing class in different formats and to/from files
     """
 
-    @property
-    @abc.abstractmethod
-    def der_bytes(self) -> bytes:
-        """
-        Returns the DER bytes of the object
-
-        Returns:
-            The DER bytes.
-        """
-
-    @property
-    @abc.abstractmethod
-    def pem_bytes(self) -> bytes:
-        """
-        Returns the PEM bytes of the object
-
-        Returns:
-            The PEM bytes.
-        """
-
     @classmethod
-    @abc.abstractmethod
     def from_pem_string(
         cls: Type["IoCryptoParser"], pem: str
     ) -> "IoCryptoParser":
@@ -137,9 +131,22 @@ class IoCryptoParser(CryptoParser, abc.ABC):
         Returns:
             A created object from the PEM
         """
+        cfg = cls._crypto_func_names()
+
+        if not isinstance(pem, str):
+            logger.bind(pem=pem).debug("PEM parameter is not a string")
+            raise LoadError()
+
+        pem = re.sub(r"\n\s*", "\n", pem)
+
+        if not re.match(cfg.pem_regexp, pem):
+            logger.bind(pem=pem).debug("PEM parameter has invalid format")
+            raise LoadError()
+
+        crypto_obj = getattr(X509_MODULE, cfg.load_pem)(pem.encode())
+        return cls.from_cryptography(crypto_obj)
 
     @classmethod
-    @abc.abstractmethod
     def from_der_bytes(
         cls: Type["IoCryptoParser"], der: bytes
     ) -> "IoCryptoParser":
@@ -152,6 +159,9 @@ class IoCryptoParser(CryptoParser, abc.ABC):
         Returns:
             A created object from the DER bytes
         """
+        cfg = cls._crypto_func_names()
+        crypto_obj = getattr(X509_MODULE, cfg.load_der)(der)
+        return cls.from_cryptography(crypto_obj)
 
     @classmethod
     def from_file(
@@ -172,6 +182,28 @@ class IoCryptoParser(CryptoParser, abc.ABC):
             data = f.read()
 
         return getattr(cls, f"from_{encoding.value}")(data)
+
+    @property
+    def der_bytes(self) -> bytes:
+        """
+        Returns the DER bytes of the object
+
+        Returns:
+            The DER bytes.
+        """
+        return self._crypto_object.public_bytes(serialization.Encoding.DER)
+
+    @property
+    def pem_bytes(self) -> bytes:
+        """
+        Returns the PEM bytes of the object
+
+        Returns:
+            The PEM bytes.
+        """
+        return self._crypto_object.public_bytes(
+            encoding=serialization.Encoding.PEM
+        )
 
     @property
     def pem_string(self) -> str:
@@ -195,3 +227,8 @@ class IoCryptoParser(CryptoParser, abc.ABC):
         """
         with open(file_path, "w") as f:
             f.write(getattr(self, encoding.value))
+
+    @classmethod
+    @abc.abstractmethod
+    def _crypto_func_names(cls) -> CryptoConfig:
+        pass

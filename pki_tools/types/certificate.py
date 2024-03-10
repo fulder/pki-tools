@@ -14,7 +14,6 @@ from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
 from pki_tools.exceptions import (
-    CertLoadError,
     MissingInit,
     SignatureVerificationFailed,
 )
@@ -40,7 +39,11 @@ from cryptography import x509
 from pydantic import BaseModel
 
 
-from pki_tools.types.crypto_parser import InitCryptoParser, IoCryptoParser
+from pki_tools.types.crypto_parser import (
+    InitCryptoParser,
+    IoCryptoParser,
+    CryptoConfig,
+)
 
 from loguru import logger
 from pydantic import ConfigDict
@@ -48,9 +51,6 @@ from pydantic import ConfigDict
 
 PEM_CERT_REGEX = re.compile(
     r"\s*-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+\s*"
-)
-PEM_CSR_REGEX = re.compile(
-    r"\s*-+BEGIN CERTIFICATE REQUEST-+[\w+/\s=]*-+END CERTIFICATE REQUEST-+\s*"
 )
 
 
@@ -146,56 +146,6 @@ class Certificate(InitCryptoParser, IoCryptoParser):
         return ret
 
     @classmethod
-    def from_pem_string(cls: Type["Certificate"], pem: str) -> "Certificate":
-        """
-        Loads a certificate from a PEM string into a
-        [Certificate][pki_tools.types.certificate.Certificate]
-        object
-
-        Arguments:
-            pem: The PEM encoded certificate in string format
-
-        Returns:
-            A Certificate created from the PEM
-
-        Raises:
-            CertLoadError: If the certificate could not be loaded
-        """
-        try:
-            cert_pem = re.sub(r"\n\s*", "\n", pem)
-            if not _is_pem_cert_string(cert_pem):
-                raise ValueError
-
-            crypto_cert = x509.load_pem_x509_certificate(cert_pem.encode())
-            return Certificate.from_cryptography(crypto_cert)
-        except ValueError as e:
-            logger.bind(cert=pem).debug("Failed to load cert from PEM")
-            raise CertLoadError(e)
-
-    @classmethod
-    def from_der_bytes(cls: Type["Certificate"], der: bytes) -> "Certificate":
-        """
-        Loads a certificate from DER bytes into a
-        [Certificate][pki_tools.types.certificate.Certificate]
-        object
-
-        Arguments:
-            der: The DER encoded certificate
-
-        Returns:
-            A Certificate created from the DER bytes
-
-        Raises:
-            CertLoadError: If the certificate could not be loaded
-        """
-        try:
-            crypto_cert = x509.load_der_x509_certificate(der)
-            return Certificate.from_cryptography(crypto_cert)
-        except ValueError as e:
-            logger.debug("Failed to load cert from DER")
-            raise CertLoadError(e)
-
-    @classmethod
     def from_server(
         cls: Type["Certificate"],
         uri: str,
@@ -250,22 +200,6 @@ class Certificate(InitCryptoParser, IoCryptoParser):
             The to be signed bytes of this certificate
         """
         return self._crypto_object.tbs_certificate_bytes
-
-    @property
-    def pem_bytes(self) -> bytes:
-        """
-        Returns:
-            Certificate PEM bytes
-        """
-        return self._crypto_object.public_bytes(serialization.Encoding.PEM)
-
-    @property
-    def der_bytes(self) -> bytes:
-        """
-        Returns:
-            Certificate DER bytes
-        """
-        return self._crypto_object.public_bytes(serialization.Encoding.DER)
 
     @property
     def hex_serial(self) -> str:
@@ -466,16 +400,10 @@ class Certificate(InitCryptoParser, IoCryptoParser):
             "Signature Value": self.signature_value,
         }
 
-
-def _is_pem_cert_string(check: str):
-    if not isinstance(check, str):
-        return False
-
-    return re.match(PEM_CERT_REGEX, check)
-
-
-def _is_pem_csr_string(check: str):
-    if not isinstance(check, str):
-        return False
-
-    return re.match(PEM_CSR_REGEX, check)
+    @classmethod
+    def _crypto_func_names(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem="load_pem_x509_certificate",
+            load_der="load_der_x509_certificate",
+            pem_regexp=PEM_CERT_REGEX,
+        )
