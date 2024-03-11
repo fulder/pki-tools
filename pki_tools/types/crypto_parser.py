@@ -67,7 +67,6 @@ class CryptoParser(BaseModel, abc.ABC):
         """
 
 
-
 class Encoding(Enum):
     """
     Describes the encoding used for writing/reading
@@ -77,7 +76,6 @@ class Encoding(Enum):
 
     PEM = "pem_string"
     DER = "der_bytes"
-
 
 
 class HelperFunc(BaseModel):
@@ -95,21 +93,21 @@ class IoCryptoParser(CryptoParser, abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_pem_string(
-            cls: Type["IoCryptoParser"], pem: str
+        cls: Type["IoCryptoParser"], pem: str
     ) -> "IoCryptoParser":
         pass
 
     @classmethod
     @abc.abstractmethod
     def from_der_bytes(
-            cls: Type["IoCryptoParser"], der: bytes
+        cls: Type["IoCryptoParser"], der: bytes
     ) -> "IoCryptoParser":
         pass
 
     @classmethod
     @abc.abstractmethod
     def from_file(
-            cls, file_path: str, encoding: Encoding = Encoding.PEM
+        cls, file_path: str, encoding: Encoding = Encoding.PEM
     ) -> "IoCryptoParser":
         pass
 
@@ -130,10 +128,9 @@ class IoCryptoParser(CryptoParser, abc.ABC):
 
     @abc.abstractmethod
     def to_file(
-            self, file_path: str, encoding: Encoding = Encoding.PEM
+        self, file_path: str, encoding: Encoding = Encoding.PEM
     ) -> None:
-       pass
-
+        pass
 
 
 class InitCryptoParser(IoCryptoParser, abc.ABC):
@@ -158,7 +155,7 @@ class InitCryptoParser(IoCryptoParser, abc.ABC):
 
     @classmethod
     def from_pem_string(
-            cls: Type["InitCryptoParser"], pem: str
+        cls: Type["InitCryptoParser"], pem: str
     ) -> "InitCryptoParser":
         """
         Loads the object from a PEM string
@@ -188,7 +185,7 @@ class InitCryptoParser(IoCryptoParser, abc.ABC):
 
     @classmethod
     def from_der_bytes(
-            cls: Type["InitCryptoParser"], der: bytes
+        cls: Type["InitCryptoParser"], der: bytes
     ) -> "InitCryptoParser":
         """
         Loads the object from DER bytes
@@ -209,7 +206,7 @@ class InitCryptoParser(IoCryptoParser, abc.ABC):
 
     @classmethod
     def from_file(
-            cls, file_path: str, encoding: Encoding = Encoding.PEM
+        cls, file_path: str, encoding: Encoding = Encoding.PEM
     ) -> "InitCryptoParser":
         """
         Reads a file containing one PEM into the object
@@ -258,7 +255,7 @@ class InitCryptoParser(IoCryptoParser, abc.ABC):
         return self.pem_bytes.decode()
 
     def to_file(
-            self, file_path: str, encoding: Encoding = Encoding.PEM
+        self, file_path: str, encoding: Encoding = Encoding.PEM
     ) -> None:
         """
         Saves the object with specified encoding to the specified file,
@@ -284,5 +281,3 @@ class InitCryptoParser(IoCryptoParser, abc.ABC):
             raise MissingInit(f"Please use the {init_func} first")
 
         return self._x509_obj
-
-

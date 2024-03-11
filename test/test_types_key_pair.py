@@ -18,6 +18,20 @@ from pki_tools.types import (
 from pki_tools.types.key_pair import CryptoPublicKey, CryptoPrivateKey
 
 
+def test_generate_dsa():
+    key_pair = DSAKeyPair.generate(key_size=1024)
+
+    print(key_pair.public_key.pem_string)
+    print(key_pair.private_key.pem_string)
+
+
+def test_generate_rsa():
+    key_pair = RSAKeyPair.generate(key_size=1024)
+
+    print(key_pair.public_key.pem_string)
+    print(key_pair.private_key.pem_string)
+
+
 def test_crypto_keypair_generate_not_implemented():
     with pytest.raises(NotImplementedError):
         print(CryptoKeyPair.generate())
@@ -70,7 +84,6 @@ def test_crypto_keypair_abstract_methods():
                 "curve_name": "SECP192R1",
                 "x_coordinate": "",
                 "y_coordinate": "",
-                "private_key_d": "",
             },
         ),
         (
@@ -119,7 +132,9 @@ def test_keypair_generate(
 
 
 def test_key_pair_from_cryptography():
-    crypto_rsa = RSAKeyPair.generate()._to_cryptography()
+    key_pair = RSAKeyPair.generate()
+    crypto_public = key_pair.public_key._to_cryptography()
+    crypto_private = key_pair.private_key._to_cryptography()
 
-    key_pair = KeyPair.from_cryptography(crypto_rsa)
-    assert isinstance(key_pair._to_cryptography(), rsa.RSAPrivateKey)
+    assert isinstance(crypto_public, rsa.RSAPublicKey)
+    assert isinstance(crypto_private, rsa.RSAPrivateKey)

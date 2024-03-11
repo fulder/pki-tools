@@ -8,8 +8,9 @@ import datetime
 import yaml
 
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric.types import \
-    CertificatePublicKeyTypes
+from cryptography.hazmat.primitives.asymmetric.types import (
+    CertificatePublicKeyTypes,
+)
 
 from pki_tools.types.key_pair import CryptoKeyPair, CryptoPublicKey
 from pki_tools.types.name import Name
@@ -43,7 +44,9 @@ from pydantic import BaseModel
 
 from pki_tools.types.crypto_parser import (
     InitCryptoParser,
-    CryptoConfig, HelperFunc, CryptoParser, CryptoObject,
+    CryptoConfig,
+    HelperFunc,
+    CryptoParser,
 )
 
 from loguru import logger
@@ -82,27 +85,25 @@ class SubjectPublicKeyInfo(CryptoParser):
         algorithm: The key algorithm in string format
         parameters: The dict representation of the key
     """
+
     algorithm: CryptoPublicKey
     parameters: Optional[Dict[str, str]]
 
     @classmethod
     def from_cryptography(
-        cls: Type["SubjectPublicKeyInfo"], crypto_obj: CertificatePublicKeyTypes
+        cls: Type["SubjectPublicKeyInfo"],
+        crypto_obj: CertificatePublicKeyTypes,
     ) -> "SubjectPublicKeyInfo":
         public_key = CryptoPublicKey.from_cryptography(crypto_obj)
 
         return cls(
             algorithm=public_key,
-            parameters = public_key._string_dict(),
-            _x509_obj=crypto_obj
+            parameters=public_key._string_dict(),
+            _x509_obj=crypto_obj,
         )
-
 
     def _to_cryptography(self) -> CertificatePublicKeyTypes:
         return self.algorithm._to_cryptography()
-
-
-
 
     def _string_dict(self) -> Dict:
         params = {}

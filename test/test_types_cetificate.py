@@ -106,7 +106,9 @@ def test_certificate_sign_another_key(cert):
     signing_key = RSAKeyPair.generate()
     csr_key = RSAKeyPair.generate()
 
-    cert.sign(signing_key, cert.signature_algorithm, req_key=csr_key.public_key)
+    cert.sign(
+        signing_key, cert.signature_algorithm, req_key=csr_key.public_key
+    )
 
     rel = cert.subject_public_key_info.algorithm._string_dict()
     exp = csr_key.public_key._string_dict()

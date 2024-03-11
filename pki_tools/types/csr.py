@@ -71,7 +71,9 @@ class CertificateSigningRequest(InitCryptoParser):
                 crypto_csr.signature_algorithm_parameters,
             ),
             signature_value=_byte_to_hex(crypto_csr.signature),
-            public_key=CryptoPublicKey.from_cryptography(crypto_csr.public_key()),
+            public_key=CryptoPublicKey.from_cryptography(
+                crypto_csr.public_key()
+            ),
             attributes=attributes,
             _x509_obj=crypto_csr,
         )
@@ -101,7 +103,9 @@ class CertificateSigningRequest(InitCryptoParser):
         )
 
     def sign(
-        self, private_key: CryptoPrivateKey, signature_algorithm: SignatureAlgorithm
+        self,
+        private_key: CryptoPrivateKey,
+        signature_algorithm: SignatureAlgorithm,
     ):
         """
         Sign the CSR with the provided key pair and signature algorithm.
