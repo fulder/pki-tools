@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import pytest
@@ -5,7 +6,7 @@ from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
 from conftest import TEST_SUBJECT, CURRENT_DIR
-from pki_tools import Certificate, CertLoadError
+from pki_tools import Certificate, CertLoadError, Name, SHA256, Validity
 from pki_tools.types import RSAKeyPair
 
 
@@ -110,3 +111,25 @@ def test_certificate_sign_another_key(cert):
     rel = cert.subject_public_key_info._key_pair._string_dict()
     exp = csr_key._string_dict()
     assert rel == exp
+
+
+def test_certificate_to_from_crypto(key_pair):
+    today = datetime.datetime.today()
+    one_day = datetime.timedelta(days=1)
+
+    cert = Certificate(
+        subject=Name(cn=["subject"]),
+        issuer=Name(cn=["issuer"]),
+        validity=Validity(
+            not_before=today,
+            not_after=today + one_day
+        )
+    )
+
+    cert.sign(key_pair, SHA256)
+    crypto_cert = cert._to_cryptography()
+
+    cert2 = Certificate.from_cryptography(crypto_cert)
+
+    assert cert2.subject.cn[0] == "subject"
+    assert cert2.issuer.cn[0] == "issuer"
