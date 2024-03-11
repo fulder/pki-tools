@@ -420,7 +420,8 @@ class Certificate(InitCryptoParser):
                 f"Please use Certificate.{self._init_func} " f"function"
             )
 
-        subject = issuer = self.subject._to_cryptography()
+        subject = self.subject._to_cryptography()
+        issuer = self.issuer._to_cryptography()
         crypto_key = self._private_key._to_cryptography()
         if not hasattr(crypto_key, "public_key"):
             raise MissingInit("Invalid key type, use private key")
