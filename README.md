@@ -21,8 +21,6 @@ at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 
 ## Main features
 
-### Functions
-
 * [Checking Revocation][revoke-check] - checking revocation status of certificates using OCSP and/or CRL
 * [Creating objects][create-objects]
 * [Loading objects][load-objects]
