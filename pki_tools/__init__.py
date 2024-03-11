@@ -11,6 +11,7 @@ from .types import (
     Validity,
     CertificateSigningRequest,
     CertificateRevocationList,
+    CryptoKeyPair,
     DSAKeyPair,
     RSAKeyPair,
     EllipticCurveKeyPair,
