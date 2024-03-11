@@ -291,7 +291,7 @@ def _create_csr(key_pair):
         ),
     )
 
-    csr.sign(key_pair.private_key, SHA512)
+    csr.sign(key_pair, SHA512)
     return csr
 
 

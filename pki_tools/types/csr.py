@@ -6,7 +6,11 @@ from cryptography import x509
 from cryptography.hazmat.primitives import serialization
 
 from pki_tools.exceptions import MissingInit
-from pki_tools.types.key_pair import CryptoPublicKey, CryptoPrivateKey
+from pki_tools.types.key_pair import (
+    CryptoPublicKey,
+    CryptoPrivateKey,
+    CryptoKeyPair,
+)
 from pki_tools.types.crypto_parser import (
     InitCryptoParser,
     CryptoConfig,
@@ -105,7 +109,7 @@ class CertificateSigningRequest(InitCryptoParser):
 
     def sign(
         self,
-        private_key: CryptoPrivateKey,
+        key_pair: CryptoKeyPair,
         signature_algorithm: SignatureAlgorithm,
     ):
         """
@@ -116,7 +120,7 @@ class CertificateSigningRequest(InitCryptoParser):
                 CSR
             signature_algorithm: Signature algorithm to use for signing.
         """
-        self._private_key = private_key
+        self._private_key = key_pair.private_key
         self.signature_algorithm = signature_algorithm
         self._x509_obj = self._to_cryptography()
 
