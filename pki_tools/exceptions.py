@@ -1,12 +1,24 @@
 class Error(Exception):
+    """
+    Error is the base pki_tools exception
+    """
+
     pass
 
 
 class ExtensionMissing(Error):
+    """
+    ExtensionMissing
+    """
+
     pass
 
 
 class OcspFetchFailure(Error):
+    """
+    OcspFetchFailure
+    """
+
     pass
 
 
@@ -17,16 +29,16 @@ class FetchFailure(Error):
 
 
 class OcspInvalidResponseStatus(Error):
+    """
+    OcspInvalidResponseStatus
+    """
+
     pass
 
 
 class OcspIssuerFetchFailure(Error):
-    pass
-
-
-class CrlLoadError(Error):
     """
-    Thrown when CRL could not be loaded due to e.g. invalid format
+    OcspIssuerFetchFailure
     """
 
     pass
@@ -98,14 +110,6 @@ class MissingInit(Error):
 
 
 class MissingBlockSize(Error):
-    """
-    MissingBlockSize
-    """
-
-    pass
-
-
-class InvalidKeyType(Error):
     """
     MissingBlockSize
     """

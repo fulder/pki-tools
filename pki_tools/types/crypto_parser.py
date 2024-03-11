@@ -70,7 +70,7 @@ class CryptoParser(BaseModel, abc.ABC):
 class Encoding(Enum):
     """
     Describes the encoding used for writing/reading
-    [IoCryptoParser][pki_tools.types.crypto_parser.IoCryptoParser]
+    [InitCryptoParser][pki_tools.types.crypto_parser.InitCryptoParser]
     objects.
     """
 
