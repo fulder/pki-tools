@@ -120,10 +120,7 @@ def test_certificate_to_from_crypto(key_pair):
     cert = Certificate(
         subject=Name(cn=["subject"]),
         issuer=Name(cn=["issuer"]),
-        validity=Validity(
-            not_before=today,
-            not_after=today + one_day
-        )
+        validity=Validity(not_before=today, not_after=today + one_day),
     )
 
     cert.sign(key_pair, SHA256)
