@@ -17,17 +17,12 @@ from cryptography.hazmat.primitives.asymmetric.types import (
     CertificateIssuerPublicKeyTypes,
 )
 
-from pydantic import ConfigDict, BaseModel
+from pydantic import BaseModel
 
 from pki_tools.types.crypto_parser import (
-    CryptoObject,
-    InitCryptoParser, CryptoConfig, IoCryptoParser, HelperFunc,
+    CryptoConfig, HelperFunc, CryptoParser, InitCryptoParser,
 )
 from pki_tools.types.utils import _byte_to_hex, _hex_to_byte
-
-PUBLIC_KEY_REGEX = re.compile(
-    r"\s*-+BEGIN PUBLIC KEY-+[\w+/\s=]*-+END PUBLIC KEY-+\s*"
-)
 
 
 class CryptoPrivateKey(InitCryptoParser, abc.ABC):
@@ -35,7 +30,9 @@ class CryptoPrivateKey(InitCryptoParser, abc.ABC):
     Represents a cryptographic private key.
     """
 
-    _init_func = "generate"
+    _regexp = re.compile(
+        r"\s*-+BEGIN.+PRIVATE KEY-+[\w+/\s=]*-+END.+PRIVATE KEY-+\s*"
+    )
 
     @classmethod
     def from_cryptography(
@@ -80,11 +77,28 @@ class CryptoPrivateKey(InitCryptoParser, abc.ABC):
 
         return self._crypto_object.private_bytes(**kwargs)
 
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(
+                func=serialization.load_pem_private_key,
+                kwargs={"password": None}
+            ),
+            load_der=HelperFunc(
+                func=serialization.load_der_private_key,
+                kwargs={"password": None}
+            ),
+            pem_regexp=cls._regexp,
+        )
+
 
 class CryptoPublicKey(InitCryptoParser, abc.ABC):
     """
     Represents a cryptographic public key.
     """
+
+    _regex = re.compile(
+        r"\s*-+BEGIN PUBLIC KEY-+[\w+/\s=]*-+END PUBLIC KEY-+\s*"
+    )
 
     @classmethod
     def from_cryptography(
@@ -140,6 +154,14 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
             format=serialization.PublicFormat.SubjectPublicKeyInfo,
         )
 
+    @classmethod
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(func=serialization.load_pem_public_key),
+            load_der=HelperFunc(func=serialization.load_der_public_key),
+            pem_regexp=cls._regex,
+        )
+
 
 class CryptoKeyPair(BaseModel):
     """
@@ -161,7 +183,6 @@ class CryptoKeyPair(BaseModel):
             The generated cryptographic key pair.
         """
         raise NotImplementedError
-
 
 
 class DSAPublicKey(CryptoPublicKey):
@@ -222,14 +243,6 @@ class DSAPublicKey(CryptoPublicKey):
             "generator_g": self.g,
         }
 
-    @classmethod
-    def _crypto_config(cls) -> CryptoConfig:
-        return CryptoConfig(
-            load_pem=HelperFunc(func=serialization.load_pem_public_key),
-            load_der=HelperFunc(func=serialization.load_der_public_key),
-            pem_regexp=PUBLIC_KEY_REGEX,
-        )
-
 
 class DSAPrivateKey(CryptoPrivateKey):
     """
@@ -243,9 +256,7 @@ class DSAPrivateKey(CryptoPrivateKey):
     q: int
     g: int
 
-    _regexp = re.compile(
-        r"\s*-+BEGIN DSA PRIVATE KEY-+[\w+/\s=]*-+END DSA PRIVATE KEY-+\s*"
-    )
+
 
     @classmethod
     def from_cryptography(
@@ -301,18 +312,7 @@ class DSAPrivateKey(CryptoPrivateKey):
             "generator_g": self.g,
         }
 
-    def _crypto_config(cls) -> CryptoConfig:
-        return CryptoConfig(
-            load_pem=HelperFunc(
-                func=serialization.load_pem_private_key,
-                kwargs={"password": None}
-            ),
-            load_der = HelperFunc(
-                func=serialization.load_der_private_key,
-                kwargs={"password": None}
-            ),
-            pem_regexp=cls._regexp,
-        )
+
 
 
 class DSAKeyPair(CryptoKeyPair):
@@ -353,10 +353,6 @@ class RSAPrivateKey(CryptoPrivateKey):
     dmp1: Optional[int]
     dmq1: Optional[int]
     iqmp: Optional[int]
-
-    _regexp = re.compile(
-        r"\s*-+BEGIN RSA PRIVATE KEY-+[\w+/\s=]*-+END RSA PRIVATE KEY-+\s*"
-    )
 
     @classmethod
     def from_cryptography(
@@ -424,19 +420,6 @@ class RSAPrivateKey(CryptoPrivateKey):
             "iqmp": str(self.iqmp),
         }
 
-    def _crypto_config(cls) -> CryptoConfig:
-        return CryptoConfig(
-            load_pem=HelperFunc(
-                func=serialization.load_pem_private_key,
-                kwargs={"password": None}
-            ),
-            load_der = HelperFunc(
-                func=serialization.load_der_private_key,
-                kwargs={"password": None}
-            ),
-            pem_regexp=cls._regexp,
-        )
-
 
 class RSAPublicKey(CryptoPublicKey):
     """
@@ -485,18 +468,6 @@ class RSAPublicKey(CryptoPublicKey):
             "modulus_n": str(self.n),
         }
 
-    def _crypto_config(cls) -> CryptoConfig:
-        return CryptoConfig(
-            load_pem=HelperFunc(
-                func=serialization.load_pem_private_key,
-                kwargs={"password": None}
-            ),
-            load_der = HelperFunc(
-                func=serialization.load_der_private_key,
-                kwargs={"password": None}
-            ),
-            pem_regexp=PUBLIC_KEY_REGEX,
-        )
 
 class RSAKeyPair(CryptoKeyPair):
     @classmethod
