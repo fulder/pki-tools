@@ -91,7 +91,7 @@ class HashAlgorithm(CryptoParser):
 
         return getattr(HASHES_MODULE, self.name.value)()
 
-    def _string_dict(self) -> Dict[str, str]:
+    def _string_dict(self) -> Dict:
         return {"algorithm": self.name.value}
 
 

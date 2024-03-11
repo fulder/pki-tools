@@ -1,15 +1,10 @@
-import time
-from functools import lru_cache
-
 from loguru import logger
 
 from pki_tools.types.extensions import UniformResourceIdentifier
-from pki_tools.types.utils import HTTPX_CLIENT
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import (
     ExtensionMissing,
-    CrlFetchFailure,
 )
 from pki_tools.types.crl import CertificateRevocationList
 
@@ -47,8 +42,9 @@ def _is_revoked(
             uri = full_name.value
 
             http_dist = True
-            cache_ttl = round(time.time() / crl_cache_seconds)
-            crl = _get_crl_from_url(uri, cache_ttl=cache_ttl)
+            crl = CertificateRevocationList.from_uri(
+                uri, cache_time_seconds=crl_cache_seconds
+            )
 
             issuer = crl_issuer.get_issuer(crl)
 
@@ -65,17 +61,3 @@ def _is_revoked(
 
     log.debug("Certificate valid")
     return False
-
-
-@lru_cache(maxsize=None)
-def _get_crl_from_url(crl_url, cache_ttl=None) -> CertificateRevocationList:
-    ret = HTTPX_CLIENT.get(crl_url)
-
-    if ret.status_code != 200:
-        logger.bind(
-            status=ret.status_code,
-            url=crl_url,
-        ).error("Failed to fetch CRL from URL")
-        raise CrlFetchFailure()
-
-    return CertificateRevocationList.from_bytes(ret.content)

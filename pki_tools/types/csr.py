@@ -10,6 +10,7 @@ from pki_tools.types.key_pair import CryptoPublicKey, CryptoPrivateKey
 from pki_tools.types.crypto_parser import (
     InitCryptoParser,
     CryptoConfig,
+    HelperFunc,
 )
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
@@ -180,9 +181,9 @@ class CertificateSigningRequest(InitCryptoParser):
         )
 
     @classmethod
-    def _crypto_func_names(cls) -> CryptoConfig:
+    def _crypto_config(cls) -> CryptoConfig:
         return CryptoConfig(
-            load_pem="load_pem_x509_csr",
-            load_der="load_der_x509_csr",
+            load_pem=HelperFunc(func=x509.load_pem_x509_csr),
+            load_der=HelperFunc(func=x509.load_der_x509_csr),
             pem_regexp=PEM_CSR_REGEX,
         )

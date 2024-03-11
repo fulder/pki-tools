@@ -32,7 +32,7 @@ from pki_tools.types.utils import (
     CertsUri,
     CACHE_TIME_SECONDS,
     _download_server_certificate,
-    _download_pem,
+    _download_cached,
 )
 
 from typing import Type
@@ -224,7 +224,6 @@ class Certificate(InitCryptoParser):
             uri: URI where the certificate can be downloaded.
             cache_time_seconds: Specifies how long the certificate
                 should be cached, default is 1 month.
-                Defaults to CACHE_TIME_SECONDS.
 
         Returns:
             Instance of Certificate containing the certificates
@@ -233,9 +232,9 @@ class Certificate(InitCryptoParser):
 
         cache_ttl = round(time.time() / cache_time_seconds)
         cert_uri = CertsUri(uri=uri)
-        pem = _download_pem(cert_uri.uri, cache_ttl)
+        res = _download_cached(cert_uri.uri, cache_ttl)
 
-        return Certificate.from_pem_string(pem)
+        return Certificate.from_pem_string(res.text)
 
     @property
     def tbs_bytes(self) -> bytes:

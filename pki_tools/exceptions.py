@@ -24,10 +24,6 @@ class OcspIssuerFetchFailure(Error):
     pass
 
 
-class CrlFetchFailure(Error):
-    pass
-
-
 class CrlLoadError(Error):
     """
     Thrown when CRL could not be loaded due to e.g. invalid format

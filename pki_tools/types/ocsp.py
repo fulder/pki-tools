@@ -1,11 +1,11 @@
 import base64
 import hashlib
+import re
 from datetime import datetime
 from enum import Enum
 from typing import Type, Optional, Dict
 
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives._serialization import Encoding
 from cryptography.x509 import ocsp
 from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger
@@ -15,8 +15,12 @@ from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import (
     MissingInit,
 )
-from pki_tools.types.key_pair import CryptoKeyPair
-from pki_tools.types.crypto_parser import InitCryptoParser
+from pki_tools.types.key_pair import CryptoPrivateKey
+from pki_tools.types.crypto_parser import (
+    InitCryptoParser,
+    CryptoConfig,
+    HelperFunc,
+)
 from pki_tools.types.signature_algorithm import HashAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
@@ -42,6 +46,11 @@ class OcspCertificateStatus(Enum):
     GOOD = "GOOD"
     REVOKED = "REVOKED"
     UNKNOWN = "UNKNOWN"
+
+
+RESPONSE_REGEXP = re.compile(
+    r"\s*-+BEGIN OCSP RESPONSE-+[\w+/\s=]*-+END OCSP RESPONSE-+\s*"
+)
 
 
 class OCSPResponse(InitCryptoParser):
@@ -106,22 +115,6 @@ class OCSPResponse(InitCryptoParser):
         ret._x509_obj = crypto_ocsp_response
         return ret
 
-    @classmethod
-    def from_der_bytes(
-        cls: Type["OCSPResponse"], der: bytes
-    ) -> "OCSPResponse":
-        """
-        Constructs an OCSPResponse object from DER-encoded bytes.
-
-        Args:
-            der: The DER-encoded bytes.
-
-        Returns:
-            The constructed OCSPResponse object.
-        """
-        crypto_obj = ocsp.load_der_ocsp_response(der)
-        return OCSPResponse.from_cryptography(crypto_obj)
-
     @property
     def tbs_bytes(self) -> bytes:
         """
@@ -131,16 +124,6 @@ class OCSPResponse(InitCryptoParser):
             bytes: The TBS bytes.
         """
         return self._crypto_object.tbs_response_bytes
-
-    @property
-    def der_bytes(self) -> bytes:
-        """
-        Returns the DER bytes of the OCSP response.
-
-        Returns:
-            bytes: The DER bytes.
-        """
-        return self._crypto_object.public_bytes(Encoding.DER)
 
     def hash_with_alg(self, der_key: bytes) -> str:
         """
@@ -181,7 +164,7 @@ class OCSPResponse(InitCryptoParser):
         cert: Certificate,
         issuer: Certificate,
         algorithm: HashAlgorithm,
-        key_pair: CryptoKeyPair,
+        private_key: CryptoPrivateKey,
     ):
         """
         Signs the OCSP response.
@@ -190,12 +173,12 @@ class OCSPResponse(InitCryptoParser):
             cert: The certificate.
             issuer: The issuer certificate.
             algorithm: The hash algorithm.
-            key_pair: The key pair.
+            private_key: The private key to sign the response.
         """
         self._cert = cert
         self._issuer = issuer
         self._algorithm = algorithm
-        self._private_key = key_pair
+        self._private_key = private_key
         self._x509_obj = self._to_cryptography()
 
     def _to_cryptography(self) -> ocsp.OCSPResponse:
@@ -233,6 +216,27 @@ class OCSPResponse(InitCryptoParser):
             "Certificate Status": self.certificate_status,
             "Issuer Key Hash": self.issuer_key_hash,
         }
+
+    @classmethod
+    def _load_pem(cls, pem: str):
+        pem_lines = pem.strip().split("\n")
+        base64_data = "".join(pem_lines[1:-1])
+        der_bytes = base64.b64decode(base64_data)
+
+        return OCSPResponse.from_der_bytes(der_bytes)
+
+    @classmethod
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(func=cls._load_pem),
+            load_der=HelperFunc(func=ocsp.load_der_ocsp_response),
+            pem_regexp=RESPONSE_REGEXP,
+        )
+
+
+REQUEST_REGEXP = re.compile(
+    r"\s*-+BEGIN OCSP REQUEST-+[\w+/\s=]*-+END OCSP REQUEST-+\s*"
+)
 
 
 class OCSPRequest(InitCryptoParser):
@@ -313,8 +317,24 @@ class OCSPRequest(InitCryptoParser):
         ret = self.hash_algorithm._string_dict()
 
         if self.serial_number is not None:
-            ret["Serial Number"] = self.serial_number
+            ret["Serial Number"] = str(self.serial_number)
         if self.extensions is not None:
             ret["Extensions"] = self.extensions._string_dict()
 
         return ret
+
+    @classmethod
+    def _load_pem(cls, pem: str):
+        pem_lines = pem.strip().split("\n")
+        base64_data = "".join(pem_lines[1:-1])
+        der_bytes = base64.b64decode(base64_data)
+
+        return OCSPRequest.from_der_bytes(der_bytes)
+
+    @classmethod
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(func=cls._load_pem),
+            load_der=HelperFunc(func=ocsp.load_der_ocsp_request),
+            pem_regexp=REQUEST_REGEXP,
+        )

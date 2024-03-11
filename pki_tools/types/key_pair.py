@@ -101,7 +101,7 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
     Represents a cryptographic public key.
     """
 
-    _regex = re.compile(
+    _regexp = re.compile(
         r"\s*-+BEGIN PUBLIC KEY-+[\w+/\s=]*-+END PUBLIC KEY-+\s*"
     )
 
@@ -164,7 +164,7 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
         return CryptoConfig(
             load_pem=HelperFunc(func=serialization.load_pem_public_key),
             load_der=HelperFunc(func=serialization.load_der_public_key),
-            pem_regexp=cls._regex,
+            pem_regexp=cls._regexp,
         )
 
 

@@ -69,7 +69,7 @@ def _download_server_certificate(hostname: str, cache_ttl: int = None):
 
 
 @lru_cache(maxsize=None)
-def _download_pem(uri: str, ttl: int = None) -> str:
+def _download_cached(uri: str, ttl: int = None) -> httpx.Response:
     ret = HTTPX_CLIENT.get(uri)
 
     if ret.status_code != 200:
@@ -78,4 +78,4 @@ def _download_pem(uri: str, ttl: int = None) -> str:
         )
         raise FetchFailure(f"Failed to fetch URI. Status: {ret.status_code}")
 
-    return ret.text
+    return ret

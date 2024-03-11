@@ -6,7 +6,6 @@ import datetime
 import pytest
 from loguru import logger
 
-from pki_tools.crl import _get_crl_from_url
 from pki_tools import Chain, Certificate, Name
 from pki_tools.types import RSAKeyPair, CertificateRevocationList
 from pki_tools.types.certificate import Validity
@@ -59,7 +58,7 @@ from pki_tools.types.signature_algorithm import (
     SHA256,
     SHA512,
 )
-from pki_tools.types.utils import _byte_to_hex
+from pki_tools.types.utils import _byte_to_hex, _download_cached
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -88,7 +87,7 @@ def setup_loguru_logging(request):
 
 @pytest.fixture()
 def mocked_requests_get(mocker):
-    _get_crl_from_url.cache_clear()
+    _download_cached.cache_clear()
     return mocker.patch("httpx.Client.get")
 
 
@@ -292,7 +291,7 @@ def _create_csr(key_pair):
         ),
     )
 
-    csr.sign(key_pair, SHA512)
+    csr.sign(key_pair.private_key, SHA512)
     return csr
 
 
@@ -343,7 +342,7 @@ def _create_mocked_ocsp_response(
         cert,
         cert,
         HashAlgorithm(name=HashAlgorithmName.SHA256),
-        key_pair,
+        key_pair.private_key,
     )
 
     return res.der_bytes
@@ -370,7 +369,7 @@ def _create_crl(keypair, revoked_serials):
     )
 
     crl.sign(
-        private_key=keypair,
+        private_key=keypair.private_key,
         algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256),
     )
     return crl

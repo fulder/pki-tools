@@ -89,51 +89,7 @@ class CryptoConfig(BaseModel):
     pem_regexp: re.Pattern
 
 
-class IoCryptoParser(CryptoParser, abc.ABC):
-    @classmethod
-    @abc.abstractmethod
-    def from_pem_string(
-        cls: Type["IoCryptoParser"], pem: str
-    ) -> "IoCryptoParser":
-        pass
-
-    @classmethod
-    @abc.abstractmethod
-    def from_der_bytes(
-        cls: Type["IoCryptoParser"], der: bytes
-    ) -> "IoCryptoParser":
-        pass
-
-    @classmethod
-    @abc.abstractmethod
-    def from_file(
-        cls, file_path: str, encoding: Encoding = Encoding.PEM
-    ) -> "IoCryptoParser":
-        pass
-
-    @property
-    @abc.abstractmethod
-    def der_bytes(self) -> bytes:
-        pass
-
-    @property
-    @abc.abstractmethod
-    def pem_bytes(self) -> bytes:
-        pass
-
-    @property
-    @abc.abstractmethod
-    def pem_string(self) -> str:
-        pass
-
-    @abc.abstractmethod
-    def to_file(
-        self, file_path: str, encoding: Encoding = Encoding.PEM
-    ) -> None:
-        pass
-
-
-class InitCryptoParser(IoCryptoParser, abc.ABC):
+class InitCryptoParser(CryptoParser, abc.ABC):
     """
     Extends the CryptoParser into an object that requires initialization
     before it can be used (while created as a
@@ -196,10 +152,10 @@ class InitCryptoParser(IoCryptoParser, abc.ABC):
         Returns:
             A created object from the DER bytes
         """
-        cfg = cls._crypto_func_names()
+        cfg = cls._crypto_config()
 
         func = cfg.load_der.func
-        kwargs = cfg.load_der.func.kwargs
+        kwargs = cfg.load_der.kwargs
 
         crypto_obj = func(der, **kwargs)
         return cls.from_cryptography(crypto_obj)
