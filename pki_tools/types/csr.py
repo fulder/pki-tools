@@ -6,10 +6,9 @@ from cryptography import x509
 from cryptography.hazmat.primitives import serialization
 
 from pki_tools.exceptions import MissingInit
-from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
+from pki_tools.types.key_pair import CryptoPublicKey, CryptoPrivateKey
 from pki_tools.types.crypto_parser import (
     InitCryptoParser,
-    IoCryptoParser,
     CryptoConfig,
 )
 from pki_tools.types.name import Name
@@ -24,7 +23,7 @@ PEM_CSR_REGEX = re.compile(
 )
 
 
-class CertificateSigningRequest(IoCryptoParser, InitCryptoParser):
+class CertificateSigningRequest(InitCryptoParser):
     """
     Represents a certificate signing request (CSR).
 
@@ -38,12 +37,12 @@ class CertificateSigningRequest(IoCryptoParser, InitCryptoParser):
 
     subject: Name
 
-    public_key: Optional[KeyPair] = None
+    public_key: Optional[CryptoPublicKey] = None
     extensions: Optional[Extensions] = None
     attributes: Optional[Dict[str, bytes]] = None
     signature_algorithm: Optional[SignatureAlgorithm] = None
 
-    _private_key: Optional[CryptoKeyPair]
+    _private_key: Optional[CryptoPrivateKey]
 
     @classmethod
     def from_cryptography(
@@ -72,7 +71,7 @@ class CertificateSigningRequest(IoCryptoParser, InitCryptoParser):
                 crypto_csr.signature_algorithm_parameters,
             ),
             signature_value=_byte_to_hex(crypto_csr.signature),
-            public_key=KeyPair.from_cryptography(crypto_csr.public_key()),
+            public_key=CryptoPublicKey.from_cryptography(crypto_csr.public_key()),
             attributes=attributes,
             _x509_obj=crypto_csr,
         )
@@ -102,7 +101,7 @@ class CertificateSigningRequest(IoCryptoParser, InitCryptoParser):
         )
 
     def sign(
-        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
+        self, private_key: CryptoPrivateKey, signature_algorithm: SignatureAlgorithm
     ):
         """
         Sign the CSR with the provided key pair and signature algorithm.
@@ -112,7 +111,7 @@ class CertificateSigningRequest(IoCryptoParser, InitCryptoParser):
                 CSR
             signature_algorithm: Signature algorithm to use for signing.
         """
-        self._private_key = key_pair
+        self._private_key = private_key
         self.signature_algorithm = signature_algorithm
         self._x509_obj = self._to_cryptography()
 
@@ -147,8 +146,6 @@ class CertificateSigningRequest(IoCryptoParser, InitCryptoParser):
             )
 
         crypto_key = self._private_key._to_cryptography()
-        if not hasattr(crypto_key, "public_key"):
-            raise MissingInit("Use private key not public")
 
         builder = x509.CertificateSigningRequestBuilder()
         builder = builder.subject_name(self.subject._to_cryptography())

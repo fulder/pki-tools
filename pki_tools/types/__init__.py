@@ -15,7 +15,6 @@ from .key_pair import (
     EllipticCurveKeyPair,
     Ed25519KeyPair,
     Ed448KeyPair,
-    KeyPair,
 )
 from .signature_algorithm import (
     SignatureAlgorithm,

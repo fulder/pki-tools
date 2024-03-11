@@ -8,8 +8,10 @@ import datetime
 import yaml
 
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric.types import \
+    CertificatePublicKeyTypes
 
-from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
+from pki_tools.types.key_pair import CryptoKeyPair, CryptoPublicKey
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
@@ -41,8 +43,7 @@ from pydantic import BaseModel
 
 from pki_tools.types.crypto_parser import (
     InitCryptoParser,
-    IoCryptoParser,
-    CryptoConfig,
+    CryptoConfig, HelperFunc, CryptoParser, CryptoObject,
 )
 
 from loguru import logger
@@ -73,7 +74,49 @@ class Validity(BaseModel):
         }
 
 
-class Certificate(InitCryptoParser, IoCryptoParser):
+class SubjectPublicKeyInfo(CryptoParser):
+    """
+    Represents a certificate SubjectPublicKeyInfo.
+
+    Attributes:
+        algorithm: The key algorithm in string format
+        parameters: The dict representation of the key
+    """
+    algorithm: CryptoPublicKey
+    parameters: Optional[Dict[str, str]]
+
+    @classmethod
+    def from_cryptography(
+        cls: Type["SubjectPublicKeyInfo"], crypto_obj: CertificatePublicKeyTypes
+    ) -> "SubjectPublicKeyInfo":
+        public_key = CryptoPublicKey.from_cryptography(crypto_obj)
+
+        return cls(
+            algorithm=public_key,
+            parameters = public_key._string_dict(),
+            _x509_obj=crypto_obj
+        )
+
+
+    def _to_cryptography(self) -> CertificatePublicKeyTypes:
+        return self.algorithm._to_cryptography()
+
+
+
+
+    def _string_dict(self) -> Dict:
+        params = {}
+        for k, v in self.parameters.items():
+            key = " ".join(ele.title() for ele in k.split("_"))
+            if v == "None":
+                continue
+
+            params[key] = v
+
+        return {"Public Key Algorithm": self.algorithm, "Parameters": params}
+
+
+class Certificate(InitCryptoParser):
     """
     An object describing a x509 Certificate
 
@@ -98,13 +141,13 @@ class Certificate(InitCryptoParser, IoCryptoParser):
     serial_number: Optional[int] = None
     version: Optional[int] = None
     signature_algorithm: Optional[SignatureAlgorithm] = None
-    subject_public_key_info: Optional[KeyPair] = None
+    subject_public_key_info: Optional[SubjectPublicKeyInfo] = None
 
     signature_value: Optional[str] = None
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    _private_key: Optional[CryptoKeyPair]
+    _key_pair: Optional[CryptoKeyPair]
 
     @classmethod
     def from_cryptography(
@@ -135,7 +178,7 @@ class Certificate(InitCryptoParser, IoCryptoParser):
                 not_after=cert.not_valid_after_utc,
             ),
             subject=Name.from_cryptography(cert.subject),
-            subject_public_key_info=KeyPair.from_cryptography(
+            subject_public_key_info=SubjectPublicKeyInfo.from_cryptography(
                 cert.public_key()
             ),
             extensions=Extensions.from_cryptography(cert.extensions),
@@ -299,7 +342,7 @@ class Certificate(InitCryptoParser, IoCryptoParser):
         self,
         key_pair: CryptoKeyPair,
         signature_algorithm: SignatureAlgorithm,
-        req_key: Optional[CryptoKeyPair] = None,
+        req_key: Optional[CryptoPublicKey] = None,
     ) -> None:
         """
         Signs a created [Certificate][pki_tools.types.certificate.Certificate]
@@ -313,16 +356,15 @@ class Certificate(InitCryptoParser, IoCryptoParser):
             req_key: Can be used to sign another public key, defaults to the
                 public key part in `key_pair`
         """
-        self._private_key = key_pair
+        self._key_pair = key_pair
         self.serial_number = random.randint(1, 2**32 - 1)
         self.signature_algorithm = signature_algorithm
 
         if req_key is not None:
-            self.subject_public_key_info = KeyPair(
-                algorithm=req_key.__class__.__name__,
+            self.subject_public_key_info = SubjectPublicKeyInfo(
+                algorithm=req_key,
                 parameters=req_key._string_dict(),
             )
-            self.subject_public_key_info.create(req_key)
 
         self._x509_obj = self._to_cryptography()
 
@@ -339,20 +381,18 @@ class Certificate(InitCryptoParser, IoCryptoParser):
         if hasattr(self, "_x509_obj"):
             return self._x509_obj
 
-        if not hasattr(self, "_private_key"):
+        if not hasattr(self, "_key_pair"):
             raise MissingInit(
                 f"Please use Certificate.{self._init_func} " f"function"
             )
 
         subject = issuer = self.subject._to_cryptography()
-        crypto_key = self._private_key._to_cryptography()
-        if not hasattr(crypto_key, "public_key"):
-            raise MissingInit("Invalid key type, use private key")
+        crypto_key = self._key_pair.private_key._to_cryptography()
 
         public_key = crypto_key.public_key()
         if self.subject_public_key_info is not None:
-            pub_key_pair = self.subject_public_key_info._key_pair
-            public_key = pub_key_pair._to_cryptography().public_key()
+            alg = self.subject_public_key_info.algorithm
+            public_key = alg._to_cryptography().public_key()
 
         cert_builder = (
             x509.CertificateBuilder()
@@ -401,9 +441,9 @@ class Certificate(InitCryptoParser, IoCryptoParser):
         }
 
     @classmethod
-    def _crypto_func_names(cls) -> CryptoConfig:
+    def _crypto_config(cls) -> CryptoConfig:
         return CryptoConfig(
-            load_pem="load_pem_x509_certificate",
-            load_der="load_der_x509_certificate",
+            load_pem=HelperFunc(func=x509.load_pem_x509_certificate),
+            load_der=HelperFunc(func=x509.load_der_x509_certificate),
             pem_regexp=PEM_CERT_REGEX,
         )

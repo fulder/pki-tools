@@ -142,7 +142,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         DirectoryName(TEST_SUBJECT),
         IpAddress("192.168.1.0/24"),
         OtherName(
-            oid="1.2.3.4.5", value=_byte_to_hex(key_pair.der_public_key)
+            oid="1.2.3.4.5", value=_byte_to_hex(key_pair.public_key.der_bytes)
         ),
         RFC822Name("TEST_RFC_NAME"),
         RegisteredId("1.2.3.4.5"),

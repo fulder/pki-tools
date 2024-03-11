@@ -1,8 +1,7 @@
 import abc
-import importlib
 import re
 from enum import Enum
-from typing import Type, TypeVar, Dict
+from typing import Type, TypeVar, Dict, Callable, Optional
 
 from cryptography.hazmat.primitives import serialization
 from pydantic import BaseModel
@@ -15,9 +14,6 @@ from pki_tools.exceptions import (
 from loguru import logger
 
 CryptoObject = TypeVar("CryptoObject")
-
-
-X509_MODULE = importlib.import_module("cryptography.x509")
 
 
 class CryptoParser(BaseModel, abc.ABC):
@@ -71,29 +67,6 @@ class CryptoParser(BaseModel, abc.ABC):
         """
 
 
-class InitCryptoParser(CryptoParser, abc.ABC):
-    """
-    Extends the CryptoParser into an object that requires initialization
-    before it can be used (while created as a
-    [pki_tools][pki_tools.types.certificate] object and not loaded from
-    cryptography). This can, for example, be a Certificate that needs
-    to be signed with a KeyPair containing the private key.
-
-    Attempt to e.g. dumping a certificate to a PEM string without using the
-    sign (init) function first will result in a
-    [MissingInit][pki_tools.exceptions.MissingInit] exception.
-    """
-
-    _init_func: str = "sign"
-
-    @property
-    def _crypto_object(self) -> CryptoObject:
-        if not hasattr(self, "_x509_obj") or self._x509_obj is None:
-            init_func = f"{self.__class__.__name__}.{self._init_func}"
-            raise MissingInit(f"Please use the {init_func} first")
-
-        return self._x509_obj
-
 
 class Encoding(Enum):
     """
@@ -106,22 +79,87 @@ class Encoding(Enum):
     DER = "der_bytes"
 
 
+
+class HelperFunc(BaseModel):
+    func: Callable
+    kwargs: Optional[Dict] = {}
+
+
 class CryptoConfig(BaseModel):
-    load_pem: str
-    load_der: str
+    load_pem: HelperFunc
+    load_der: HelperFunc
     pem_regexp: re.Pattern
 
 
 class IoCryptoParser(CryptoParser, abc.ABC):
+    @classmethod
+    @abc.abstractmethod
+    def from_pem_string(
+            cls: Type["IoCryptoParser"], pem: str
+    ) -> "IoCryptoParser":
+        pass
+
+    @classmethod
+    @abc.abstractmethod
+    def from_der_bytes(
+            cls: Type["IoCryptoParser"], der: bytes
+    ) -> "IoCryptoParser":
+        pass
+
+    @classmethod
+    @abc.abstractmethod
+    def from_file(
+            cls, file_path: str, encoding: Encoding = Encoding.PEM
+    ) -> "IoCryptoParser":
+        pass
+
+    @property
+    @abc.abstractmethod
+    def der_bytes(self) -> bytes:
+        pass
+
+    @property
+    @abc.abstractmethod
+    def pem_bytes(self) -> bytes:
+        pass
+
+    @property
+    @abc.abstractmethod
+    def pem_string(self) -> str:
+        pass
+
+    @abc.abstractmethod
+    def to_file(
+            self, file_path: str, encoding: Encoding = Encoding.PEM
+    ) -> None:
+       pass
+
+
+
+class InitCryptoParser(IoCryptoParser, abc.ABC):
     """
-    Extending the CryptoParser with abstract functions to load
-    and write the implementing class in different formats and to/from files
+    Extends the CryptoParser into an object that requires initialization
+    before it can be used (while created as a
+    [pki_tools][pki_tools.types.certificate] object and not loaded from
+    cryptography). This can, for example, be a Certificate that needs
+    to be signed with a KeyPair containing the private key.
+
+    Attempt to e.g. dumping a certificate to a PEM string without using the
+    sign (init) function first will result in a
+    [MissingInit][pki_tools.exceptions.MissingInit] exception.
+
+    Classes implementing the `InitCryptoParser` will also automatically get
+    functions to load and write the objects with the supported
+    [Encoding][pki_tools.types.crypto_parser.Encoding] as well as
+    writing/reading the encoded content to/from files.
     """
+
+    _init_func: str = "sign"
 
     @classmethod
     def from_pem_string(
-        cls: Type["IoCryptoParser"], pem: str
-    ) -> "IoCryptoParser":
+            cls: Type["InitCryptoParser"], pem: str
+    ) -> "InitCryptoParser":
         """
         Loads the object from a PEM string
 
@@ -131,7 +169,7 @@ class IoCryptoParser(CryptoParser, abc.ABC):
         Returns:
             A created object from the PEM
         """
-        cfg = cls._crypto_func_names()
+        cfg = cls._crypto_config()
 
         if not isinstance(pem, str):
             logger.bind(pem=pem).debug("PEM parameter is not a string")
@@ -143,13 +181,15 @@ class IoCryptoParser(CryptoParser, abc.ABC):
             logger.bind(pem=pem).debug("PEM parameter has invalid format")
             raise LoadError()
 
-        crypto_obj = getattr(X509_MODULE, cfg.load_pem)(pem.encode())
+        func = cfg.load_pem.func
+        kwargs = cfg.load_pem.kwargs
+        crypto_obj = func(pem.encode(), **kwargs)
         return cls.from_cryptography(crypto_obj)
 
     @classmethod
     def from_der_bytes(
-        cls: Type["IoCryptoParser"], der: bytes
-    ) -> "IoCryptoParser":
+            cls: Type["InitCryptoParser"], der: bytes
+    ) -> "InitCryptoParser":
         """
         Loads the object from DER bytes
 
@@ -160,13 +200,17 @@ class IoCryptoParser(CryptoParser, abc.ABC):
             A created object from the DER bytes
         """
         cfg = cls._crypto_func_names()
-        crypto_obj = getattr(X509_MODULE, cfg.load_der)(der)
+
+        func = cfg.load_der.func
+        kwargs = cfg.load_der.func.kwargs
+
+        crypto_obj = func(der, **kwargs)
         return cls.from_cryptography(crypto_obj)
 
     @classmethod
     def from_file(
-        cls, file_path: str, encoding: Encoding = Encoding.PEM
-    ) -> "IoCryptoParser":
+            cls, file_path: str, encoding: Encoding = Encoding.PEM
+    ) -> "InitCryptoParser":
         """
         Reads a file containing one PEM into the object
 
@@ -214,7 +258,7 @@ class IoCryptoParser(CryptoParser, abc.ABC):
         return self.pem_bytes.decode()
 
     def to_file(
-        self, file_path: str, encoding: Encoding = Encoding.PEM
+            self, file_path: str, encoding: Encoding = Encoding.PEM
     ) -> None:
         """
         Saves the object with specified encoding to the specified file,
@@ -230,5 +274,15 @@ class IoCryptoParser(CryptoParser, abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def _crypto_func_names(cls) -> CryptoConfig:
+    def _crypto_config(cls) -> CryptoConfig:
         pass
+
+    @property
+    def _crypto_object(self) -> CryptoObject:
+        if not hasattr(self, "_x509_obj") or self._x509_obj is None:
+            init_func = f"{self.__class__.__name__}.{self._init_func}"
+            raise MissingInit(f"Please use the {init_func} first")
+
+        return self._x509_obj
+
+
