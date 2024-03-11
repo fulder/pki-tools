@@ -9,6 +9,8 @@ name = Name(cn=["Cert CN"])
 
 csr = CertificateSigningRequest(subject=name)
 
-csr.sign(RSAKeyPair.generate(), SHA512)
+key_pair = RSAKeyPair.generate()
+
+csr.sign(key_pair.private_key, SHA512)
 
 print(csr.pem_string)

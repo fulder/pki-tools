@@ -114,7 +114,10 @@ class SubjectPublicKeyInfo(CryptoParser):
 
             params[key] = v
 
-        return {"Public Key Algorithm": self.algorithm, "Parameters": params}
+        return {
+            "Public Key Algorithm": self.algorithm._string_dict(),
+            "Parameters": params,
+        }
 
 
 class Certificate(InitCryptoParser):
