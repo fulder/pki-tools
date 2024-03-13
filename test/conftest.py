@@ -59,7 +59,7 @@ from pki_tools.types.signature_algorithm import (
     SHA256,
     SHA512,
 )
-from pki_tools.types.utils import _byte_to_hex
+from pki_tools.types.utils import _byte_to_hex, _download_pem
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -86,9 +86,10 @@ def setup_loguru_logging(request):
     )
 
 
-@pytest.fixture()
+@pytest.fixture(scope="function")
 def mocked_requests_get(mocker):
     _get_crl_from_url.cache_clear()
+    _download_pem.cache_clear()
     return mocker.patch("httpx.Client.get")
 
 
