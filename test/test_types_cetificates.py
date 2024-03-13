@@ -27,3 +27,13 @@ def test_certificates_from_uri(mocked_requests_get, cert_pem_string):
     mocked_requests_get.return_value.text = cert_pem_string
 
     Certificates.from_uri(["http://TEST_URI"])
+
+
+def test_certificates_from_uri_multiple(mocked_requests_get, cert_pem_string):
+    mocked_requests_get.return_value.status_code = 200
+    certs = cert_pem_string + "\n" + cert_pem_string
+    mocked_requests_get.return_value.text = certs
+
+    certs = Certificates.from_uri(["http://TEST_URI"])
+    assert len(certs.certificates) == 2
+    assert certs.certificates[0].pem_string == cert_pem_string
