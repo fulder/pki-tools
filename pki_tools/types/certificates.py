@@ -6,7 +6,11 @@ from loguru import logger
 
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.crypto_parser import CryptoParser
-from pki_tools.types.utils import CACHE_TIME_SECONDS
+from pki_tools.types.utils import (
+    CACHE_TIME_SECONDS,
+    CertsUri,
+    _download_cached,
+)
 
 
 class Certificates(CryptoParser):
@@ -97,7 +101,10 @@ class Certificates(CryptoParser):
         certificates = []
         cache_ttl = round(time.time() / cache_time_seconds)
         for uri in uris:
-            certificates.append(Certificate.from_uri(uri, cache_ttl))
+            cert_uri = CertsUri(uri=uri)
+            res = _download_cached(cert_uri.uri, cache_ttl)
+
+            certificates += cls.from_pem_string(res.text).certificates
 
         return cls(certificates=certificates)
 

@@ -96,7 +96,7 @@ def setup_loguru_logging(request):
     )
 
 
-@pytest.fixture()
+@pytest.fixture(scope="function")
 def mocked_requests_get(mocker):
     _download_cached.cache_clear()
     return mocker.patch("httpx.Client.get")
