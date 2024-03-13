@@ -2,14 +2,24 @@ import json
 import os
 
 import datetime
+from typing import Dict
 
 import pytest
 from loguru import logger
 
-from pki_tools import Chain, Certificate, Name
+from pki_tools import (
+    Chain,
+    Certificate,
+    Name,
+    DSAKeyPair,
+    Ed25519KeyPair,
+    Ed448KeyPair,
+    EllipticCurveKeyPair,
+)
 from pki_tools.types import RSAKeyPair, CertificateRevocationList
 from pki_tools.types.certificate import Validity
 from pki_tools.types.crl import RevokedCertificate
+from pki_tools.types.crypto_parser import InitCryptoParser
 from pki_tools.types.csr import CertificateSigningRequest
 from pki_tools.types.extensions import (
     DistributionPoint,
@@ -51,6 +61,7 @@ from pki_tools.types.ocsp import (
     OCSPResponse,
     OcspResponseStatus,
     OcspCertificateStatus,
+    OCSPRequest,
 )
 from pki_tools.types.signature_algorithm import (
     HashAlgorithm,
@@ -114,6 +125,37 @@ def cert_pem_string(cert):
 @pytest.fixture()
 def chain(cert):
     return Chain(certificates=[cert])
+
+
+@pytest.fixture
+def init_crypto_parsers(
+    cert, csr, key_pair, ocsp_request
+) -> Dict[str, InitCryptoParser]:
+    parsers = [
+        cert,
+        csr,
+        _create_crl(key_pair, [cert.serial_number]),
+        _create_ocsp_response(cert, key_pair),
+        ocsp_request,
+    ]
+
+    keys_pairs = [
+        RSAKeyPair.generate(),
+        DSAKeyPair.generate(key_size=1024),
+        Ed25519KeyPair.generate(),
+        Ed448KeyPair.generate(),
+        EllipticCurveKeyPair.generate(curve_name="SECP192R1"),
+    ]
+
+    for key_pair in keys_pairs:
+        parsers.append(key_pair.private_key)
+        parsers.append(key_pair.public_key)
+
+    ret = {}
+    for parser in parsers:
+        ret[parser.__class__.__name__] = parser
+
+    return ret
 
 
 TEST_SUBJECT = Name(
@@ -330,7 +372,24 @@ def cert_with_subject_directory_attributes():
     """
 
 
+@pytest.fixture
+def ocsp_request(cert):
+    req = OCSPRequest(
+        hash_algorithm=SHA512.algorithm, serial_number=cert.serial_number
+    )
+
+    req.create(cert, cert)
+    return req
+
+
 def _create_mocked_ocsp_response(
+    cert, key_pair, status=OcspCertificateStatus.GOOD, revocation_time=None
+):
+    res = _create_ocsp_response(cert, key_pair, status, revocation_time)
+    return res.der_bytes
+
+
+def _create_ocsp_response(
     cert, key_pair, status=OcspCertificateStatus.GOOD, revocation_time=None
 ):
     res = OCSPResponse(
@@ -345,7 +404,7 @@ def _create_mocked_ocsp_response(
         key_pair.private_key,
     )
 
-    return res.der_bytes
+    return res
 
 
 def _create_crl(keypair, revoked_serials):

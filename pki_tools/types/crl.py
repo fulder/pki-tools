@@ -89,9 +89,7 @@ class RevokedCertificate(CryptoParser):
         }
 
 
-CRL_REGEXP = re.compile(
-    r"\s*-+BEGIN CERTIFICATE REQUEST-+[\w+/\s=]*-+END CERTIFICATE REQUEST-+\s*"
-)
+CRL_REGEXP = re.compile(r"\s*-+BEGIN X509 CRL-+[\w+/\s=]*-+END X509 CRL-+\s*")
 
 
 class CertificateRevocationList(InitCryptoParser):

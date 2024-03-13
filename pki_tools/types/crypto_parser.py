@@ -174,8 +174,11 @@ class InitCryptoParser(CryptoParser, abc.ABC):
         Returns:
              The Certificate loaded from the specified file
         """
+        mode = "r"
+        if encoding == Encoding.DER:
+            mode = "rb"
 
-        with open(file_path, "r") as f:
+        with open(file_path, mode) as f:
             data = f.read()
 
         return getattr(cls, f"from_{encoding.value}")(data)
@@ -188,7 +191,9 @@ class InitCryptoParser(CryptoParser, abc.ABC):
         Returns:
             The DER bytes.
         """
-        return self._crypto_object.public_bytes(serialization.Encoding.DER)
+        return self._crypto_object.public_bytes(
+            encoding=serialization.Encoding.DER
+        )
 
     @property
     def pem_bytes(self) -> bytes:
@@ -222,7 +227,10 @@ class InitCryptoParser(CryptoParser, abc.ABC):
                 absolute)
             encoding: The encoding to use for the dumped data
         """
-        with open(file_path, "w") as f:
+        mode = "w"
+        if encoding == Encoding.DER:
+            mode = "wb"
+        with open(file_path, mode) as f:
             f.write(getattr(self, encoding.value))
 
     @classmethod

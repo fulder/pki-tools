@@ -125,6 +125,28 @@ class OCSPResponse(InitCryptoParser):
         """
         return self._crypto_object.tbs_response_bytes
 
+    @property
+    def pem_bytes(self) -> bytes:
+        """
+        Returns the PEM bytes of the object
+
+        Returns:
+            The PEM bytes.
+        """
+        ocsp_request_b64 = base64.b64encode(self.der_bytes).decode()
+
+        # Create the PEM string with headers and footers
+        return (
+            "-----BEGIN OCSP RESPONSE-----\n"
+            + "\n".join(
+                [
+                    ocsp_request_b64[i : i + 64]
+                    for i in range(0, len(ocsp_request_b64), 64)
+                ]
+            )
+            + "\n-----END OCSP RESPONSE-----\n"
+        ).encode()
+
     def hash_with_alg(self, der_key: bytes) -> str:
         """
         Hashes a DER key bytes with the algorithm of the OCSP response.
@@ -218,12 +240,12 @@ class OCSPResponse(InitCryptoParser):
         }
 
     @classmethod
-    def _load_pem(cls, pem: str):
-        pem_lines = pem.strip().split("\n")
+    def _load_pem(cls, pem: bytes):
+        pem_lines = pem.decode().strip().split("\n")
         base64_data = "".join(pem_lines[1:-1])
         der_bytes = base64.b64decode(base64_data)
 
-        return OCSPResponse.from_der_bytes(der_bytes)
+        return ocsp.load_der_ocsp_response(der_bytes)
 
     @classmethod
     def _crypto_config(cls) -> CryptoConfig:
@@ -256,6 +278,7 @@ class OCSPRequest(InitCryptoParser):
 
     _init_func = "create"
 
+    @classmethod
     def from_cryptography(
         cls: Type["OCSPRequest"], crypto_obj: ocsp.OCSPRequest
     ) -> "OCSPRequest":
@@ -269,11 +292,35 @@ class OCSPRequest(InitCryptoParser):
         Returns:
             The constructed OCSPRequest object.
         """
+        print(type(crypto_obj))
+        alg = HashAlgorithm.from_cryptography(crypto_obj.hash_algorithm)
         return cls(
+            hash_algorithm=alg,
             serial_number=crypto_obj.serial_number,
             extensions=Extensions.from_cryptography(crypto_obj.extensions),
             _x590_obj=crypto_obj,
         )
+
+    @property
+    def pem_bytes(self) -> bytes:
+        """
+        Returns the PEM bytes of the object
+
+        Returns:
+            The PEM bytes.
+        """
+        ocsp_request_b64 = base64.b64encode(self.der_bytes).decode()
+
+        return (
+            "-----BEGIN OCSP REQUEST-----\n"
+            + "\n".join(
+                [
+                    ocsp_request_b64[i : i + 64]
+                    for i in range(0, len(ocsp_request_b64), 64)
+                ]
+            )
+            + "\n-----END OCSP REQUEST-----\n"
+        ).encode()
 
     @property
     def request_path(self) -> str:
@@ -324,12 +371,12 @@ class OCSPRequest(InitCryptoParser):
         return ret
 
     @classmethod
-    def _load_pem(cls, pem: str):
-        pem_lines = pem.strip().split("\n")
+    def _load_pem(cls, pem: bytes):
+        pem_lines = pem.decode().strip().split("\n")
         base64_data = "".join(pem_lines[1:-1])
         der_bytes = base64.b64decode(base64_data)
 
-        return OCSPRequest.from_der_bytes(der_bytes)
+        return ocsp.load_der_ocsp_request(der_bytes)
 
     @classmethod
     def _crypto_config(cls) -> CryptoConfig:

@@ -7,6 +7,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives._serialization import (
     Encoding,
     PublicFormat,
+    PrivateFormat,
 )
 from cryptography.hazmat.primitives.asymmetric import (
     dsa,
@@ -30,14 +31,18 @@ from pki_tools.types.crypto_parser import (
 from pki_tools.types.utils import _byte_to_hex, _hex_to_byte
 
 
+PUBLIC_KEY_REGEXP = re.compile(
+    r"\s*-+BEGIN PUBLIC KEY-+[\w+/\s=]*-+END PUBLIC KEY-+\s*"
+)
+PRIVATE_KEY_REGEXP = re.compile(
+    r"\s*-+BEGIN.+PRIVATE KEY-+[\w+/\s=]*-+END.+PRIVATE KEY-+\s*"
+)
+
+
 class CryptoPrivateKey(InitCryptoParser, abc.ABC):
     """
     Represents a cryptographic private key.
     """
-
-    _regexp = re.compile(
-        r"\s*-+BEGIN.+PRIVATE KEY-+[\w+/\s=]*-+END.+PRIVATE KEY-+\s*"
-    )
 
     @classmethod
     def from_cryptography(
@@ -64,6 +69,20 @@ class CryptoPrivateKey(InitCryptoParser, abc.ABC):
         return globals()[name].from_cryptography(key)
 
     @property
+    def der_bytes(self) -> bytes:
+        """
+        Property to get the DER encoding of the public key.
+
+        Returns:
+            bytes: The DER encoded public key.
+        """
+        return self._crypto_object.private_bytes(
+            encoding=Encoding.DER,
+            format=PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption(),
+        )
+
+    @property
     def pem_bytes(self) -> bytes:
         """
         Property to get the PEM encoding of the private key.
@@ -82,6 +101,7 @@ class CryptoPrivateKey(InitCryptoParser, abc.ABC):
 
         return self._crypto_object.private_bytes(**kwargs)
 
+    @classmethod
     def _crypto_config(cls) -> CryptoConfig:
         return CryptoConfig(
             load_pem=HelperFunc(
@@ -92,7 +112,7 @@ class CryptoPrivateKey(InitCryptoParser, abc.ABC):
                 func=serialization.load_der_private_key,
                 kwargs={"password": None},
             ),
-            pem_regexp=cls._regexp,
+            pem_regexp=PRIVATE_KEY_REGEXP,
         )
 
 
@@ -100,10 +120,6 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
     """
     Represents a cryptographic public key.
     """
-
-    _regexp = re.compile(
-        r"\s*-+BEGIN PUBLIC KEY-+[\w+/\s=]*-+END PUBLIC KEY-+\s*"
-    )
 
     @classmethod
     def from_cryptography(
@@ -139,7 +155,7 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
         """
         return self._crypto_object.public_bytes(
             encoding=Encoding.DER,
-            format=PublicFormat.PKCS1,
+            format=PublicFormat.SubjectPublicKeyInfo,
         )
 
     @property
@@ -164,7 +180,7 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
         return CryptoConfig(
             load_pem=HelperFunc(func=serialization.load_pem_public_key),
             load_der=HelperFunc(func=serialization.load_der_public_key),
-            pem_regexp=cls._regexp,
+            pem_regexp=PUBLIC_KEY_REGEXP,
         )
 
 

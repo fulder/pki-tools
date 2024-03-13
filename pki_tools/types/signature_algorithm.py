@@ -68,7 +68,7 @@ class HashAlgorithm(CryptoParser):
             The constructed HashAlgorithm object.
         """
         return cls(
-            name=x509_obj.__class__.__name__,
+            name=getattr(HashAlgorithmName, x509_obj.name.upper()),
             block_size=x509_obj.block_size,
             _x509_obj=x509_obj,
         )
