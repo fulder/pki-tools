@@ -47,7 +47,7 @@ class RevokedCertificate(CryptoParser):
 
         ret = cls(
             serial=crypto_obj.serial_number,
-            date=crypto_obj.revocation_date,
+            date=crypto_obj.revocation_date_utc,
             extensions=extensions,
             _x509_obj=crypto_obj,
         )
