@@ -363,11 +363,13 @@ class Certificate(InitCryptoParser):
         self.serial_number = random.randint(1, 2**32 - 1)
         self.signature_algorithm = signature_algorithm
 
-        if req_key is not None:
-            self.subject_public_key_info = SubjectPublicKeyInfo(
-                algorithm=req_key,
-                parameters=req_key._string_dict(),
-            )
+        if req_key is None:
+            req_key = key_pair.public_key
+
+        self.subject_public_key_info = SubjectPublicKeyInfo(
+            algorithm=req_key,
+            parameters=req_key._string_dict(),
+        )
 
         self._x509_obj = self._to_cryptography()
 
@@ -393,10 +395,8 @@ class Certificate(InitCryptoParser):
         issuer = self.issuer._to_cryptography()
         crypto_key = self._key_pair.private_key._to_cryptography()
 
-        public_key = crypto_key.public_key()
-        if self.subject_public_key_info is not None:
-            alg = self.subject_public_key_info.algorithm
-            public_key = alg._to_cryptography().public_key()
+        alg = self.subject_public_key_info.algorithm
+        public_key = alg._to_cryptography()
 
         cert_builder = (
             x509.CertificateBuilder()
@@ -430,19 +430,27 @@ class Certificate(InitCryptoParser):
         return cert
 
     def _string_dict(self):
-        subject_key_info = self.subject_public_key_info._string_dict()
-        signature_alg = self.signature_algorithm.algorithm.name.value
-        return {
-            "Version": self.version,
-            "Serial Number": self.hex_serial,
-            "Signature Algorithm": signature_alg,
+        ret = {
             "Issuer": str(self.issuer),
             "Validity": self.validity._string_dict(),
             "Subject": str(self.subject),
-            "Subject Public Key Info": subject_key_info,
-            "Extensions": self.extensions._string_dict(),
-            "Signature Value": self.signature_value,
         }
+        if self.version is not None:
+            ret["Version"] = self.version
+        if self.extensions is not None:
+            ret["Extensions"] = self.extensions._string_dict()
+        if self.serial_number is not None:
+            ret["Serial Number"] = self.hex_serial
+        if self.signature_value is not None:
+            ret["Signature Value"] = self.signature_value
+        if self.subject_public_key_info is not None:
+            subject_key_info = self.subject_public_key_info._string_dict()
+            ret["Subject Public Key Info"] = subject_key_info
+        if self.signature_algorithm is not None:
+            signature_alg = self.signature_algorithm.algorithm.name.value
+            ret["Signature Algorithm"] = signature_alg
+
+        return ret
 
     @classmethod
     def _crypto_config(cls) -> CryptoConfig:
