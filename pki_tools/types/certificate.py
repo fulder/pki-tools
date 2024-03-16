@@ -135,6 +135,8 @@ class Certificate(InitCryptoParser):
         signature_algorithm: Describes the algorithm used to sign the
             certificate
         subject_public_key_info: The public key information
+
+    --8<-- "docs/examples/certificate.md"
     """
 
     issuer: Name
@@ -167,6 +169,8 @@ class Certificate(InitCryptoParser):
 
         Returns:
             Certificate: The created Certificate object.
+
+        --8<-- "docs/examples/certificate_from_cryptography.md"
         """
 
         ret = cls(
@@ -207,6 +211,8 @@ class Certificate(InitCryptoParser):
 
         Returns:
             The loaded [Certificate][pki_tools.types.certificate] object
+
+        --8<-- "docs/examples/certificate_from_server.md"
         """
         cert_uri = CertsUri(uri=uri, cache_time_seconds=cache_time_seconds)
 
@@ -231,6 +237,8 @@ class Certificate(InitCryptoParser):
         Returns:
             Instance of Certificate containing the certificates
             fetched from the URI.
+
+        --8<-- "docs/examples/certificate_from_uri.md"
         """
 
         cache_ttl = round(time.time() / cache_time_seconds)

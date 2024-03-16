@@ -18,6 +18,10 @@ class Chain(Certificates):
     """
     Chain holds a list of certificates in a
     [chain of trust](https://en.wikipedia.org/wiki/Chain_of_trust)
+
+    --8<-- "docs/examples/chain.md"
+    --8<-- "docs/examples/chain_from_cryptography.md"
+    --8<-- "docs/examples/chain_from_uri.md"
     """
 
     model_config = ConfigDict(arbitrary_types_allowed=True)

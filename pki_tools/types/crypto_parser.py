@@ -82,7 +82,6 @@ class Encoding(Enum):
     DER = "der_bytes"
 
 
-
 class HelperFunc(BaseModel):
     func: Callable
     kwargs: Optional[Dict] = {}

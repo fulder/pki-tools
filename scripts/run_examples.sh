@@ -14,7 +14,7 @@ for file in *.py; do
   out_file="${file%.*}.out"
 
   if [[ "${exclude_outputs[@]}" =~ "${file}" ]]; then
-    LOGURU_LEVEL=INFO poetry run python3 "$file" 2>&1
+    LOGURU_LEVEL=INFO poetry run python3 "$file" > /dev/null 2>&1
   else
     LOGURU_LEVEL=INFO poetry run python3 "$file" > ${out_file} 2>&1
   fi

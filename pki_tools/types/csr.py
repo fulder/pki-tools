@@ -38,6 +38,8 @@ class CertificateSigningRequest(InitCryptoParser):
         extensions: Extensions associated with the CSR.
         attributes: Attributes of the CSR.
         signature_algorithm: Signature algorithm used while signing the CSR.
+
+    --8<-- "docs/examples/csr.md"
     """
 
     subject: Name
