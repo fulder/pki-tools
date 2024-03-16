@@ -24,7 +24,7 @@ Extensions:
     value: revoked-isrgrootx1.letsencrypt.org
   Subject Key Identifier:
     Subject Key Identifier: 3AE9055031A4285A32E1D9CF0A943C631E0CB4E2
-Issuer: 'O: Let''s Encrypt, CN: R3, C: US'
+Issuer: 'C: US, CN: R3, O: Let''s Encrypt'
 Serial Number: 3A3724809405ED47051B3E0B885A610C436
 Signature Algorithm: SHA256
 Signature Value: |-
