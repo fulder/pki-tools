@@ -5,11 +5,12 @@
 --8<-- "docs/examples/src/create_cert.py"
 ```
 
-### Output
-```python
---8<-- "docs/examples/src/create_cert_output.pem"
+/// details | Print output
+    type: note
+``` 
+--8<-- "docs/examples/src/create_cert.out"
 ```
-
+///
 
 ## Create CSR
 
@@ -17,7 +18,9 @@
 --8<-- "docs/examples/src/create_csr.py"
 ```
 
-### Output
-```python
---8<-- "docs/examples/src/create_csr_output.pem"
+/// details | Print output
+    type: note
+``` 
+--8<-- "docs/examples/src/create_csr.out"
 ```
+///

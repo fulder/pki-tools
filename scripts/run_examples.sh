@@ -8,15 +8,17 @@ cd ./docs/examples/src
 error_flag=0
 for file in *.py; do
   echo "Running $file..."
-  output=$(poetry run python3 "$file" 2>&1)
+
+  out_file="${file%.*}.out"
+  LOGURU_LEVEL=INFO poetry run python3 "$file" > ${out_file} 2>&1
 
   # Check the exit code of the Python command
   if [ $? -eq 0 ]; then
     echo "$file executed successfully"
   else
     printf "${RED}Error executing $file${NC}\n"
-    echo $output
-  error_flag=1
+    cat "${out_file}"
+    error_flag=1
   fi
 done
 

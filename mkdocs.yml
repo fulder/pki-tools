@@ -58,6 +58,7 @@ markdown_extensions:
       permalink: true
       title: Page contents
   - pymdownx.snippets
+  - pymdownx.blocks.details
 
 watch:
   - docs

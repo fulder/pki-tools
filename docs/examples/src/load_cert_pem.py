@@ -1,5 +1,3 @@
-from pki_tools import Certificate
-
 cert_pem = """
 -----BEGIN CERTIFICATE-----
 MIICsDCCAZigAwIBAgIUagjv68D6EIk/hIIA0mXliqJr/iIwDQYJKoZIhvcNAQEN
@@ -19,6 +17,8 @@ iEEtcWJ2LNQ1UA0fzUEmrHGfasewdRpkY6K3/9psnnOOCH5T3cZfjawUq0cBpX81
 C0c2MU/Ob0dcXJmIwbGA0PmIwVo=
 -----END CERTIFICATE-----
 """
+
+from pki_tools import Certificate
 
 cert = Certificate.from_pem_string(cert_pem)
 

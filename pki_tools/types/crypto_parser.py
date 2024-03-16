@@ -72,10 +72,15 @@ class Encoding(Enum):
     Describes the encoding used for writing/reading
     [InitCryptoParser][pki_tools.types.crypto_parser.InitCryptoParser]
     objects.
+
+    Attributes:
+        PEM: PEM string format
+        DER: DER binary format
     """
 
     PEM = "pem_string"
     DER = "der_bytes"
+
 
 
 class HelperFunc(BaseModel):

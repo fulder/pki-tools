@@ -1,7 +1,5 @@
 from cryptography import x509
 
-from pki_tools import Chain
-
 chain_pem = """
 -----BEGIN CERTIFICATE-----
 MIIFazCCA1OgAwIBAgIRAIIQz7DSQONZRGPgu2OCiwAwDQYJKoZIhvcNAQELBQAw
@@ -67,6 +65,9 @@ nLRbwHOoq7hHwg==
 """
 
 crypto_certs = x509.load_pem_x509_certificates(chain_pem.encode())
+
+from pki_tools import Chain
+
 chain = Chain.from_cryptography(crypto_certs)
 
 print(chain)
