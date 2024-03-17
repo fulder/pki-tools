@@ -70,6 +70,18 @@ class Validity(BaseModel):
     not_before: datetime.datetime
     not_after: datetime.datetime
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        if self.not_before.tzinfo is None:
+            self.not_before = self.not_before.replace(
+                tzinfo=datetime.timezone.utc
+            )
+        if self.not_after.tzinfo is None:
+            self.not_after = self.not_after.replace(
+                tzinfo=datetime.timezone.utc
+            )
+
     def _string_dict(self) -> Dict[str, str]:
         return {
             "Not Before": str(self.not_before),
