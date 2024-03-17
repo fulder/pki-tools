@@ -129,12 +129,15 @@ class CertificateSigningRequest(InitCryptoParser):
     def _string_dict(self):
         ret = {
             "Certificate Signing Request": {
-                "Subject": self.subject._string_dict(),
-                "Extensions": self.extensions._string_dict(),
-                "Signature Algorithm": self.signature_algorithm._string_dict(),
+                "Subject": str(self.subject),
                 "Public Key": self.public_key._string_dict(),
             }
         }
+        if self.extensions:
+            ret["Extensions"] = self.extensions._string_dict()
+        if self.signature_algorithm is not None:
+            signature_alg = self.signature_algorithm.algorithm.name.value
+            ret["Signature Algorithm"] = signature_alg
         if self.attributes is not None:
             attributes = []
 
@@ -146,7 +149,8 @@ class CertificateSigningRequest(InitCryptoParser):
                     val = val.decode()
                 attributes.append(f"{k}: {str(val)}")
 
-            ret["Certificate Signing Request"]["Attributes"] = attributes
+            if attributes:
+                ret["Certificate Signing Request"]["Attributes"] = attributes
         return ret
 
     def _to_cryptography(self) -> x509.CertificateSigningRequest:

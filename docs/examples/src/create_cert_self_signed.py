@@ -17,4 +17,4 @@ cert = Certificate(
 
 cert.sign(RSAKeyPair.generate(), SHA512)
 
-print(cert.pem_string)
+print(cert)

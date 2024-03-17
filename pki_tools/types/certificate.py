@@ -457,7 +457,7 @@ class Certificate(InitCryptoParser):
         }
         if self.version is not None:
             ret["Version"] = self.version
-        if self.extensions is not None:
+        if self.extensions:
             ret["Extensions"] = self.extensions._string_dict()
         if self.serial_number is not None:
             ret["Serial Number"] = self.hex_serial

@@ -184,7 +184,10 @@ class PKCS1v15Padding(Padding):
         Returns:
             The constructed PKCS1v15Padding object.
         """
-        return cls(_name=crypto_obj.name, _x509_obj=crypto_obj)
+        ret = cls()
+        ret._name = crypto_obj.name
+        ret._x509_obj = crypto_obj
+        return ret
 
     def _to_cryptography(self) -> padding.PKCS1v15:
         return padding.PKCS1v15()
