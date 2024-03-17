@@ -1,5 +1,17 @@
 # Examples
 
+## Create chain
+```python
+--8<-- "docs/examples/src/create_chain.py"
+```
+
+/// details | Print output
+    type: note
+``` 
+--8<-- "docs/examples/src/create_chain.out"
+```
+///
+
 ## [InitCryptoParser.from_pem_string][pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string]
 
 /// details | `chain_pem`

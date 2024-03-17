@@ -5,7 +5,7 @@ NC='\033[0m' # No Color
 
 cd ./docs/examples/src
 
-exclude_outputs=("create_cert.py" "create_csr.py")
+exclude_outputs=("create_cert.py" "create_csr.py", "create_chain.py")
 
 error_flag=0
 for file in *.py; do

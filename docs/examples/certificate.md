@@ -2,13 +2,25 @@
 
 ## Create self signed certificate
 ```python
---8<-- "docs/examples/src/create_cert.py"
+--8<-- "docs/examples/src/create_cert_self_signed.py"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/create_cert.out"
+--8<-- "docs/examples/src/create_cert_self_signed.out"
+```
+///
+
+## Create cross signed certificate
+```python
+--8<-- "docs/examples/src/create_cert_cross_signed.py"
+```
+
+/// details | Print output
+    type: note
+``` 
+--8<-- "docs/examples/src/create_cert_cross_signed.out"
 ```
 ///
 
