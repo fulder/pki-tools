@@ -1,3 +1,5 @@
+from cryptography import x509
+
 csr_pem = """
 -----BEGIN CERTIFICATE REQUEST-----
 MIICVzCCAT8CAQAwEjEQMA4GA1UEAwwHQ2VydCBDTjCCASIwDQYJKoZIhvcNAQEB
@@ -16,8 +18,10 @@ e59skp82bFTb8z71rtulJCrB5wVwmKu0vZRM
 -----END CERTIFICATE REQUEST-----
 """
 
+crypto_csr = x509.load_pem_x509_csr(csr_pem.encode())
+
 from pki_tools import CertificateSigningRequest
 
-csr = CertificateSigningRequest.from_pem_string(csr_pem)
+csr = CertificateSigningRequest.from_cryptography(crypto_csr)
 
 print(csr)

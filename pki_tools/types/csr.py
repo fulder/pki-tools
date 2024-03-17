@@ -65,6 +65,8 @@ class CertificateSigningRequest(InitCryptoParser):
 
         Returns:
             Instance of CertificateSigningRequest.
+
+        --8<-- "docs/examples/csr_from_cryptography.md"
         """
         attributes = {}
         for att in crypto_csr.attributes:

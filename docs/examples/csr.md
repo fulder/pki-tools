@@ -1,5 +1,7 @@
 # Examples
 
+## Create CSR
+
 ```python
 --8<-- "docs/examples/src/create_csr.py"
 ```
@@ -22,12 +24,33 @@
 ///
 
 ```python
---8<-- "docs/examples/src/load_chain_pem.py:19"
+--8<-- "docs/examples/src/load_csr_pem.py:19"
+```
+
+/// details | Print output
+    type: note
+
+``` 
+--8<-- "docs/examples/src/load_csr_pem.out"
+```
+///
+
+## [InitCryptoParser.from_file][pki_tools.types.crypto_parser.InitCryptoParser.from_file]
+
+/// details | `csr.pem`
+    type: tip
+```
+--8<-- "docs/examples/src/csr.pem"
+```
+///
+
+```python
+--8<-- "docs/examples/src/load_csr_file.py"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/load_csr_pem.out"
+--8<-- "docs/examples/src/load_csr_file.out"
 ```
 ///
