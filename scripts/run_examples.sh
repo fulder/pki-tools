@@ -25,9 +25,9 @@ find "./docs/examples/src" -type f -name "*py" -print0 | while IFS= read -r -d '
   pushd $dir
 
   if [[ "${exclude_outputs[@]}" =~ "${file_name}" ]]; then
-    LOGURU_LEVEL=INFO poetry run python3 "${file_name}" > /dev/null 2>&1
+    LOGURU_LEVEL=INFO poetry run python3 "${file_name}" > /dev/null 2>&1 &
   else
-    LOGURU_LEVEL=INFO poetry run python3 "${file_name}" > ${out_name} 2>&1
+    LOGURU_LEVEL=INFO poetry run python3 "${file_name}" > ${out_name} 2>&1 &
   fi
 
   popd
@@ -42,5 +42,7 @@ find "./docs/examples/src" -type f -name "*py" -print0 | while IFS= read -r -d '
   fi
 
 done
+
+wait
 
 exit $error_flag
