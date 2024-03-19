@@ -4,7 +4,9 @@ from pki_tools import (
     Name,
     RSAKeyPair,
     SHA512,
-    Chain, Certificate, Validity,
+    Chain,
+    Certificate,
+    Validity,
 )
 
 issuer_key = RSAKeyPair.generate()
@@ -34,11 +36,6 @@ cert = Certificate(
 )
 cert.sign(issuer_key, SHA512, req_key=cert_key.public_key)
 
-chain = Chain(
-    certificates=[
-        issuer_cert,
-        cert
-    ]
-)
+chain = Chain(certificates=[issuer_cert, cert])
 
 print(chain)

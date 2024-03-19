@@ -335,6 +335,12 @@ class DSAPrivateKey(CryptoPrivateKey):
 
 
 class DSAKeyPair(CryptoKeyPair):
+    """
+    Describes a DSA Key Pair including the public and private DSA keys.
+
+    --8<-- "docs/examples/key_pair_dsa.md"
+    """
+
     @classmethod
     def generate(cls: Type["DSAKeyPair"], key_size: int) -> "DSAKeyPair":
         """
@@ -488,6 +494,12 @@ class RSAPublicKey(CryptoPublicKey):
 
 
 class RSAKeyPair(CryptoKeyPair):
+    """
+    Describes a RSA Key Pair including the public and private RSA keys.
+
+    --8<-- "docs/examples/key_pair_rsa.md"
+    """
+
     @classmethod
     def generate(
         cls: Type["RSAKeyPair"], key_size: int = 2048, exponent: int = 65537
@@ -633,6 +645,12 @@ class EllipticCurvePublicKey(CryptoPublicKey):
 
 
 class EllipticCurveKeyPair(CryptoKeyPair):
+    """
+    Describes an elliptic curve Key Pair including the public and private keys.
+
+    --8<-- "docs/examples/key_pair_ec.md"
+    """
+
     @classmethod
     def generate(
         cls: Type["EllipticCurveKeyPair"], curve_name: str
@@ -749,6 +767,8 @@ class Ed448PublicKey(CryptoPublicKey):
 class Ed448KeyPair(CryptoKeyPair):
     """
     Represents an Ed448 cryptographic key pair.
+
+    --8<-- "docs/examples/key_pair_ed448.md"
     """
 
     @classmethod
@@ -851,6 +871,8 @@ class Ed25519PublicKey(CryptoPublicKey):
 class Ed25519KeyPair(CryptoKeyPair):
     """
     Represents an Ed25519 cryptographic key pair.
+
+    --8<-- "docs/examples/key_pair_ed25519.md"
     """
 
     @classmethod

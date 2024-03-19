@@ -8,6 +8,11 @@ exclude_outputs=(
   "create_chain.py"
   "create_cert_cross_signed.py"
   "create_cert_self_signed.py"
+  "dsa_create.py"
+  "rsa_create.py"
+  "ec_create.py"
+  "ed448_create.py"
+  "ed25519_create.py"
 )
 
 error_flag=0
