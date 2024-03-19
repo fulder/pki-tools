@@ -3,13 +3,13 @@
 ## Create CSR
 
 ```python
---8<-- "docs/examples/src/create_csr.py"
+--8<-- "docs/examples/src/csr/create_csr.py"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/create_csr.out"
+--8<-- "docs/examples/src/csr/create_csr.out"
 ```
 ///
 
@@ -19,19 +19,19 @@
 /// details | `csr_pem`
     type: tip
 ```
---8<-- "docs/examples/src/load_csr_pem.py::17"
+--8<-- "docs/examples/src/csr/load_csr_pem.py::17"
 ```
 ///
 
 ```python
---8<-- "docs/examples/src/load_csr_pem.py:19"
+--8<-- "docs/examples/src/csr/load_csr_pem.py:19"
 ```
 
 /// details | Print output
     type: note
 
 ``` 
---8<-- "docs/examples/src/load_csr_pem.out"
+--8<-- "docs/examples/src/csr/load_csr_pem.out"
 ```
 ///
 
@@ -40,17 +40,17 @@
 /// details | `csr.pem`
     type: tip
 ```
---8<-- "docs/examples/src/csr.pem"
+--8<-- "docs/examples/src/csr/csr.pem"
 ```
 ///
 
 ```python
---8<-- "docs/examples/src/load_csr_file.py"
+--8<-- "docs/examples/src/csr/load_csr_file.py"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/load_csr_file.out"
+--8<-- "docs/examples/src/csr/load_csr_file.out"
 ```
 ///

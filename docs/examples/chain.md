@@ -2,13 +2,13 @@
 
 ## Create chain
 ```python
---8<-- "docs/examples/src/create_chain.py"
+--8<-- "docs/examples/src/chain/create_chain.py"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/create_chain.out"
+--8<-- "docs/examples/src/chain/create_chain.out"
 ```
 ///
 
@@ -17,18 +17,18 @@
 /// details | `chain_pem`
     type: tip
 ```
---8<-- "docs/examples/src/load_chain_pem.py::63"
+--8<-- "docs/examples/src/chain/load_chain_pem.py::63"
 ```
 ///
 
 ```python
---8<-- "docs/examples/src/load_chain_pem.py:65"
+--8<-- "docs/examples/src/chain/load_chain_pem.py:65"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/load_chain_pem.out"
+--8<-- "docs/examples/src/chain/load_chain_pem.out"
 ```
 ///
 
@@ -37,17 +37,17 @@
 /// details | `chain.pem`
     type: tip
 ``` 
---8<-- "docs/examples/src/chain.pem"
+--8<-- "docs/examples/src/chain/chain.pem"
 ```
 ///
 
 ```python
---8<-- "docs/examples/src/load_chain_file.py"
+--8<-- "docs/examples/src/chain/load_chain_file.py"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/load_chain_file.out"
+--8<-- "docs/examples/src/chain/load_chain_file.out"
 ```
 ///

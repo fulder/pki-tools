@@ -1,12 +1,12 @@
 # Example
 
 ```python
---8<-- "docs/examples/src/load_cert_uri.py"
+--8<-- "docs/examples/src/cert/load_cert_uri.py"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/load_cert_uri.out"
+--8<-- "docs/examples/src/cert/load_cert_uri.out"
 ```
 ///

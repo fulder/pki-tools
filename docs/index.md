@@ -27,14 +27,33 @@ environment variable.
 
 ### Creating x509 objects
 
-| Function    | [Certificate][pki_tools.types.certificate.Certificate]                                                                                                                              | [CSR][pki_tools.types.csr.CertificateSigningRequest]                                              | [Chain][pki_tools.types.chain.Chain]                                            | Keys | OCSP |
-|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|------|------|
-| Create      | [Self Signed][pki_tools.types.certificate.Certificate--create-self-signed-certificate]</br>[Cross Signed][pki_tools.types.certificate.Certificate--create-cross-signed-certificate] | [Create][pki_tools.types.csr.CertificateSigningRequest--create-csr]                               | [Create][pki_tools.types.chain.Chain]                                           |      |      |
-| From PEM    | [from_pem_string][pki_tools.types.certificate.Certificate--initcryptoparserfrom_pem_string]                                                                                         | [from_pem_string][pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_pem_string] | [from_pem_string][pki_tools.types.chain.Chain--initcryptoparserfrom_pem_string] |      |      |
-| From file   | [from_file][pki_tools.types.certificate.Certificate--initcryptoparserfrom_file]                                                                                                     | [from_file][pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_file]             | [from_file][pki_tools.types.chain.Chain--initcryptoparserfrom_file]             |      |      |
-| From crypto | [from_cryptography][pki_tools.types.certificate.Certificate.from_cryptography--example]                                                                                             | [from_cryptography][pki_tools.types.csr.CertificateSigningRequest.from_cryptography--example]     | [from_cryptography][pki_tools.types.chain.Chain--certificatesfrom_cryptography] |      |      |
-| From URI    | [from_uri][pki_tools.types.certificate.Certificate.from_uri--example]                                                                                                               | N/A                                                                                               | [from_uri][pki_tools.types.chain.Chain--certificatesfrom_uri]                   |      |      |
-| From Server | [from_server][pki_tools.types.certificate.Certificate.from_server--example]                                                                                                         | N/A                                                                                               | N/A                                                                             |      |      |
+* `Certificate`
+    * [Create Self Signed][pki_tools.types.certificate.Certificate--create-self-signed-certificate]
+    * [Create Cross Signed][pki_tools.types.certificate.Certificate--create-cross-signed-certificate]
+* `CertificateSigningRequest`
+    * [Create and sign][pki_tools.types.csr.CertificateSigningRequest--create-csr]
+* `Chain`
+    * [Create from certificates][pki_tools.types.chain.Chain]
+
+### Loading x509 objects
+
+* `Certificate`
+    * [from_pem_string][pki_tools.types.certificate.Certificate--initcryptoparserfrom_pem_string]
+    * [from_file][pki_tools.types.certificate.Certificate--initcryptoparserfrom_file]
+    * [from_cryptography][pki_tools.types.certificate.Certificate.from_cryptography--example]
+    * [from_uri][pki_tools.types.certificate.Certificate.from_uri--example]
+    * [from_server][pki_tools.types.certificate.Certificate.from_server--example]
+* `CertificateSigningRequest`
+    * [from_pem_string][pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_pem_string]
+    * [from_file][pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_file]
+    * [from_cryptography][pki_tools.types.csr.CertificateSigningRequest.from_cryptography--example]
+* `Chain`
+    * [from_pem_string][pki_tools.types.chain.Chain--initcryptoparserfrom_pem_string]
+    * [from_file][pki_tools.types.chain.Chain--initcryptoparserfrom_file]
+    * [from_cryptography][pki_tools.types.chain.Chain--certificatesfrom_cryptography]
+    * [from_uri][pki_tools.types.chain.Chain--certificatesfrom_uri]
+
+
 
 [pydantic-docs]: https://docs.pydantic.dev/latest/
 
