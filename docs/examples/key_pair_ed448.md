@@ -3,12 +3,12 @@
 ## Create keypair
 
 ```python
---8<-- "docs/examples/src/keys/ed448_create.py"
+--8<-- "docs/examples/src/keys/ed448/create.py"
 ```
 
 /// details | Print output
     type: note
 ``` 
---8<-- "docs/examples/src/keys/ed448_create.out"
+--8<-- "docs/examples/src/keys/ed448/create.out"
 ```
 ///
