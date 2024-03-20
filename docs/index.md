@@ -60,6 +60,8 @@ environment variable.
     * [from_uri][pki_tools.types.chain.Chain--certificatesfrom_uri]
 * `KeysPairs`
     * `DSA`
+        * [from_pem_string][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_pem_string] 
+        * [from_file][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_file]
         * [from_cryptography][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography] 
 
 

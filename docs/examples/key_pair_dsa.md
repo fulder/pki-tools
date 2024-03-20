@@ -58,3 +58,29 @@
 --8<-- "docs/examples/src/keys/dsa/load_file.out"
 ```
 ///
+
+## [InitCryptoParser.from_pem_string][pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string]
+
+/// details | `private_pem`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/dsa/load_pem.py::14"
+```
+///
+/// details | `public_pem`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/dsa/load_pem.py:15:28"
+```
+///
+
+```python
+--8<-- "docs/examples/src/keys/dsa/load_pem.py:30"
+```
+
+/// details | Print output
+    type: note
+``` 
+--8<-- "docs/examples/src/keys/dsa/load_pem.out"
+```
+///
