@@ -237,11 +237,16 @@ class OCSPResponse(InitCryptoParser):
         )
 
     def _string_dict(self) -> Dict[str, str]:
-        return {
-            "Response Status": self.response_status,
-            "Certificate Status": self.certificate_status,
-            "Issuer Key Hash": self.issuer_key_hash,
+        ret = {
+            "Response Status": self.response_status.value,
         }
+        if self.certificate_status is not None:
+            ret["Certificate Status"] = self.certificate_status.value
+        if self.issuer_key_hash is not None:
+            ret["Issuer Key Hash"] = self.issuer_key_hash
+        if self.revocation_time is not None:
+            ret["Revocation Time"] = self.revocation_time
+        return ret
 
     @classmethod
     def _load_pem(cls, pem: bytes):
