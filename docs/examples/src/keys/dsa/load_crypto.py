@@ -30,7 +30,9 @@ uFDny0lY6Ow+47ZK
 """
 
 crypto_public_key = serialization.load_pem_public_key(public_key_pem)
-crypto_private_key = serialization.load_pem_private_key(private_key_pem, password=None)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
 
 from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
 
