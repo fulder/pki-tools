@@ -37,7 +37,7 @@ environment variable.
 * `Keypairs`
     * [DSA][pki_tools.types.key_pair.DSAKeyPair--generate-keypair]
     * [RSA][pki_tools.types.key_pair.RSAKeyPair--generate-keypair]
-    * [EC][pki_tools.types.key_pair.EllipticCurveKeyPair--generate-keypair]
+    * [EllipticCurve][pki_tools.types.key_pair.EllipticCurveKeyPair--generate-keypair]
     * [ED448][pki_tools.types.key_pair.Ed448KeyPair--generate-keypair]
     * [ED25519][pki_tools.types.key_pair.Ed25519KeyPair--generate-keypair]
 
@@ -62,7 +62,12 @@ environment variable.
     * `DSA`
         * [from_pem_string][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_pem_string] 
         * [from_file][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_file]
-        * [from_cryptography][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography] 
+        * [from_cryptography][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography]
+    * `EllipticCurve`
+        * [from_pem_string][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_pem_string] 
+        * [from_file][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_file]
+        * [from_cryptography][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_cryptography] 
+
 
 
 [pydantic-docs]: https://docs.pydantic.dev/latest/
