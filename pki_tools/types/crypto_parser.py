@@ -3,6 +3,7 @@ import re
 from enum import Enum
 from typing import Type, TypeVar, Dict, Callable, Optional
 
+import yaml
 from cryptography.hazmat.primitives import serialization
 from pydantic import BaseModel
 
@@ -65,6 +66,15 @@ class CryptoParser(BaseModel, abc.ABC):
 
         Returns: A dict containing all the keys in the CryptoParser
         """
+
+    def __str__(self):
+        return yaml.safe_dump(
+            self._string_dict(),
+            indent=2,
+            default_flow_style=False,
+            explicit_start=False,
+            default_style="",
+        )
 
 
 class Encoding(Enum):

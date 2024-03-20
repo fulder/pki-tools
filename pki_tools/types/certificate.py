@@ -5,7 +5,6 @@ import time
 from typing import Optional, Dict
 import datetime
 
-import yaml
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.types import (
@@ -392,15 +391,6 @@ class Certificate(InitCryptoParser):
         )
 
         self._x509_obj = self._to_cryptography()
-
-    def __str__(self) -> str:
-        return yaml.safe_dump(
-            self._string_dict(),
-            indent=2,
-            default_flow_style=False,
-            explicit_start=False,
-            default_style="",
-        )
 
     def _to_cryptography(self) -> x509.Certificate:
         if hasattr(self, "_x509_obj"):
