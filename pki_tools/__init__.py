@@ -46,6 +46,10 @@ from .types import (
     Ed448KeyPair,
     Ed448PrivateKey,
     Ed448PublicKey,
+    OCSPRequest,
+    OCSPResponse,
+    OcspResponseStatus,
+    OcspCertificateStatus,
 )
 
 from .exceptions import (

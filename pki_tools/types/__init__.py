@@ -51,6 +51,14 @@ from .signature_algorithm import (
     SM3,
 )
 
+from .ocsp import (
+    OCSPRequest,
+    OCSPResponse,
+    OcspResponseStatus,
+    OcspCertificateStatus,
+)
+
+
 MAX_YAML_LEN = 80
 
 
