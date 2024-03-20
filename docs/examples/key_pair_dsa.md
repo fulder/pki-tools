@@ -1,6 +1,6 @@
 # Examples
 
-## Create keypair
+## Generate keypair
 
 ```python
 --8<-- "docs/examples/src/keys/dsa/create.py"
@@ -10,5 +10,51 @@
     type: note
 ``` 
 --8<-- "docs/examples/src/keys/dsa/create.out"
+```
+///
+
+## [InitCryptoParser.from_cryptography][pki_tools.types.crypto_parser.InitCryptoParser.from_cryptography]
+
+/// details | `crypto_keys`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/dsa/load_crypto.py::35"
+```
+///
+
+```python
+--8<-- "docs/examples/src/keys/dsa/load_crypto.py:37"
+```
+
+/// details | Print output
+    type: note
+``` 
+--8<-- "docs/examples/src/keys/dsa/load_crypto.out"
+```
+///
+
+## [InitCryptoParser.from_file][pki_tools.types.crypto_parser.InitCryptoParser.from_file]
+
+/// details | `private.pem`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/dsa/private.pem"
+```
+///
+/// details | `public.pem`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/dsa/public.pem"
+```
+///
+
+```python
+--8<-- "docs/examples/src/keys/dsa/load_file.py"
+```
+
+/// details | Print output
+    type: note
+``` 
+--8<-- "docs/examples/src/keys/dsa/load_file.out"
 ```
 ///

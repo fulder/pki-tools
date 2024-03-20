@@ -1,6 +1,6 @@
 # Examples
 
-## Create keypair
+## Generate keypair
 
 ```python
 --8<-- "docs/examples/src/keys/ed25519/create.py"

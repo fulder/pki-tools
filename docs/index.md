@@ -34,12 +34,12 @@ environment variable.
     * [Create and sign][pki_tools.types.csr.CertificateSigningRequest--create-csr]
 * `Chain`
     * [Create from certificates][pki_tools.types.chain.Chain]
-* `Keys`
-    * [DSA keypair][pki_tools.types.key_pair.DSAKeyPair--create-keypair]
-    * [RSA keypair][pki_tools.types.key_pair.RSAKeyPair--create-keypair]
-    * [EC keypair][pki_tools.types.key_pair.EllipticCurveKeyPair--create-keypair]
-    * [ED448 keypair][pki_tools.types.key_pair.Ed448KeyPair--create-keypair]
-    * [ED25519 keypair][pki_tools.types.key_pair.Ed25519KeyPair--create-keypair]
+* `Keypairs`
+    * [DSA][pki_tools.types.key_pair.DSAKeyPair--generate-keypair]
+    * [RSA][pki_tools.types.key_pair.RSAKeyPair--generate-keypair]
+    * [EC][pki_tools.types.key_pair.EllipticCurveKeyPair--generate-keypair]
+    * [ED448][pki_tools.types.key_pair.Ed448KeyPair--generate-keypair]
+    * [ED25519][pki_tools.types.key_pair.Ed25519KeyPair--generate-keypair]
 
 ### Loading x509 objects
 
@@ -58,6 +58,9 @@ environment variable.
     * [from_file][pki_tools.types.chain.Chain--initcryptoparserfrom_file]
     * [from_cryptography][pki_tools.types.chain.Chain--certificatesfrom_cryptography]
     * [from_uri][pki_tools.types.chain.Chain--certificatesfrom_uri]
+* `KeysPairs`
+    * `DSA`
+        * [from_cryptography][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography] 
 
 
 [pydantic-docs]: https://docs.pydantic.dev/latest/

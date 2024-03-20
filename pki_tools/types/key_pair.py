@@ -188,6 +188,10 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
 class CryptoKeyPair(BaseModel):
     """
     Represents a cryptographic key pair.
+
+    Arguments:
+        private_key: The private key
+        public_key: The public key
     """
 
     private_key: CryptoPrivateKey
@@ -242,6 +246,8 @@ class DSAPublicKey(CryptoPublicKey):
 
         Returns:
             DSAKeyPair: The DSA key pair.
+
+
         """
         public_numbers = key.public_numbers()
         param_numbers = key.parameters().parameter_numbers()
@@ -505,7 +511,7 @@ class RSAPublicKey(CryptoPublicKey):
 
 class RSAKeyPair(CryptoKeyPair):
     """
-    Describes a RSA Key Pair including the public and private RSA keys.
+    Describes an RSA Key Pair including the public and private RSA keys.
 
     --8<-- "docs/examples/key_pair_rsa.md"
     """
