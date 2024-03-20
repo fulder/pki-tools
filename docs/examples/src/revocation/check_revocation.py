@@ -15,5 +15,8 @@ revoked_cert = Certificate.from_server(
 )
 
 
-assert not is_revoked(valid_cert, chain)
-assert is_revoked(revoked_cert, chain)
+if not is_revoked(valid_cert, chain):
+    print("Valid cert not revoked")
+
+if is_revoked(revoked_cert, chain):
+    print("Cert revoked")

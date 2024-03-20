@@ -22,7 +22,7 @@ environment variable.
 
 ## Features
 
-* [Checking Revocation][checking-revocation] - checking
+* [Checking Revocation][pki_tools.funcs.check_revocation.is_revoked--examples] - checking
   revocation status of certificates using OCSP and/or CRL
 
 ### Creating x509 objects

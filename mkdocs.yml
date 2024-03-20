@@ -8,8 +8,6 @@ repo_url: https://github.com/fulder/pki-tools
 
 nav:
   - Home: index.md
-  - Examples:
-      - Check Revocation: examples/check_revocation.md
   - Functions:
       - Checking Revocation: funcs/check_revocation.md
   - Types:

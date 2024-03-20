@@ -10,4 +10,5 @@ chain = Chain.from_uri(
     ]
 )
 
-assert not is_revoked(cert, chain, revoke_mode=RevokeMode.CRL_ONLY)
+if not is_revoked(cert, chain, revoke_mode=RevokeMode.CRL_ONLY):
+    print("Cert not revoked")
