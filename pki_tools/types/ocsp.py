@@ -62,6 +62,8 @@ class OCSPResponse(InitCryptoParser):
         certificate_status: The OCSP certificate status.
         issuer_key_hash: The issuer key hash.
         revocation_time: The revocation time.
+
+    --8<-- "docs/examples/ocsp_response.md"
     """
 
     response_status: OcspResponseStatus
@@ -82,6 +84,8 @@ class OCSPResponse(InitCryptoParser):
 
         Returns:
             OCSPResponse: The constructed OCSPResponse object.
+
+        --8<-- "docs/examples/ocsp_response_from_cryptography.md"
         """
         response_status = crypto_ocsp_response.response_status
 
@@ -269,6 +273,8 @@ class OCSPRequest(InitCryptoParser):
         hash_algorithm: The hash algorithm.
         serial_number: The serial number.
         extensions: The extensions.
+
+    --8<-- "docs/examples/ocsp_request.md"
     """
 
     hash_algorithm: HashAlgorithm
@@ -291,8 +297,9 @@ class OCSPRequest(InitCryptoParser):
 
         Returns:
             The constructed OCSPRequest object.
+
+        --8<-- "docs/examples/ocsp_request_from_cryptography.md"
         """
-        print(type(crypto_obj))
         alg = HashAlgorithm.from_cryptography(crypto_obj.hash_algorithm)
         return cls(
             hash_algorithm=alg,
