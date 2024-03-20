@@ -12,7 +12,11 @@ MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEnfaN7RxPgq4IDXdoznrGRScQUa6S
 -----END PUBLIC KEY-----
 """
 
-from pki_tools import EllipticCurveKeyPair, EllipticCurvePublicKey, EllipticCurvePrivateKey
+from pki_tools import (
+    EllipticCurveKeyPair,
+    EllipticCurvePublicKey,
+    EllipticCurvePrivateKey,
+)
 
 key_pair = EllipticCurveKeyPair(
     public_key=EllipticCurvePublicKey.from_pem_string(public_pem),

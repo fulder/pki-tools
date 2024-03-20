@@ -1,4 +1,8 @@
-from pki_tools import EllipticCurveKeyPair, EllipticCurvePublicKey, EllipticCurvePrivateKey
+from pki_tools import (
+    EllipticCurveKeyPair,
+    EllipticCurvePublicKey,
+    EllipticCurvePrivateKey,
+)
 
 key_pair = EllipticCurveKeyPair(
     public_key=EllipticCurvePublicKey.from_file("public.pem"),

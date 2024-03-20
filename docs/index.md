@@ -27,60 +27,33 @@ environment variable.
 
 ### Creating x509 objects
 
-* `Certificate`
-    * [Create Self Signed][pki_tools.types.certificate.Certificate--create-self-signed-certificate]
-    * [Create Cross Signed][pki_tools.types.certificate.Certificate--create-cross-signed-certificate]
-* `CertificateSigningRequest`
-    * [Create and sign][pki_tools.types.csr.CertificateSigningRequest--create-csr]
-* `Chain`
-    * [Create from certificates][pki_tools.types.chain.Chain]
-* `Keypairs`
-    * [DSA][pki_tools.types.key_pair.DSAKeyPair--generate-keypair]
-    * [RSA][pki_tools.types.key_pair.RSAKeyPair--generate-keypair]
-    * [EllipticCurve][pki_tools.types.key_pair.EllipticCurveKeyPair--generate-keypair]
-    * [ED448][pki_tools.types.key_pair.Ed448KeyPair--generate-keypair]
-    * [ED25519][pki_tools.types.key_pair.Ed25519KeyPair--generate-keypair]
+| **Certificate**                                                                                                                                                                                   | **CertificateSigningRequest**                                                | **Chain**                                               | **OCSP**                                                                                                                                               |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Create Self Signed][pki_tools.types.certificate.Certificate--create-self-signed-certificate]</br>[Create Cross Signed][pki_tools.types.certificate.Certificate--create-cross-signed-certificate] | [Create and sign][pki_tools.types.csr.CertificateSigningRequest--create-csr] | [Create from certificates][pki_tools.types.chain.Chain] | [Create request][pki_tools.types.ocsp.OCSPRequest--create-ocsp-request]</br>[Create response][pki_tools.types.ocsp.OCSPResponse--create-ocsp-response] |
+
+| **Keypairs**                                                                     |
+|----------------------------------------------------------------------------------|
+| [DSA][pki_tools.types.key_pair.DSAKeyPair--generate-keypair]                     |
+| [RSA][pki_tools.types.key_pair.RSAKeyPair--generate-keypair]                     |
+| [EllipticCurve][pki_tools.types.key_pair.EllipticCurveKeyPair--generate-keypair] |
+| [ED448][pki_tools.types.key_pair.Ed448KeyPair--generate-keypair]                 |
+| [ED25519][pki_tools.types.key_pair.Ed25519KeyPair--generate-keypair]             |
 
 ### Loading x509 objects
 
-* `Certificate`
-    * [from_pem_string][pki_tools.types.certificate.Certificate--initcryptoparserfrom_pem_string]
-    * [from_file][pki_tools.types.certificate.Certificate--initcryptoparserfrom_file]
-    * [from_cryptography][pki_tools.types.certificate.Certificate.from_cryptography--example]
-    * [from_uri][pki_tools.types.certificate.Certificate.from_uri--example]
-    * [from_server][pki_tools.types.certificate.Certificate.from_server--example]
-* `CertificateSigningRequest`
-    * [from_pem_string][pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_pem_string]
-    * [from_file][pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_file]
-    * [from_cryptography][pki_tools.types.csr.CertificateSigningRequest.from_cryptography--example]
-* `Chain`
-    * [from_pem_string][pki_tools.types.chain.Chain--initcryptoparserfrom_pem_string]
-    * [from_file][pki_tools.types.chain.Chain--initcryptoparserfrom_file]
-    * [from_cryptography][pki_tools.types.chain.Chain--certificatesfrom_cryptography]
-    * [from_uri][pki_tools.types.chain.Chain--certificatesfrom_uri]
-* `KeysPairs`
-    * `DSA`
-        * [from_pem_string][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_pem_string] 
-        * [from_file][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_file]
-        * [from_cryptography][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography]
-    * `EllipticCurve`
-        * [from_pem_string][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_pem_string] 
-        * [from_file][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_file]
-        * [from_cryptography][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_cryptography] 
-    * `ED448`
-        * [from_pem_string][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_pem_string] 
-        * [from_file][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_file]
-        * [from_cryptography][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_cryptography]
-    * `ED25519`
-        * [from_pem_string][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_pem_string] 
-        * [from_file][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_file]
-        * [from_cryptography][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_cryptography]
-    * `RSA`
-        * [from_pem_string][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_pem_string] 
-        * [from_file][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_file]
-        * [from_cryptography][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_cryptography]
+| **Certificate**                                                                             | **CertificateSigningRequest**                                                                     | **Chain**                                                                       | OCSP                                                                                                                                                                                            |
+|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [from_pem_string][pki_tools.types.certificate.Certificate--initcryptoparserfrom_pem_string] | [from_pem_string][pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_pem_string] | [from_pem_string][pki_tools.types.chain.Chain--initcryptoparserfrom_pem_string] | [Request.from_pem_string][pki_tools.types.ocsp.OCSPRequest--initcryptoparserfrom_pem_string]</br>[Response.from_pem_string][pki_tools.types.ocsp.OCSPResponse--initcryptoparserfrom_pem_string] | 
+| [from_file][pki_tools.types.certificate.Certificate--initcryptoparserfrom_file]             | [from_file][pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_file]             | [from_file][pki_tools.types.chain.Chain--initcryptoparserfrom_file]             | [Request.from_file][pki_tools.types.ocsp.OCSPRequest--initcryptoparserfrom_file]</br>[Response.from_file][pki_tools.types.ocsp.OCSPResponse--initcryptoparserfrom_file]                         | 
+| [from_cryptography][pki_tools.types.certificate.Certificate.from_cryptography--example]     | [from_cryptography][pki_tools.types.csr.CertificateSigningRequest.from_cryptography--example]     | [from_cryptography][pki_tools.types.chain.Chain--certificatesfrom_cryptography] | [Request.from_cryptography][pki_tools.types.ocsp.OCSPRequest.from_cryptography--example]</br>[Response.from_cryptography][pki_tools.types.ocsp.OCSPResponse.from_cryptography--example]         |                                                                                                                                                                                                
+| [from_uri][pki_tools.types.certificate.Certificate.from_uri--example]                       | N/A                                                                                               | [from_uri][pki_tools.types.chain.Chain--certificatesfrom_uri]                   |                                                                                                                                                                                                 |
+| [from_server][pki_tools.types.certificate.Certificate.from_server--example]                 | N/A                                                                                               | N/A                                                                             |                                                                                                                                                                                                 |
 
-
+| **DSA**                                                                                     | **EllipticCurve**                                                                                     | **ED448**                                                                                     | **ED25519**                                                                                     | **RSA**                                                                                     |
+|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| [from_pem_string][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_pem_string]     | [from_pem_string][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_pem_string]     | [from_pem_string][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_pem_string]     | [from_pem_string][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_pem_string]     | [from_pem_string][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_pem_string]     |
+| [from_file][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_file]                 | [from_file][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_file]                 | [from_file][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_file]                 | [from_file][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_file]                 | [from_file][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_file]                 |
+| [from_cryptography][pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography] | [from_cryptography][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_cryptography] | [from_cryptography][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_cryptography] | [from_cryptography][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_cryptography] | [from_cryptography][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_cryptography] |
 
 [pydantic-docs]: https://docs.pydantic.dev/latest/
 
