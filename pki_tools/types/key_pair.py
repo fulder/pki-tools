@@ -1,8 +1,10 @@
 import abc
 import importlib
+import json
 import re
 from typing import Dict, Type, Optional, get_args
 
+import yaml
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives._serialization import (
     Encoding,
@@ -204,6 +206,15 @@ class CryptoKeyPair(BaseModel):
             The generated cryptographic key pair.
         """
         raise NotImplementedError
+
+    def __str__(self):
+        name = self.__class__.__name__
+        d = {name: {}}
+        if self.private_key is not None:
+            d[name] = self.private_key._string_dict()
+        else:
+            d[name] = self.public_key._string_dict()
+        return yaml.dump(d, indent=2)
 
 
 class DSAPublicKey(CryptoPublicKey):
