@@ -67,6 +67,18 @@ environment variable.
         * [from_pem_string][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_pem_string] 
         * [from_file][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_file]
         * [from_cryptography][pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_cryptography] 
+    * `ED448`
+        * [from_pem_string][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_pem_string] 
+        * [from_file][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_file]
+        * [from_cryptography][pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_cryptography]
+    * `ED25519`
+        * [from_pem_string][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_pem_string] 
+        * [from_file][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_file]
+        * [from_cryptography][pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_cryptography]
+    * `RSA`
+        * [from_pem_string][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_pem_string] 
+        * [from_file][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_file]
+        * [from_cryptography][pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_cryptography]
 
 
 
