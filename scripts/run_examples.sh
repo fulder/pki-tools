@@ -13,7 +13,9 @@ exclude_outputs=(
 
 error_flag=0
 
-find "./docs/examples/src" -type f -name "*py" -print0 | while IFS= read -r -d '' file; do
+declare -A pid_map
+
+while IFS= read -r -d '' file; do
   dir=$(dirname "$file")
   file_name=$(basename "$file")
 
@@ -30,19 +32,25 @@ find "./docs/examples/src" -type f -name "*py" -print0 | while IFS= read -r -d '
     LOGURU_LEVEL=INFO poetry run python3 "${file_name}" > ${out_name} 2>&1 &
   fi
 
+  pid_map[$!]=$out_file
+
   popd
 
-  # Check the exit code of the Python command
-  if [ $? -eq 0 ]; then
-    echo "$file executed successfully"
-  else
-    printf "${RED}Error executing $file${NC}\n"
-    cat "${out_file}"
-    error_flag=1
-  fi
+done < <(find "./docs/examples/src" -type f -name "*py" -print0)
 
+for pid in "${!pid_map[@]}"; do
+    wait "$pid"
+    err_out=$?
+    if [ $err_out -ne 0 ]; then
+      outfile=${pid_map[$pid]}
+      printf "${RED}Error executing ${outfile}${NC}\n"
+      cat "${outfile}"
+    fi
+    ((error_flag+=$err_out))
 done
 
-wait
-
-exit $error_flag
+if [ ${error_flag} -eq 0 ]; then
+  echo "Executed successfully"
+else
+  exit ${error_flag}
+fi
