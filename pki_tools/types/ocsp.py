@@ -306,12 +306,14 @@ class OCSPRequest(InitCryptoParser):
         --8<-- "docs/examples/ocsp_request_from_cryptography.md"
         """
         alg = HashAlgorithm.from_cryptography(crypto_obj.hash_algorithm)
-        return cls(
+        ret = cls(
             hash_algorithm=alg,
             serial_number=crypto_obj.serial_number,
             extensions=Extensions.from_cryptography(crypto_obj.extensions),
             _x590_obj=crypto_obj,
         )
+        ret._x509_obj = crypto_obj
+        return ret
 
     @property
     def pem_bytes(self) -> bytes:
