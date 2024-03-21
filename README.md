@@ -34,8 +34,8 @@ at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 
 [ext-draft]: https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2
 
-[revoke-check]: https://pki-tools.fulder.dev/examples/check_revocation/#checking-revocation
+[revoke-check]: https://pki-tools.fulder.dev/examples/check_revocation/#pki_tools.funcs.check_revocation.is_revoked--examples
 
-[create-objects]: https://pki-tools.fulder.dev/examples/creating/#creating-objects
+[create-objects]: https://pki-tools.fulder.dev/examples/creating/#creating-x509-objects
 
-[load-objects]: https://pki-tools.fulder.dev/examples/loading/#loading-objects
+[load-objects]: https://pki-tools.fulder.dev/examples/loading/#loading-x509-objects
