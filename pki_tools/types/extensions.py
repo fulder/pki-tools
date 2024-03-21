@@ -94,9 +94,13 @@ class GeneralName(CryptoParser):
         return getattr(GENERAL_NAME_MODULE, self.name)(self.value)
 
     def _string_dict(self) -> typing.Dict[str, str]:
+        val = self.value
+        if isinstance(self.value, Name):
+            val = str(self.value)
+
         return {
             "name": self.name,
-            "value": self.value,
+            "value": val,
         }
 
 
@@ -313,7 +317,10 @@ class AuthorityKeyIdentifier(Extension):
             hex_key = _byte_to_hex(self.key_identifier)
             ret["Key Identifier"] = hex_key
         if self.authority_cert_issuer is not None:
-            ret["Authority Cert Issuer"] = self.authority_cert_issuer
+            authority_cert_issuer = []
+            for general_name in self.authority_cert_issuer:
+                authority_cert_issuer.append(general_name._string_dict())
+            ret["Authority Cert Issuer"] = authority_cert_issuer
         if self.authority_cert_serial_number is not None:
             ret[
                 "Authority Cert Serial Number"
@@ -1205,7 +1212,7 @@ class DistributionPoint(CryptoParser):
         if self.name_relative_to_crl_issuer is not None:
             ret[
                 "Name Relative To CRL Issuer"
-            ] = self.name_relative_to_crl_issuer
+            ] = self.name_relative_to_crl_issuer._string_dict()
         if self.reasons is not None:
             ret["Reasons"] = []
             for reason in self.reasons:
@@ -1213,7 +1220,9 @@ class DistributionPoint(CryptoParser):
                     getattr(x509.ReasonFlags, reason.name).value
                 )
         if self.crl_issuer is not None:
-            ret["CRL Issuer"] = self.crl_issuer
+            ret["CRL Issuer"] = []
+            for crl_issuer in self.crl_issuer:
+                ret["CRL Issuer"].append(crl_issuer._string_dict())
         return ret
 
     def _to_cryptography(self) -> x509.DistributionPoint:
