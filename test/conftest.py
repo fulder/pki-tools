@@ -15,6 +15,7 @@ from pki_tools import (
     Ed25519KeyPair,
     Ed448KeyPair,
     EllipticCurveKeyPair,
+    EllipticCurveName,
 )
 from pki_tools.types import RSAKeyPair, CertificateRevocationList
 from pki_tools.types.certificate import Validity
@@ -144,7 +145,7 @@ def init_crypto_parsers(
         DSAKeyPair.generate(key_size=1024),
         Ed25519KeyPair.generate(),
         Ed448KeyPair.generate(),
-        EllipticCurveKeyPair.generate(curve_name="SECP192R1"),
+        EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1),
     ]
 
     for key_pair in keys_pairs:
