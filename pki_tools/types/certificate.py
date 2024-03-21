@@ -183,6 +183,9 @@ class Certificate(InitCryptoParser):
 
         --8<-- "docs/examples/certificate_from_cryptography.md"
         """
+        extensions = None
+        if cert.extensions:
+            extensions = Extensions.from_cryptography(cert.extensions)
 
         ret = cls(
             version=cert.version.value,
@@ -200,7 +203,7 @@ class Certificate(InitCryptoParser):
             subject_public_key_info=SubjectPublicKeyInfo.from_cryptography(
                 cert.public_key()
             ),
-            extensions=Extensions.from_cryptography(cert.extensions),
+            extensions=extensions,
             signature_value=_byte_to_hex(cert.signature),
             _x509_obj=cert,
         )

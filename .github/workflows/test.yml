@@ -58,3 +58,4 @@ jobs:
       - name: Run example files
         run: |
           make run-examples
+          git diff --exit-code ./docs/examples
