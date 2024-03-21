@@ -1,6 +1,7 @@
 import abc
 import importlib
 import re
+from enum import Enum
 from typing import Dict, Type, Optional, get_args
 
 import yaml
@@ -547,12 +548,40 @@ EC_MODULE = importlib.import_module(
 )
 
 
+class EllipticCurveName(Enum):
+    """
+    Elliptic Curve Names
+    """
+
+    PRIME192V1 = "PRIME192V1"
+    PRIME256V1 = "PRIME256V1"
+    SECP192R1 = "SECP192R1"
+    SECP224R1 = "SECP224R1"
+    SECP256R1 = "SECP256R1"
+    SECP384R1 = "SECP384R1"
+    SECP521R1 = "SECP521R1"
+    SECP256K1 = "SECP256K1"
+    SECT163K1 = "SECT163K1"
+    SECT233K1 = "SECT233K1"
+    SECT283K1 = "SECT283K1"
+    SECT409K1 = "SECT409K1"
+    SECT571K1 = "SECT571K1"
+    SECT163R2 = "SECT163R2"
+    SECT233R1 = "SECT233R1"
+    SECT283R1 = "SECT283R1"
+    SECT409R1 = "SECT409R1"
+    SECT571R1 = "SECT571R1"
+    BRAINPOOLP256R1 = "BrainpoolP256R1"
+    BRAINPOOLP384R1 = "BrainpoolP384R1"
+    BRAINPOOLP512R1 = "BrainpoolP512R1"
+
+
 class EllipticCurvePrivateKey(CryptoPrivateKey):
     """
     Represents an elliptic curve cryptographic private key.
     """
 
-    curve_name: str
+    curve_name: EllipticCurveName
 
     x: int
     y: int
@@ -582,7 +611,7 @@ class EllipticCurvePrivateKey(CryptoPrivateKey):
         ret = cls(
             x=public_numbers.x,
             y=public_numbers.y,
-            curve_name=curve_name,
+            curve_name=EllipticCurveName[curve_name],
             d=d,
             _x509_obj=key,
         )
@@ -592,7 +621,7 @@ class EllipticCurvePrivateKey(CryptoPrivateKey):
     def _to_cryptography(
         self,
     ) -> ec.EllipticCurvePrivateKey:
-        curve = getattr(EC_MODULE, self.curve_name)()
+        curve = getattr(EC_MODULE, self.curve_name.value)()
         public_numbers = ec.EllipticCurvePublicNumbers(self.x, self.y, curve)
 
         private_numbers = ec.EllipticCurvePrivateNumbers(
@@ -603,7 +632,7 @@ class EllipticCurvePrivateKey(CryptoPrivateKey):
 
     def _string_dict(self) -> Dict[str, str]:
         return {
-            "curve_name": self.curve_name,
+            "curve_name": self.curve_name.name,
             "x_coordinate": str(self.x),
             "y_coordinate": str(self.y),
         }
@@ -614,7 +643,7 @@ class EllipticCurvePublicKey(CryptoPublicKey):
     Represents an elliptic curve cryptographic public key.
     """
 
-    curve_name: str
+    curve_name: EllipticCurveName
 
     x: int
     y: int
@@ -639,7 +668,7 @@ class EllipticCurvePublicKey(CryptoPublicKey):
         ret = cls(
             x=public_numbers.x,
             y=public_numbers.y,
-            curve_name=curve_name,
+            curve_name=EllipticCurveName[curve_name],
             _x509_obj=key,
         )
         ret._x509_obj = key
@@ -648,13 +677,13 @@ class EllipticCurvePublicKey(CryptoPublicKey):
     def _to_cryptography(
         self,
     ) -> ec.EllipticCurvePublicKey:
-        curve = getattr(EC_MODULE, self.curve_name)()
+        curve = getattr(EC_MODULE, self.curve_name.value)()
         public_numbers = ec.EllipticCurvePublicNumbers(self.x, self.y, curve)
         return public_numbers.public_key()
 
     def _string_dict(self) -> Dict[str, str]:
         return {
-            "curve_name": self.curve_name,
+            "curve_name": self.curve_name.name,
             "x_coordinate": str(self.x),
             "y_coordinate": str(self.y),
         }
@@ -669,7 +698,7 @@ class EllipticCurveKeyPair(CryptoKeyPair):
 
     @classmethod
     def generate(
-        cls: Type["EllipticCurveKeyPair"], curve_name: str
+        cls: Type["EllipticCurveKeyPair"], curve_name: EllipticCurveName
     ) -> "EllipticCurveKeyPair":
         """
         Generate an elliptic curve cryptographic key pair.
@@ -680,15 +709,8 @@ class EllipticCurveKeyPair(CryptoKeyPair):
         Returns:
             The generated elliptic curve key pair.
         """
-        allowed = [val.name.upper() for val in ec._CURVE_TYPES.values()]
-        if curve_name.upper() not in allowed:
-            raise TypeError(
-                f"Curve Name: {curve_name} "
-                f"doesn't match supported names: {allowed}"
-            )
-
         crypto_private = ec.generate_private_key(
-            curve=getattr(EC_MODULE, curve_name.upper())()
+            curve=getattr(EC_MODULE, curve_name.value)()
         )
         crypto_public = crypto_private.public_key()
 

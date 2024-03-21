@@ -15,7 +15,11 @@ from pki_tools.types import (
     Ed25519KeyPair,
     Ed448KeyPair,
 )
-from pki_tools.types.key_pair import CryptoPublicKey, CryptoPrivateKey
+from pki_tools.types.key_pair import (
+    CryptoPublicKey,
+    CryptoPrivateKey,
+    EllipticCurveName,
+)
 
 
 def test_generate_dsa():
@@ -77,11 +81,11 @@ def test_crypto_keypair_abstract_methods():
         ),
         (
             EllipticCurveKeyPair,
-            ("SECP192R1",),
+            (EllipticCurveName.BRAINPOOLP512R1,),
             ec.EllipticCurvePrivateKey,
             ec.EllipticCurvePublicKey,
             {
-                "curve_name": "SECP192R1",
+                "curve_name": "BRAINPOOLP512R1",
                 "x_coordinate": "",
                 "y_coordinate": "",
             },

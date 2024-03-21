@@ -21,6 +21,7 @@ from .key_pair import (
     EllipticCurveKeyPair,
     EllipticCurvePrivateKey,
     EllipticCurvePublicKey,
+    EllipticCurveName,
     Ed25519KeyPair,
     Ed25519PublicKey,
     Ed25519PrivateKey,
