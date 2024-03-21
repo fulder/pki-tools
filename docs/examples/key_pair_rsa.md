@@ -84,3 +84,36 @@
 --8<-- "docs/examples/src/keys/rsa/load_pem.out"
 ```
 ///
+
+## [InitCryptoParser.to_file][pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string]
+
+/// details | `private_pem`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/rsa/to_file.py::29"
+```
+///
+
+/// details | `public_pem`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/rsa/to_file.py:30:40"
+```
+///
+
+```python
+--8<-- "docs/examples/src/keys/rsa/to_file.py:42"
+```
+
+/// details | `out_private.pem`
+    type: note
+``` 
+--8<-- "docs/examples/src/keys/rsa/out_private.pem"
+```
+///
+
+/// details | `out_public.pem`
+    type: note
+``` 
+--8<-- "docs/examples/src/keys/rsa/out_public.pem"
+```

@@ -21,4 +21,4 @@ req = OCSPRequest(
 
 req.create(cert, cert)
 
-print(req)
+print(req.pem_string)

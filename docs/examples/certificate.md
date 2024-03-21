@@ -64,3 +64,23 @@
 --8<-- "docs/examples/src/cert/load_cert_file.out"
 ```
 ///
+
+## [InitCryptoParser.to_file][pki_tools.types.crypto_parser.InitCryptoParser.to_file]
+
+/// details | `cert_pem`
+    type: tip
+``` 
+--8<-- "docs/examples/src/cert/to_file.py::19"
+```
+///
+
+```python
+--8<-- "docs/examples/src/cert/to_file.py:21"
+```
+
+/// details | `out_cert.pem`
+    type: note
+``` 
+--8<-- "docs/examples/src/cert/out_cert.pem"
+```
+///

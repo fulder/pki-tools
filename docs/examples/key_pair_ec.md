@@ -84,3 +84,37 @@
 --8<-- "docs/examples/src/keys/ec/load_pem.out"
 ```
 ///
+
+## [InitCryptoParser.to_file][pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string]
+
+/// details | `private_pem`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/ec/to_file.py::7"
+```
+///
+
+/// details | `public_pem`
+    type: tip
+```
+--8<-- "docs/examples/src/keys/ec/to_file.py:8:13"
+```
+///
+
+```python
+--8<-- "docs/examples/src/keys/ec/to_file.py:15"
+```
+
+/// details | `out_private.pem`
+    type: note
+``` 
+--8<-- "docs/examples/src/keys/ec/out_private.pem"
+```
+///
+
+/// details | `out_public.pem`
+    type: note
+``` 
+--8<-- "docs/examples/src/keys/ec/out_public.pem"
+```
+///

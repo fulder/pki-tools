@@ -59,3 +59,23 @@
 --8<-- "docs/examples/src/ocsp/response/load_pem.out"
 ```
 ///
+
+## [InitCryptoParser.to_file][pki_tools.types.crypto_parser.InitCryptoParser.to_file]
+
+/// details | `pem`
+    type: tip
+``` 
+--8<-- "docs/examples/src/ocsp/response/to_file.py::17"
+```
+///
+
+```python
+--8<-- "docs/examples/src/ocsp/response/to_file.py:19"
+```
+
+/// details | `out_res.pem`
+    type: note
+``` 
+--8<-- "docs/examples/src/ocsp/response/out_res.pem"
+```
+///
