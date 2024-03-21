@@ -2,15 +2,24 @@ import json
 import os
 
 import datetime
+from typing import Dict
 
 import pytest
 from loguru import logger
 
-from pki_tools.crl import _get_crl_from_url
-from pki_tools import Chain, Certificate, Name
+from pki_tools import (
+    Chain,
+    Certificate,
+    Name,
+    DSAKeyPair,
+    Ed25519KeyPair,
+    Ed448KeyPair,
+    EllipticCurveKeyPair,
+)
 from pki_tools.types import RSAKeyPair, CertificateRevocationList
 from pki_tools.types.certificate import Validity
 from pki_tools.types.crl import RevokedCertificate
+from pki_tools.types.crypto_parser import InitCryptoParser
 from pki_tools.types.csr import CertificateSigningRequest
 from pki_tools.types.extensions import (
     DistributionPoint,
@@ -52,6 +61,7 @@ from pki_tools.types.ocsp import (
     OCSPResponse,
     OcspResponseStatus,
     OcspCertificateStatus,
+    OCSPRequest,
 )
 from pki_tools.types.signature_algorithm import (
     HashAlgorithm,
@@ -59,7 +69,7 @@ from pki_tools.types.signature_algorithm import (
     SHA256,
     SHA512,
 )
-from pki_tools.types.utils import _byte_to_hex, _download_pem
+from pki_tools.types.utils import _byte_to_hex, _download_cached
 
 TEST_DISTRIBUTION_POINT_URL = "test_url"
 TEST_ACCESS_DESCRIPTION = "test-url"
@@ -88,8 +98,7 @@ def setup_loguru_logging(request):
 
 @pytest.fixture(scope="function")
 def mocked_requests_get(mocker):
-    _get_crl_from_url.cache_clear()
-    _download_pem.cache_clear()
+    _download_cached.cache_clear()
     return mocker.patch("httpx.Client.get")
 
 
@@ -118,6 +127,37 @@ def chain(cert):
     return Chain(certificates=[cert])
 
 
+@pytest.fixture
+def init_crypto_parsers(
+    cert, csr, key_pair, ocsp_request
+) -> Dict[str, InitCryptoParser]:
+    parsers = [
+        cert,
+        csr,
+        _create_crl(key_pair, [cert.serial_number]),
+        _create_ocsp_response(cert, key_pair),
+        ocsp_request,
+    ]
+
+    keys_pairs = [
+        RSAKeyPair.generate(),
+        DSAKeyPair.generate(key_size=1024),
+        Ed25519KeyPair.generate(),
+        Ed448KeyPair.generate(),
+        EllipticCurveKeyPair.generate(curve_name="SECP192R1"),
+    ]
+
+    for key_pair in keys_pairs:
+        parsers.append(key_pair.private_key)
+        parsers.append(key_pair.public_key)
+
+    ret = {}
+    for parser in parsers:
+        ret[parser.__class__.__name__] = parser
+
+    return ret
+
+
 TEST_SUBJECT = Name(
     c=["US"],
     ou=["Org Unit"],
@@ -143,7 +183,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         DirectoryName(TEST_SUBJECT),
         IpAddress("192.168.1.0/24"),
         OtherName(
-            oid="1.2.3.4.5", value=_byte_to_hex(key_pair.der_public_key)
+            oid="1.2.3.4.5", value=_byte_to_hex(key_pair.public_key.der_bytes)
         ),
         RFC822Name("TEST_RFC_NAME"),
         RegisteredId("1.2.3.4.5"),
@@ -332,7 +372,24 @@ def cert_with_subject_directory_attributes():
     """
 
 
+@pytest.fixture
+def ocsp_request(cert):
+    req = OCSPRequest(
+        hash_algorithm=SHA512.algorithm, serial_number=cert.serial_number
+    )
+
+    req.create(cert, cert)
+    return req
+
+
 def _create_mocked_ocsp_response(
+    cert, key_pair, status=OcspCertificateStatus.GOOD, revocation_time=None
+):
+    res = _create_ocsp_response(cert, key_pair, status, revocation_time)
+    return res.der_bytes
+
+
+def _create_ocsp_response(
     cert, key_pair, status=OcspCertificateStatus.GOOD, revocation_time=None
 ):
     res = OCSPResponse(
@@ -344,10 +401,10 @@ def _create_mocked_ocsp_response(
         cert,
         cert,
         HashAlgorithm(name=HashAlgorithmName.SHA256),
-        key_pair,
+        key_pair.private_key,
     )
 
-    return res.der_bytes
+    return res
 
 
 def _create_crl(keypair, revoked_serials):
@@ -371,7 +428,7 @@ def _create_crl(keypair, revoked_serials):
     )
 
     crl.sign(
-        private_key=keypair,
+        private_key=keypair.private_key,
         algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256),
     )
     return crl

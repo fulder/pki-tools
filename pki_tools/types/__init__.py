@@ -10,12 +10,23 @@ from .name import Name
 from .enums import RevokeMode
 from .key_pair import (
     CryptoKeyPair,
+    CryptoPublicKey,
+    CryptoPrivateKey,
     DSAKeyPair,
+    DSAPublicKey,
+    DSAPrivateKey,
     RSAKeyPair,
+    RSAPrivateKey,
+    RSAPublicKey,
     EllipticCurveKeyPair,
+    EllipticCurvePrivateKey,
+    EllipticCurvePublicKey,
     Ed25519KeyPair,
+    Ed25519PublicKey,
+    Ed25519PrivateKey,
     Ed448KeyPair,
-    KeyPair,
+    Ed448PrivateKey,
+    Ed448PublicKey,
 )
 from .signature_algorithm import (
     SignatureAlgorithm,
@@ -39,6 +50,14 @@ from .signature_algorithm import (
     BLAKE2s,
     SM3,
 )
+
+from .ocsp import (
+    OCSPRequest,
+    OCSPResponse,
+    OcspResponseStatus,
+    OcspCertificateStatus,
+)
+
 
 MAX_YAML_LEN = 80
 

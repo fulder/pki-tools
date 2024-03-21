@@ -68,7 +68,7 @@ class HashAlgorithm(CryptoParser):
             The constructed HashAlgorithm object.
         """
         return cls(
-            name=x509_obj.__class__.__name__,
+            name=getattr(HashAlgorithmName, x509_obj.name.upper()),
             block_size=x509_obj.block_size,
             _x509_obj=x509_obj,
         )
@@ -91,7 +91,7 @@ class HashAlgorithm(CryptoParser):
 
         return getattr(HASHES_MODULE, self.name.value)()
 
-    def _string_dict(self) -> Dict[str, str]:
+    def _string_dict(self) -> Dict:
         return {"algorithm": self.name.value}
 
 
@@ -184,7 +184,10 @@ class PKCS1v15Padding(Padding):
         Returns:
             The constructed PKCS1v15Padding object.
         """
-        return cls(_name=crypto_obj.name, _x509_obj=crypto_obj)
+        ret = cls()
+        ret._name = crypto_obj.name
+        ret._x509_obj = crypto_obj
+        return ret
 
     def _to_cryptography(self) -> padding.PKCS1v15:
         return padding.PKCS1v15()

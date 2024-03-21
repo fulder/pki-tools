@@ -3,7 +3,7 @@ import os
 import pytest
 
 from pki_tools import Name
-from pki_tools.exceptions import CsrLoadError
+from pki_tools.exceptions import LoadError
 from pki_tools.types import RSAKeyPair
 from pki_tools.types.csr import CertificateSigningRequest
 from conftest import CURRENT_DIR
@@ -20,7 +20,7 @@ def test_csr_from_cryptography(crypto_csr):
 
 
 def test_csr_from_pem_string_invalid_data():
-    with pytest.raises(CsrLoadError):
+    with pytest.raises(LoadError):
         CertificateSigningRequest.from_pem_string("BAD_PEM_DATA")
 
 
