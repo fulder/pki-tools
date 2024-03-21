@@ -24,6 +24,7 @@ at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 * [Checking Revocation][revoke-check] - checking revocation status of certificates using OCSP and/or CRL
 * [Creating objects][create-objects]
 * [Loading objects][load-objects]
+* [Saving objects][save-objects]
 
 
 [pydantic-docs]: https://docs.pydantic.dev/latest/
@@ -39,3 +40,5 @@ at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 [create-objects]: https://pki-tools.fulder.dev/examples/creating/#creating-x509-objects
 
 [load-objects]: https://pki-tools.fulder.dev/examples/loading/#loading-x509-objects
+
+[save-objects]: https://pki-tools.fulder.dev/examples/loading/#saving-x509-objects
