@@ -4,11 +4,11 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 exclude_outputs=(
-#  "create_csr.py"
-#  "create_chain.py"
-#  "create_cert_cross_signed.py"
-#  "create_cert_self_signed.py"
-#  "create.py"
+  "create_csr.py"
+  "create_chain.py"
+  "create_cert_cross_signed.py"
+  "create_cert_self_signed.py"
+  "create.py"
 )
 
 error_flag=0
