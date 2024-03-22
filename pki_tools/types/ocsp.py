@@ -1,11 +1,11 @@
 import base64
 import hashlib
+import re
 from datetime import datetime
 from enum import Enum
 from typing import Type, Optional, Dict
 
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives._serialization import Encoding
 from cryptography.x509 import ocsp
 from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger
@@ -15,8 +15,12 @@ from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import (
     MissingInit,
 )
-from pki_tools.types.key_pair import CryptoKeyPair
-from pki_tools.types.crypto_parser import InitCryptoParser
+from pki_tools.types.key_pair import CryptoPrivateKey
+from pki_tools.types.crypto_parser import (
+    InitCryptoParser,
+    CryptoConfig,
+    HelperFunc,
+)
 from pki_tools.types.signature_algorithm import HashAlgorithm
 from pki_tools.types.utils import _byte_to_hex
 
@@ -44,6 +48,11 @@ class OcspCertificateStatus(Enum):
     UNKNOWN = "UNKNOWN"
 
 
+RESPONSE_REGEXP = re.compile(
+    r"\s*-+BEGIN OCSP RESPONSE-+[\w+/\s=]*-+END OCSP RESPONSE-+\s*"
+)
+
+
 class OCSPResponse(InitCryptoParser):
     """
     Represents an OCSP response.
@@ -53,6 +62,8 @@ class OCSPResponse(InitCryptoParser):
         certificate_status: The OCSP certificate status.
         issuer_key_hash: The issuer key hash.
         revocation_time: The revocation time.
+
+    --8<-- "docs/examples/ocsp_response.md"
     """
 
     response_status: OcspResponseStatus
@@ -73,6 +84,8 @@ class OCSPResponse(InitCryptoParser):
 
         Returns:
             OCSPResponse: The constructed OCSPResponse object.
+
+        --8<-- "docs/examples/ocsp_response_from_cryptography.md"
         """
         response_status = crypto_ocsp_response.response_status
 
@@ -106,22 +119,6 @@ class OCSPResponse(InitCryptoParser):
         ret._x509_obj = crypto_ocsp_response
         return ret
 
-    @classmethod
-    def from_der_bytes(
-        cls: Type["OCSPResponse"], der: bytes
-    ) -> "OCSPResponse":
-        """
-        Constructs an OCSPResponse object from DER-encoded bytes.
-
-        Args:
-            der: The DER-encoded bytes.
-
-        Returns:
-            The constructed OCSPResponse object.
-        """
-        crypto_obj = ocsp.load_der_ocsp_response(der)
-        return OCSPResponse.from_cryptography(crypto_obj)
-
     @property
     def tbs_bytes(self) -> bytes:
         """
@@ -133,14 +130,26 @@ class OCSPResponse(InitCryptoParser):
         return self._crypto_object.tbs_response_bytes
 
     @property
-    def der_bytes(self) -> bytes:
+    def pem_bytes(self) -> bytes:
         """
-        Returns the DER bytes of the OCSP response.
+        Returns the PEM bytes of the object
 
         Returns:
-            bytes: The DER bytes.
+            The PEM bytes.
         """
-        return self._crypto_object.public_bytes(Encoding.DER)
+        ocsp_request_b64 = base64.b64encode(self.der_bytes).decode()
+
+        # Create the PEM string with headers and footers
+        return (
+            "-----BEGIN OCSP RESPONSE-----\n"
+            + "\n".join(
+                [
+                    ocsp_request_b64[i : i + 64]
+                    for i in range(0, len(ocsp_request_b64), 64)
+                ]
+            )
+            + "\n-----END OCSP RESPONSE-----\n"
+        ).encode()
 
     def hash_with_alg(self, der_key: bytes) -> str:
         """
@@ -181,7 +190,7 @@ class OCSPResponse(InitCryptoParser):
         cert: Certificate,
         issuer: Certificate,
         algorithm: HashAlgorithm,
-        key_pair: CryptoKeyPair,
+        private_key: CryptoPrivateKey,
     ):
         """
         Signs the OCSP response.
@@ -190,12 +199,12 @@ class OCSPResponse(InitCryptoParser):
             cert: The certificate.
             issuer: The issuer certificate.
             algorithm: The hash algorithm.
-            key_pair: The key pair.
+            private_key: The private key to sign the response.
         """
         self._cert = cert
         self._issuer = issuer
         self._algorithm = algorithm
-        self._private_key = key_pair
+        self._private_key = private_key
         self._x509_obj = self._to_cryptography()
 
     def _to_cryptography(self) -> ocsp.OCSPResponse:
@@ -228,11 +237,37 @@ class OCSPResponse(InitCryptoParser):
         )
 
     def _string_dict(self) -> Dict[str, str]:
-        return {
-            "Response Status": self.response_status,
-            "Certificate Status": self.certificate_status,
-            "Issuer Key Hash": self.issuer_key_hash,
+        ret = {
+            "Response Status": self.response_status.value,
         }
+        if self.certificate_status is not None:
+            ret["Certificate Status"] = self.certificate_status.value
+        if self.issuer_key_hash is not None:
+            ret["Issuer Key Hash"] = self.issuer_key_hash
+        if self.revocation_time is not None:
+            ret["Revocation Time"] = self.revocation_time
+        return ret
+
+    @classmethod
+    def _load_pem(cls, pem: bytes):
+        pem_lines = pem.decode().strip().split("\n")
+        base64_data = "".join(pem_lines[1:-1])
+        der_bytes = base64.b64decode(base64_data)
+
+        return ocsp.load_der_ocsp_response(der_bytes)
+
+    @classmethod
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(func=cls._load_pem),
+            load_der=HelperFunc(func=ocsp.load_der_ocsp_response),
+            pem_regexp=RESPONSE_REGEXP,
+        )
+
+
+REQUEST_REGEXP = re.compile(
+    r"\s*-+BEGIN OCSP REQUEST-+[\w+/\s=]*-+END OCSP REQUEST-+\s*"
+)
 
 
 class OCSPRequest(InitCryptoParser):
@@ -243,6 +278,8 @@ class OCSPRequest(InitCryptoParser):
         hash_algorithm: The hash algorithm.
         serial_number: The serial number.
         extensions: The extensions.
+
+    --8<-- "docs/examples/ocsp_request.md"
     """
 
     hash_algorithm: HashAlgorithm
@@ -252,6 +289,7 @@ class OCSPRequest(InitCryptoParser):
 
     _init_func = "create"
 
+    @classmethod
     def from_cryptography(
         cls: Type["OCSPRequest"], crypto_obj: ocsp.OCSPRequest
     ) -> "OCSPRequest":
@@ -264,12 +302,39 @@ class OCSPRequest(InitCryptoParser):
 
         Returns:
             The constructed OCSPRequest object.
+
+        --8<-- "docs/examples/ocsp_request_from_cryptography.md"
         """
-        return cls(
+        alg = HashAlgorithm.from_cryptography(crypto_obj.hash_algorithm)
+        ret = cls(
+            hash_algorithm=alg,
             serial_number=crypto_obj.serial_number,
             extensions=Extensions.from_cryptography(crypto_obj.extensions),
             _x590_obj=crypto_obj,
         )
+        ret._x509_obj = crypto_obj
+        return ret
+
+    @property
+    def pem_bytes(self) -> bytes:
+        """
+        Returns the PEM bytes of the object
+
+        Returns:
+            The PEM bytes.
+        """
+        ocsp_request_b64 = base64.b64encode(self.der_bytes).decode()
+
+        return (
+            "-----BEGIN OCSP REQUEST-----\n"
+            + "\n".join(
+                [
+                    ocsp_request_b64[i : i + 64]
+                    for i in range(0, len(ocsp_request_b64), 64)
+                ]
+            )
+            + "\n-----END OCSP REQUEST-----\n"
+        ).encode()
 
     @property
     def request_path(self) -> str:
@@ -313,8 +378,24 @@ class OCSPRequest(InitCryptoParser):
         ret = self.hash_algorithm._string_dict()
 
         if self.serial_number is not None:
-            ret["Serial Number"] = self.serial_number
+            ret["Serial Number"] = str(self.serial_number)
         if self.extensions is not None:
             ret["Extensions"] = self.extensions._string_dict()
 
         return ret
+
+    @classmethod
+    def _load_pem(cls, pem: bytes):
+        pem_lines = pem.decode().strip().split("\n")
+        base64_data = "".join(pem_lines[1:-1])
+        der_bytes = base64.b64decode(base64_data)
+
+        return ocsp.load_der_ocsp_request(der_bytes)
+
+    @classmethod
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(func=cls._load_pem),
+            load_der=HelperFunc(func=ocsp.load_der_ocsp_request),
+            pem_regexp=REQUEST_REGEXP,
+        )

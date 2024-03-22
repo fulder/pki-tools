@@ -54,6 +54,8 @@ def is_revoked(
             certificate and the trust fails either because of some certificate
             has expired or some signature in the chain is invalid
         RevokeCheckFailed: When both OCSP and CRL checks fail
+
+    --8<-- "docs/examples/check_revocation.md"
     """
     return is_revoked_multiple_issuers(
         cert,

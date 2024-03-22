@@ -14,8 +14,26 @@ from pki_tools.types import (
     EllipticCurveKeyPair,
     Ed25519KeyPair,
     Ed448KeyPair,
-    KeyPair,
 )
+from pki_tools.types.key_pair import (
+    CryptoPublicKey,
+    CryptoPrivateKey,
+    EllipticCurveName,
+)
+
+
+def test_generate_dsa():
+    key_pair = DSAKeyPair.generate(key_size=1024)
+
+    print(key_pair.public_key.pem_string)
+    print(key_pair.private_key.pem_string)
+
+
+def test_generate_rsa():
+    key_pair = RSAKeyPair.generate(key_size=1024)
+
+    print(key_pair.public_key.pem_string)
+    print(key_pair.private_key.pem_string)
 
 
 def test_crypto_keypair_generate_not_implemented():
@@ -63,14 +81,13 @@ def test_crypto_keypair_abstract_methods():
         ),
         (
             EllipticCurveKeyPair,
-            ("SECP192R1",),
+            (EllipticCurveName.BRAINPOOLP512R1,),
             ec.EllipticCurvePrivateKey,
             ec.EllipticCurvePublicKey,
             {
-                "curve_name": "SECP192R1",
+                "curve_name": "BRAINPOOLP512R1",
                 "x_coordinate": "",
                 "y_coordinate": "",
-                "private_key_d": "",
             },
         ),
         (
@@ -96,28 +113,32 @@ def test_keypair_generate(
     key_pair = key_pair_cls.generate(*args)
 
     # validate _string_dict
-    str_dict = key_pair._string_dict()
+    str_dict = key_pair.private_key._string_dict()
     for exp_key, exp_val in expected_dict.items():
         if exp_val == "":
             assert str_dict[exp_key] != ""
         else:
             assert str_dict[exp_key] == exp_val
 
-    # Check that dumped key is a private crypto class
-    assert isinstance(key_pair._to_cryptography(), expected_private)
+    # Check that dumped keys class
+    crypto_private = key_pair.private_key._to_cryptography()
+    crypto_public = key_pair.public_key._to_cryptography()
+    assert isinstance(crypto_private, expected_private)
+    assert isinstance(crypto_public, expected_public)
 
     # Test getting private/public PEM bytes
-    assert "PRIVATE KEY-----" in key_pair.pem_private_key.decode()
-    assert "PUBLIC KEY-----" in key_pair.pem_public_key.decode()
+    assert "PRIVATE KEY-----" in key_pair.private_key.pem_string
+    assert "PUBLIC KEY-----" in key_pair.public_key.pem_string
 
-    # Test dumping public crypto key and parsing it again
-    public_crypto_key = key_pair._to_cryptography().public_key()
-    key_pair = key_pair_cls.from_cryptography(public_crypto_key)
-    assert isinstance(key_pair._to_cryptography(), expected_public)
+    # Test loading from crypto
+    CryptoPrivateKey.from_cryptography(crypto_private)
+    CryptoPublicKey.from_cryptography(crypto_public)
 
 
 def test_key_pair_from_cryptography():
-    crypto_rsa = RSAKeyPair.generate()._to_cryptography()
+    key_pair = RSAKeyPair.generate()
+    crypto_public = key_pair.public_key._to_cryptography()
+    crypto_private = key_pair.private_key._to_cryptography()
 
-    key_pair = KeyPair.from_cryptography(crypto_rsa)
-    assert isinstance(key_pair._to_cryptography(), rsa.RSAPrivateKey)
+    assert isinstance(crypto_public, rsa.RSAPublicKey)
+    assert isinstance(crypto_private, rsa.RSAPrivateKey)

@@ -1,16 +1,27 @@
+import re
+import time
 from datetime import datetime
 from typing import Type, Optional, Dict, List
 
 from cryptography import x509
-from cryptography.hazmat.primitives import serialization
 from loguru import logger
 
 from pki_tools.types.extensions import Extensions
-from pki_tools.exceptions import CrlLoadError, MissingInit
-from pki_tools.types.key_pair import CryptoKeyPair
-from pki_tools.types.crypto_parser import CryptoParser, InitCryptoParser
+from pki_tools.exceptions import MissingInit, LoadError
+from pki_tools.types.key_pair import CryptoPrivateKey
+from pki_tools.types.crypto_parser import (
+    CryptoParser,
+    InitCryptoParser,
+    CryptoConfig,
+    HelperFunc,
+)
 from pki_tools.types.name import Name
 from pki_tools.types.signature_algorithm import HashAlgorithm
+from pki_tools.types.utils import (
+    CACHE_TIME_SECONDS,
+    CertsUri,
+    _download_cached,
+)
 
 
 class RevokedCertificate(CryptoParser):
@@ -78,6 +89,9 @@ class RevokedCertificate(CryptoParser):
         }
 
 
+CRL_REGEXP = re.compile(r"\s*-+BEGIN X509 CRL-+[\w+/\s=]*-+END X509 CRL-+\s*")
+
+
 class CertificateRevocationList(InitCryptoParser):
     """
     Represents a certificate revocation list (CRL).
@@ -94,6 +108,8 @@ class CertificateRevocationList(InitCryptoParser):
     next_update: datetime
 
     revoked_certs: Optional[List[RevokedCertificate]] = None
+
+    _private_key: CryptoPrivateKey
 
     @classmethod
     def from_cryptography(
@@ -119,34 +135,41 @@ class CertificateRevocationList(InitCryptoParser):
         return ret
 
     @classmethod
-    def from_bytes(
-        cls: Type["CertificateRevocationList"], data: bytes
+    def from_uri(
+        cls: Type["CertificateRevocationList"],
+        uri: str,
+        cache_time_seconds: int = CACHE_TIME_SECONDS,
     ) -> "CertificateRevocationList":
         """
-        Load a CertificateRevocationList object from bytes data.
+        Loads CertificateRevocationList from a URI.
 
         Args:
-            data: Bytes data in DER or PEM format containing the CRL.
-
-        Raises:
-            CrlLoadError: If loading of CRL fails.
+            uri: URI where the CRL can be downloaded.
+            cache_time_seconds: Specifies how long the CRL
+                should be cached, default is 1 month.
 
         Returns:
-            Instance of CertificateRevocationList.
+            Instance of CertificateRevocationList containing the revoked
+                certificates fetched from the URI.
         """
+
+        cache_ttl = round(time.time() / cache_time_seconds)
+        crl_uri = CertsUri(uri=uri)
+        res = _download_cached(crl_uri.uri, cache_ttl)
+
         try:
-            crypto_crl = x509.load_der_x509_crl(data)
-            return CertificateRevocationList.from_cryptography(crypto_crl)
+            return CertificateRevocationList.from_der_bytes(res.content)
         except (TypeError, ValueError) as e:
             logger.bind(error=str(e)).trace("Error during loading of CRL DER")
             pass
 
         try:
-            crypto_crl = x509.load_pem_x509_crl(data)
-            return CertificateRevocationList.from_cryptography(crypto_crl)
+            return CertificateRevocationList.from_pem_string(
+                res.content.decode()
+            )
         except TypeError as e:
-            logger.bind(crl=data).error("Failed to load CRL")
-            raise CrlLoadError(e) from None
+            logger.bind(crl=res.content).error("Failed to load CRL")
+            raise LoadError(e) from None
 
     @property
     def tbs_bytes(self) -> bytes:
@@ -158,25 +181,14 @@ class CertificateRevocationList(InitCryptoParser):
         """
         return self._crypto_object.tbs_certlist_bytes
 
-    @property
-    def der_bytes(self) -> bytes:
-        """
-        Return the DER bytes of the CRL.
-
-        Returns:
-            DER bytes of the CRL.
-        """
-        return self._crypto_object.public_bytes(serialization.Encoding.DER)
-
     def sign(
-        self, private_key: CryptoKeyPair, algorithm: HashAlgorithm
+        self, private_key: CryptoPrivateKey, algorithm: HashAlgorithm
     ) -> None:
         """
         Sign the CRL with the provided private key and algorithm.
 
         Args:
-            private_key: Key pair containing the private key used to
-                sign the CRL.
+            private_key: Private key used to sign the CRL.
             algorithm: Hash algorithm to use for signing.
         """
         self._private_key = private_key
@@ -202,16 +214,6 @@ class CertificateRevocationList(InitCryptoParser):
             return RevokedCertificate.from_cryptography(crypto_revoked)
         return None
 
-    def to_file(self, file_path: str) -> None:
-        """
-        Save the CRL to a file.
-
-        Args:
-            file_path: Path to save the file.
-        """
-        with open(file_path, "w") as f:
-            f.write(self.der_bytes.decode())
-
     def _to_cryptography(self) -> x509.CertificateRevocationList:
         if not hasattr(self, "_private_key"):
             raise MissingInit("Please use 'sign' function")
@@ -235,3 +237,11 @@ class CertificateRevocationList(InitCryptoParser):
             certs.append(cert._string_dict())
 
         return {"Issuer": self.name._string_dict(), "Certs": certs}
+
+    @classmethod
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(func=x509.load_pem_x509_crl),
+            load_der=HelperFunc(func=x509.load_der_x509_crl),
+            pem_regexp=CRL_REGEXP,
+        )

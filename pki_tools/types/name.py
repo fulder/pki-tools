@@ -110,7 +110,8 @@ class Name(CryptoParser):
 
     def __str__(self):
         name_list = []
-        for k, v in self._string_dict().items():
+        for k in sorted(self._string_dict()):
+            v = self._string_dict()[k]
             name_list.append(f"{k}: {','.join(v)}")
         return ", ".join(name_list)
 

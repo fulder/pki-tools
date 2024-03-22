@@ -6,7 +6,9 @@ from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
 from conftest import TEST_SUBJECT, CURRENT_DIR
-from pki_tools import Certificate, CertLoadError, Name, SHA256, Validity
+from pki_tools.types.signature_algorithm import SHA256
+from pki_tools.types.certificate import Certificate, Name, Validity
+from pki_tools.exceptions import LoadError
 from pki_tools.types import RSAKeyPair
 
 
@@ -68,6 +70,7 @@ def test_certificate_from_to_cryptography(crypto_cert, cert_pem_string):
     assert cert.tbs_bytes != ""
     assert "-----BEGIN CERTIFICATE-----" in cert.pem_bytes.decode()
     assert "-----BEGIN CERTIFICATE-----" in cert.pem_string
+    assert cert.der_bytes != ""
 
 
 def test_certificate_from_pem_string_with_subject_directory_attributes(
@@ -77,7 +80,7 @@ def test_certificate_from_pem_string_with_subject_directory_attributes(
 
 
 def test_certificate_from_pem_string_invalid_data():
-    with pytest.raises(CertLoadError):
+    with pytest.raises(LoadError):
         Certificate.from_pem_string("BAD_PEM_DATA")
 
 
@@ -106,11 +109,19 @@ def test_certificate_sign_another_key(cert):
     signing_key = RSAKeyPair.generate()
     csr_key = RSAKeyPair.generate()
 
-    cert.sign(signing_key, cert.signature_algorithm, req_key=csr_key)
+    cert.sign(
+        signing_key, cert.signature_algorithm, req_key=csr_key.public_key
+    )
 
-    rel = cert.subject_public_key_info._key_pair._string_dict()
-    exp = csr_key._string_dict()
+    rel = cert.subject_public_key_info.algorithm._string_dict()
+    exp = csr_key.public_key._string_dict()
     assert rel == exp
+
+
+def test_certificate_from_to_der(cert):
+    der_bytes = cert.der_bytes
+
+    Certificate.from_der_bytes(der_bytes)
 
 
 def test_certificate_to_from_crypto(key_pair):

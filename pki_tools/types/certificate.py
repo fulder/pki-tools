@@ -5,16 +5,17 @@ import time
 from typing import Optional, Dict
 import datetime
 
-import yaml
 
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric.types import (
+    CertificatePublicKeyTypes,
+)
 
-from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
+from pki_tools.types.key_pair import CryptoKeyPair, CryptoPublicKey
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
 from pki_tools.exceptions import (
-    CertLoadError,
     MissingInit,
     SignatureVerificationFailed,
 )
@@ -30,7 +31,7 @@ from pki_tools.types.utils import (
     CertsUri,
     CACHE_TIME_SECONDS,
     _download_server_certificate,
-    _download_pem,
+    _download_cached,
 )
 
 from typing import Type
@@ -40,7 +41,12 @@ from cryptography import x509
 from pydantic import BaseModel
 
 
-from pki_tools.types.crypto_parser import InitCryptoParser
+from pki_tools.types.crypto_parser import (
+    InitCryptoParser,
+    CryptoConfig,
+    HelperFunc,
+    CryptoParser,
+)
 
 from loguru import logger
 from pydantic import ConfigDict
@@ -48,9 +54,6 @@ from pydantic import ConfigDict
 
 PEM_CERT_REGEX = re.compile(
     r"\s*-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+\s*"
-)
-PEM_CSR_REGEX = re.compile(
-    r"\s*-+BEGIN CERTIFICATE REQUEST-+[\w+/\s=]*-+END CERTIFICATE REQUEST-+\s*"
 )
 
 
@@ -66,10 +69,65 @@ class Validity(BaseModel):
     not_before: datetime.datetime
     not_after: datetime.datetime
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        if self.not_before.tzinfo is None:
+            self.not_before = self.not_before.replace(
+                tzinfo=datetime.timezone.utc
+            )
+        if self.not_after.tzinfo is None:
+            self.not_after = self.not_after.replace(
+                tzinfo=datetime.timezone.utc
+            )
+
     def _string_dict(self) -> Dict[str, str]:
         return {
             "Not Before": str(self.not_before),
             "Not After": str(self.not_after),
+        }
+
+
+class SubjectPublicKeyInfo(CryptoParser):
+    """
+    Represents a certificate SubjectPublicKeyInfo.
+
+    Attributes:
+        algorithm: The key algorithm in string format
+        parameters: The dict representation of the key
+    """
+
+    algorithm: CryptoPublicKey
+    parameters: Optional[Dict[str, str]]
+
+    @classmethod
+    def from_cryptography(
+        cls: Type["SubjectPublicKeyInfo"],
+        crypto_obj: CertificatePublicKeyTypes,
+    ) -> "SubjectPublicKeyInfo":
+        public_key = CryptoPublicKey.from_cryptography(crypto_obj)
+
+        return cls(
+            algorithm=public_key,
+            parameters=public_key._string_dict(),
+            _x509_obj=crypto_obj,
+        )
+
+    def _to_cryptography(self) -> CertificatePublicKeyTypes:
+        return self.algorithm._to_cryptography()
+
+    def _string_dict(self) -> Dict:
+        params = {}
+        for k, v in self.parameters.items():
+            key = " ".join(ele.title() for ele in k.split("_"))
+            if v == "None":
+                continue
+
+            params[key] = v
+
+        return {
+            "Public Key Algorithm": self.algorithm._string_dict(),
+            "Parameters": params,
         }
 
 
@@ -88,6 +146,8 @@ class Certificate(InitCryptoParser):
         signature_algorithm: Describes the algorithm used to sign the
             certificate
         subject_public_key_info: The public key information
+
+    --8<-- "docs/examples/certificate.md"
     """
 
     issuer: Name
@@ -98,13 +158,13 @@ class Certificate(InitCryptoParser):
     serial_number: Optional[int] = None
     version: Optional[int] = None
     signature_algorithm: Optional[SignatureAlgorithm] = None
-    subject_public_key_info: Optional[KeyPair] = None
+    subject_public_key_info: Optional[SubjectPublicKeyInfo] = None
 
     signature_value: Optional[str] = None
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    _private_key: Optional[CryptoKeyPair]
+    _key_pair: Optional[CryptoKeyPair]
 
     @classmethod
     def from_cryptography(
@@ -120,7 +180,12 @@ class Certificate(InitCryptoParser):
 
         Returns:
             Certificate: The created Certificate object.
+
+        --8<-- "docs/examples/certificate_from_cryptography.md"
         """
+        extensions = None
+        if cert.extensions:
+            extensions = Extensions.from_cryptography(cert.extensions)
 
         ret = cls(
             version=cert.version.value,
@@ -135,63 +200,15 @@ class Certificate(InitCryptoParser):
                 not_after=cert.not_valid_after_utc,
             ),
             subject=Name.from_cryptography(cert.subject),
-            subject_public_key_info=KeyPair.from_cryptography(
+            subject_public_key_info=SubjectPublicKeyInfo.from_cryptography(
                 cert.public_key()
             ),
-            extensions=Extensions.from_cryptography(cert.extensions),
+            extensions=extensions,
             signature_value=_byte_to_hex(cert.signature),
             _x509_obj=cert,
         )
         ret._x509_obj = cert
         return ret
-
-    @classmethod
-    def from_pem_string(
-        cls: Type["Certificate"], cert_pem: str
-    ) -> "Certificate":
-        """
-        Loads a certificate from a PEM string into a
-        [Certificate][pki_tools.types.certificate.Certificate]
-        object
-
-        Arguments:
-            cert_pem: The PEM encoded certificate in string format
-
-        Returns:
-            A Certificate created from the PEM
-
-        Raises:
-            CertLoadError: If the certificate could not be loaded
-        """
-        try:
-            cert_pem = re.sub(r"\n\s*", "\n", cert_pem)
-            if not _is_pem_cert_string(cert_pem):
-                raise ValueError
-
-            crypto_cert = x509.load_pem_x509_certificate(cert_pem.encode())
-            return Certificate.from_cryptography(crypto_cert)
-        except ValueError as e:
-            logger.bind(cert=cert_pem).debug("Failed to load cert from PEM")
-            raise CertLoadError(e)
-
-    @classmethod
-    def from_file(cls: Type["Certificate"], file_path: str) -> "Certificate":
-        """
-        Reads a file containing one PEM certificate into a
-        [Certificate][pki_tools.types.certificate.Certificate]
-        object
-
-        Arguments:
-            file_path:  Path and filename of the PEM certificate
-
-        Returns:
-             The Certificate loaded from the specified file
-        """
-
-        with open(file_path, "r") as f:
-            cert_pem = f.read()
-
-        return Certificate.from_pem_string(cert_pem)
 
     @classmethod
     def from_server(
@@ -208,6 +225,8 @@ class Certificate(InitCryptoParser):
 
         Returns:
             The loaded [Certificate][pki_tools.types.certificate] object
+
+        --8<-- "docs/examples/certificate_from_server.md"
         """
         cert_uri = CertsUri(uri=uri, cache_time_seconds=cache_time_seconds)
 
@@ -228,18 +247,19 @@ class Certificate(InitCryptoParser):
             uri: URI where the certificate can be downloaded.
             cache_time_seconds: Specifies how long the certificate
                 should be cached, default is 1 month.
-                Defaults to CACHE_TIME_SECONDS.
 
         Returns:
             Instance of Certificate containing the certificates
             fetched from the URI.
+
+        --8<-- "docs/examples/certificate_from_uri.md"
         """
 
         cache_ttl = round(time.time() / cache_time_seconds)
         cert_uri = CertsUri(uri=uri)
-        pem = _download_pem(cert_uri.uri, cache_ttl)
+        res = _download_cached(cert_uri.uri, cache_ttl)
 
-        return Certificate.from_pem_string(pem)
+        return Certificate.from_pem_string(res.text)
 
     @property
     def tbs_bytes(self) -> bytes:
@@ -248,22 +268,6 @@ class Certificate(InitCryptoParser):
             The to be signed bytes of this certificate
         """
         return self._crypto_object.tbs_certificate_bytes
-
-    @property
-    def pem_bytes(self) -> bytes:
-        """
-        Returns:
-            Certificate PEM bytes
-        """
-        return self._crypto_object.public_bytes(serialization.Encoding.PEM)
-
-    @property
-    def pem_string(self) -> str:
-        """
-        Returns:
-            Certificate PEM decoded into a string
-        """
-        return self.pem_bytes.decode()
 
     @property
     def hex_serial(self) -> str:
@@ -324,18 +328,6 @@ class Certificate(InitCryptoParser):
         )
         return base64.urlsafe_b64encode(fingerprint).decode("ascii")
 
-    def to_file(self, file_path: str) -> None:
-        """
-        Saves the certificate PEM string to the specified file,
-        creating it if it doesn't exist.
-
-        Args:
-            file_path: The path to the file (can be relative the caller or
-                absolute)
-        """
-        with open(file_path, "w") as f:
-            f.write(self.pem_string)
-
     def verify_signature(
         self: Type["Certificate"],
         signed: InitCryptoParser,
@@ -375,7 +367,7 @@ class Certificate(InitCryptoParser):
         self,
         key_pair: CryptoKeyPair,
         signature_algorithm: SignatureAlgorithm,
-        req_key: Optional[CryptoKeyPair] = None,
+        req_key: Optional[CryptoPublicKey] = None,
     ) -> None:
         """
         Signs a created [Certificate][pki_tools.types.certificate.Certificate]
@@ -389,47 +381,35 @@ class Certificate(InitCryptoParser):
             req_key: Can be used to sign another public key, defaults to the
                 public key part in `key_pair`
         """
-        self._private_key = key_pair
+        self._key_pair = key_pair
         self.serial_number = random.randint(1, 2**32 - 1)
         self.signature_algorithm = signature_algorithm
 
-        if req_key is not None:
-            self.subject_public_key_info = KeyPair(
-                algorithm=req_key.__class__.__name__,
-                parameters=req_key._string_dict(),
-            )
-            self.subject_public_key_info.create(req_key)
+        if req_key is None:
+            req_key = key_pair.public_key
+
+        self.subject_public_key_info = SubjectPublicKeyInfo(
+            algorithm=req_key,
+            parameters=req_key._string_dict(),
+        )
 
         self._x509_obj = self._to_cryptography()
-
-    def __str__(self) -> str:
-        return yaml.safe_dump(
-            self._string_dict(),
-            indent=2,
-            default_flow_style=False,
-            explicit_start=False,
-            default_style="",
-        )
 
     def _to_cryptography(self) -> x509.Certificate:
         if hasattr(self, "_x509_obj"):
             return self._x509_obj
 
-        if not hasattr(self, "_private_key"):
+        if not hasattr(self, "_key_pair"):
             raise MissingInit(
                 f"Please use Certificate.{self._init_func} " f"function"
             )
 
         subject = self.subject._to_cryptography()
         issuer = self.issuer._to_cryptography()
-        crypto_key = self._private_key._to_cryptography()
-        if not hasattr(crypto_key, "public_key"):
-            raise MissingInit("Invalid key type, use private key")
+        crypto_key = self._key_pair.private_key._to_cryptography()
 
-        public_key = crypto_key.public_key()
-        if self.subject_public_key_info is not None:
-            pub_key_pair = self.subject_public_key_info._key_pair
-            public_key = pub_key_pair._to_cryptography().public_key()
+        alg = self.subject_public_key_info.algorithm
+        public_key = alg._to_cryptography()
 
         cert_builder = (
             x509.CertificateBuilder()
@@ -463,30 +443,32 @@ class Certificate(InitCryptoParser):
         return cert
 
     def _string_dict(self):
-        subject_key_info = self.subject_public_key_info._string_dict()
-        signature_alg = self.signature_algorithm.algorithm.name.value
-        return {
-            "Version": self.version,
-            "Serial Number": self.hex_serial,
-            "Signature Algorithm": signature_alg,
+        ret = {
             "Issuer": str(self.issuer),
             "Validity": self.validity._string_dict(),
             "Subject": str(self.subject),
-            "Subject Public Key Info": subject_key_info,
-            "Extensions": self.extensions._string_dict(),
-            "Signature Value": self.signature_value,
         }
+        if self.version is not None:
+            ret["Version"] = self.version
+        if self.extensions:
+            ret["Extensions"] = self.extensions._string_dict()
+        if self.serial_number is not None:
+            ret["Serial Number"] = self.hex_serial
+        if self.signature_value is not None:
+            ret["Signature Value"] = self.signature_value
+        if self.subject_public_key_info is not None:
+            subject_key_info = self.subject_public_key_info._string_dict()
+            ret["Subject Public Key Info"] = subject_key_info
+        if self.signature_algorithm is not None:
+            signature_alg = self.signature_algorithm.algorithm.name.value
+            ret["Signature Algorithm"] = signature_alg
 
+        return ret
 
-def _is_pem_cert_string(check: str):
-    if not isinstance(check, str):
-        return False
-
-    return re.match(PEM_CERT_REGEX, check)
-
-
-def _is_pem_csr_string(check: str):
-    if not isinstance(check, str):
-        return False
-
-    return re.match(PEM_CSR_REGEX, check)
+    @classmethod
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(func=x509.load_pem_x509_certificate),
+            load_der=HelperFunc(func=x509.load_der_x509_certificate),
+            pem_regexp=PEM_CERT_REGEX,
+        )

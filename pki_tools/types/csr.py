@@ -4,18 +4,28 @@ import re
 import yaml
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-from loguru import logger
 
-from pki_tools.exceptions import CsrLoadError, MissingInit
-from pki_tools.types.key_pair import KeyPair, CryptoKeyPair
-from pki_tools.types.certificate import _is_pem_csr_string
-from pki_tools.types.crypto_parser import InitCryptoParser
+from pki_tools.exceptions import MissingInit
+from pki_tools.types.key_pair import (
+    CryptoPublicKey,
+    CryptoPrivateKey,
+    CryptoKeyPair,
+)
+from pki_tools.types.crypto_parser import (
+    InitCryptoParser,
+    CryptoConfig,
+    HelperFunc,
+)
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
 )
 from pki_tools.types.utils import _byte_to_hex
+
+PEM_CSR_REGEX = re.compile(
+    r"\s*-+BEGIN CERTIFICATE REQUEST-+[\w+/\s=]*-+END CERTIFICATE REQUEST-+\s*"
+)
 
 
 class CertificateSigningRequest(InitCryptoParser):
@@ -28,16 +38,18 @@ class CertificateSigningRequest(InitCryptoParser):
         extensions: Extensions associated with the CSR.
         attributes: Attributes of the CSR.
         signature_algorithm: Signature algorithm used while signing the CSR.
+
+    --8<-- "docs/examples/csr.md"
     """
 
     subject: Name
 
-    public_key: Optional[KeyPair] = None
+    public_key: Optional[CryptoPublicKey] = None
     extensions: Optional[Extensions] = None
     attributes: Optional[Dict[str, bytes]] = None
     signature_algorithm: Optional[SignatureAlgorithm] = None
 
-    _private_key: Optional[CryptoKeyPair]
+    _private_key: Optional[CryptoPrivateKey]
 
     @classmethod
     def from_cryptography(
@@ -53,6 +65,8 @@ class CertificateSigningRequest(InitCryptoParser):
 
         Returns:
             Instance of CertificateSigningRequest.
+
+        --8<-- "docs/examples/csr_from_cryptography.md"
         """
         attributes = {}
         for att in crypto_csr.attributes:
@@ -66,59 +80,14 @@ class CertificateSigningRequest(InitCryptoParser):
                 crypto_csr.signature_algorithm_parameters,
             ),
             signature_value=_byte_to_hex(crypto_csr.signature),
-            public_key=KeyPair.from_cryptography(crypto_csr.public_key()),
+            public_key=CryptoPublicKey.from_cryptography(
+                crypto_csr.public_key()
+            ),
             attributes=attributes,
             _x509_obj=crypto_csr,
         )
         ret._x509_obj = crypto_csr
         return ret
-
-    @classmethod
-    def from_pem_string(
-        cls: Type["CertificateSigningRequest"], csr_pem: str
-    ) -> "CertificateSigningRequest":
-        """
-        Load a CSR from a PEM string into a CertificateSigningRequest object.
-
-        Args:
-            csr_pem: PEM encoded CSR in string format.
-
-        Returns:
-            Instance of CertificateSigningRequest.
-
-        Raises:
-            CsrLoadError: If the CSR could not be loaded.
-        """
-        try:
-            csr_pem = re.sub(r"\n\s*", "\n", csr_pem)
-            if not _is_pem_csr_string(csr_pem):
-                raise ValueError
-
-            csr_cert = x509.load_pem_x509_csr(csr_pem.encode())
-            return CertificateSigningRequest.from_cryptography(csr_cert)
-        except ValueError as e:
-            logger.bind(csr=csr_pem).debug("Failed to load CSR from PEM")
-            raise CsrLoadError(e)
-
-    @classmethod
-    def from_file(
-        cls: Type["CertificateSigningRequest"], file_path: str
-    ) -> "CertificateSigningRequest":
-        """
-        Read a file containing a PEM CSR into a CertificateSigningRequest
-        object.
-
-        Args:
-            file_path: Path and filename of the PEM CSR.
-
-        Returns:
-            Instance of CertificateSigningRequest representing the CSR loaded
-            from file.
-        """
-        with open(file_path, "r") as f:
-            csr_pem = f.read()
-
-        return CertificateSigningRequest.from_pem_string(csr_pem)
 
     @property
     def tbs_bytes(self) -> bytes:
@@ -142,28 +111,10 @@ class CertificateSigningRequest(InitCryptoParser):
             encoding=serialization.Encoding.PEM
         )
 
-    @property
-    def pem_string(self) -> str:
-        """
-        Get the PEM string representation of the CSR.
-
-        Returns:
-            PEM string of the CSR.
-        """
-        return self.pem_bytes.decode()
-
-    def to_file(self, file_path: str) -> None:
-        """
-        Save the CSR to a file.
-
-        Args:
-            file_path: Path to save the file.
-        """
-        with open(file_path, "w") as f:
-            f.write(self.pem_string)
-
     def sign(
-        self, key_pair: CryptoKeyPair, signature_algorithm: SignatureAlgorithm
+        self,
+        key_pair: CryptoKeyPair,
+        signature_algorithm: SignatureAlgorithm,
     ):
         """
         Sign the CSR with the provided key pair and signature algorithm.
@@ -173,19 +124,22 @@ class CertificateSigningRequest(InitCryptoParser):
                 CSR
             signature_algorithm: Signature algorithm to use for signing.
         """
-        self._private_key = key_pair
+        self._private_key = key_pair.private_key
         self.signature_algorithm = signature_algorithm
         self._x509_obj = self._to_cryptography()
 
     def _string_dict(self):
         ret = {
             "Certificate Signing Request": {
-                "Subject": self.subject._string_dict(),
-                "Extensions": self.extensions._string_dict(),
-                "Signature Algorithm": self.signature_algorithm._string_dict(),
+                "Subject": str(self.subject),
                 "Public Key": self.public_key._string_dict(),
             }
         }
+        if self.extensions:
+            ret["Extensions"] = self.extensions._string_dict()
+        if self.signature_algorithm is not None:
+            signature_alg = self.signature_algorithm.algorithm.name.value
+            ret["Signature Algorithm"] = signature_alg
         if self.attributes is not None:
             attributes = []
 
@@ -197,7 +151,8 @@ class CertificateSigningRequest(InitCryptoParser):
                     val = val.decode()
                 attributes.append(f"{k}: {str(val)}")
 
-            ret["Certificate Signing Request"]["Attributes"] = attributes
+            if attributes:
+                ret["Certificate Signing Request"]["Attributes"] = attributes
         return ret
 
     def _to_cryptography(self) -> x509.CertificateSigningRequest:
@@ -208,8 +163,6 @@ class CertificateSigningRequest(InitCryptoParser):
             )
 
         crypto_key = self._private_key._to_cryptography()
-        if not hasattr(crypto_key, "public_key"):
-            raise MissingInit("Use private key not public")
 
         builder = x509.CertificateSigningRequestBuilder()
         builder = builder.subject_name(self.subject._to_cryptography())
@@ -237,4 +190,12 @@ class CertificateSigningRequest(InitCryptoParser):
             default_flow_style=False,
             explicit_start=True,
             default_style="",
+        )
+
+    @classmethod
+    def _crypto_config(cls) -> CryptoConfig:
+        return CryptoConfig(
+            load_pem=HelperFunc(func=x509.load_pem_x509_csr),
+            load_der=HelperFunc(func=x509.load_der_x509_csr),
+            pem_regexp=PEM_CSR_REGEX,
         )

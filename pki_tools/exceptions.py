@@ -1,20 +1,24 @@
 class Error(Exception):
+    """
+    Error is the base pki_tools exception
+    """
+
     pass
 
 
 class ExtensionMissing(Error):
-    pass
-
-
-class CertLoadError(Error):
     """
-    Thrown when the cert could not be loaded e.g. due to invalid PEM format
+    ExtensionMissing
     """
 
     pass
 
 
 class OcspFetchFailure(Error):
+    """
+    OcspFetchFailure
+    """
+
     pass
 
 
@@ -25,31 +29,26 @@ class FetchFailure(Error):
 
 
 class OcspInvalidResponseStatus(Error):
+    """
+    OcspInvalidResponseStatus
+    """
+
     pass
 
 
 class OcspIssuerFetchFailure(Error):
-    pass
-
-
-class CrlFetchFailure(Error):
-    pass
-
-
-class CrlLoadError(Error):
     """
-    Thrown when CRL could not be loaded due to e.g. invalid format
+    OcspIssuerFetchFailure
     """
 
     pass
 
 
-class CsrLoadError(Error):
+class LoadError(Error):
     """
-    CsrLoadError
+    Risen when a IoCryptoParser implementing class could not be
+    loaded properly.
     """
-
-    pass
 
 
 class RevokeCheckFailed(Error):
@@ -111,14 +110,6 @@ class MissingInit(Error):
 
 
 class MissingBlockSize(Error):
-    """
-    MissingBlockSize
-    """
-
-    pass
-
-
-class InvalidKeyType(Error):
     """
     MissingBlockSize
     """
