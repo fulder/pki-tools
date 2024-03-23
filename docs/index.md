@@ -14,6 +14,10 @@ PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
 `pip install pki-tools`
 
+## Chat
+
+[Discord Chat](https://discord.gg/6E6Uw7Tm)
+
 ## Log level
 
 `pki-tools` use [loguru] library for logging. Where the default log level

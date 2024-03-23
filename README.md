@@ -24,6 +24,10 @@ at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 
 [Discord Chat](https://discord.gg/6E6Uw7Tm)
 
+## Chat
+
+[Discord Chat](https://discord.gg/6E6Uw7Tm)
+
 ## Main features
 
 * [Checking Revocation][revoke-check] - checking revocation status of certificates using OCSP and/or CRL
