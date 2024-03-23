@@ -184,13 +184,14 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
             format=serialization.PublicFormat.SubjectPublicKeyInfo,
         )
 
-    def verify(self, signed: InitCryptoParser):
-        self._crypto_object.verify(
-            signed._crypto_object.signature,
-            signed.tbs_bytes,
-            PKCS1v15Padding()._to_cryptography(),
-            signed._crypto_object.signature_hash_algorithm,
-        )
+    @abc.abstractmethod
+    def verify(self, signed: InitCryptoParser) -> None:
+        """
+        Verifies the signature of a signed object.
+
+        Args:
+            signed: the signed object to verify.
+        """
 
     @classmethod
     def _crypto_config(cls) -> CryptoConfig:
@@ -545,6 +546,14 @@ class RSAPublicKey(CryptoPublicKey):
             format=PublicFormat.PKCS1,
         )
 
+    def verify(self, signed: InitCryptoParser) -> None:
+        return self._crypto_object.verify(
+            signed._crypto_object.signature,
+            signed.tbs_bytes,
+            PKCS1v15Padding()._to_cryptography(),
+            signed._crypto_object.signature_hash_algorithm,
+        )
+
     def _to_cryptography(self) -> rsa.RSAPublicKey:
         public_numbers = rsa.RSAPublicNumbers(e=self.e, n=self.n)
 
@@ -857,6 +866,12 @@ class Ed448PublicKey(CryptoPublicKey):
         ret._x509_obj = key
         return ret
 
+    def verify(self, signed: InitCryptoParser):
+        self._crypto_object.verify(
+            signed._crypto_object.signature,
+            signed.tbs_bytes,
+        )
+
     def _to_cryptography(
         self,
     ) -> ed448.Ed448PublicKey:
@@ -960,6 +975,12 @@ class Ed25519PublicKey(CryptoPublicKey):
         )
         ret._x509_obj = key
         return ret
+
+    def verify(self, signed: InitCryptoParser):
+        self._crypto_object.verify(
+            signed._crypto_object.signature,
+            signed.tbs_bytes,
+        )
 
     def _to_cryptography(
         self,

@@ -190,13 +190,17 @@ class Certificate(InitCryptoParser):
         if cert.extensions:
             extensions = Extensions.from_cryptography(cert.extensions)
 
+        signature_algorithm = None
+        if cert.signature_hash_algorithm:
+            signature_algorithm = SignatureAlgorithm.from_cryptography(
+                cert.signature_hash_algorithm,
+                cert.signature_algorithm_parameters,
+            )
+
         ret = cls(
             version=cert.version.value,
             serial_number=cert.serial_number,
-            signature_algorithm=SignatureAlgorithm.from_cryptography(
-                cert.signature_hash_algorithm,
-                cert.signature_algorithm_parameters,
-            ),
+            signature_algorithm=signature_algorithm,
             issuer=Name.from_cryptography(cert.issuer),
             validity=Validity(
                 not_before=cert.not_valid_before_utc,
@@ -356,7 +360,7 @@ class Certificate(InitCryptoParser):
     def sign(
         self,
         key_pair: CryptoKeyPair,
-        signature_algorithm: SignatureAlgorithm,
+        signature_algorithm: Optional[SignatureAlgorithm] = None,
         req_key: Optional[CryptoPublicKey] = None,
     ) -> None:
         """
@@ -427,13 +431,14 @@ class Certificate(InitCryptoParser):
                     extension._to_cryptography(), extension.critical
                 )
 
-        alg = self.signature_algorithm.algorithm._to_cryptography()
-        if isinstance(self.subject_public_key_info.algorithm, Ed448PublicKey):
-            alg = None
         if isinstance(
+            self.subject_public_key_info.algorithm, Ed448PublicKey
+        ) or isinstance(
             self.subject_public_key_info.algorithm, Ed25519PublicKey
         ):
             alg = None
+        else:
+            alg = self.signature_algorithm.algorithm._to_cryptography()
 
         cert = cert_builder.sign(crypto_key, alg)
 

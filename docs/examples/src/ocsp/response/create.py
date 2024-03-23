@@ -23,6 +23,6 @@ res = OCSPResponse(
     revocation_time=datetime.datetime.now(),
 )
 
-res.sign(cert, cert, SHA512.algorithm, cert_key_pair.private_key)
+res.sign(cert, cert, SHA512, cert_key_pair.private_key, SHA512)
 
 print(res)
