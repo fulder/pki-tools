@@ -8,7 +8,11 @@ from loguru import logger
 
 from pki_tools.types.extensions import Extensions
 from pki_tools.exceptions import MissingInit, LoadError
-from pki_tools.types.key_pair import CryptoPrivateKey
+from pki_tools.types.key_pair import (
+    CryptoPrivateKey,
+    Ed25519PrivateKey,
+    Ed448PrivateKey,
+)
 from pki_tools.types.crypto_parser import (
     CryptoParser,
     InitCryptoParser,
@@ -16,7 +20,7 @@ from pki_tools.types.crypto_parser import (
     HelperFunc,
 )
 from pki_tools.types.name import Name
-from pki_tools.types.signature_algorithm import HashAlgorithm
+from pki_tools.types.signature_algorithm import SignatureAlgorithm
 from pki_tools.types.utils import (
     CACHE_TIME_SECONDS,
     CertsUri,
@@ -182,17 +186,19 @@ class CertificateRevocationList(InitCryptoParser):
         return self._crypto_object.tbs_certlist_bytes
 
     def sign(
-        self, private_key: CryptoPrivateKey, algorithm: HashAlgorithm
+        self,
+        private_key: CryptoPrivateKey,
+        algorithm: Optional[SignatureAlgorithm] = None,
     ) -> None:
         """
         Sign the CRL with the provided private key and algorithm.
 
         Args:
             private_key: Private key used to sign the CRL.
-            algorithm: Hash algorithm to use for signing.
+            algorithm: Signature algorithm to use for signing.
         """
         self._private_key = private_key
-        self._algorithm = algorithm
+        self._signature_algorithm = algorithm
         self._x509_obj = self._to_cryptography()
 
     def get_revoked(self, cert_serial: int) -> Optional[RevokedCertificate]:
@@ -226,9 +232,16 @@ class CertificateRevocationList(InitCryptoParser):
         for cert in self.revoked_certs:
             builder = builder.add_revoked_certificate(cert._to_cryptography())
 
+        if isinstance(self._private_key, Ed25519PrivateKey) or isinstance(
+            self._private_key, Ed448PrivateKey
+        ):
+            alg = None
+        else:
+            alg = self._signature_algorithm.algorithm._to_cryptography()
+
         return builder.sign(
             private_key=self._private_key._to_cryptography(),
-            algorithm=self._algorithm._to_cryptography(),
+            algorithm=alg,
         )
 
     def _string_dict(self) -> Dict[str, str]:

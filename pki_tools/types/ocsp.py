@@ -15,13 +15,20 @@ from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import (
     MissingInit,
 )
-from pki_tools.types.key_pair import CryptoPrivateKey
+from pki_tools.types.key_pair import (
+    CryptoPrivateKey,
+    Ed25519PrivateKey,
+    Ed448PrivateKey,
+)
 from pki_tools.types.crypto_parser import (
     InitCryptoParser,
     CryptoConfig,
     HelperFunc,
 )
-from pki_tools.types.signature_algorithm import HashAlgorithm
+from pki_tools.types.signature_algorithm import (
+    HashAlgorithm,
+    SignatureAlgorithm,
+)
 from pki_tools.types.utils import _byte_to_hex
 
 
@@ -189,8 +196,9 @@ class OCSPResponse(InitCryptoParser):
         self,
         cert: Certificate,
         issuer: Certificate,
-        algorithm: HashAlgorithm,
+        response_algorithm: SignatureAlgorithm,
         private_key: CryptoPrivateKey,
+        signature_algorithm: Optional[SignatureAlgorithm] = None,
     ):
         """
         Signs the OCSP response.
@@ -198,13 +206,15 @@ class OCSPResponse(InitCryptoParser):
         Args:
             cert: The certificate.
             issuer: The issuer certificate.
-            algorithm: The hash algorithm.
+            response_algorithm: The signature algorithm for the response.
             private_key: The private key to sign the response.
+            signature_algorithm: The signature algorithm.
         """
         self._cert = cert
         self._issuer = issuer
-        self._algorithm = algorithm
+        self._response_algorithm = response_algorithm
         self._private_key = private_key
+        self._signature_algorithm = signature_algorithm
         self._x509_obj = self._to_cryptography()
 
     def _to_cryptography(self) -> ocsp.OCSPResponse:
@@ -221,7 +231,7 @@ class OCSPResponse(InitCryptoParser):
         builder = builder.add_response(
             cert=self._cert._to_cryptography(),
             issuer=self._issuer._to_cryptography(),
-            algorithm=self._algorithm._to_cryptography(),
+            algorithm=self._response_algorithm.algorithm._to_cryptography(),
             cert_status=cert_status,
             this_update=datetime.now(),
             next_update=datetime.now(),
@@ -231,9 +241,16 @@ class OCSPResponse(InitCryptoParser):
             ocsp.OCSPResponderEncoding.HASH, self._cert._to_cryptography()
         )
 
+        if isinstance(self._private_key, Ed25519PrivateKey) or isinstance(
+            self._private_key, Ed448PrivateKey
+        ):
+            alg = None
+        else:
+            alg = self._signature_algorithm.algorithm._to_cryptography()
+
         return builder.sign(
             self._private_key._to_cryptography(),
-            self._algorithm._to_cryptography(),
+            alg,
         )
 
     def _string_dict(self) -> Dict[str, str]:

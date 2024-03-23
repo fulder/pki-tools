@@ -15,7 +15,9 @@ from pki_tools.types.signature_algorithm import (
 )
 
 
-def test_csr_from_cryptography(crypto_csr):
+def test_csr_from_cryptography(crypto_csr, key_pair, dsa_test):
+    if dsa_test:
+        pytest.skip("DSA not supported")
     CertificateSigningRequest.from_cryptography(crypto_csr)
 
 
@@ -24,14 +26,20 @@ def test_csr_from_pem_string_invalid_data():
         CertificateSigningRequest.from_pem_string("BAD_PEM_DATA")
 
 
-def test_csr_from_pem_string_with_space(csr):
+def test_csr_from_pem_string_with_space(csr, dsa_test):
+    if dsa_test:
+        pytest.skip("DSA not supported")
     CertificateSigningRequest.from_pem_string("\n\n" + csr.pem_string + "\n")
 
 
-def test_certificate_save_and_read_file(csr):
+def test_certificate_save_and_read_file(csr, dsa_test, key_pair_name):
+    if dsa_test:
+        pytest.skip("DSA not supported")
+
     cert = CertificateSigningRequest.from_pem_string(csr.pem_string)
 
-    file_path = os.path.join(CURRENT_DIR, "tmp.pem")
+    file_name = f"{key_pair_name}_tmp.pem"
+    file_path = os.path.join(CURRENT_DIR, file_name)
     cert.to_file(file_path)
 
     new_cert = CertificateSigningRequest.from_file(file_path)

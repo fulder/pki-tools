@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from pki_tools.types.crypto_parser import Encoding
@@ -23,17 +25,26 @@ from pki_tools.types.crypto_parser import Encoding
         "EllipticCurvePublicKey",
     ],
 )
-def test_init_crypto_parser_funcs(init_crypto_parsers, parser_name):
+def test_init_crypto_parser_funcs(
+    init_crypto_parsers, parser_name, dsa_test, key_pair_name
+):
+    if parser_name == "CertificateSigningRequest" and dsa_test:
+        pytest.skip("DSA not supported")
+
     crypto_parser = init_crypto_parsers[parser_name]
 
     # Test dump and load from DER
-    crypto_parser.to_file("test.der", encoding=Encoding.DER)
+    file_name = f"{parser_name}_{key_pair_name}_test.der"
+    crypto_parser.to_file(file_name, encoding=Encoding.DER)
     getattr(crypto_parser.__class__, "from_file")(
-        "test.der", encoding=Encoding.DER
+        file_name, encoding=Encoding.DER
     )
+    os.unlink(file_name)
 
     # Test dump and load from PEM
-    crypto_parser.to_file("test.pem", encoding=Encoding.PEM)
+    file_name = f"{parser_name}_{key_pair_name}_test.pem"
+    crypto_parser.to_file(file_name, encoding=Encoding.PEM)
     getattr(crypto_parser.__class__, "from_file")(
-        "test.pem", encoding=Encoding.PEM
+        file_name, encoding=Encoding.PEM
     )
+    os.unlink(file_name)

@@ -10,6 +10,8 @@ from pki_tools.types.key_pair import (
     CryptoPublicKey,
     CryptoPrivateKey,
     CryptoKeyPair,
+    Ed25519PrivateKey,
+    Ed448PrivateKey,
 )
 from pki_tools.types.crypto_parser import (
     InitCryptoParser,
@@ -72,13 +74,17 @@ class CertificateSigningRequest(InitCryptoParser):
         for att in crypto_csr.attributes:
             attributes[att.oid.dotted_string] = att.value
 
+        signature_algorithm = None
+        if crypto_csr.signature_hash_algorithm:
+            signature_algorithm = SignatureAlgorithm.from_cryptography(
+                crypto_csr.signature_hash_algorithm,
+                crypto_csr.signature_algorithm_parameters,
+            )
+
         ret = cls(
             subject=Name.from_cryptography(crypto_csr.subject),
             extensions=Extensions.from_cryptography(crypto_csr.extensions),
-            signature_algorithm=SignatureAlgorithm.from_cryptography(
-                crypto_csr.signature_hash_algorithm,
-                crypto_csr.signature_algorithm_parameters,
-            ),
+            signature_algorithm=signature_algorithm,
             signature_value=_byte_to_hex(crypto_csr.signature),
             public_key=CryptoPublicKey.from_cryptography(
                 crypto_csr.public_key()
@@ -114,7 +120,7 @@ class CertificateSigningRequest(InitCryptoParser):
     def sign(
         self,
         key_pair: CryptoKeyPair,
-        signature_algorithm: SignatureAlgorithm,
+        signature_algorithm: Optional[SignatureAlgorithm] = None,
     ):
         """
         Sign the CSR with the provided key pair and signature algorithm.
@@ -178,10 +184,14 @@ class CertificateSigningRequest(InitCryptoParser):
                 oid = x509.ObjectIdentifier(attribute_oid)
                 builder = builder.add_attribute(oid, value)
 
-        return builder.sign(
-            crypto_key,
-            self.signature_algorithm.algorithm._to_cryptography(),
-        )
+        if isinstance(self._private_key, Ed448PrivateKey) or isinstance(
+            self._private_key, Ed25519PrivateKey
+        ):
+            alg = None
+        else:
+            alg = self.signature_algorithm.algorithm._to_cryptography()
+
+        return builder.sign(crypto_key, alg)
 
     def __str__(self) -> str:
         return yaml.safe_dump(

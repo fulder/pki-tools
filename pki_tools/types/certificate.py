@@ -11,7 +11,12 @@ from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
 
-from pki_tools.types.key_pair import CryptoKeyPair, CryptoPublicKey
+from pki_tools.types.key_pair import (
+    CryptoKeyPair,
+    CryptoPublicKey,
+    Ed448PublicKey,
+    Ed25519PublicKey,
+)
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
@@ -23,11 +28,9 @@ from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
     HashAlgorithm,
     HashAlgorithmName,
-    PKCS1v15Padding,
 )
 from pki_tools.types.utils import (
     _byte_to_hex,
-    _der_key,
     CertsUri,
     CACHE_TIME_SECONDS,
     _download_server_certificate,
@@ -187,13 +190,17 @@ class Certificate(InitCryptoParser):
         if cert.extensions:
             extensions = Extensions.from_cryptography(cert.extensions)
 
+        signature_algorithm = None
+        if cert.signature_hash_algorithm:
+            signature_algorithm = SignatureAlgorithm.from_cryptography(
+                cert.signature_hash_algorithm,
+                cert.signature_algorithm_parameters,
+            )
+
         ret = cls(
             version=cert.version.value,
             serial_number=cert.serial_number,
-            signature_algorithm=SignatureAlgorithm.from_cryptography(
-                cert.signature_hash_algorithm,
-                cert.signature_algorithm_parameters,
-            ),
+            signature_algorithm=signature_algorithm,
             issuer=Name.from_cryptography(cert.issuer),
             validity=Validity(
                 not_before=cert.not_valid_before_utc,
@@ -300,14 +307,6 @@ class Certificate(InitCryptoParser):
         name = self._crypto_object.signature_algorithm_oid._name.upper()
         return name.replace("ENCRYPTION", "")
 
-    @property
-    def der_public_key(self) -> bytes:
-        """
-        Returns:
-            The bytes of the public key in DER format
-        """
-        return _der_key(self._crypto_object.public_key())
-
     def digest(
         self,
         algorithm: HashAlgorithm = HashAlgorithm(
@@ -346,12 +345,7 @@ class Certificate(InitCryptoParser):
             SignatureVerificationFailed: When the signature verification fails
         """
         try:
-            self._crypto_object.public_key().verify(
-                signed._crypto_object.signature,
-                signed.tbs_bytes,
-                PKCS1v15Padding()._to_cryptography(),
-                signed._crypto_object.signature_hash_algorithm,
-            )
+            self.subject_public_key_info.algorithm.verify(signed)
             logger.trace("Signature valid")
         except Exception as e:
             logger.bind(
@@ -366,7 +360,7 @@ class Certificate(InitCryptoParser):
     def sign(
         self,
         key_pair: CryptoKeyPair,
-        signature_algorithm: SignatureAlgorithm,
+        signature_algorithm: Optional[SignatureAlgorithm] = None,
         req_key: Optional[CryptoPublicKey] = None,
     ) -> None:
         """
@@ -437,7 +431,15 @@ class Certificate(InitCryptoParser):
                     extension._to_cryptography(), extension.critical
                 )
 
-        alg = self.signature_algorithm.algorithm._to_cryptography()
+        if isinstance(
+            self.subject_public_key_info.algorithm, Ed448PublicKey
+        ) or isinstance(
+            self.subject_public_key_info.algorithm, Ed25519PublicKey
+        ):
+            alg = None
+        else:
+            alg = self.signature_algorithm.algorithm._to_cryptography()
+
         cert = cert_builder.sign(crypto_key, alg)
 
         return cert

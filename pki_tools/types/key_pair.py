@@ -30,6 +30,7 @@ from pki_tools.types.crypto_parser import (
     HelperFunc,
     InitCryptoParser,
 )
+from pki_tools.types.signature_algorithm import PKCS1v15Padding
 from pki_tools.types.utils import _byte_to_hex, _hex_to_byte
 
 
@@ -161,6 +162,16 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
         )
 
     @property
+    def ocsp_bytes(self) -> bytes:
+        """
+        The bytes used for the OCSP Response hash
+
+        Returns:
+            bytes: The bytes used for the OCSP Response hash
+        """
+        return self.der_bytes
+
+    @property
     def pem_bytes(self) -> bytes:
         """
         Property to get the PEM encoding of the public key.
@@ -168,14 +179,19 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
         Returns:
             bytes: The PEM encoded public key.
         """
-        public_key = self._crypto_object
-        if hasattr(self._crypto_object, "public_key"):
-            public_key = public_key.public_key()
-
-        return public_key.public_bytes(
+        return self._crypto_object.public_bytes(
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.SubjectPublicKeyInfo,
         )
+
+    @abc.abstractmethod
+    def verify(self, signed: InitCryptoParser) -> None:
+        """
+        Verifies the signature of a signed object.
+
+        Args:
+            signed: the signed object to verify.
+        """
 
     @classmethod
     def _crypto_config(cls) -> CryptoConfig:
@@ -264,6 +280,26 @@ class DSAPublicKey(CryptoPublicKey):
         ret._x509_obj = key
         return ret
 
+    @property
+    def ocsp_bytes(self) -> bytes:
+        """
+        The bytes used for the OCSP Response hash
+
+        Returns:
+            bytes: The bytes used for the OCSP Response hash
+        """
+        return self._crypto_object.public_bytes(
+            encoding=Encoding.DER,
+            format=PublicFormat.SubjectPublicKeyInfo,
+        )
+
+    def verify(self, signed: InitCryptoParser):
+        self._crypto_object.verify(
+            signed._crypto_object.signature,
+            signed.tbs_bytes,
+            signed._crypto_object.signature_hash_algorithm,
+        )
+
     def _to_cryptography(self) -> dsa.DSAPublicKey:
         public_numbers = dsa.DSAPublicNumbers(
             y=self.y,
@@ -276,10 +312,10 @@ class DSAPublicKey(CryptoPublicKey):
     def _string_dict(self) -> Dict[str, str]:
         return {
             "key_size": str(self.key_size),
-            "public_key_y": self.y,
-            "prime_p": self.p,
-            "subprime_q": self.q,
-            "generator_g": self.g,
+            "public_key_y": str(self.y),
+            "prime_p": str(self.p),
+            "subprime_q": str(self.q),
+            "generator_g": str(self.g),
         }
 
 
@@ -344,10 +380,10 @@ class DSAPrivateKey(CryptoPrivateKey):
     def _string_dict(self) -> Dict[str, str]:
         return {
             "key_size": str(self.key_size),
-            "public_key_y": self.y,
-            "prime_p": self.p,
-            "subprime_q": self.q,
-            "generator_g": self.g,
+            "public_key_y": str(self.y),
+            "prime_p": str(self.p),
+            "subprime_q": str(self.q),
+            "generator_g": str(self.g),
         }
 
 
@@ -496,6 +532,27 @@ class RSAPublicKey(CryptoPublicKey):
         )
         ret._x509_obj = key
         return ret
+
+    @property
+    def der_bytes(self) -> bytes:
+        """
+        Property to get the DER encoding of the public key.
+
+        Returns:
+            bytes: The DER encoded public key.
+        """
+        return self._crypto_object.public_bytes(
+            encoding=Encoding.DER,
+            format=PublicFormat.PKCS1,
+        )
+
+    def verify(self, signed: InitCryptoParser) -> None:
+        return self._crypto_object.verify(
+            signed._crypto_object.signature,
+            signed.tbs_bytes,
+            PKCS1v15Padding()._to_cryptography(),
+            signed._crypto_object.signature_hash_algorithm,
+        )
 
     def _to_cryptography(self) -> rsa.RSAPublicKey:
         public_numbers = rsa.RSAPublicNumbers(e=self.e, n=self.n)
@@ -674,6 +731,26 @@ class EllipticCurvePublicKey(CryptoPublicKey):
         ret._x509_obj = key
         return ret
 
+    def verify(self, signed: InitCryptoParser):
+        self._crypto_object.verify(
+            signed._crypto_object.signature,
+            signed.tbs_bytes,
+            ec.ECDSA(signed._crypto_object.signature_hash_algorithm),
+        )
+
+    @property
+    def ocsp_bytes(self) -> bytes:
+        """
+        The bytes used for the OCSP Response hash
+
+        Returns:
+            bytes: The bytes used for the OCSP Response hash
+        """
+        return self._crypto_object.public_bytes(
+            encoding=Encoding.X962,
+            format=PublicFormat.UncompressedPoint,
+        )
+
     def _to_cryptography(
         self,
     ) -> ec.EllipticCurvePublicKey:
@@ -789,6 +866,12 @@ class Ed448PublicKey(CryptoPublicKey):
         ret._x509_obj = key
         return ret
 
+    def verify(self, signed: InitCryptoParser):
+        self._crypto_object.verify(
+            signed._crypto_object.signature,
+            signed.tbs_bytes,
+        )
+
     def _to_cryptography(
         self,
     ) -> ed448.Ed448PublicKey:
@@ -892,6 +975,12 @@ class Ed25519PublicKey(CryptoPublicKey):
         )
         ret._x509_obj = key
         return ret
+
+    def verify(self, signed: InitCryptoParser):
+        self._crypto_object.verify(
+            signed._crypto_object.signature,
+            signed.tbs_bytes,
+        )
 
     def _to_cryptography(
         self,

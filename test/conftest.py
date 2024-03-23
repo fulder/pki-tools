@@ -65,8 +65,6 @@ from pki_tools.types.ocsp import (
     OCSPRequest,
 )
 from pki_tools.types.signature_algorithm import (
-    HashAlgorithm,
-    HashAlgorithmName,
     SHA256,
     SHA512,
 )
@@ -103,9 +101,28 @@ def mocked_requests_get(mocker):
     return mocker.patch("httpx.Client.get")
 
 
+@pytest.fixture(
+    params=[
+        DSAKeyPair.generate(key_size=2048),
+        Ed448KeyPair.generate(),
+        Ed25519KeyPair.generate(),
+        EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1),
+        RSAKeyPair.generate(),
+    ],
+    ids=["DSA", "Ed448", "Ed25519", "EllipticCurve", "RSA"],
+)
+def key_pair(request):
+    return request.param
+
+
 @pytest.fixture()
-def key_pair():
-    return RSAKeyPair.generate()
+def key_pair_name(key_pair):
+    return type(key_pair)
+
+
+@pytest.fixture(scope="function", autouse=True)
+def dsa_test(key_pair):
+    return isinstance(key_pair, DSAKeyPair)
 
 
 @pytest.fixture()
@@ -401,10 +418,10 @@ def _create_ocsp_response(
     res.sign(
         cert,
         cert,
-        HashAlgorithm(name=HashAlgorithmName.SHA256),
+        SHA256,
         key_pair.private_key,
+        SHA256,
     )
-
     return res
 
 
@@ -430,6 +447,6 @@ def _create_crl(keypair, revoked_serials):
 
     crl.sign(
         private_key=keypair.private_key,
-        algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256),
+        algorithm=SHA256,
     )
     return crl

@@ -64,9 +64,8 @@ def test_certificate_from_to_cryptography(crypto_cert, cert_pem_string):
     # Test getting cert properties
     assert cert.digest() != ""
     assert cert.hex_serial != ""
-    assert cert.sign_alg_oid_name == "SHA256WITHRSA"
+    assert cert.sign_alg_oid_name != ""
     assert "-----BEGIN PUBLIC KEY-----" in cert.public_key.decode()
-    assert cert.der_public_key != ""
     assert cert.tbs_bytes != ""
     assert "-----BEGIN CERTIFICATE-----" in cert.pem_bytes.decode()
     assert "-----BEGIN CERTIFICATE-----" in cert.pem_string
@@ -88,10 +87,11 @@ def test_certificate_from_pem_string_with_space(cert_pem_string):
     Certificate.from_pem_string("\n\n" + cert_pem_string + "\n")
 
 
-def test_certificate_save_and_read_file(cert_pem_string):
+def test_certificate_save_and_read_file(cert_pem_string, key_pair_name):
     cert = Certificate.from_pem_string(cert_pem_string)
 
-    file_path = os.path.join(CURRENT_DIR, "tmp.pem")
+    file_name = f"{key_pair_name}_cert.pem"
+    file_path = os.path.join(CURRENT_DIR, file_name)
     cert.to_file(file_path)
 
     new_cert = Certificate.from_file(file_path)
