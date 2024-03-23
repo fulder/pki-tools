@@ -32,13 +32,14 @@ def test_csr_from_pem_string_with_space(csr, dsa_test):
     CertificateSigningRequest.from_pem_string("\n\n" + csr.pem_string + "\n")
 
 
-def test_certificate_save_and_read_file(csr, dsa_test):
+def test_certificate_save_and_read_file(csr, dsa_test, key_pair_name):
     if dsa_test:
         pytest.skip("DSA not supported")
 
     cert = CertificateSigningRequest.from_pem_string(csr.pem_string)
 
-    file_path = os.path.join(CURRENT_DIR, "tmp.pem")
+    file_name = f"{key_pair_name}_tmp.pem"
+    file_path = os.path.join(CURRENT_DIR, file_name)
     cert.to_file(file_path)
 
     new_cert = CertificateSigningRequest.from_file(file_path)

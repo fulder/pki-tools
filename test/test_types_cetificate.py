@@ -87,10 +87,11 @@ def test_certificate_from_pem_string_with_space(cert_pem_string):
     Certificate.from_pem_string("\n\n" + cert_pem_string + "\n")
 
 
-def test_certificate_save_and_read_file(cert_pem_string):
+def test_certificate_save_and_read_file(cert_pem_string, key_pair_name):
     cert = Certificate.from_pem_string(cert_pem_string)
 
-    file_path = os.path.join(CURRENT_DIR, "tmp.pem")
+    file_name = f"{key_pair_name}_cert.pem"
+    file_path = os.path.join(CURRENT_DIR, file_name)
     cert.to_file(file_path)
 
     new_cert = Certificate.from_file(file_path)

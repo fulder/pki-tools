@@ -115,6 +115,11 @@ def key_pair(request):
     return request.param
 
 
+@pytest.fixture()
+def key_pair_name(key_pair):
+    return type(key_pair)
+
+
 @pytest.fixture(scope="function", autouse=True)
 def dsa_test(key_pair):
     return isinstance(key_pair, DSAKeyPair)
