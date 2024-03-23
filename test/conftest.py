@@ -105,6 +105,9 @@ def mocked_requests_get(mocker):
 
 @pytest.fixture()
 def key_pair():
+    return DSAKeyPair.generate(key_size=1024)
+    return Ed448KeyPair.generate()
+    return EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1)
     return RSAKeyPair.generate()
 
 
@@ -404,7 +407,6 @@ def _create_ocsp_response(
         HashAlgorithm(name=HashAlgorithmName.SHA256),
         key_pair.private_key,
     )
-
     return res
 
 

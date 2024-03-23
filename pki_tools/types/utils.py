@@ -52,13 +52,6 @@ def _hex_to_byte(hex_string: str) -> bytes:
     return bytes(byte_array)
 
 
-def _der_key(public_key) -> bytes:
-    return public_key.public_bytes(
-        encoding=Encoding.DER,
-        format=PublicFormat.PKCS1,
-    )
-
-
 @lru_cache(maxsize=None)
 def _download_server_certificate(hostname: str, cache_ttl: int = None):
     context = ssl.create_default_context()

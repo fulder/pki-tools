@@ -5,7 +5,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Type, Optional, Dict
 
-from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.x509 import ocsp
 from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger
@@ -206,6 +206,7 @@ class OCSPResponse(InitCryptoParser):
         self._algorithm = algorithm
         self._private_key = private_key
         self._x509_obj = self._to_cryptography()
+        # self.issuer_key_hash = self.hash_with_alg(issuer.der_public_key)
 
     def _to_cryptography(self) -> ocsp.OCSPResponse:
         if not hasattr(self, "_private_key"):

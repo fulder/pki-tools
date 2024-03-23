@@ -6,12 +6,14 @@ from typing import Optional, Dict
 import datetime
 
 
-from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
 
-from pki_tools.types.key_pair import CryptoKeyPair, CryptoPublicKey
+from pki_tools.types.key_pair import CryptoKeyPair, CryptoPublicKey, \
+    Ed448PublicKey, Ed25519PublicKey
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
@@ -27,7 +29,6 @@ from pki_tools.types.signature_algorithm import (
 )
 from pki_tools.types.utils import (
     _byte_to_hex,
-    _der_key,
     CertsUri,
     CACHE_TIME_SECONDS,
     _download_server_certificate,
@@ -300,14 +301,6 @@ class Certificate(InitCryptoParser):
         name = self._crypto_object.signature_algorithm_oid._name.upper()
         return name.replace("ENCRYPTION", "")
 
-    @property
-    def der_public_key(self) -> bytes:
-        """
-        Returns:
-            The bytes of the public key in DER format
-        """
-        return _der_key(self._crypto_object.public_key())
-
     def digest(
         self,
         algorithm: HashAlgorithm = HashAlgorithm(
@@ -346,12 +339,7 @@ class Certificate(InitCryptoParser):
             SignatureVerificationFailed: When the signature verification fails
         """
         try:
-            self._crypto_object.public_key().verify(
-                signed._crypto_object.signature,
-                signed.tbs_bytes,
-                PKCS1v15Padding()._to_cryptography(),
-                signed._crypto_object.signature_hash_algorithm,
-            )
+            self.subject_public_key_info.algorithm.verify(signed)
             logger.trace("Signature valid")
         except Exception as e:
             logger.bind(
@@ -438,6 +426,11 @@ class Certificate(InitCryptoParser):
                 )
 
         alg = self.signature_algorithm.algorithm._to_cryptography()
+        if isinstance(self.subject_public_key_info.algorithm, Ed448PublicKey):
+            alg = None
+        if isinstance(self.subject_public_key_info.algorithm, Ed25519PublicKey):
+            alg = None
+
         cert = cert_builder.sign(crypto_key, alg)
 
         return cert
