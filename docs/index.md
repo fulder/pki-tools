@@ -2,6 +2,8 @@
 
 # PKI Tools
 
+<img src="./img/icon2.png" alt="pki-tools logo" style="height: 200px; width:200px; border-radius: 50%;"/>
+
 PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
 * Loading certificates from PEM strings/files/cryptography object into
