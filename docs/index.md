@@ -1,4 +1,4 @@
-![Chat](https://img.shields.io/badge/chat-gray?style=for-the-badge&logo=discord&logoColor=white&link=https%3A%2F%2Fdiscord.gg%2F6E6Uw7Tm)
+![Chat](https://img.shields.io/badge/chat-gray?style=for-the-badge&logo=discord&logoColor=white&cacheSeconds=0&link=https%3A%2F%2Fdiscord.gg%2F6E6Uw7Tm)
 
 # PKI Tools
 
