@@ -20,6 +20,10 @@ PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 Documentation is available
 at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 
+## Chat
+
+[Discord Chat](https://discord.gg/6E6Uw7Tm)
+
 ## Main features
 
 * [Checking Revocation][revoke-check] - checking revocation status of certificates using OCSP and/or CRL
