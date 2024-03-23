@@ -1,3 +1,5 @@
+![Chat](https://img.shields.io/badge/chat-black?style=for-the-badge&logo=discord&logoColor=white&link=https%3A%2F%2Fdiscord.gg%2F6E6Uw7Tm)
+
 # PKI Tools
 
 PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
