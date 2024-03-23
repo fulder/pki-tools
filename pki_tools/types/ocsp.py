@@ -25,8 +25,10 @@ from pki_tools.types.crypto_parser import (
     CryptoConfig,
     HelperFunc,
 )
-from pki_tools.types.signature_algorithm import HashAlgorithm, \
-    SignatureAlgorithm
+from pki_tools.types.signature_algorithm import (
+    HashAlgorithm,
+    SignatureAlgorithm,
+)
 from pki_tools.types.utils import _byte_to_hex
 
 

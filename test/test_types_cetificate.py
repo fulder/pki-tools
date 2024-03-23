@@ -5,14 +5,7 @@ import pytest
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
-from conftest import TEST_SUBJECT, CURRENT_DIR, _create_cert
-from pki_tools import (
-    DSAKeyPair,
-    Ed448KeyPair,
-    EllipticCurveKeyPair,
-    EllipticCurveName,
-    Ed25519KeyPair,
-)
+from conftest import TEST_SUBJECT, CURRENT_DIR
 from pki_tools.types.signature_algorithm import SHA256
 from pki_tools.types.certificate import Certificate, Name, Validity
 from pki_tools.exceptions import LoadError
@@ -147,4 +140,3 @@ def test_certificate_to_from_crypto(key_pair):
 
     assert cert2.subject.cn[0] == "subject"
     assert cert2.issuer.cn[0] == "issuer"
-

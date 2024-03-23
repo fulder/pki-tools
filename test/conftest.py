@@ -65,8 +65,6 @@ from pki_tools.types.ocsp import (
     OCSPRequest,
 )
 from pki_tools.types.signature_algorithm import (
-    HashAlgorithm,
-    HashAlgorithmName,
     SHA256,
     SHA512,
 )
@@ -103,12 +101,16 @@ def mocked_requests_get(mocker):
     return mocker.patch("httpx.Client.get")
 
 
-@pytest.fixture(params=[DSAKeyPair.generate(key_size=2048),
-                        Ed448KeyPair.generate(),
-                        Ed25519KeyPair.generate(),
-                        EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1),
-                        RSAKeyPair.generate()],
-                ids=['DSA', 'Ed448', 'Ed25519', 'EllipticCurve', 'RSA'])
+@pytest.fixture(
+    params=[
+        DSAKeyPair.generate(key_size=2048),
+        Ed448KeyPair.generate(),
+        Ed25519KeyPair.generate(),
+        EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1),
+        RSAKeyPair.generate(),
+    ],
+    ids=["DSA", "Ed448", "Ed25519", "EllipticCurve", "RSA"],
+)
 def key_pair(request):
     return request.param
 
@@ -121,6 +123,7 @@ def dsa_test(key_pair):
 @pytest.fixture()
 def cert(key_pair):
     return _create_cert(key_pair)
+
 
 @pytest.fixture()
 def crypto_cert(cert):

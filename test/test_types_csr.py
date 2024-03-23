@@ -6,13 +6,14 @@ from pki_tools import Name
 from pki_tools.exceptions import LoadError
 from pki_tools.types import RSAKeyPair
 from pki_tools.types.csr import CertificateSigningRequest
-from conftest import CURRENT_DIR, dsa_test
+from conftest import CURRENT_DIR
 from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
     HashAlgorithmName,
     HashAlgorithm,
     PKCS1v15Padding,
 )
+
 
 def test_csr_from_cryptography(crypto_csr, key_pair, dsa_test):
     if dsa_test:
