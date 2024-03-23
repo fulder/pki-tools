@@ -5,7 +5,6 @@ from datetime import datetime
 from enum import Enum
 from typing import Type, Optional, Dict
 
-from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger
@@ -168,6 +167,7 @@ class OCSPResponse(InitCryptoParser):
         Returns:
             str: The hashed key.
         """
+
         hash_algorithm = hashlib.new(self._crypto_object.hash_algorithm.name)
         hash_algorithm.update(der_key)
         return hash_algorithm.hexdigest().upper()
@@ -361,9 +361,7 @@ class OCSPRequest(InitCryptoParser):
         Returns:
             The request path.
         """
-        return base64.b64encode(
-            self._crypto_object.public_bytes(serialization.Encoding.DER)
-        ).decode()
+        return base64.b64encode(self.der_bytes).decode()
 
     def create(self, cert: Certificate, issuer_cert: Certificate):
         """

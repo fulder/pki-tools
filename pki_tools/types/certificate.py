@@ -6,7 +6,6 @@ from typing import Optional, Dict
 import datetime
 
 
-from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
@@ -293,10 +292,7 @@ class Certificate(InitCryptoParser):
         Returns:
             The bytes of the public key in PEM format
         """
-        return self._crypto_object.public_key().public_bytes(
-            serialization.Encoding.PEM,
-            serialization.PublicFormat.SubjectPublicKeyInfo,
-        )
+        return self.subject_public_key_info.algorithm.pem_bytes
 
     @property
     def sign_alg_oid_name(self) -> str:
