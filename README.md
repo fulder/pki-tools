@@ -1,4 +1,5 @@
-![Python Badge](https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&logo=python)
+![Python Badge](https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&logo=python&logoColor=white)
+[![Discord](https://img.shields.io/badge/chat-gray?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/6E6Uw7Tm)
 
 PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
@@ -18,6 +19,10 @@ PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
 Documentation is available
 at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
+
+## Chat
+
+[Discord Chat](https://discord.gg/6E6Uw7Tm)
 
 ## Main features
 

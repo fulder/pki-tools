@@ -1,3 +1,5 @@
+[![Discord](https://img.shields.io/badge/chat-gray?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/6E6Uw7Tm)
+
 # PKI Tools
 
 PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
@@ -13,6 +15,10 @@ PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 ## Install
 
 `pip install pki-tools`
+
+## Chat
+
+[Discord Chat](https://discord.gg/6E6Uw7Tm)
 
 ## Log level
 
