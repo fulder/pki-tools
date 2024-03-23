@@ -55,6 +55,7 @@ markdown_extensions:
       title: Page contents
   - pymdownx.snippets
   - pymdownx.blocks.details
+  - admonition
 
 watch:
   - docs

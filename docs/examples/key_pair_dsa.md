@@ -1,3 +1,11 @@
+!!! warning "Note"
+    DSA is an old and legacy algorithm. 
+    Consider using 
+    [EllipticCurveKeyPair][pki_tools.types.key_pair.EllipticCurveKeyPair] 
+    or 
+    [RSAKeyPair][pki_tools.types.key_pair.RSAKeyPair]
+    instead.
+
 # Examples
 
 ## Generate keypair
