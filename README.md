@@ -1,5 +1,5 @@
-![Python Badge](https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&logo=python)
-[![Discord](https://img.shields.io/badge/chat-gray?style=for-the-badge&logo=discord&logoColor=white&cacheSeconds=0)](https://discord.gg/6E6Uw7Tm)
+![Python Badge](https://img.shields.io/badge/python-3.8%2B-blue.svg?style=for-the-badge&logo=python&logoColor=white)
+[![Discord](https://img.shields.io/badge/chat-gray?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/6E6Uw7Tm)
 
 PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
