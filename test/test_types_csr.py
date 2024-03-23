@@ -6,7 +6,7 @@ from pki_tools import Name
 from pki_tools.exceptions import LoadError
 from pki_tools.types import RSAKeyPair
 from pki_tools.types.csr import CertificateSigningRequest
-from conftest import CURRENT_DIR
+from conftest import CURRENT_DIR, dsa_test
 from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
     HashAlgorithmName,
@@ -14,8 +14,9 @@ from pki_tools.types.signature_algorithm import (
     PKCS1v15Padding,
 )
 
-
-def test_csr_from_cryptography(crypto_csr):
+def test_csr_from_cryptography(crypto_csr, key_pair, dsa_test):
+    if dsa_test:
+        pytest.skip("DSA not supported")
     CertificateSigningRequest.from_cryptography(crypto_csr)
 
 
@@ -24,11 +25,16 @@ def test_csr_from_pem_string_invalid_data():
         CertificateSigningRequest.from_pem_string("BAD_PEM_DATA")
 
 
-def test_csr_from_pem_string_with_space(csr):
+def test_csr_from_pem_string_with_space(csr, dsa_test):
+    if dsa_test:
+        pytest.skip("DSA not supported")
     CertificateSigningRequest.from_pem_string("\n\n" + csr.pem_string + "\n")
 
 
-def test_certificate_save_and_read_file(csr):
+def test_certificate_save_and_read_file(csr, dsa_test):
+    if dsa_test:
+        pytest.skip("DSA not supported")
+
     cert = CertificateSigningRequest.from_pem_string(csr.pem_string)
 
     file_path = os.path.join(CURRENT_DIR, "tmp.pem")

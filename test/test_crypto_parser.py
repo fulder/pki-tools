@@ -23,7 +23,10 @@ from pki_tools.types.crypto_parser import Encoding
         "EllipticCurvePublicKey",
     ],
 )
-def test_init_crypto_parser_funcs(init_crypto_parsers, parser_name):
+def test_init_crypto_parser_funcs(init_crypto_parsers, parser_name, dsa_test):
+    if parser_name == "CertificateSigningRequest" and dsa_test:
+        pytest.skip("DSA not supported")
+
     crypto_parser = init_crypto_parsers[parser_name]
 
     # Test dump and load from DER

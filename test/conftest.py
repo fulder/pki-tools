@@ -103,20 +103,24 @@ def mocked_requests_get(mocker):
     return mocker.patch("httpx.Client.get")
 
 
-@pytest.fixture()
-def key_pair():
-    return DSAKeyPair.generate(key_size=1024)
-    return Ed448KeyPair.generate()
-    return EllipticCurveKeyPair.generate(
-        curve_name=EllipticCurveName.SECP521R1
-    )
-    return RSAKeyPair.generate()
+@pytest.fixture(params=[DSAKeyPair.generate(key_size=2048),
+                        Ed448KeyPair.generate(),
+                        Ed25519KeyPair.generate(),
+                        EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1),
+                        RSAKeyPair.generate()],
+                ids=['DSA', 'Ed448', 'Ed25519', 'EllipticCurve', 'RSA'])
+def key_pair(request):
+    return request.param
+
+
+@pytest.fixture(scope="function", autouse=True)
+def dsa_test(key_pair):
+    return isinstance(key_pair, DSAKeyPair)
 
 
 @pytest.fixture()
 def cert(key_pair):
     return _create_cert(key_pair)
-
 
 @pytest.fixture()
 def crypto_cert(cert):
@@ -406,8 +410,9 @@ def _create_ocsp_response(
     res.sign(
         cert,
         cert,
-        HashAlgorithm(name=HashAlgorithmName.SHA256),
+        SHA256,
         key_pair.private_key,
+        SHA256,
     )
     return res
 
@@ -434,6 +439,6 @@ def _create_crl(keypair, revoked_serials):
 
     crl.sign(
         private_key=keypair.private_key,
-        algorithm=HashAlgorithm(name=HashAlgorithmName.SHA256),
+        algorithm=SHA256,
     )
     return crl
