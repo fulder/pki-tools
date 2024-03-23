@@ -4,10 +4,6 @@ import ssl
 from functools import lru_cache
 
 import httpx
-from cryptography.hazmat.primitives._serialization import (
-    Encoding,
-    PublicFormat,
-)
 from loguru import logger
 from pydantic import BaseModel, constr
 

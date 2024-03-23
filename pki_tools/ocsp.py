@@ -1,14 +1,12 @@
 import time
 from functools import lru_cache
 
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives._serialization import Encoding, PublicFormat
 from loguru import logger
 
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.signature_algorithm import HashAlgorithm
-from pki_tools.types.utils import HTTPX_CLIENT, _byte_to_hex
+from pki_tools.types.utils import HTTPX_CLIENT
 from pki_tools.exceptions import (
     ExtensionMissing,
     OcspInvalidResponseStatus,
@@ -167,9 +165,11 @@ def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: Chain):
         found_issuer.verify_signature(ocsp_response)
         return
 
-    logger.warning("Couldn't find issuer by key hash, "
-                   "trying to verify signature against all "
-                   "certificates in chain")
+    logger.warning(
+        "Couldn't find issuer by key hash, "
+        "trying to verify signature against all "
+        "certificates in chain"
+    )
     for issuer_cert in issuer_chain.certificates:
         try:
             issuer_cert.verify_signature(ocsp_response)
@@ -179,4 +179,3 @@ def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: Chain):
             continue
 
     raise Error("Couldn't verify OCSP signature")
-

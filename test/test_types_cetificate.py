@@ -6,8 +6,13 @@ from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
 from conftest import TEST_SUBJECT, CURRENT_DIR, _create_cert
-from pki_tools import DSAKeyPair, Ed448KeyPair, EllipticCurveKeyPair, \
-    EllipticCurveName, Ed25519KeyPair
+from pki_tools import (
+    DSAKeyPair,
+    Ed448KeyPair,
+    EllipticCurveKeyPair,
+    EllipticCurveName,
+    Ed25519KeyPair,
+)
 from pki_tools.types.signature_algorithm import SHA256
 from pki_tools.types.certificate import Certificate, Name, Validity
 from pki_tools.exceptions import LoadError
@@ -144,13 +149,16 @@ def test_certificate_to_from_crypto(key_pair):
     assert cert2.issuer.cn[0] == "issuer"
 
 
-@pytest.mark.parametrize("key_pair", [
-    DSAKeyPair.generate(key_size=1024),
-    Ed448KeyPair.generate(),
-    Ed25519KeyPair.generate(),
-    EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1),
-    RSAKeyPair.generate()
-])
+@pytest.mark.parametrize(
+    "key_pair",
+    [
+        DSAKeyPair.generate(key_size=1024),
+        Ed448KeyPair.generate(),
+        Ed25519KeyPair.generate(),
+        EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1),
+        RSAKeyPair.generate(),
+    ],
+)
 def test_sign_with_key(key_pair):
     created_cert = _create_cert(key_pair)
     created_cert.sign(key_pair, SHA256)

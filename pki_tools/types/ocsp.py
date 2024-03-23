@@ -5,7 +5,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Type, Optional, Dict
 
-from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives import serialization
 from cryptography.x509 import ocsp
 from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger

@@ -192,7 +192,6 @@ class CryptoPublicKey(InitCryptoParser, abc.ABC):
             signed._crypto_object.signature_hash_algorithm,
         )
 
-
     @classmethod
     def _crypto_config(cls) -> CryptoConfig:
         return CryptoConfig(
@@ -300,7 +299,6 @@ class DSAPublicKey(CryptoPublicKey):
             signed._crypto_object.signature_hash_algorithm,
         )
 
-
     def _to_cryptography(self) -> dsa.DSAPublicKey:
         public_numbers = dsa.DSAPublicNumbers(
             y=self.y,
@@ -309,7 +307,6 @@ class DSAPublicKey(CryptoPublicKey):
             ),
         )
         return public_numbers.public_key()
-
 
     def _string_dict(self) -> Dict[str, str]:
         return {
@@ -382,7 +379,7 @@ class DSAPrivateKey(CryptoPrivateKey):
     def _string_dict(self) -> Dict[str, str]:
         return {
             "key_size": str(self.key_size),
-             "public_key_y": str(self.y),
+            "public_key_y": str(self.y),
             "prime_p": str(self.p),
             "subprime_q": str(self.q),
             "generator_g": str(self.g),
@@ -744,7 +741,6 @@ class EllipticCurvePublicKey(CryptoPublicKey):
             encoding=Encoding.X962,
             format=PublicFormat.UncompressedPoint,
         )
-
 
     def _to_cryptography(
         self,

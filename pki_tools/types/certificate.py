@@ -6,14 +6,17 @@ from typing import Optional, Dict
 import datetime
 
 
-from cryptography.hazmat.primitives import serialization, hashes
-from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
 
-from pki_tools.types.key_pair import CryptoKeyPair, CryptoPublicKey, \
-    Ed448PublicKey, Ed25519PublicKey
+from pki_tools.types.key_pair import (
+    CryptoKeyPair,
+    CryptoPublicKey,
+    Ed448PublicKey,
+    Ed25519PublicKey,
+)
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
 
@@ -25,7 +28,6 @@ from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
     HashAlgorithm,
     HashAlgorithmName,
-    PKCS1v15Padding,
 )
 from pki_tools.types.utils import (
     _byte_to_hex,
@@ -428,7 +430,9 @@ class Certificate(InitCryptoParser):
         alg = self.signature_algorithm.algorithm._to_cryptography()
         if isinstance(self.subject_public_key_info.algorithm, Ed448PublicKey):
             alg = None
-        if isinstance(self.subject_public_key_info.algorithm, Ed25519PublicKey):
+        if isinstance(
+            self.subject_public_key_info.algorithm, Ed25519PublicKey
+        ):
             alg = None
 
         cert = cert_builder.sign(crypto_key, alg)
