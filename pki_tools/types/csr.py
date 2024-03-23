@@ -3,7 +3,6 @@ import re
 
 import yaml
 from cryptography import x509
-from cryptography.hazmat.primitives import serialization
 
 from pki_tools.exceptions import MissingInit
 from pki_tools.types.key_pair import (
@@ -104,18 +103,6 @@ class CertificateSigningRequest(InitCryptoParser):
             TBS bytes of the CSR.
         """
         return self._crypto_object.tbs_certrequest_bytes
-
-    @property
-    def pem_bytes(self) -> bytes:
-        """
-        Get the PEM bytes of the CSR.
-
-        Returns:
-            PEM bytes of the CSR.
-        """
-        return self._crypto_object.public_bytes(
-            encoding=serialization.Encoding.PEM
-        )
 
     def sign(
         self,
