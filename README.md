@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/badge/chat-gray?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/6E6Uw7Tm)
 
 # PKI Tools
-<img src="./docs/img/icon2.png" alt="pki-tools logo" style="height: 200px; width:200px;"/>
+<img src="./docs/img/icon.png" alt="pki-tools logo" style="height: 200px; width:200px;"/>
 
 PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
