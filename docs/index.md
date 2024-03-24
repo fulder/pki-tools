@@ -1,4 +1,5 @@
-[![Discord](https://img.shields.io/badge/chat-gray?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/6E6Uw7Tm)
+[![Discord](https://img.shields.io/badge/chat-gray?logo=discord&logoColor=white)](https://discord.gg/6E6Uw7Tm)
+[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/fulder/pki-tools.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/fulder/pki-tools)
 
 # PKI Tools
 
