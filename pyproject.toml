@@ -44,7 +44,6 @@ optional = true
 ruff = ">=0.0.289,<0.3.4"
 
 [tool.poetry.group.dev.dependencies]
-mkdocs-material = "^9.5.14"
 mkdocstrings = {extras = ["python"], version = "^0.24.1"}
 pymdown-extensions = "^10.7.1"
 
