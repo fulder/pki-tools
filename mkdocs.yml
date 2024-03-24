@@ -5,6 +5,8 @@ theme:
 
 repo_name: fulder/pki-tools
 repo_url: https://github.com/fulder/pki-tools
+edit_uri: https://github.com/fulder/pki-tools/tree/main/docs
+site_url: https://pki-tools.fulder.dev/
 
 nav:
   - Home: index.md
@@ -47,7 +49,6 @@ plugins:
           import:
             - https://cryptography.io/en/latest/objects.inv
 
-
 markdown_extensions:
   - tables
   - toc:
@@ -61,3 +62,6 @@ watch:
   - docs
   - pki_tools
   - mkdocs.yml
+
+extra:
+  version: latest
