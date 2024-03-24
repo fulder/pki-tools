@@ -60,11 +60,6 @@ jobs:
           make run-examples
           git diff --exit-code ./docs/examples
 
-      - name: Coverage
-        if: ${{ matrix.python-version }} = "3.12"
-        run:
-          poetry install --with test-cov
-
       - name: Smokeshow
         if: ${{ matrix.python-version }} = "3.12"
         env:
