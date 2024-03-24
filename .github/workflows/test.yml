@@ -67,4 +67,4 @@ jobs:
           SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 50
           SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: smokeshow upload htmlcov
+        run: poetry run smokeshow upload htmlcov
