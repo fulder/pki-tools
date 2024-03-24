@@ -59,3 +59,17 @@ jobs:
         run: |
           make run-examples
           git diff --exit-code ./docs/examples
+
+      - name: Coverage
+        if: ${{ matrix.python-version }} = "3.12"
+        run:
+          poetry install --with test-cov
+
+      - name: Smokeshow
+        if: ${{ matrix.python-version }} = "3.12"
+        env:
+          SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
+          SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 50
+          SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: smokeshow upload htmlcov
