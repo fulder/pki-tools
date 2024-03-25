@@ -64,7 +64,7 @@ jobs:
           git diff --exit-code ./docs/examples
 
       - name: Smokeshow
-        if: matrix.python-version == '3.12'
+        if: ${{ matrix.python-version == '3.12' && github.actor != 'dependabot[bot]' }}
         env:
           SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
           SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 50
