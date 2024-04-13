@@ -9,6 +9,7 @@ exclude_outputs=(
   "create_cert_cross_signed.py"
   "create_cert_self_signed.py"
   "create.py"
+  "load_cert_server.py"
 )
 
 error_flag=0
