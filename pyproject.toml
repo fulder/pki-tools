@@ -31,7 +31,7 @@ pytz = "^2024.1"
 optional = true
 
 [tool.poetry.group.test.dependencies]
-pytest = "^8.2.0"
+pytest = "^8.2.1"
 pytest-mock = "^3.14.0"
 pytest-xdist = "^3.6.1"
 pytest-cov = "^5.0.0"
