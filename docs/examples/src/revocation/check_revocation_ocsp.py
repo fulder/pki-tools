@@ -6,6 +6,7 @@ chain = Chain.from_uri(
     [
         "https://letsencrypt.org/certs/isrgrootx1.pem",
         "https://letsencrypt.org/certs/2024/r10.pem",
+        "https://letsencrypt.org/certs/2024/r11.pem",
     ]
 )
 
