@@ -5,7 +5,7 @@ cert = Certificate.from_server("https://revoked-isrgrootx1.letsencrypt.org")
 chain = Chain.from_uri(
     [
         "https://letsencrypt.org/certs/isrgrootx1.pem",
-        "https://letsencrypt.org/certs/lets-encrypt-r3.pem",
+        "https://letsencrypt.org/certs/2024/r10.pem",
     ]
 )
 
