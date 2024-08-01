@@ -1,4 +1,4 @@
-[![Discord](https://img.shields.io/badge/chat-gray?logo=discord&logoColor=white)](https://discord.gg/6E6Uw7Tm)
+[![Discord](https://img.shields.io/badge/chat-gray?logo=discord&logoColor=white)](https://discord.gg/x7k6kJC426)
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/fulder/pki-tools.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/fulder/pki-tools)
 
 # PKI Tools
@@ -21,7 +21,7 @@ PKI tools exposes a high level `cryptography` API and wrappers for e.g.:
 
 ## Chat
 
-[Discord Chat](https://discord.gg/6E6Uw7Tm)
+[Discord Chat](https://discord.gg/x7k6kJC426)
 
 ## Log level
 
