@@ -26,7 +26,7 @@ at: [https://pki-tools.fulder.dev](https://pki-tools.fulder.dev)
 
 ## Chat
 
-[Discord Chat](https://discord.gg/6E6Uw7Tm)
+[Discord Chat](https://discord.gg/x7k6kJC426)
 
 ## Main features
 
