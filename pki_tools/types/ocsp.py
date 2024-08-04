@@ -112,8 +112,8 @@ class OCSPResponse(InitCryptoParser):
                 ).error("Couldn't convert issuer key hash to hex")
                 raise
 
-            if crypto_ocsp_response.revocation_time is not None:
-                revocation_time = crypto_ocsp_response.revocation_time
+            if crypto_ocsp_response.revocation_time_utc is not None:
+                revocation_time = crypto_ocsp_response.revocation_time_utc
 
         ret = cls(
             response_status=getattr(OcspResponseStatus, response_status.name),
