@@ -115,7 +115,7 @@ def _check_ocsp_status(
 
         if ocsp_res.is_revoked:
             log.bind(
-                date=str(ocsp_res._x509_obj.revocation_time),
+                date=str(ocsp_res._x509_obj.revocation_time_utc),
             ).debug("Certificate revoked")
             return True
         else:

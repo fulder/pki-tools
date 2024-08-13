@@ -265,9 +265,9 @@ class SignatureAlgorithm(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     algorithm: HashAlgorithm
-    parameters: Optional[
-        Union[PSSPadding, PKCS1v15Padding, ECDSAPadding]
-    ] = None
+    parameters: Optional[Union[PSSPadding, PKCS1v15Padding, ECDSAPadding]] = (
+        None
+    )
 
     @classmethod
     def from_cryptography(
