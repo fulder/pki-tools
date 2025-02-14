@@ -20,7 +20,7 @@ repository = "https://github.com/fulder/pki-tools"
 
 [tool.poetry.dependencies]
 python = "^3.9.3"
-cryptography = ">=42.0.0,<44.0.0"
+cryptography = ">=42.0.0,<45.0.0"
 loguru = "^0.7.3"
 pydantic = "^2.10.6"
 httpx = "^0.28.1"
