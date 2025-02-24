@@ -34,17 +34,17 @@ optional = true
 pytest = "^8.3.4"
 pytest-mock = "^3.14.0"
 pytest-xdist = "^3.6.1"
-pytest-cov = "^5.0.0"
+pytest-cov = "^6.0.0"
 smokeshow = "^0.5.0"
 
 [tool.poetry.group.lint]
 optional = true
 
 [tool.poetry.group.lint.dependencies]
-ruff = ">=0.5.0,<0.9.7"
+ruff = ">=0.5.0,<0.9.8"
 
 [tool.poetry.group.dev.dependencies]
-mkdocstrings = {extras = ["python"], version = "^0.26.1"}
+mkdocstrings = {extras = ["python"], version = "^0.28.1"}
 pymdown-extensions = "^10.14"
 
 [tool.poetry.group.apitest.dependencies]
