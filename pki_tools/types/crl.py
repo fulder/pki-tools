@@ -237,9 +237,6 @@ class CertificateRevocationList(InitCryptoParser):
 
         if self.extensions is not None:
             for extension in self.extensions:
-                print(extension._to_cryptography())
-                print(type(extension._to_cryptography()))
-
                 builder = builder.add_extension(
                     extval=extension._to_cryptography(),
                     critical=extension.critical,
