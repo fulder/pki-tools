@@ -31,7 +31,7 @@ def _is_revoked(
 
         for full_name in dist_point.full_name:
             if not isinstance(full_name, UniformResourceIdentifier):
-                logger.warning(
+                log.warning(
                     "CRL Distribution Point is not "
                     "UniformResourceIdentifier"
                 )
@@ -47,19 +47,18 @@ def _is_revoked(
             issuer = crl_issuer.get_issuer(crl)
 
             issuer.verify_signature(crl)
-            logger.debug("CRL signature valid")
+            log.debug("CRL signature valid")
 
             if (
                 crl.extensions is not None
                 and crl.extensions.issuing_distribution_point is not None
+                and crl.extensions.issuing_distribution_point.full_name
+                is not None
             ):
                 log.debug("CRL Issuing Distribution Point extension present")
                 full_names = (
                     crl.extensions.issuing_distribution_point.full_name
                 )
-                if full_names is None:
-                    log.error("CRL IDP extension missing full name")
-                    raise ExtensionMissing()
 
                 for crl_idp in full_names:
                     if crl_idp.value == uri:
