@@ -322,9 +322,9 @@ class AuthorityKeyIdentifier(Extension):
                 authority_cert_issuer.append(general_name._string_dict())
             ret["Authority Cert Issuer"] = authority_cert_issuer
         if self.authority_cert_serial_number is not None:
-            ret["Authority Cert Serial Number"] = (
-                self.authority_cert_serial_number
-            )
+            ret[
+                "Authority Cert Serial Number"
+            ] = self.authority_cert_serial_number
 
         if ret:
             return {self.name: ret}
@@ -945,13 +945,13 @@ class PolicyConstraints(Extension):
         ret = {self.name: {}}
 
         if self.require_explicit_policy is not None:
-            ret[self.name]["Require Explicit Policy"] = (
-                self.require_explicit_policy
-            )
+            ret[self.name][
+                "Require Explicit Policy"
+            ] = self.require_explicit_policy
         if self.inhibit_policy_mapping is not None:
-            ret[self.name]["Inhibit Policy Mapping"] = (
-                self.inhibit_policy_mapping
-            )
+            ret[self.name][
+                "Inhibit Policy Mapping"
+            ] = self.inhibit_policy_mapping
 
         return ret
 
@@ -1210,9 +1210,9 @@ class DistributionPoint(CryptoParser):
             for full_name in self.full_name:
                 ret["Full Name"].append(full_name._string_dict())
         if self.name_relative_to_crl_issuer is not None:
-            ret["Name Relative To CRL Issuer"] = (
-                self.name_relative_to_crl_issuer._string_dict()
-            )
+            ret[
+                "Name Relative To CRL Issuer"
+            ] = self.name_relative_to_crl_issuer._string_dict()
         if self.reasons is not None:
             ret["Reasons"] = []
             for reason in self.reasons:
@@ -1312,6 +1312,116 @@ class CrlDistributionPoints(Extension):
             dist_points.append(dist_point._to_cryptography())
 
         return x509.CRLDistributionPoints(dist_points)
+
+
+class IssuingDistributionPoint(Extension):
+    """
+    Represents the Issuing Distribution Points extension in X.509 certificates.
+
+    Attributes:
+        full_name: List of full names associated with the distribution point.
+        name_relative_to_crl_issuer: Relative name to the CRL issuer.
+    """
+
+    full_name: Optional[List[GeneralName]] = None
+    name_relative_to_crl_issuer: Optional[RelativeDistinguishedName] = None
+    only_contains_user_certs: bool = False
+    only_contains_ca_certs: bool = False
+    indirect_crl: bool = False
+    only_contains_attribute_certs: bool = False
+    only_some_reasons: Optional[List[Reason]] = None
+
+    @classmethod
+    def from_cryptography(
+        cls: Type["IssuingDistributionPoint"],
+        extension: x509.IssuingDistributionPoint,
+    ) -> "IssuingDistributionPoint":
+        """
+        Constructs a IssuingDistributionPoint object from a cryptography
+        IssuingDistributionPoint object.
+
+        Args:
+            extension: The cryptography IssuingDistributionPoint object.
+
+        Returns:
+            IssuingDistributionPoint: The constructed IssuingDistributionPoint
+            object.
+        """
+        full_names = None
+        if extension.full_name is not None:
+            full_names = []
+            for full_name in extension.full_name:
+                full_names.append(GeneralName.from_cryptography(full_name))
+
+        relative_name = None
+        if extension.relative_name is not None:
+            relative_name = RelativeDistinguishedName.from_cryptography(
+                extension.relative_name
+            )
+
+        reasons = None
+        if extension.only_some_reasons is not None:
+            reasons = []
+            for reason in extension.only_some_reasons:
+                reasons.append(getattr(Reason, reason.name))
+
+        return cls(
+            full_name=full_names,
+            name_relative_to_crl_issuer=relative_name,
+            only_contains_user_certs=extension.only_contains_user_certs,
+            only_contains_ca_certs=extension.only_contains_ca_certs,
+            only_contains_attribute_certs=extension.only_contains_attribute_certs,
+            indirect_crl=extension.indirect_crl,
+            only_some_reasons=reasons,
+            _x509_obj=extension,
+        )
+
+    def _string_dict(self):
+        ret = {
+            "Only User Certs": self.only_contains_user_certs,
+            "Only CA Certs": self.only_contains_ca_certs,
+            "Only Attribute Certs": self.only_contains_attribute_certs,
+            "Indirect CRL": self.indirect_crl,
+        }
+        if self.full_name is not None:
+            ret["Full Name"] = []
+            for full_name in self.full_name:
+                ret["Full Name"].append(full_name._string_dict())
+        if self.name_relative_to_crl_issuer is not None:
+            ret[
+                "Name Relative To CRL Issuer"
+            ] = self.name_relative_to_crl_issuer._string_dict()
+        return ret
+
+    def _to_cryptography(self) -> x509.IssuingDistributionPoint:
+        full_names = None
+        if self.full_name is not None:
+            full_names = []
+            for full_name in self.full_name:
+                full_names.append(full_name._to_cryptography())
+
+        relative_names = None
+        if self.name_relative_to_crl_issuer is not None:
+            relative_names = (
+                self.name_relative_to_crl_issuer._to_cryptography()
+            )
+
+        reasons = None
+        if self.only_some_reasons is not None:
+            reasons = []
+            for reason in self.only_some_reasons:
+                reasons.append(getattr(x509.ReasonFlags, reason.name))
+            reasons = frozenset(reasons)
+
+        return x509.IssuingDistributionPoint(
+            full_name=full_names,
+            relative_name=relative_names,
+            only_contains_user_certs=self.only_contains_user_certs,
+            only_contains_ca_certs=self.only_contains_ca_certs,
+            only_contains_attribute_certs=self.only_contains_attribute_certs,
+            indirect_crl=self.indirect_crl,
+            only_some_reasons=reasons,
+        )
 
 
 class InhibitAnyPolicy(Extension):
@@ -1507,6 +1617,7 @@ class Extensions(CryptoParser):
         policy_constraints: Policy Constraints extension.
         extended_key_usage: Extended Key Usage extension.
         crl_distribution_points: CRL Distribution Points extension.
+        issuing_distribution_point: Issuer Distribution Points extension.
         inhibit_any_policy: Inhibit Any Policy extension.
         freshest_crl: Freshest CRL extension.
         authority_information_access: Authority Information Access extension.
@@ -1556,6 +1667,10 @@ class Extensions(CryptoParser):
     )
     crl_distribution_points: Optional[CrlDistributionPoints] = Field(
         alias=ExtensionOID.CRL_DISTRIBUTION_POINTS.dotted_string,
+        default=None,
+    )
+    issuing_distribution_point: Optional[IssuingDistributionPoint] = Field(
+        alias=ExtensionOID.ISSUING_DISTRIBUTION_POINT.dotted_string,
         default=None,
     )
     inhibit_any_policy: Optional[InhibitAnyPolicy] = Field(

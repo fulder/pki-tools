@@ -115,3 +115,11 @@ class MissingBlockSize(Error):
     """
 
     pass
+
+
+class CrlIdpInvalid(Error):
+    """
+    CrlIdpInvalid
+    """
+
+    pass

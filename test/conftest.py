@@ -56,6 +56,7 @@ from pki_tools.types.extensions import (
     Reason,
     AttributeTypeAndValue,
     AccessDescriptionId,
+    IssuingDistributionPoint,
 )
 
 from pki_tools.types.ocsp import (
@@ -366,6 +367,11 @@ def csr(key_pair):
 
 
 @pytest.fixture()
+def crl(key_pair):
+    return _create_crl(key_pair, [])
+
+
+@pytest.fixture()
 def cert_with_subject_directory_attributes():
     return """
     -----BEGIN CERTIFICATE-----
@@ -425,7 +431,7 @@ def _create_ocsp_response(
     return res
 
 
-def _create_crl(keypair, revoked_serials):
+def _create_crl(keypair, revoked_serials, idp_uri="http://TEST_URI"):
     today = datetime.datetime.today()
     one_day = datetime.timedelta(days=1)
 
@@ -443,6 +449,29 @@ def _create_crl(keypair, revoked_serials):
         revoked_certs=revoked_certs,
         last_update=today,
         next_update=today + one_day,
+        extensions=Extensions(
+            issuing_distribution_point=IssuingDistributionPoint(
+                full_name=[
+                    UniformResourceIdentifier("invalid"),
+                    UniformResourceIdentifier(idp_uri),
+                ],
+                name_relative_to_crl_issuer=None,
+                only_some_reasons=[
+                    Reason.key_compromise,
+                    Reason.ca_compromise,
+                    Reason.affiliation_changed,
+                    Reason.superseded,
+                    Reason.cessation_of_operation,
+                    Reason.certificate_hold,
+                    Reason.privilege_withdrawn,
+                    Reason.aa_compromise,
+                ],
+                only_contains_user_certs=False,
+                only_contains_ca_certs=False,
+                only_contains_attribute_certs=False,
+                indirect_crl=False,
+            )
+        ),
     )
 
     crl.sign(
