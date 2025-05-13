@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/types/crypto_parser/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>CryptoParser - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "CryptoParser";
+        var mkdocs_page_input_path = "types/crypto_parser.md";
+        var mkdocs_page_url = "/types/crypto_parser/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">CryptoParser</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Types</li>
+      <li class="breadcrumb-item active">CryptoParser</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/types/crypto_parser.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="pki_tools.types.crypto_parser"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.crypto_parser.CryptoParser" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CryptoParser</span>
+
+
+<a href="#pki_tools.types.crypto_parser.CryptoParser" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code>, <code><span title="abc">abc</span>.<span title="abc.ABC">ABC</span></code></p>
+
+
+        <p>CryptoParser is an abstract class used by all the types
+parsing cryptography objects into <a class="autorefs autorefs-internal" title="certificate" href="../certificate/#pki_tools.types.certificate">pki_tools</a>
+pydantic classes.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crypto_parser.CryptoParser._string_dict" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">_string_dict</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.CryptoParser._string_dict" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">_string_dict() -&gt; <span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Creates a dict representation of the object</p>
+<p>Returns: A dict containing all the keys in the CryptoParser</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crypto_parser.CryptoParser._to_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">_to_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.CryptoParser._to_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">_to_cryptography() -&gt; <span title="pki_tools.types.crypto_parser.CryptoObject">CryptoObject</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Creates a x509 cryptography object from this class</p>
+<p>Returns: A x509 cryptography object</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crypto_parser.CryptoParser.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.CryptoParser.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <span title="pki_tools.types.crypto_parser.CryptoObject">CryptoObject</span>) -&gt; <a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Parses a cryptography x509 object into a
+<a class="autorefs autorefs-internal" title="CryptoParser" href="#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><span title="pki_tools.types.crypto_parser.CryptoObject">CryptoObject</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography object</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code>
+              –
+              <div class="doc-md-description">
+                <p>CryptoParser object</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.crypto_parser.Encoding" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Encoding</span>
+
+
+<a href="#pki_tools.types.crypto_parser.Encoding" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+
+        <p>Describes the encoding used for writing/reading
+<a class="autorefs autorefs-internal" title="InitCryptoParser" href="#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a>
+objects.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>PEM</code></b>
+              –
+              <div class="doc-md-description">
+                <p>PEM string format</p>
+              </div>
+            </li>
+            <li>
+              <b><code>DER</code></b>
+              –
+              <div class="doc-md-description">
+                <p>DER binary format</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.crypto_parser.InitCryptoParser" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">InitCryptoParser</span>
+
+
+<a href="#pki_tools.types.crypto_parser.InitCryptoParser" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code>, <code><span title="abc">abc</span>.<span title="abc.ABC">ABC</span></code></p>
+
+
+        <p>Extends the CryptoParser into an object that requires initialization
+before it can be used (while created as a
+<a class="autorefs autorefs-internal" title="certificate" href="../certificate/#pki_tools.types.certificate">pki_tools</a> object and not loaded from
+cryptography). This can, for example, be a Certificate that needs
+to be signed with a KeyPair containing the private key.</p>
+<p>Attempt to e.g. dumping a certificate to a PEM string without using the
+sign (init) function first will result in a
+<a class="autorefs autorefs-internal" title="MissingInit" href="../exceptions/#pki_tools.exceptions.MissingInit">MissingInit</a> exception.</p>
+<p>Classes implementing the <code>InitCryptoParser</code> will also automatically get
+functions to load and write the objects with the supported
+<a class="autorefs autorefs-internal" title="Encoding" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a> as well as
+writing/reading the encoded content to/from files.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.crypto_parser.InitCryptoParser.der_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">der_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.InitCryptoParser.der_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">der_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the DER bytes of the object</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="bytes">bytes</span></code>
+              –
+              <div class="doc-md-description">
+                <p>The DER bytes.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.crypto_parser.InitCryptoParser.pem_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">pem_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.InitCryptoParser.pem_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">pem_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Returns the PEM bytes of the object</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="bytes">bytes</span></code>
+              –
+              <div class="doc-md-description">
+                <p>The PEM bytes.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.crypto_parser.InitCryptoParser.pem_string" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">pem_string</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.InitCryptoParser.pem_string" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">pem_string: <span title="str">str</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="str">str</span></code>
+              –
+              <div class="doc-md-description">
+                <p>PEM decoded into a string</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crypto_parser.InitCryptoParser.from_der_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_der_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.InitCryptoParser.from_der_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_der_bytes(der: <span title="bytes">bytes</span>) -&gt; <a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Loads the object from DER bytes</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>der</code></b>
+                  (<code><span title="bytes">bytes</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The DER encoded object</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code>
+              –
+              <div class="doc-md-description">
+                <p>A created object from the DER bytes</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crypto_parser.InitCryptoParser.from_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_file</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.InitCryptoParser.from_file" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_file(file_path: <span title="str">str</span>, encoding: <a class="autorefs autorefs-internal" title="Encoding (pki_tools.types.crypto_parser.Encoding)" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a> = <a class="autorefs autorefs-internal" title="Encoding (pki_tools.types.crypto_parser.Encoding)" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a>.<span title="pki_tools.types.crypto_parser.Encoding.PEM">PEM</span>) -&gt; <a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Reads a file containing one PEM into the object</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>file_path</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The path to the file (can be relative the caller or
+absolute)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>encoding</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Encoding (pki_tools.types.crypto_parser.Encoding)" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a></code>, default:
+                      <code><a class="autorefs autorefs-internal" title="Encoding (pki_tools.types.crypto_parser.Encoding)" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a>.<span title="pki_tools.types.crypto_parser.Encoding.PEM">PEM</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The encoding to use for the dumped data</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Returns:
+     The Certificate loaded from the specified file</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_pem_string</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_pem_string(pem: <span title="str">str</span>) -&gt; <a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Loads the object from a PEM string</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>pem</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The PEM encoded object in string format</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code>
+              –
+              <div class="doc-md-description">
+                <p>A created object from the PEM</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crypto_parser.InitCryptoParser.to_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">to_file</span>
+
+
+<a href="#pki_tools.types.crypto_parser.InitCryptoParser.to_file" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">to_file(file_path: <span title="str">str</span>, encoding: <a class="autorefs autorefs-internal" title="Encoding (pki_tools.types.crypto_parser.Encoding)" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a> = <a class="autorefs autorefs-internal" title="Encoding (pki_tools.types.crypto_parser.Encoding)" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a>.<span title="pki_tools.types.crypto_parser.Encoding.PEM">PEM</span>) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Saves the object with specified encoding to the specified file,
+creating it if it doesn't exist.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>file_path</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The path to the file (can be relative the caller or
+absolute)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>encoding</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Encoding (pki_tools.types.crypto_parser.Encoding)" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a></code>, default:
+                      <code><a class="autorefs autorefs-internal" title="Encoding (pki_tools.types.crypto_parser.Encoding)" href="#pki_tools.types.crypto_parser.Encoding">Encoding</a>.<span title="pki_tools.types.crypto_parser.Encoding.PEM">PEM</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The encoding to use for the dumped data</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../exceptions/" class="btn btn-neutral float-left" title="Exceptions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../signature_algorithm/" class="btn btn-neutral float-right" title="SignatureAlgorithm">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+      <span><a href="../exceptions/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../signature_algorithm/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
