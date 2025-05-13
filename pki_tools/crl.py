@@ -3,9 +3,7 @@ from loguru import logger
 from pki_tools.types.extensions import UniformResourceIdentifier
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
-from pki_tools.exceptions import (
-    ExtensionMissing,
-)
+from pki_tools.exceptions import ExtensionMissing, CrlIdpInvalid
 from pki_tools.types.crl import CertificateRevocationList
 
 
@@ -33,7 +31,7 @@ def _is_revoked(
 
         for full_name in dist_point.full_name:
             if not isinstance(full_name, UniformResourceIdentifier):
-                logger.warning(
+                log.warning(
                     "CRL Distribution Point is not "
                     "UniformResourceIdentifier"
                 )
@@ -49,7 +47,25 @@ def _is_revoked(
             issuer = crl_issuer.get_issuer(crl)
 
             issuer.verify_signature(crl)
-            logger.debug("CRL signature valid")
+            log.debug("CRL signature valid")
+
+            if (
+                crl.extensions is not None
+                and crl.extensions.issuing_distribution_point is not None
+                and crl.extensions.issuing_distribution_point.full_name
+                is not None
+            ):
+                log.debug("CRL Issuing Distribution Point extension present")
+                full_names = (
+                    crl.extensions.issuing_distribution_point.full_name
+                )
+
+                for crl_idp in full_names:
+                    if crl_idp.value == uri:
+                        break
+                else:
+                    log.error("CRL IDP is not the same as cert CDP")
+                    raise CrlIdpInvalid()
 
             if (r := crl.get_revoked(cert.serial_number)) is not None:
                 log.bind(date=str(r.date)).debug("Certificate revoked")

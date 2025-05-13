@@ -110,8 +110,8 @@ class CertificateRevocationList(InitCryptoParser):
     issuer: Name
     last_update: datetime
     next_update: datetime
-
     revoked_certs: Optional[List[RevokedCertificate]] = None
+    extensions: Optional[Extensions] = None
 
     _private_key: CryptoPrivateKey
 
@@ -130,10 +130,16 @@ class CertificateRevocationList(InitCryptoParser):
         Returns:
             Instance of CertificateRevocationList.
         """
+
+        extensions = None
+        if crypto_crl.extensions is not None:
+            extensions = Extensions.from_cryptography(crypto_crl.extensions)
+
         ret = cls(
             issuer=Name.from_cryptography(crypto_crl.issuer),
             last_update=crypto_crl.last_update_utc,
             next_update=crypto_crl.next_update_utc,
+            extensions=extensions,
         )
         ret._x509_obj = crypto_crl
         return ret
@@ -228,6 +234,13 @@ class CertificateRevocationList(InitCryptoParser):
         builder = builder.issuer_name(self.issuer._to_cryptography())
         builder = builder.last_update(self.last_update)
         builder = builder.next_update(self.next_update)
+
+        if self.extensions is not None:
+            for extension in self.extensions:
+                builder = builder.add_extension(
+                    extval=extension._to_cryptography(),
+                    critical=extension.critical,
+                )
 
         for cert in self.revoked_certs:
             builder = builder.add_revoked_certificate(cert._to_cryptography())
