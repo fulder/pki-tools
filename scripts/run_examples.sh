@@ -10,6 +10,7 @@ exclude_outputs=(
   "create_cert_self_signed.py"
   "create.py"
   "load_cert_server.py"
+  "check_revocation_ocsp.py"
 )
 
 error_flag=0
