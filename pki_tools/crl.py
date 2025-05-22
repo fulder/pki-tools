@@ -1,3 +1,6 @@
+import socket
+from urllib.parse import urlparse
+
 from loguru import logger
 
 from pki_tools.types.extensions import UniformResourceIdentifier
@@ -5,6 +8,47 @@ from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import ExtensionMissing, CrlIdpInvalid
 from pki_tools.types.crl import CertificateRevocationList
+
+
+def _compare_cdp_and_idp(cdp_uri, idp_uri):
+    log = logger.bind(
+        cdp=cdp_uri,
+        idp=idp_uri,
+    )
+
+    parsed_cdp = urlparse(cdp_uri)
+    parsed_idp = urlparse(idp_uri)
+
+    if (
+        parsed_cdp.path.rstrip("/").split("/")[-1]
+        != parsed_idp.path.rstrip("/").split("/")[-1]
+    ):
+        log.warning("CRL IDP path is not the same as cert CDP")
+        return False
+
+    if parsed_cdp.scheme != parsed_idp.scheme:
+        log.warning("CRL IDP scheme is not the same as cert CDP")
+        return False
+
+    if parsed_cdp.hostname != parsed_idp.hostname:
+        try:
+            cdp_ips = set(socket.gethostbyname_ex(parsed_cdp.hostname)[2])
+            idp_ips = set(socket.gethostbyname_ex(parsed_idp.hostname)[2])
+        except socket.gaierror:
+            log.warning(
+                "CRL IDP or cert CDP hostname not resolvable and differ"
+            )
+            return False
+
+        if not (cdp_ips <= idp_ips or idp_ips <= cdp_ips):
+            # Not (All elements of one set are in the other)
+            log.bind(
+                cdp_ips=",".join(cdp_ips),
+                idp_ips=",".join(idp_ips),
+            ).warning("CRL IDP hostname is not the same as cert CDP")
+            return False
+
+    return True
 
 
 def _is_revoked(
@@ -61,10 +105,10 @@ def _is_revoked(
                 )
 
                 for crl_idp in full_names:
-                    if crl_idp.value == uri:
+                    if _compare_cdp_and_idp(uri, crl_idp.value):
                         break
                 else:
-                    log.error("CRL IDP is not the same as cert CDP")
+                    log.error("CRL IDP and cert CDP differ")
                     raise CrlIdpInvalid()
 
             if (r := crl.get_revoked(cert.serial_number)) is not None:
