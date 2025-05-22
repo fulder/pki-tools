@@ -104,7 +104,13 @@ class Certificates(CryptoParser):
             cert_uri = CertsUri(uri=uri)
             res = _download_cached(cert_uri.uri, cache_ttl)
 
-            certificates += cls.from_pem_string(res.text).certificates
+            try:
+                # Try PEM first
+                certificates += cls.from_pem_string(res.text).certificates
+            except ValueError:
+                # Fallback to DER
+                cert = Certificate.from_der_bytes(res.content)
+                certificates.append(cert)
 
         return cls(certificates=certificates)
 

@@ -2,6 +2,7 @@ import binascii
 import socket
 import ssl
 from functools import lru_cache
+from urllib.parse import urlparse
 
 import httpx
 from loguru import logger
@@ -31,9 +32,7 @@ class CertsUri(BaseModel):
 
     @property
     def hostname(self):
-        ret = self.uri.replace("https://", "")
-        ret = ret.replace("http://", "")
-        return ret
+        return urlparse(self.uri).hostname
 
 
 def _byte_to_hex(bytes_in: bytes) -> str:

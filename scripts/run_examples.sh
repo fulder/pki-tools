@@ -4,7 +4,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 skip_run=(
-  "check_revocation_ocsp.py"
+
 )
 exclude_outputs=(
   "create_csr.py"
@@ -13,6 +13,7 @@ exclude_outputs=(
   "create_cert_self_signed.py"
   "create.py"
   "load_cert_server.py"
+  "check_revocation_ocsp.py"
 )
 
 error_flag=0
