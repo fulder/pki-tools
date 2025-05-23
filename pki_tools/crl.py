@@ -10,7 +10,9 @@ from pki_tools.exceptions import ExtensionMissing, CrlIdpInvalid
 from pki_tools.types.crl import CertificateRevocationList
 
 
-def _compare_cdp_and_idp(cdp_uri, idp_uri):
+def _compare_cdp_and_idp(
+    cdp_uri: str, idp_uri: str, same_crl_domains: list[list[str]] = None
+):
     log = logger.bind(
         cdp=cdp_uri,
         idp=idp_uri,
@@ -29,6 +31,17 @@ def _compare_cdp_and_idp(cdp_uri, idp_uri):
     if parsed_cdp.scheme != parsed_idp.scheme:
         log.warning("CRL IDP scheme is not the same as cert CDP")
         return False
+
+    if same_crl_domains is not None:
+        for domain_list in same_crl_domains:
+            if (
+                parsed_cdp.hostname in domain_list
+                and parsed_idp.hostname in domain_list
+            ):
+                log.debug(
+                    "CRL IDP and cert CDP are considered to be the same domain"
+                )
+                return True
 
     if parsed_cdp.hostname != parsed_idp.hostname:
         try:
@@ -55,6 +68,7 @@ def _is_revoked(
     cert: Certificate,
     crl_issuer: Chain,
     crl_cache_seconds: int = 3600,
+    same_crl_domains: list[list[str]] = None,
 ) -> bool:
     crl_issuer.check_chain()
     logger.debug("CRL issuer chain valid")
@@ -105,7 +119,9 @@ def _is_revoked(
                 )
 
                 for crl_idp in full_names:
-                    if _compare_cdp_and_idp(uri, crl_idp.value):
+                    if _compare_cdp_and_idp(
+                        uri, crl_idp.value, same_crl_domains=same_crl_domains
+                    ):
                         break
                 else:
                     log.error("CRL IDP and cert CDP differ")

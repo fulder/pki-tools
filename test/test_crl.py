@@ -81,8 +81,10 @@ def test_compare_cdp_and_idp_same_ip():
     assert ret is True
 
 
-# def test_compare_cdp_and_idp_same_ip_example():
-#     ret = _compare_cdp_and_idp(
-#         "https://example.com/crl.pem", "https://23.192.228.80/crl.pem"
-#     )
-#     assert ret is True
+def test_compare_cdp_and_idp_same_domains():
+    ret = _compare_cdp_and_idp(
+        "https://example.com/crl.pem",
+        "https://example2.com/crl.pem",
+        [["aa.com", "bb.com"], ["example.com", "example2.com"]],
+    )
+    assert ret is True

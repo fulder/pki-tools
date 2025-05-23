@@ -21,6 +21,7 @@ def is_revoked(
     crl_cache_seconds: int = 3600,
     ocsp_res_cache_seconds: int = 3600,
     revoke_mode: RevokeMode = RevokeMode.OCSP_FALLBACK_CRL,
+    same_crl_domains: list[list[str]] = None,
 ) -> bool:
     """
     Checks if a certificate is revoked using OCSP extension and/or
@@ -45,6 +46,9 @@ def is_revoked(
         revoke_mode: A [RevokeMode][pki_tools.types.enums.RevokeMode]
             specifying how to check for revocation, default is OCSP with
             CRL fallback
+        same_crl_domains: A list of lists of domains that are considered
+            to be the same hostname in CRL IDP and cert CDP check.
+
 
     Returns:
         True if the certificate is revoked, False otherwise
@@ -65,6 +69,7 @@ def is_revoked(
         crl_cache_seconds=crl_cache_seconds,
         ocsp_res_cache_seconds=ocsp_res_cache_seconds,
         revoke_mode=revoke_mode,
+        same_crl_domains=same_crl_domains,
     )
 
 
@@ -76,6 +81,7 @@ def is_revoked_multiple_issuers(
     crl_cache_seconds: int = 3600,
     ocsp_res_cache_seconds: int = 3600,
     revoke_mode: RevokeMode = RevokeMode.OCSP_FALLBACK_CRL,
+    same_crl_domains: list[list[str]] = None,
 ) -> bool:
     """
     Checks if a certificate is revoked first using the OCSP extension and then
@@ -103,6 +109,8 @@ def is_revoked_multiple_issuers(
         revoke_mode: A [RevokeMode][pki_tools.types.enums.RevokeMode]
             specifying how to check for revocation, default is OCSP with
             CRL fallback
+        same_crl_domains: A list of lists of domains that are considered
+            to be the same hostname in CRL IDP and cert CDP check.
 
     Returns:
         True if the certificate is revoked, False otherwise
@@ -136,7 +144,12 @@ def is_revoked_multiple_issuers(
             logger.bind(exceptionType=type(e).__name__).debug(err_msg)
 
     try:
-        return _is_revoked(cert, crl_issuer, crl_cache_seconds)
+        return _is_revoked(
+            cert,
+            crl_issuer,
+            crl_cache_seconds,
+            same_crl_domains=same_crl_domains,
+        )
     except Error as e:
         err_message = "Revoke checks failed"
         logger.bind(exceptionType=type(e).__name__).error(err_message)
