@@ -4,7 +4,7 @@ from pki_tools.exceptions import (
     LoadError,
     FetchFailure,
 )
-from pki_tools.crl import _is_revoked
+from pki_tools.crl import _is_revoked, _compare_cdp_and_idp
 from conftest import _create_crl
 from pki_tools.exceptions import CrlIdpInvalid
 
@@ -40,3 +40,51 @@ def test_invalid_crl_idp(mocked_requests_get, cert, chain, key_pair):
 
     with pytest.raises(CrlIdpInvalid):
         _is_revoked(cert, chain)
+
+
+def test_compare_cdp_and_idp():
+    ret = _compare_cdp_and_idp(
+        "https://my.domain.com/crl.pem",
+        "https://my.domain.com/crl.pem",
+    )
+    assert ret is True
+
+
+def test_compare_cdp_and_idp_different():
+    ret = _compare_cdp_and_idp(
+        "https://my.domain.com/crl.pem",
+        "https://my.domain.com/other_crl.pem",
+    )
+    assert ret is False
+
+
+def test_compare_cdp_and_idp_different_scheme():
+    ret = _compare_cdp_and_idp(
+        "https://my.domain.com/crl.pem",
+        "http://my.domain.com/crl.pem",
+    )
+    assert ret is False
+
+
+def test_compare_cdp_and_idp_different_host():
+    ret = _compare_cdp_and_idp(
+        "https://my.domain.com/crl.pem",
+        "https://other.domain.com/crl.pem",
+    )
+    assert ret is False
+
+
+def test_compare_cdp_and_idp_same_ip():
+    ret = _compare_cdp_and_idp(
+        "https://localhost/crl.pem", "https://127.0.0.1/crl.pem"
+    )
+    assert ret is True
+
+
+def test_compare_cdp_and_idp_same_domains():
+    ret = _compare_cdp_and_idp(
+        "https://example.com/crl.pem",
+        "https://example2.com/crl.pem",
+        [["aa.com", "bb.com"], ["example.com", "example2.com"]],
+    )
+    assert ret is True

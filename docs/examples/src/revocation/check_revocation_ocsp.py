@@ -1,12 +1,11 @@
 from pki_tools import Certificate, Chain, is_revoked, RevokeMode
 
-cert = Certificate.from_server("https://revoked-isrgrootx1.letsencrypt.org")
+cert = Certificate.from_server("https://crt.sh/?d=16907827965")
 
 chain = Chain.from_uri(
     [
-        "https://letsencrypt.org/certs/isrgrootx1.pem",
-        "https://letsencrypt.org/certs/2024/r10.pem",
-        "https://letsencrypt.org/certs/2024/r11.pem",
+        "http://crt.sectigo.com/SectigoPublicServerAuthenticationCAOVR36.crt",
+        "https://crt.sh/?d=4256644734",
     ]
 )
 
