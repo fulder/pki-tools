@@ -3,6 +3,9 @@
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
+skip_run=(
+
+)
 exclude_outputs=(
   "create_csr.py"
   "create_chain.py"
@@ -10,6 +13,7 @@ exclude_outputs=(
   "create_cert_self_signed.py"
   "create.py"
   "load_cert_server.py"
+  "check_revocation_ocsp.py"
 )
 
 error_flag=0
@@ -19,6 +23,10 @@ declare -A pid_map
 while IFS= read -r -d '' file; do
   dir=$(dirname "$file")
   file_name=$(basename "$file")
+
+  if [[ "${skip_run[@]}" =~ "${file_name}" ]]; then
+    continue
+  fi
 
   echo "Running ${file_name}..."
 
