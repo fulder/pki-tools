@@ -6,7 +6,7 @@ from loguru import logger
 from pki_tools.types.extensions import UniformResourceIdentifier
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
-from pki_tools.exceptions import ExtensionMissing, CrlIdpInvalid
+from pki_tools.exceptions import ExtensionMissing, CrlIdpInvalid, FetchFailure, LoadError
 from pki_tools.types.crl import CertificateRevocationList
 
 
@@ -97,10 +97,15 @@ def _is_revoked(
 
             uri = full_name.value
 
+            try:
+                crl = CertificateRevocationList.from_uri(
+                    uri, cache_time_seconds=crl_cache_seconds
+                )
+            except (LoadError, FetchFailure):
+                log.warning("Failed to fetch CRL from uri")
+                continue
+                
             http_dist = True
-            crl = CertificateRevocationList.from_uri(
-                uri, cache_time_seconds=crl_cache_seconds
-            )
 
             issuer = crl_issuer.get_issuer(crl)
 
