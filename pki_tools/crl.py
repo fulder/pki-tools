@@ -83,6 +83,9 @@ def _is_revoked(
         raise ExtensionMissing()
 
     http_dist = False
+    fetched_crl = False
+    last_fetched_crl_exception = None
+
     for dist_point in cert.extensions.crl_distribution_points:
         if dist_point.full_name is None:
             continue
@@ -97,15 +100,19 @@ def _is_revoked(
 
             uri = full_name.value
 
+            http_dist = True
+
             try:
                 crl = CertificateRevocationList.from_uri(
                     uri, cache_time_seconds=crl_cache_seconds
                 )
-            except (LoadError, FetchFailure):
+            except (LoadError, FetchFailure) as e:
                 log.warning("Failed to fetch CRL from uri")
+                last_fetched_crl_exception = e
                 continue
+
+            fetched_crl = True
                 
-            http_dist = True
 
             issuer = crl_issuer.get_issuer(crl)
 
@@ -139,6 +146,9 @@ def _is_revoked(
     if not http_dist:
         log.debug("CRL missing URI")
         raise ExtensionMissing()
+
+    if not fetched_crl and isinstance(last_fetched_crl_exception, Exception):
+        raise last_fetched_crl_exception
 
     log.debug("Certificate valid")
     return False
