@@ -7,7 +7,7 @@ from pki_tools.exceptions import (
 from pki_tools.crl import _is_revoked, _compare_cdp_and_idp
 from conftest import _create_crl
 from pki_tools.exceptions import CrlIdpInvalid
-
+from unittest.mock import Mock
 
 def test_crl_fetch_error(mocked_requests_get, cert, chain):
     mocked_requests_get.return_value.status_code = 503
@@ -25,8 +25,14 @@ def test_crl_load_failure(mocked_requests_get, cert, chain):
 
 
 def test_crl(mocked_requests_get, cert, chain, crl):
-    mocked_requests_get.return_value.status_code = 200
-    mocked_requests_get.return_value.content = crl.der_bytes
+    mock_response_503 = Mock()
+    mock_response_503.status_code = 503
+
+    mock_response_200 = Mock()
+    mock_response_200.status_code = 200
+    mock_response_200.content = crl.der_bytes
+
+    mocked_requests_get.side_effect = [mock_response_503, mock_response_200]
 
     result = _is_revoked(cert, chain)
 

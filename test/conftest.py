@@ -234,6 +234,11 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
             reasons=[Reason.key_compromise],
             crl_issuer=general_names,
         ),
+        DistributionPoint(
+            full_name=general_names,
+            reasons=[Reason.key_compromise],
+            crl_issuer=general_names,
+        ),
     ]
 
     access_descriptions = [

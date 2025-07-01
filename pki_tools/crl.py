@@ -6,7 +6,7 @@ from loguru import logger
 from pki_tools.types.extensions import UniformResourceIdentifier
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
-from pki_tools.exceptions import ExtensionMissing, CrlIdpInvalid
+from pki_tools.exceptions import ExtensionMissing, CrlIdpInvalid, FetchFailure, LoadError
 from pki_tools.types.crl import CertificateRevocationList
 
 
@@ -83,6 +83,9 @@ def _is_revoked(
         raise ExtensionMissing()
 
     http_dist = False
+    fetched_crl = False
+    last_fetched_crl_exception = None
+
     for dist_point in cert.extensions.crl_distribution_points:
         if dist_point.full_name is None:
             continue
@@ -98,9 +101,18 @@ def _is_revoked(
             uri = full_name.value
 
             http_dist = True
-            crl = CertificateRevocationList.from_uri(
-                uri, cache_time_seconds=crl_cache_seconds
-            )
+
+            try:
+                crl = CertificateRevocationList.from_uri(
+                    uri, cache_time_seconds=crl_cache_seconds
+                )
+            except (LoadError, FetchFailure) as e:
+                log.warning("Failed to fetch CRL from uri")
+                last_fetched_crl_exception = e
+                continue
+
+            fetched_crl = True
+                
 
             issuer = crl_issuer.get_issuer(crl)
 
@@ -134,6 +146,9 @@ def _is_revoked(
     if not http_dist:
         log.debug("CRL missing URI")
         raise ExtensionMissing()
+
+    if not fetched_crl and isinstance(last_fetched_crl_exception, Exception):
+        raise last_fetched_crl_exception
 
     log.debug("Certificate valid")
     return False
