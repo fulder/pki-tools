@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/types/signature_algorithm/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>SignatureAlgorithm - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "SignatureAlgorithm";
+        var mkdocs_page_input_path = "types/signature_algorithm.md";
+        var mkdocs_page_url = "/types/signature_algorithm/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">SignatureAlgorithm</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Types</li>
+      <li class="breadcrumb-item active">SignatureAlgorithm</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/types/signature_algorithm.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="pki_tools.types.signature_algorithm"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.signature_algorithm.ECDSAPadding" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ECDSAPadding</span>
+
+
+<a href="#pki_tools.types.signature_algorithm.ECDSAPadding" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Padding (pki_tools.types.signature_algorithm.Padding)" href="#pki_tools.types.signature_algorithm.Padding">Padding</a></code></p>
+
+
+        <p>Represents ECDSA padding.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>algorithm</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The hash algorithm.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>prehashed</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if the data is prehashed.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.signature_algorithm.ECDSAPadding.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.signature_algorithm.ECDSAPadding.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#module-cryptography.hazmat.primitives.asymmetric.ec">ec</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec.ECDSA" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#cryptography.hazmat.primitives.asymmetric.ec.ECDSA">ECDSA</a>) -&gt; <a class="autorefs autorefs-internal" title="ECDSAPadding (pki_tools.types.signature_algorithm.ECDSAPadding)" href="#pki_tools.types.signature_algorithm.ECDSAPadding">ECDSAPadding</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs an ECDSAPadding object from a cryptography ECDSA object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#module-cryptography.hazmat.primitives.asymmetric.ec">ec</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec.ECDSA" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#cryptography.hazmat.primitives.asymmetric.ec.ECDSA">ECDSA</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography ECDSA object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="ECDSAPadding (pki_tools.types.signature_algorithm.ECDSAPadding)" href="#pki_tools.types.signature_algorithm.ECDSAPadding">ECDSAPadding</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed ECDSAPadding object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.signature_algorithm.HashAlgorithm" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">HashAlgorithm</span>
+
+
+<a href="#pki_tools.types.signature_algorithm.HashAlgorithm" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents a hash algorithm.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>name</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="HashAlgorithmName (pki_tools.types.signature_algorithm.HashAlgorithmName)" href="#pki_tools.types.signature_algorithm.HashAlgorithmName">HashAlgorithmName</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the hash algorithm.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>block_size</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The block size of the hash algorithm.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.signature_algorithm.HashAlgorithm.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.signature_algorithm.HashAlgorithm.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(x509_obj: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.hashes" href="https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/#module-cryptography.hazmat.primitives.hashes">hashes</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.hashes.HashAlgorithm" href="https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/#cryptography.hazmat.primitives.hashes.HashAlgorithm">HashAlgorithm</a>) -&gt; <a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs a HashAlgorithm object from a cryptography HashAlgorithm
+object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>x509_obj</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.hashes" href="https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/#module-cryptography.hazmat.primitives.hashes">hashes</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.hashes.HashAlgorithm" href="https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/#cryptography.hazmat.primitives.hashes.HashAlgorithm">HashAlgorithm</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography HashAlgorithm object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed HashAlgorithm object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.signature_algorithm.HashAlgorithmName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">HashAlgorithmName</span>
+
+
+<a href="#pki_tools.types.signature_algorithm.HashAlgorithmName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+
+        <p>Enumeration of hash algorithm names.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.signature_algorithm.PKCS1v15Padding" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">PKCS1v15Padding</span>
+
+
+<a href="#pki_tools.types.signature_algorithm.PKCS1v15Padding" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Padding (pki_tools.types.signature_algorithm.Padding)" href="#pki_tools.types.signature_algorithm.Padding">Padding</a></code></p>
+
+
+        <p>Represents PKCS1v15 padding.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.signature_algorithm.PKCS1v15Padding.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.signature_algorithm.PKCS1v15Padding.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.padding">padding</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15">PKCS1v15</a>) -&gt; <a class="autorefs autorefs-internal" title="PKCS1v15Padding (pki_tools.types.signature_algorithm.PKCS1v15Padding)" href="#pki_tools.types.signature_algorithm.PKCS1v15Padding">PKCS1v15Padding</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs a PKCS1v15Padding object from a cryptography PKCS1v15
+object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.padding">padding</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15">PKCS1v15</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography PKCS1v15 object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="PKCS1v15Padding (pki_tools.types.signature_algorithm.PKCS1v15Padding)" href="#pki_tools.types.signature_algorithm.PKCS1v15Padding">PKCS1v15Padding</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed PKCS1v15Padding object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.signature_algorithm.PSSPadding" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">PSSPadding</span>
+
+
+<a href="#pki_tools.types.signature_algorithm.PSSPadding" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Padding (pki_tools.types.signature_algorithm.Padding)" href="#pki_tools.types.signature_algorithm.Padding">Padding</a></code></p>
+
+
+        <p>Represents PSS padding.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>mgf</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The mask generation function.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>length</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="int">int</span>, <a class="autorefs autorefs-internal" title="PSSPaddingLenght (pki_tools.types.signature_algorithm.PSSPaddingLenght)" href="#pki_tools.types.signature_algorithm.PSSPaddingLenght">PSSPaddingLenght</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The length of the padding.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.signature_algorithm.PSSPadding.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.signature_algorithm.PSSPadding.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.padding">padding</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding.PSS" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.padding.PSS">PSS</a>) -&gt; <a class="autorefs autorefs-internal" title="PSSPadding (pki_tools.types.signature_algorithm.PSSPadding)" href="#pki_tools.types.signature_algorithm.PSSPadding">PSSPadding</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs a PSSPadding object from a cryptography PSS object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.padding">padding</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding.PSS" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.padding.PSS">PSS</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography PSS object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="PSSPadding (pki_tools.types.signature_algorithm.PSSPadding)" href="#pki_tools.types.signature_algorithm.PSSPadding">PSSPadding</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed PSSPadding object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.signature_algorithm.PSSPaddingLenght" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">PSSPaddingLenght</span>
+
+
+<a href="#pki_tools.types.signature_algorithm.PSSPaddingLenght" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+
+        <p>Enumeration of PSS padding lengths.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.signature_algorithm.Padding" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Padding</span>
+
+
+<a href="#pki_tools.types.signature_algorithm.Padding" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code>, <code><span title="abc.ABC">ABC</span></code></p>
+
+
+        <p>Abstract base class representing padding.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.signature_algorithm.SignatureAlgorithm" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SignatureAlgorithm</span>
+
+
+<a href="#pki_tools.types.signature_algorithm.SignatureAlgorithm" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+        <p>Represents a signature algorithm.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>algorithm</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The hash algorithm.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>parameters</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[<a class="autorefs autorefs-internal" title="PSSPadding (pki_tools.types.signature_algorithm.PSSPadding)" href="#pki_tools.types.signature_algorithm.PSSPadding">PSSPadding</a>, <a class="autorefs autorefs-internal" title="PKCS1v15Padding (pki_tools.types.signature_algorithm.PKCS1v15Padding)" href="#pki_tools.types.signature_algorithm.PKCS1v15Padding">PKCS1v15Padding</a>, <a class="autorefs autorefs-internal" title="ECDSAPadding (pki_tools.types.signature_algorithm.ECDSAPadding)" href="#pki_tools.types.signature_algorithm.ECDSAPadding">ECDSAPadding</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The parameters of the signature algorithm.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.signature_algorithm.SignatureAlgorithm.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.signature_algorithm.SignatureAlgorithm.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(algorithm: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.hashes" href="https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/#module-cryptography.hazmat.primitives.hashes">hashes</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.hashes.HashAlgorithm" href="https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/#cryptography.hazmat.primitives.hashes.HashAlgorithm">HashAlgorithm</a>, parameters: <span title="typing.Union">Union</span>[<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.padding">padding</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding.PSS" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.padding.PSS">PSS</a>, <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.padding">padding</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15">PKCS1v15</a>, <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#module-cryptography.hazmat.primitives.asymmetric.ec">ec</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec.ECDSA" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#cryptography.hazmat.primitives.asymmetric.ec.ECDSA">ECDSA</a>] = None) -&gt; <a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs a SignatureAlgorithm object from cryptography objects.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>algorithm</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.hashes" href="https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/#module-cryptography.hazmat.primitives.hashes">hashes</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.hashes.HashAlgorithm" href="https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes/#cryptography.hazmat.primitives.hashes.HashAlgorithm">HashAlgorithm</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The hash algorithm.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>parameters</code></b>
+                  (<code><span title="typing.Union">Union</span>[<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.padding">padding</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding.PSS" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.padding.PSS">PSS</a>, <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.padding">padding</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15">PKCS1v15</a>, <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#module-cryptography.hazmat.primitives.asymmetric.ec">ec</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec.ECDSA" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#cryptography.hazmat.primitives.asymmetric.ec.ECDSA">ECDSA</a>]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The parameters.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed SignatureAlgorithm object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../crypto_parser/" class="btn btn-neutral float-left" title="CryptoParser"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+      <span><a href="../crypto_parser/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

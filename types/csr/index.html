@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/types/csr/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>CertificateSigningRequest - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "CertificateSigningRequest";
+        var mkdocs_page_input_path = "types/csr.md";
+        var mkdocs_page_url = "/types/csr/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">CertificateSigningRequest</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Types</li>
+      <li class="breadcrumb-item active">CertificateSigningRequest</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/types/csr.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="pki_tools.types.csr"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.csr.CertificateSigningRequest" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CertificateSigningRequest</span>
+
+
+<a href="#pki_tools.types.csr.CertificateSigningRequest" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code></p>
+
+
+        <p>Represents a certificate signing request (CSR).</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>subject</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The subject of the CSR.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>public_key</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="../key_pair/#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Public key associated with the CSR.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>extensions</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="Extensions (pki_tools.types.extensions.Extensions)" href="../extensions/#pki_tools.types.extensions.Extensions">Extensions</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Extensions associated with the CSR.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>attributes</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="bytes">bytes</span>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Attributes of the CSR.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>signature_algorithm</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Signature algorithm used while signing the CSR.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <h5 id="pki_tools.types.csr.CertificateSigningRequest--examples">Examples<a class="headerlink" href="#pki_tools.types.csr.CertificateSigningRequest--examples" title="Permanent link">&para;</a></h5>
+<h6 id="pki_tools.types.csr.CertificateSigningRequest--create-csr">Create CSR<a class="headerlink" href="#pki_tools.types.csr.CertificateSigningRequest--create-csr" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import (
+    Name,
+    CertificateSigningRequest,
+    RSAKeyPair,
+    SHA512,
+)
+
+name = Name(cn=[&quot;Cert CN&quot;])
+
+csr = CertificateSigningRequest(subject=name)
+
+csr.sign(RSAKeyPair.generate(), SHA512)
+
+print(csr.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN CERTIFICATE REQUEST-----
+MIICVzCCAT8CAQAwEjEQMA4GA1UEAwwHQ2VydCBDTjCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBALsMBs6Ty4ztSLrIj/2kEtUd+l/UkvD/oC8UTouZjfaP
+VbPcTuhi7RgeiKMafyHBGIp5PxgF+q5TlrIbNIvb7mQAuNhQfJOqNw/yVSVbEyo0
+zw7mYyn58orObtKJYuK61JC/0XEklEreUom+BoLDwK3D22DUzgKkle9DYkybxJ/M
+wYcWqAe326qi/bBpLSSckGk7GF0l5UuKg0+Sgrok9oJY0MJgyrDlzhDVHlTAvI7s
++mlFBSDZYj9Np2o/LI/7NZHXmq6m93W7wqo+eLkBlbnPu6QFjQKrPn7Y3Oy2D2gn
+SVtGhRRCjcbCDlcut7Jl6E9QTxDBdb0eHPpml5HoGt0CAwEAAaAAMA0GCSqGSIb3
+DQEBDQUAA4IBAQANicKRuvIhgbj0wM+EiDxtXzeR33Z8RM14bVJKnH7/hMwyyZ4B
+wBcSWwlmSYig5l9uBodHxKklDd9Avemzi0oREV2zDC6IGGvyvryPvaMlz8WgGMCr
+5OMJid3YLMSDNhu4DhIia0mFNaV5cu1E6tQ4xVXeYmcJ6VTC44WgWUFvHYcILhZD
+XDuDKsTmWS04WmfPDjH9PCdsXgpPnC7jsWdhcfPFgaT0Q52VU3rXk1mL0gxXvmK3
+6F/d5MdJTMDOfXo9yHMVul/YCROVaszFMTESatw1MEW8vxZCCMzDnRac8U85iUXb
+RdxgtpmC03zKviUxfCCAFLcsoYu+79bO0rwo
+-----END CERTIFICATE REQUEST-----
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>csr_pem</code></summary>
+<pre><code>csr_pem = &quot;&quot;&quot;
+-----BEGIN CERTIFICATE REQUEST-----
+MIICVzCCAT8CAQAwEjEQMA4GA1UEAwwHQ2VydCBDTjCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBANOiYxJDZFLSPUpA98CtuDN4fL7UfQNIDrpqZJ4paQ6i
+YmkU1fFIjM/PtfCAPycV66JUOd0pVFQMajmZCaF0wfo6WONuhbqYlTojfUxD1l5S
+B9V9afhZqXt9L5AvHO6gf8bo6wHWGVtAL+FjYEa16BFwTiAqaFfXvRBcbgaAM2DD
+t5dmrYyOysAR0m6T5AkS2TANO4/+TF+cqIhHwwMc4PRDQigGTMwYgOa30qq7Cmn2
+tnxFogjG1y3YhsuagIxUJHkCLEdY+Oizr2UTD8OM57UXrrrQ90yAmqfsSiBQ1p2A
+OJ9HCdzhsVIi1pneW3aR7hTBzxyVtDTrB8Uw817YBX8CAwEAAaAAMA0GCSqGSIb3
+DQEBDQUAA4IBAQCoSEXDN9LObJnU+jpslg9IwciERem1kKjkkU5JHpX1ke9+8su/
+qbFv8LUkwmmz09IQgQfYqaUJiMkuRwP9QX07o+0TJlMiog1XssCk3M/tJLDKjRSW
+auf4eI7124lv2LToRxOq7F5RWnnE5T4mAYlrcNgmjrJXQo8NcYhQrvAr2mRe3BaG
+4n15VU4agfO9VB6DYE4tziiwsmiZTt3RAXM+GQ+uqnKz8gMyBgUxx+J6dmTO3RA0
+E4/OFGv5Ujtx7iXFWxaiU2xbuWhsgB9KkcBMvKw53h2P+Src4aQxqPnpqc1+NtCL
+e59skp82bFTb8z71rtulJCrB5wVwmKu0vZRM
+-----END CERTIFICATE REQUEST-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import CertificateSigningRequest
+
+csr = CertificateSigningRequest.from_pem_string(csr_pem)
+
+print(csr)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>---
+Certificate Signing Request:
+  Public Key:
+    key_size: '2048'
+    modulus_n: |-
+      26716358360742544711136558712918138457090578197784896616128362330453217873912769
+      38973797190331477144533828320851286368308484453249053131491260959451466856446960
+      43548112812652207234421352848628686980164413725264941098222269514216721188716622
+      65590866097496954872762228616694151448613403733748380224855089049580564759153027
+      66988474416809383902060297278802743411877979695292402720989981535491788799402318
+      64116191530708924188357355511896332177591494948825032722689481817669730807125787
+      41796163550115211562638399475127977459029514421310873620145663150204828820938017
+      426289749515165066297784261832441262414445871314870207871
+    public_exponent_e: '65537'
+  Subject: 'CN: Cert CN'
+Extensions: {}
+Signature Algorithm: SHA512
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>csr.pem</code></summary>
+<pre><code>-----BEGIN CERTIFICATE REQUEST-----
+MIICVzCCAT8CAQAwEjEQMA4GA1UEAwwHQ2VydCBDTjCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBANOiYxJDZFLSPUpA98CtuDN4fL7UfQNIDrpqZJ4paQ6i
+YmkU1fFIjM/PtfCAPycV66JUOd0pVFQMajmZCaF0wfo6WONuhbqYlTojfUxD1l5S
+B9V9afhZqXt9L5AvHO6gf8bo6wHWGVtAL+FjYEa16BFwTiAqaFfXvRBcbgaAM2DD
+t5dmrYyOysAR0m6T5AkS2TANO4/+TF+cqIhHwwMc4PRDQigGTMwYgOa30qq7Cmn2
+tnxFogjG1y3YhsuagIxUJHkCLEdY+Oizr2UTD8OM57UXrrrQ90yAmqfsSiBQ1p2A
+OJ9HCdzhsVIi1pneW3aR7hTBzxyVtDTrB8Uw817YBX8CAwEAAaAAMA0GCSqGSIb3
+DQEBDQUAA4IBAQCoSEXDN9LObJnU+jpslg9IwciERem1kKjkkU5JHpX1ke9+8su/
+qbFv8LUkwmmz09IQgQfYqaUJiMkuRwP9QX07o+0TJlMiog1XssCk3M/tJLDKjRSW
+auf4eI7124lv2LToRxOq7F5RWnnE5T4mAYlrcNgmjrJXQo8NcYhQrvAr2mRe3BaG
+4n15VU4agfO9VB6DYE4tziiwsmiZTt3RAXM+GQ+uqnKz8gMyBgUxx+J6dmTO3RA0
+E4/OFGv5Ujtx7iXFWxaiU2xbuWhsgB9KkcBMvKw53h2P+Src4aQxqPnpqc1+NtCL
+e59skp82bFTb8z71rtulJCrB5wVwmKu0vZRM
+-----END CERTIFICATE REQUEST-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import CertificateSigningRequest
+
+csr = CertificateSigningRequest.from_file(&quot;csr.pem&quot;)
+
+print(csr)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>---
+Certificate Signing Request:
+  Public Key:
+    key_size: '2048'
+    modulus_n: |-
+      26716358360742544711136558712918138457090578197784896616128362330453217873912769
+      38973797190331477144533828320851286368308484453249053131491260959451466856446960
+      43548112812652207234421352848628686980164413725264941098222269514216721188716622
+      65590866097496954872762228616694151448613403733748380224855089049580564759153027
+      66988474416809383902060297278802743411877979695292402720989981535491788799402318
+      64116191530708924188357355511896332177591494948825032722689481817669730807125787
+      41796163550115211562638399475127977459029514421310873620145663150204828820938017
+      426289749515165066297784261832441262414445871314870207871
+    public_exponent_e: '65537'
+  Subject: 'CN: Cert CN'
+Extensions: {}
+Signature Algorithm: SHA512
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.csr.CertificateSigningRequest--initcryptoparserto_file"><a class="autorefs autorefs-internal" title="to_file" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.to_file">InitCryptoParser.to_file</a><a class="headerlink" href="#pki_tools.types.csr.CertificateSigningRequest--initcryptoparserto_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>chain_pem</code></summary>
+<pre><code>csr_pem = &quot;&quot;&quot;
+-----BEGIN CERTIFICATE REQUEST-----
+MIICVzCCAT8CAQAwEjEQMA4GA1UEAwwHQ2VydCBDTjCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBANOiYxJDZFLSPUpA98CtuDN4fL7UfQNIDrpqZJ4paQ6i
+YmkU1fFIjM/PtfCAPycV66JUOd0pVFQMajmZCaF0wfo6WONuhbqYlTojfUxD1l5S
+B9V9afhZqXt9L5AvHO6gf8bo6wHWGVtAL+FjYEa16BFwTiAqaFfXvRBcbgaAM2DD
+t5dmrYyOysAR0m6T5AkS2TANO4/+TF+cqIhHwwMc4PRDQigGTMwYgOa30qq7Cmn2
+tnxFogjG1y3YhsuagIxUJHkCLEdY+Oizr2UTD8OM57UXrrrQ90yAmqfsSiBQ1p2A
+OJ9HCdzhsVIi1pneW3aR7hTBzxyVtDTrB8Uw817YBX8CAwEAAaAAMA0GCSqGSIb3
+DQEBDQUAA4IBAQCoSEXDN9LObJnU+jpslg9IwciERem1kKjkkU5JHpX1ke9+8su/
+qbFv8LUkwmmz09IQgQfYqaUJiMkuRwP9QX07o+0TJlMiog1XssCk3M/tJLDKjRSW
+auf4eI7124lv2LToRxOq7F5RWnnE5T4mAYlrcNgmjrJXQo8NcYhQrvAr2mRe3BaG
+4n15VU4agfO9VB6DYE4tziiwsmiZTt3RAXM+GQ+uqnKz8gMyBgUxx+J6dmTO3RA0
+E4/OFGv5Ujtx7iXFWxaiU2xbuWhsgB9KkcBMvKw53h2P+Src4aQxqPnpqc1+NtCL
+e59skp82bFTb8z71rtulJCrB5wVwmKu0vZRM
+-----END CERTIFICATE REQUEST-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import CertificateSigningRequest
+
+csr = CertificateSigningRequest.from_pem_string(csr_pem)
+
+csr.to_file(&quot;out_csr.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_cert.pem</code></summary>
+<pre><code>-----BEGIN CERTIFICATE REQUEST-----
+MIICVzCCAT8CAQAwEjEQMA4GA1UEAwwHQ2VydCBDTjCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBANOiYxJDZFLSPUpA98CtuDN4fL7UfQNIDrpqZJ4paQ6i
+YmkU1fFIjM/PtfCAPycV66JUOd0pVFQMajmZCaF0wfo6WONuhbqYlTojfUxD1l5S
+B9V9afhZqXt9L5AvHO6gf8bo6wHWGVtAL+FjYEa16BFwTiAqaFfXvRBcbgaAM2DD
+t5dmrYyOysAR0m6T5AkS2TANO4/+TF+cqIhHwwMc4PRDQigGTMwYgOa30qq7Cmn2
+tnxFogjG1y3YhsuagIxUJHkCLEdY+Oizr2UTD8OM57UXrrrQ90yAmqfsSiBQ1p2A
+OJ9HCdzhsVIi1pneW3aR7hTBzxyVtDTrB8Uw817YBX8CAwEAAaAAMA0GCSqGSIb3
+DQEBDQUAA4IBAQCoSEXDN9LObJnU+jpslg9IwciERem1kKjkkU5JHpX1ke9+8su/
+qbFv8LUkwmmz09IQgQfYqaUJiMkuRwP9QX07o+0TJlMiog1XssCk3M/tJLDKjRSW
+auf4eI7124lv2LToRxOq7F5RWnnE5T4mAYlrcNgmjrJXQo8NcYhQrvAr2mRe3BaG
+4n15VU4agfO9VB6DYE4tziiwsmiZTt3RAXM+GQ+uqnKz8gMyBgUxx+J6dmTO3RA0
+E4/OFGv5Ujtx7iXFWxaiU2xbuWhsgB9KkcBMvKw53h2P+Src4aQxqPnpqc1+NtCL
+e59skp82bFTb8z71rtulJCrB5wVwmKu0vZRM
+-----END CERTIFICATE REQUEST-----
+
+</code></pre>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.csr.CertificateSigningRequest.tbs_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">tbs_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.csr.CertificateSigningRequest.tbs_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">tbs_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get the bytes to be signed of the CSR.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="bytes">bytes</span></code>
+              –
+              <div class="doc-md-description">
+                <p>TBS bytes of the CSR.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.csr.CertificateSigningRequest.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.csr.CertificateSigningRequest.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_csr: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.CertificateSigningRequest" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CertificateSigningRequest">CertificateSigningRequest</a>) -&gt; <a class="autorefs autorefs-internal" title="CertificateSigningRequest (pki_tools.types.csr.CertificateSigningRequest)" href="#pki_tools.types.csr.CertificateSigningRequest">CertificateSigningRequest</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a CertificateSigningRequest object from a cryptography
+CertificateSigningRequest.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_csr</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.CertificateSigningRequest" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CertificateSigningRequest">CertificateSigningRequest</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Cryptography CertificateSigningRequest.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CertificateSigningRequest (pki_tools.types.csr.CertificateSigningRequest)" href="#pki_tools.types.csr.CertificateSigningRequest">CertificateSigningRequest</a></code>
+              –
+              <div class="doc-md-description">
+                <p>Instance of CertificateSigningRequest.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <h6 id="pki_tools.types.csr.CertificateSigningRequest.from_cryptography--example">Example<a class="headerlink" href="#pki_tools.types.csr.CertificateSigningRequest.from_cryptography--example" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>crypto_csr</code></summary>
+<pre><code>from cryptography import x509
+
+csr_pem = &quot;&quot;&quot;
+-----BEGIN CERTIFICATE REQUEST-----
+MIICVzCCAT8CAQAwEjEQMA4GA1UEAwwHQ2VydCBDTjCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBANOiYxJDZFLSPUpA98CtuDN4fL7UfQNIDrpqZJ4paQ6i
+YmkU1fFIjM/PtfCAPycV66JUOd0pVFQMajmZCaF0wfo6WONuhbqYlTojfUxD1l5S
+B9V9afhZqXt9L5AvHO6gf8bo6wHWGVtAL+FjYEa16BFwTiAqaFfXvRBcbgaAM2DD
+t5dmrYyOysAR0m6T5AkS2TANO4/+TF+cqIhHwwMc4PRDQigGTMwYgOa30qq7Cmn2
+tnxFogjG1y3YhsuagIxUJHkCLEdY+Oizr2UTD8OM57UXrrrQ90yAmqfsSiBQ1p2A
+OJ9HCdzhsVIi1pneW3aR7hTBzxyVtDTrB8Uw817YBX8CAwEAAaAAMA0GCSqGSIb3
+DQEBDQUAA4IBAQCoSEXDN9LObJnU+jpslg9IwciERem1kKjkkU5JHpX1ke9+8su/
+qbFv8LUkwmmz09IQgQfYqaUJiMkuRwP9QX07o+0TJlMiog1XssCk3M/tJLDKjRSW
+auf4eI7124lv2LToRxOq7F5RWnnE5T4mAYlrcNgmjrJXQo8NcYhQrvAr2mRe3BaG
+4n15VU4agfO9VB6DYE4tziiwsmiZTt3RAXM+GQ+uqnKz8gMyBgUxx+J6dmTO3RA0
+E4/OFGv5Ujtx7iXFWxaiU2xbuWhsgB9KkcBMvKw53h2P+Src4aQxqPnpqc1+NtCL
+e59skp82bFTb8z71rtulJCrB5wVwmKu0vZRM
+-----END CERTIFICATE REQUEST-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">crypto_csr = x509.load_pem_x509_csr(csr_pem.encode())
+
+from pki_tools import CertificateSigningRequest
+
+csr = CertificateSigningRequest.from_cryptography(crypto_csr)
+
+print(csr)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>---
+Certificate Signing Request:
+  Public Key:
+    key_size: '2048'
+    modulus_n: |-
+      26716358360742544711136558712918138457090578197784896616128362330453217873912769
+      38973797190331477144533828320851286368308484453249053131491260959451466856446960
+      43548112812652207234421352848628686980164413725264941098222269514216721188716622
+      65590866097496954872762228616694151448613403733748380224855089049580564759153027
+      66988474416809383902060297278802743411877979695292402720989981535491788799402318
+      64116191530708924188357355511896332177591494948825032722689481817669730807125787
+      41796163550115211562638399475127977459029514421310873620145663150204828820938017
+      426289749515165066297784261832441262414445871314870207871
+    public_exponent_e: '65537'
+  Subject: 'CN: Cert CN'
+Extensions: {}
+Signature Algorithm: SHA512
+
+
+</code></pre>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.csr.CertificateSigningRequest.sign" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">sign</span>
+
+
+<a href="#pki_tools.types.csr.CertificateSigningRequest.sign" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">sign(key_pair: <a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="../key_pair/#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a>, signature_algorithm: <span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a>] = None)</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Sign the CSR with the provided key pair and signature algorithm.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key_pair</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="../key_pair/#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Key pair with the private key to use while signing the
+CSR</p>
+              </div>
+            </li>
+            <li>
+              <b><code>signature_algorithm</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a>]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Signature algorithm to use for signing.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../crl/" class="btn btn-neutral float-left" title="CertificateRevocationList"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../certificates/" class="btn btn-neutral float-right" title="Certificates">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+      <span><a href="../crl/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../certificates/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
