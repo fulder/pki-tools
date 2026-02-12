@@ -12,7 +12,7 @@ from pki_tools.exceptions import FetchFailure
 
 CACHE_TIME_SECONDS = 60 * 60 * 24 * 30  # 1 month
 HTTPX_CLIENT = httpx.Client(
-    transport=httpx.HTTPTransport(retries=2), timeout=15
+    transport=httpx.HTTPTransport(retries=2), timeout=30
 )
 
 
@@ -59,6 +59,7 @@ def _download_server_certificate(hostname: str, cache_ttl: int = None):
 @lru_cache(maxsize=None)
 def _download_cached(uri: str, ttl: int = None) -> httpx.Response:
     ret = HTTPX_CLIENT.get(uri)
+
 
     if ret.status_code != 200:
         logger.bind(status=ret.status_code).error(
