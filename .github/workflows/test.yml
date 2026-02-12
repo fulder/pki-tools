@@ -31,10 +31,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      PYO3_USE_ABI3_FORWARD_COMPATIBILITY: 1
     strategy:
       matrix:
         python-version:
-          - "3.9.12"
           - "3.10"
           - "3.11"
           - "3.12"
