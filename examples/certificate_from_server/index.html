@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/examples/certificate_from_server/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Example - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Example";
+        var mkdocs_page_input_path = "examples/certificate_from_server.md";
+        var mkdocs_page_url = "/examples/certificate_from_server/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Example</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/examples/certificate_from_server.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h1>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_server(&quot;https://revoked-isrgrootx1.letsencrypt.org&quot;)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Extensions:
+  Authority Information Access:
+    Access Description:
+    - Access Location:
+        name: UniformResourceIdentifier
+        value: http://r3.o.lencr.org
+      Access Method: OCSP
+    - Access Location:
+        name: UniformResourceIdentifier
+        value: http://r3.i.lencr.org/
+      Access Method: CA_ISSUERS
+  Authority Key Identifier:
+    Key Identifier: 142EB317B75856CBAE500940E61FAF9D8B14C2C6
+  Basic Constraints (critical):
+    CA: false
+  Certificate Policies:
+  - Policy 2.23.140.1.2.1: []
+  Extended Key Usage:
+  - Server Authentication
+  - Client Authentication
+  Key Usage (critical): Digital Signature, Key Encipherment
+  Subject Alternative Name:
+  - name: DNSName
+    value: revoked-isrgrootx1.letsencrypt.org
+  Subject Key Identifier:
+    Subject Key Identifier: 17580EEBFC5C74F8FCA9E7D26B7B46C2CAA4CB65
+Issuer: 'C: US, CN: R3, O: Let''s Encrypt'
+Serial Number: 3AB360B2E141EE0A0A5D7E07405B788D012
+Signature Algorithm: SHA256
+Signature Value: |-
+  6524BFAA0418AC033CA8AE9B7D26270A0FD01D19C0D9C24DF62443049F751DAACC38DCD0F8D1B073
+  BA69A597430D81417621A83B1AFBF1DA8BB89A8A9A66C1872214219F1AF0F538E3492935FBED9B07
+  2753E1979754ADA825AE779F25A60E6168FE8B5A349A645CF53E8B92C4C89E48A10644B886DC5C45
+  F1BA190FA21F5D9D3797EEF438BB43A0C7F3AD24DC5A362573B93807C63E967C34412AF06484192E
+  EABBE0F36E586457631452550F57EECCC70CA2D18033219970CA585B7F9E048D079267419A5853B0
+  91EC434E7486F0F2CEBB25A83E67906B25253D151C4648623AF65085D29CDA54A35AB69CF46FE5C5
+  233B8883E07F8084D1E4BD044D3AFA4F
+Subject: 'CN: revoked-isrgrootx1.letsencrypt.org'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      23839174628835585737865497707674190474897415317191932275801797752886922576439929
+      23606111892535056472919273444108077458185259724177705966095207382680958653002768
+      64978318542280697487184872371692210563784780155639469440229752176892536277475999
+      75217593328595981266268943720688057618917965143208585315841050460997668640937715
+      31151802418019082127796674420946429622942844685649712201709165874476137292993834
+      39085956973880263992601153582729559608082829217959931969536985959906468775946948
+      85364834380352119964620287584172658764708891053901110224014921892529600757418230
+      858898666651845148139212940504939021007318913142493572379
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      23839174628835585737865497707674190474897415317191932275801797752886922576439929
+      23606111892535056472919273444108077458185259724177705966095207382680958653002768
+      64978318542280697487184872371692210563784780155639469440229752176892536277475999
+      75217593328595981266268943720688057618917965143208585315841050460997668640937715
+      31151802418019082127796674420946429622942844685649712201709165874476137292993834
+      39085956973880263992601153582729559608082829217959931969536985959906468775946948
+      85364834380352119964620287584172658764708891053901110224014921892529600757418230
+      858898666651845148139212940504939021007318913142493572379
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2024-06-18 15:00:15+00:00'
+  Not Before: '2024-03-20 15:00:16+00:00'
+Version: 2
+
+
+</code></pre>
+</details>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

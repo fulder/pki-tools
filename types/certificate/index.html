@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/types/certificate/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Certificate - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Certificate";
+        var mkdocs_page_input_path = "types/certificate.md";
+        var mkdocs_page_url = "/types/certificate/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Certificate</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Types</li>
+      <li class="breadcrumb-item active">Certificate</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/types/certificate.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="pki_tools.types.certificate"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.certificate.Certificate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Certificate</span>
+
+
+<a href="#pki_tools.types.certificate.Certificate" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code></p>
+
+
+        <p>An object describing a x509 Certificate</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>issuer</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Certificate issuer</p>
+              </div>
+            </li>
+            <li>
+              <b><code>subject</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Certificate subject</p>
+              </div>
+            </li>
+            <li>
+              <b><code>validity</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Validity (pki_tools.types.certificate.Validity)" href="#pki_tools.types.certificate.Validity">Validity</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Contains information about NotBefore and NotAfter</p>
+              </div>
+            </li>
+            <li>
+              <b><code>extensions</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="Extensions (pki_tools.types.extensions.Extensions)" href="../extensions/#pki_tools.types.extensions.Extensions">Extensions</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Certificate (v3) extensions</p>
+              </div>
+            </li>
+            <li>
+              <b><code>serial_number</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Serial number</p>
+              </div>
+            </li>
+            <li>
+              <b><code>version</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The version of the certificate</p>
+              </div>
+            </li>
+            <li>
+              <b><code>signature_algorithm</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Describes the algorithm used to sign the
+certificate</p>
+              </div>
+            </li>
+            <li>
+              <b><code>subject_public_key_info</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SubjectPublicKeyInfo (pki_tools.types.certificate.SubjectPublicKeyInfo)" href="#pki_tools.types.certificate.SubjectPublicKeyInfo">SubjectPublicKeyInfo</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The public key information</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <h5 id="pki_tools.types.certificate.Certificate--examples">Examples<a class="headerlink" href="#pki_tools.types.certificate.Certificate--examples" title="Permanent link">&para;</a></h5>
+<h6 id="pki_tools.types.certificate.Certificate--create-self-signed-certificate">Create self signed certificate<a class="headerlink" href="#pki_tools.types.certificate.Certificate--create-self-signed-certificate" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">import datetime
+
+from pki_tools import Name, Certificate, Validity, RSAKeyPair, SHA512
+
+name = Name(cn=[&quot;Cert CN&quot;])
+
+validity = Validity(
+    not_before=datetime.datetime.today() - datetime.timedelta(days=1),
+    not_after=datetime.datetime.today() + datetime.timedelta(days=1),
+)
+
+cert = Certificate(
+    subject=name,
+    issuer=name,
+    validity=validity,
+)
+
+cert.sign(RSAKeyPair.generate(), SHA512)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Issuer: 'CN: Cert CN'
+Serial Number: 000000000000000000000000D35C0881
+Signature Algorithm: SHA512
+Subject: 'CN: Cert CN'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      24651952656163458827909525106986168390362313244380531363179274081705687882652429
+      42724353284369423374164958731106228192983422927322035391927312930827505751347318
+      10433836284050568792288057907409152147114335732376331606070709493414131825009878
+      62483806985168774106048702295276425922168970742025356609804205385245796272234488
+      03262804756628532016588575221328645948176714781737845302802392421145534382840728
+      88871956041487370444145888612290281581252521370439236655085304445315900515237929
+      95090348261387175920426292996964832750356977399684053672351531777248194875874047
+      915774180897234671145523280260573598420850325221582548203
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      24651952656163458827909525106986168390362313244380531363179274081705687882652429
+      42724353284369423374164958731106228192983422927322035391927312930827505751347318
+      10433836284050568792288057907409152147114335732376331606070709493414131825009878
+      62483806985168774106048702295276425922168970742025356609804205385245796272234488
+      03262804756628532016588575221328645948176714781737845302802392421145534382840728
+      88871956041487370444145888612290281581252521370439236655085304445315900515237929
+      95090348261387175920426292996964832750356977399684053672351531777248194875874047
+      915774180897234671145523280260573598420850325221582548203
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2024-03-20 19:33:29.527993+00:00'
+  Not Before: '2024-03-18 19:33:29.527980+00:00'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.certificate.Certificate--create-cross-signed-certificate">Create cross signed certificate<a class="headerlink" href="#pki_tools.types.certificate.Certificate--create-cross-signed-certificate" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">import datetime
+
+from pki_tools import Name, Certificate, Validity, RSAKeyPair, SHA512
+
+issuer_key = RSAKeyPair.generate()
+issuer = Name(cn=[&quot;Issuer&quot;])
+
+cert_key = RSAKeyPair.generate()
+name = Name(cn=[&quot;Cert CN&quot;])
+
+validity = Validity(
+    not_before=datetime.datetime.today() - datetime.timedelta(days=1),
+    not_after=datetime.datetime.today() + datetime.timedelta(days=1),
+)
+
+cert = Certificate(
+    subject=name,
+    issuer=issuer,
+    validity=validity,
+)
+
+cert.sign(issuer_key, SHA512, req_key=cert_key.public_key)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Issuer: 'CN: Issuer'
+Serial Number: 0000000000000000000000003C267E6C
+Signature Algorithm: SHA512
+Subject: 'CN: Cert CN'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      25550756128772931813106243067085390318652289985739266496024024493670621116213956
+      90489287706264037119626214099882014292713209808252800751866447746720100929151964
+      46202070799749522898986797566961784783979561943444986102369066812692738828872782
+      98496590414399721427120456071151219636141450460402387454495822527621877200003696
+      17645095523313981050160559586782772916770185493147504794214581759473793032497010
+      11770801177016538979288420774380352730095192197516118893069722645898883305709857
+      14339419027910827270754661777912597663706493126575945938217017739081211471589786
+      628051978875616847991393413089023920982485319876048712079
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      25550756128772931813106243067085390318652289985739266496024024493670621116213956
+      90489287706264037119626214099882014292713209808252800751866447746720100929151964
+      46202070799749522898986797566961784783979561943444986102369066812692738828872782
+      98496590414399721427120456071151219636141450460402387454495822527621877200003696
+      17645095523313981050160559586782772916770185493147504794214581759473793032497010
+      11770801177016538979288420774380352730095192197516118893069722645898883305709857
+      14339419027910827270754661777912597663706493126575945938217017739081211471589786
+      628051978875616847991393413089023920982485319876048712079
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2024-03-20 19:33:25.178142+00:00'
+  Not Before: '2024-03-18 19:33:25.178128+00:00'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.certificate.Certificate--initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#pki_tools.types.certificate.Certificate--initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>cert_pem</code></summary>
+<pre><code>cert_pem = &quot;&quot;&quot;
+-----BEGIN CERTIFICATE-----
+MIICsDCCAZigAwIBAgIUagjv68D6EIk/hIIA0mXliqJr/iIwDQYJKoZIhvcNAQEN
+BQAwEjEQMA4GA1UEAwwHQ2VydCBDTjAeFw0yNDAzMDkxMzEwMTZaFw0yNDAzMTAx
+MzEwMTZaMBIxEDAOBgNVBAMMB0NlcnQgQ04wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDxw2sUZVazQcjpVN9NirPbQVLkPwIgFEQfOJwTXOhb2nofM0PA
+edmVu+Kb5aw9+lZ3aJaLFOS2nFAdJ0gxINXsqdjVQ1Ok+uftWvanxql8GxDeD3sY
+E92KyaRkzwyONq4dXefvRkB1j8w8gm9MbguFhZBMWlaKSqP/48mhWvJlca1zWAkY
+H8moxXLcAIuvbc+qMbfNqah1LIvMkxlw1eiYogX8JPpd+OcuyPihXwIUHdl9s24S
+ioqODCicBe8eegZZDfdlHQI/kyT88XqT5yHYXnhmgcjIDeCx1eAMXbVdUvzES/pi
+qS7pNxvfZwLHvQsGDv7OaW+AoF7+MrunjXvtAgMBAAEwDQYJKoZIhvcNAQENBQAD
+ggEBAAa6G9Xl0piwxXfVdr5gTcyHBMNfq9KzgdstTrgV38QXctiyREJW2Nu3A8mm
+lsNBW+OyNOalKhYQSDrjG8D3VM6W5VfDlb2iYtBQRUfIkktSQ5/i8xifHulpHH5/
+JTLMjePP+W2aOzu7o249PYnpizFsxwOWJGcF76Ouw98X/WKZMpJLSanS1hYmBrRi
+vrZ+4lE8Vh4EO/pLMxktBot4cYAAYWIU6are0C4CW7LzmPRmkKcLmjxPDapEOj/d
+iEEtcWJ2LNQ1UA0fzUEmrHGfasewdRpkY6K3/9psnnOOCH5T3cZfjawUq0cBpX81
+C0c2MU/Ob0dcXJmIwbGA0PmIwVo=
+-----END CERTIFICATE-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_pem_string(cert_pem)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Issuer: 'CN: Cert CN'
+Serial Number: 6A08EFEBC0FA10893F848200D265E58AA26BFE22
+Signature Algorithm: SHA512
+Signature Value: |-
+  06BA1BD5E5D298B0C577D576BE604DCC8704C35FABD2B381DB2D4EB815DFC41772D8B2444256D8DB
+  B703C9A696C3415BE3B234E6A52A1610483AE31BC0F754CE96E557C395BDA262D0504547C8924B52
+  439FE2F3189F1EE9691C7E7F2532CC8DE3CFF96D9A3B3BBBA36E3D3D89E98B316CC70396246705EF
+  A3AEC3DF17FD629932924B49A9D2D6162606B462BEB67EE2513C561E043BFA4B33192D068B787180
+  00616214E9AADED02E025BB2F398F46690A70B9A3C4F0DAA443A3FDD88412D7162762CD435500D1F
+  CD4126AC719F6AC7B0751A6463A2B7FFDA6C9E738E087E53DDC65F8DAC14AB4701A57F350B473631
+  4FCE6F475C5C9988C1B180D0F988C15A
+Subject: 'CN: Cert CN'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      30519795842219718524154211452339367525522541418306388322222479091833299116991140
+      09740263213211778932406753683969023225227261260389673597060169902106121179841034
+      31187219419109541663272149747295496520180159087432616126691772239668099488528148
+      13289122122347191908018216484406428594527992092037163959856854605762954418536599
+      19979935283394834106080349369124577624086693846677247163161103215836435379325851
+      79739035857994859657330621842935602784426350478700541817375449573933075543808561
+      18104621405966149397007798324741701052325470419784481031726708819614894503041371
+      625278920346237218103962726322958896412584334205897243629
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      30519795842219718524154211452339367525522541418306388322222479091833299116991140
+      09740263213211778932406753683969023225227261260389673597060169902106121179841034
+      31187219419109541663272149747295496520180159087432616126691772239668099488528148
+      13289122122347191908018216484406428594527992092037163959856854605762954418536599
+      19979935283394834106080349369124577624086693846677247163161103215836435379325851
+      79739035857994859657330621842935602784426350478700541817375449573933075543808561
+      18104621405966149397007798324741701052325470419784481031726708819614894503041371
+      625278920346237218103962726322958896412584334205897243629
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2024-03-10 13:10:16+00:00'
+  Not Before: '2024-03-09 13:10:16+00:00'
+Version: 2
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.certificate.Certificate--initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#pki_tools.types.certificate.Certificate--initcryptoparserfrom_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>cert.pem</code></summary>
+<pre><code>-----BEGIN CERTIFICATE-----
+MIICsDCCAZigAwIBAgIUJDBA6chIz7alIJGj//DNL7Pq0HowDQYJKoZIhvcNAQEN
+BQAwEjEQMA4GA1UEAwwHQ2VydCBDTjAeFw0yNDAzMTYxMzQzNTdaFw0yNDAzMTcx
+MzQzNTdaMBIxEDAOBgNVBAMMB0NlcnQgQ04wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDDtBdJp6oYQSIBuefvRphiau2GFGlPNvnyAm7DcVHLREiSSPX2
+Ov8Krkg9/iqoZS3lcmEgj/BQMyySpJt+5Ggo60pbJBWHR86+jLBCwu687OAsfGtz
+DQPN5xSWnC4K0OaUDm2doaGMcffzLL65ry/HV1XaRxxkK6HuZDt9VtyyrvSyXvMT
+N0CuenLPx2b+t3owjg9wrCZghBsIQWkhCQiCN35UbEuZ3Wv3H1ezulNe0/r782NB
+TXEmL6qGe/yx+//23vbmzIDar8UYEKrFNZ1yiugNWXLJKxwmxIyNtLr29MX5jrY+
+yFxup5D0JTDyKRINq+dtzzLgxzPoOzMzEDZvAgMBAAEwDQYJKoZIhvcNAQENBQAD
+ggEBADHeiK+JB6Z25afqGVSa1oIGEvCo8mi50/tcT+lH03Jt5x+bAKgPJGI8Gew/
+0ko7JU3O8Sy3nTrVnLcgKSJiot6t7DMhWOSKTcuJTCOsr2WDgJQvF49yZfg+f5df
+AWwXkraTwjJ0RoIHN/Kp0TZvgAlZhKkHFNnqT2laubjMIzeF6k/3o6HZCfBV83fu
+YbzBK6rQjzFklxBN+ml2XX1aBMKYkqjbsfLpl7mAKUiZ58jxu6/FGTh6O8ffrr9z
+iQBRwByulMBGxzitq/EUoTEeKvtiX5WFTetE19EE7Ojzy6c6qkNlwCjK49WF6smA
+2IBk2TPLyVH4LeRc/XQi+Oj7ak0=
+-----END CERTIFICATE-----
+
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_file(&quot;cert.pem&quot;)
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Issuer: 'CN: Cert CN'
+Serial Number: 243040E9C848CFB6A52091A3FFF0CD2FB3EAD07A
+Signature Algorithm: SHA512
+Signature Value: |-
+  31DE88AF8907A676E5A7EA19549AD6820612F0A8F268B9D3FB5C4FE947D3726DE71F9B00A80F2462
+  3C19EC3FD24A3B254DCEF12CB79D3AD59CB720292262A2DEADEC332158E48A4DCB894C23ACAF6583
+  80942F178F7265F83E7F975F016C1792B693C2327446820737F2A9D1366F80095984A90714D9EA4F
+  695AB9B8CC233785EA4FF7A3A1D909F055F377EE61BCC12BAAD08F316497104DFA69765D7D5A04C2
+  9892A8DBB1F2E997B980294899E7C8F1BBAFC519387A3BC7DFAEBF73890051C01CAE94C046C738AD
+  ABF114A1311E2AFB625F95854DEB44D7D104ECE8F3CBA73AAA4365C028CAE3D585EAC980D88064D9
+  33CBC951F82DE45CFD7422F8E8FB6A4D
+Subject: 'CN: Cert CN'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      24705275634373472397913959111842546457302915278710046458429196107971203620518900
+      85889996051958213090938989691323871611516168353538245753542340318167446221548635
+      67911269725300641515785009885189293940887358974053993148509318435178111484052410
+      72214344364244683088793223060590713951003322044817992841479781172826156997645163
+      70784993866039143556837669831378860817098024438537135253644970737965953760024566
+      22324555478329594901571378606988272402814596002534123398099376285556900954144977
+      87439286935923126574798824924322834080550238750285058369308645348104266890130421
+      563716816499870231348689769706202508344784145130254775919
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      24705275634373472397913959111842546457302915278710046458429196107971203620518900
+      85889996051958213090938989691323871611516168353538245753542340318167446221548635
+      67911269725300641515785009885189293940887358974053993148509318435178111484052410
+      72214344364244683088793223060590713951003322044817992841479781172826156997645163
+      70784993866039143556837669831378860817098024438537135253644970737965953760024566
+      22324555478329594901571378606988272402814596002534123398099376285556900954144977
+      87439286935923126574798824924322834080550238750285058369308645348104266890130421
+      563716816499870231348689769706202508344784145130254775919
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2024-03-17 13:43:57+00:00'
+  Not Before: '2024-03-16 13:43:57+00:00'
+Version: 2
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.certificate.Certificate--initcryptoparserto_file"><a class="autorefs autorefs-internal" title="to_file" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.to_file">InitCryptoParser.to_file</a><a class="headerlink" href="#pki_tools.types.certificate.Certificate--initcryptoparserto_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>cert_pem</code></summary>
+<pre><code>cert_pem = &quot;&quot;&quot;
+-----BEGIN CERTIFICATE-----
+MIICsDCCAZigAwIBAgIUagjv68D6EIk/hIIA0mXliqJr/iIwDQYJKoZIhvcNAQEN
+BQAwEjEQMA4GA1UEAwwHQ2VydCBDTjAeFw0yNDAzMDkxMzEwMTZaFw0yNDAzMTAx
+MzEwMTZaMBIxEDAOBgNVBAMMB0NlcnQgQ04wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDxw2sUZVazQcjpVN9NirPbQVLkPwIgFEQfOJwTXOhb2nofM0PA
+edmVu+Kb5aw9+lZ3aJaLFOS2nFAdJ0gxINXsqdjVQ1Ok+uftWvanxql8GxDeD3sY
+E92KyaRkzwyONq4dXefvRkB1j8w8gm9MbguFhZBMWlaKSqP/48mhWvJlca1zWAkY
+H8moxXLcAIuvbc+qMbfNqah1LIvMkxlw1eiYogX8JPpd+OcuyPihXwIUHdl9s24S
+ioqODCicBe8eegZZDfdlHQI/kyT88XqT5yHYXnhmgcjIDeCx1eAMXbVdUvzES/pi
+qS7pNxvfZwLHvQsGDv7OaW+AoF7+MrunjXvtAgMBAAEwDQYJKoZIhvcNAQENBQAD
+ggEBAAa6G9Xl0piwxXfVdr5gTcyHBMNfq9KzgdstTrgV38QXctiyREJW2Nu3A8mm
+lsNBW+OyNOalKhYQSDrjG8D3VM6W5VfDlb2iYtBQRUfIkktSQ5/i8xifHulpHH5/
+JTLMjePP+W2aOzu7o249PYnpizFsxwOWJGcF76Ouw98X/WKZMpJLSanS1hYmBrRi
+vrZ+4lE8Vh4EO/pLMxktBot4cYAAYWIU6are0C4CW7LzmPRmkKcLmjxPDapEOj/d
+iEEtcWJ2LNQ1UA0fzUEmrHGfasewdRpkY6K3/9psnnOOCH5T3cZfjawUq0cBpX81
+C0c2MU/Ob0dcXJmIwbGA0PmIwVo=
+-----END CERTIFICATE-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_pem_string(cert_pem)
+
+cert.to_file(&quot;out_cert.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_cert.pem</code></summary>
+<pre><code>-----BEGIN CERTIFICATE-----
+MIICsDCCAZigAwIBAgIUagjv68D6EIk/hIIA0mXliqJr/iIwDQYJKoZIhvcNAQEN
+BQAwEjEQMA4GA1UEAwwHQ2VydCBDTjAeFw0yNDAzMDkxMzEwMTZaFw0yNDAzMTAx
+MzEwMTZaMBIxEDAOBgNVBAMMB0NlcnQgQ04wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDxw2sUZVazQcjpVN9NirPbQVLkPwIgFEQfOJwTXOhb2nofM0PA
+edmVu+Kb5aw9+lZ3aJaLFOS2nFAdJ0gxINXsqdjVQ1Ok+uftWvanxql8GxDeD3sY
+E92KyaRkzwyONq4dXefvRkB1j8w8gm9MbguFhZBMWlaKSqP/48mhWvJlca1zWAkY
+H8moxXLcAIuvbc+qMbfNqah1LIvMkxlw1eiYogX8JPpd+OcuyPihXwIUHdl9s24S
+ioqODCicBe8eegZZDfdlHQI/kyT88XqT5yHYXnhmgcjIDeCx1eAMXbVdUvzES/pi
+qS7pNxvfZwLHvQsGDv7OaW+AoF7+MrunjXvtAgMBAAEwDQYJKoZIhvcNAQENBQAD
+ggEBAAa6G9Xl0piwxXfVdr5gTcyHBMNfq9KzgdstTrgV38QXctiyREJW2Nu3A8mm
+lsNBW+OyNOalKhYQSDrjG8D3VM6W5VfDlb2iYtBQRUfIkktSQ5/i8xifHulpHH5/
+JTLMjePP+W2aOzu7o249PYnpizFsxwOWJGcF76Ouw98X/WKZMpJLSanS1hYmBrRi
+vrZ+4lE8Vh4EO/pLMxktBot4cYAAYWIU6are0C4CW7LzmPRmkKcLmjxPDapEOj/d
+iEEtcWJ2LNQ1UA0fzUEmrHGfasewdRpkY6K3/9psnnOOCH5T3cZfjawUq0cBpX81
+C0c2MU/Ob0dcXJmIwbGA0PmIwVo=
+-----END CERTIFICATE-----
+
+</code></pre>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.certificate.Certificate.hex_serial" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">hex_serial</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.certificate.Certificate.hex_serial" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">hex_serial: <span title="str">str</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Parses the certificate serial into hex format</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="str">str</span></code>
+              –
+              <div class="doc-md-description">
+                <p>String representing the hex value of the certificate serial number</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.certificate.Certificate.public_key" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">public_key</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.certificate.Certificate.public_key" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">public_key: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="bytes">bytes</span></code>
+              –
+              <div class="doc-md-description">
+                <p>The bytes of the public key in PEM format</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.certificate.Certificate.sign_alg_oid_name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">sign_alg_oid_name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.certificate.Certificate.sign_alg_oid_name" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">sign_alg_oid_name: <span title="str">str</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="str">str</span></code>
+              –
+              <div class="doc-md-description">
+                <p>The name of the signature algorithm such as: <code>SHA512WITHRSA</code></p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.certificate.Certificate.tbs_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">tbs_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.certificate.Certificate.tbs_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">tbs_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="bytes">bytes</span></code>
+              –
+              <div class="doc-md-description">
+                <p>The to be signed bytes of this certificate</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.certificate.Certificate.digest" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">digest</span>
+
+
+<a href="#pki_tools.types.certificate.Certificate.digest" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">digest(algorithm: <a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a> = <a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a>(<span title="pki_tools.types.signature_algorithm.HashAlgorithm(name)">name</span>=<a class="autorefs autorefs-internal" title="HashAlgorithmName (pki_tools.types.signature_algorithm.HashAlgorithmName)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.HashAlgorithmName">HashAlgorithmName</a>.<span title="pki_tools.types.signature_algorithm.HashAlgorithmName.SHA512">SHA512</span>)) -&gt; <span title="str">str</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Gets the base64 encoded fingerprint of the certificate</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>algorithm</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a></code>, default:
+                      <code><a class="autorefs autorefs-internal" title="HashAlgorithm (pki_tools.types.signature_algorithm.HashAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.HashAlgorithm">HashAlgorithm</a>(<span title="pki_tools.types.signature_algorithm.HashAlgorithm(name)">name</span>=<a class="autorefs autorefs-internal" title="HashAlgorithmName (pki_tools.types.signature_algorithm.HashAlgorithmName)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.HashAlgorithmName">HashAlgorithmName</a>.<span title="pki_tools.types.signature_algorithm.HashAlgorithmName.SHA512">SHA512</span>)</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The algorithm to use to hash the fingerprint with</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="str">str</span></code>
+              –
+              <div class="doc-md-description">
+                <p>Hashed and base64 encoded certificate fingerprint</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.certificate.Certificate.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.certificate.Certificate.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(cert: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.Certificate" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">Certificate</a>) -&gt; <a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="#pki_tools.types.certificate.Certificate">Certificate</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a Certificate object from a <a class="autorefs autorefs-external" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">cryptography.x509.Certificate</a>
+object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>cert</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.Certificate" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">Certificate</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The <a class="autorefs autorefs-external" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Certificate">cryptography.x509.Certificate</a> object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>Certificate</code></b>(                  <code><a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="#pki_tools.types.certificate.Certificate">Certificate</a></code>
+)              –
+              <div class="doc-md-description">
+                <p>The created Certificate object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <h6 id="pki_tools.types.certificate.Certificate.from_cryptography--example">Example<a class="headerlink" href="#pki_tools.types.certificate.Certificate.from_cryptography--example" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>crypto_cert</code></summary>
+<pre><code>from cryptography import x509
+
+cert_pem = &quot;&quot;&quot;
+-----BEGIN CERTIFICATE-----
+MIICsDCCAZigAwIBAgIUagjv68D6EIk/hIIA0mXliqJr/iIwDQYJKoZIhvcNAQEN
+BQAwEjEQMA4GA1UEAwwHQ2VydCBDTjAeFw0yNDAzMDkxMzEwMTZaFw0yNDAzMTAx
+MzEwMTZaMBIxEDAOBgNVBAMMB0NlcnQgQ04wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDxw2sUZVazQcjpVN9NirPbQVLkPwIgFEQfOJwTXOhb2nofM0PA
+edmVu+Kb5aw9+lZ3aJaLFOS2nFAdJ0gxINXsqdjVQ1Ok+uftWvanxql8GxDeD3sY
+E92KyaRkzwyONq4dXefvRkB1j8w8gm9MbguFhZBMWlaKSqP/48mhWvJlca1zWAkY
+H8moxXLcAIuvbc+qMbfNqah1LIvMkxlw1eiYogX8JPpd+OcuyPihXwIUHdl9s24S
+ioqODCicBe8eegZZDfdlHQI/kyT88XqT5yHYXnhmgcjIDeCx1eAMXbVdUvzES/pi
+qS7pNxvfZwLHvQsGDv7OaW+AoF7+MrunjXvtAgMBAAEwDQYJKoZIhvcNAQENBQAD
+ggEBAAa6G9Xl0piwxXfVdr5gTcyHBMNfq9KzgdstTrgV38QXctiyREJW2Nu3A8mm
+lsNBW+OyNOalKhYQSDrjG8D3VM6W5VfDlb2iYtBQRUfIkktSQ5/i8xifHulpHH5/
+JTLMjePP+W2aOzu7o249PYnpizFsxwOWJGcF76Ouw98X/WKZMpJLSanS1hYmBrRi
+vrZ+4lE8Vh4EO/pLMxktBot4cYAAYWIU6are0C4CW7LzmPRmkKcLmjxPDapEOj/d
+iEEtcWJ2LNQ1UA0fzUEmrHGfasewdRpkY6K3/9psnnOOCH5T3cZfjawUq0cBpX81
+C0c2MU/Ob0dcXJmIwbGA0PmIwVo=
+-----END CERTIFICATE-----
+&quot;&quot;&quot;
+
+crypto_cert = x509.load_pem_x509_certificate(cert_pem.encode())
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_cryptography(crypto_cert)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Issuer: 'CN: Cert CN'
+Serial Number: 6A08EFEBC0FA10893F848200D265E58AA26BFE22
+Signature Algorithm: SHA512
+Signature Value: |-
+  06BA1BD5E5D298B0C577D576BE604DCC8704C35FABD2B381DB2D4EB815DFC41772D8B2444256D8DB
+  B703C9A696C3415BE3B234E6A52A1610483AE31BC0F754CE96E557C395BDA262D0504547C8924B52
+  439FE2F3189F1EE9691C7E7F2532CC8DE3CFF96D9A3B3BBBA36E3D3D89E98B316CC70396246705EF
+  A3AEC3DF17FD629932924B49A9D2D6162606B462BEB67EE2513C561E043BFA4B33192D068B787180
+  00616214E9AADED02E025BB2F398F46690A70B9A3C4F0DAA443A3FDD88412D7162762CD435500D1F
+  CD4126AC719F6AC7B0751A6463A2B7FFDA6C9E738E087E53DDC65F8DAC14AB4701A57F350B473631
+  4FCE6F475C5C9988C1B180D0F988C15A
+Subject: 'CN: Cert CN'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      30519795842219718524154211452339367525522541418306388322222479091833299116991140
+      09740263213211778932406753683969023225227261260389673597060169902106121179841034
+      31187219419109541663272149747295496520180159087432616126691772239668099488528148
+      13289122122347191908018216484406428594527992092037163959856854605762954418536599
+      19979935283394834106080349369124577624086693846677247163161103215836435379325851
+      79739035857994859657330621842935602784426350478700541817375449573933075543808561
+      18104621405966149397007798324741701052325470419784481031726708819614894503041371
+      625278920346237218103962726322958896412584334205897243629
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      30519795842219718524154211452339367525522541418306388322222479091833299116991140
+      09740263213211778932406753683969023225227261260389673597060169902106121179841034
+      31187219419109541663272149747295496520180159087432616126691772239668099488528148
+      13289122122347191908018216484406428594527992092037163959856854605762954418536599
+      19979935283394834106080349369124577624086693846677247163161103215836435379325851
+      79739035857994859657330621842935602784426350478700541817375449573933075543808561
+      18104621405966149397007798324741701052325470419784481031726708819614894503041371
+      625278920346237218103962726322958896412584334205897243629
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2024-03-10 13:10:16+00:00'
+  Not Before: '2024-03-09 13:10:16+00:00'
+Version: 2
+
+
+</code></pre>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.certificate.Certificate.from_server" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_server</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.certificate.Certificate.from_server" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_server(uri: <span title="str">str</span>, cache_time_seconds: <span title="int">int</span> = <span title="pki_tools.types.utils.CACHE_TIME_SECONDS">CACHE_TIME_SECONDS</span>) -&gt; <a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="#pki_tools.types.certificate.Certificate">Certificate</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Loads a server certificate from a URI</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>uri</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The https URI of the server containing the certificate</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cache_time_seconds</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code><span title="pki_tools.types.utils.CACHE_TIME_SECONDS">CACHE_TIME_SECONDS</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>How long the request should be cached in memory</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="#pki_tools.types.certificate.Certificate">Certificate</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The loaded <a class="autorefs autorefs-internal" title="certificate" href="#pki_tools.types.certificate">Certificate</a> object</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <h6 id="pki_tools.types.certificate.Certificate.from_server--example">Example<a class="headerlink" href="#pki_tools.types.certificate.Certificate.from_server--example" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_server(&quot;https://revoked-isrgrootx1.letsencrypt.org&quot;)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Extensions:
+  Authority Information Access:
+    Access Description:
+    - Access Location:
+        name: UniformResourceIdentifier
+        value: http://r3.o.lencr.org
+      Access Method: OCSP
+    - Access Location:
+        name: UniformResourceIdentifier
+        value: http://r3.i.lencr.org/
+      Access Method: CA_ISSUERS
+  Authority Key Identifier:
+    Key Identifier: 142EB317B75856CBAE500940E61FAF9D8B14C2C6
+  Basic Constraints (critical):
+    CA: false
+  Certificate Policies:
+  - Policy 2.23.140.1.2.1: []
+  Extended Key Usage:
+  - Server Authentication
+  - Client Authentication
+  Key Usage (critical): Digital Signature, Key Encipherment
+  Subject Alternative Name:
+  - name: DNSName
+    value: revoked-isrgrootx1.letsencrypt.org
+  Subject Key Identifier:
+    Subject Key Identifier: 17580EEBFC5C74F8FCA9E7D26B7B46C2CAA4CB65
+Issuer: 'C: US, CN: R3, O: Let''s Encrypt'
+Serial Number: 3AB360B2E141EE0A0A5D7E07405B788D012
+Signature Algorithm: SHA256
+Signature Value: |-
+  6524BFAA0418AC033CA8AE9B7D26270A0FD01D19C0D9C24DF62443049F751DAACC38DCD0F8D1B073
+  BA69A597430D81417621A83B1AFBF1DA8BB89A8A9A66C1872214219F1AF0F538E3492935FBED9B07
+  2753E1979754ADA825AE779F25A60E6168FE8B5A349A645CF53E8B92C4C89E48A10644B886DC5C45
+  F1BA190FA21F5D9D3797EEF438BB43A0C7F3AD24DC5A362573B93807C63E967C34412AF06484192E
+  EABBE0F36E586457631452550F57EECCC70CA2D18033219970CA585B7F9E048D079267419A5853B0
+  91EC434E7486F0F2CEBB25A83E67906B25253D151C4648623AF65085D29CDA54A35AB69CF46FE5C5
+  233B8883E07F8084D1E4BD044D3AFA4F
+Subject: 'CN: revoked-isrgrootx1.letsencrypt.org'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      23839174628835585737865497707674190474897415317191932275801797752886922576439929
+      23606111892535056472919273444108077458185259724177705966095207382680958653002768
+      64978318542280697487184872371692210563784780155639469440229752176892536277475999
+      75217593328595981266268943720688057618917965143208585315841050460997668640937715
+      31151802418019082127796674420946429622942844685649712201709165874476137292993834
+      39085956973880263992601153582729559608082829217959931969536985959906468775946948
+      85364834380352119964620287584172658764708891053901110224014921892529600757418230
+      858898666651845148139212940504939021007318913142493572379
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      23839174628835585737865497707674190474897415317191932275801797752886922576439929
+      23606111892535056472919273444108077458185259724177705966095207382680958653002768
+      64978318542280697487184872371692210563784780155639469440229752176892536277475999
+      75217593328595981266268943720688057618917965143208585315841050460997668640937715
+      31151802418019082127796674420946429622942844685649712201709165874476137292993834
+      39085956973880263992601153582729559608082829217959931969536985959906468775946948
+      85364834380352119964620287584172658764708891053901110224014921892529600757418230
+      858898666651845148139212940504939021007318913142493572379
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2024-06-18 15:00:15+00:00'
+  Not Before: '2024-03-20 15:00:16+00:00'
+Version: 2
+
+
+</code></pre>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.certificate.Certificate.from_uri" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_uri</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.certificate.Certificate.from_uri" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_uri(uri: <span title="str">str</span>, cache_time_seconds: <span title="int">int</span> = <span title="pki_tools.types.utils.CACHE_TIME_SECONDS">CACHE_TIME_SECONDS</span>) -&gt; <a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="#pki_tools.types.certificate.Certificate">Certificate</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Loads Certificates from a URI.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>uri</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>URI where the certificate can be downloaded.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cache_time_seconds</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code><span title="pki_tools.types.utils.CACHE_TIME_SECONDS">CACHE_TIME_SECONDS</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Specifies how long the certificate
+should be cached, default is 1 month.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="#pki_tools.types.certificate.Certificate">Certificate</a></code>
+              –
+              <div class="doc-md-description">
+                <p>Instance of Certificate containing the certificates</p>
+              </div>
+            </li>
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="#pki_tools.types.certificate.Certificate">Certificate</a></code>
+              –
+              <div class="doc-md-description">
+                <p>fetched from the URI.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <h6 id="pki_tools.types.certificate.Certificate.from_uri--example">Example<a class="headerlink" href="#pki_tools.types.certificate.Certificate.from_uri--example" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_uri(
+    &quot;https://letsencrypt.org/certs/lets-encrypt-r3.pem&quot;
+)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Extensions:
+  Authority Information Access:
+    Access Description:
+    - Access Location:
+        name: UniformResourceIdentifier
+        value: http://x1.i.lencr.org/
+      Access Method: CA_ISSUERS
+  Authority Key Identifier:
+    Key Identifier: 79B459E67BB6E5E40173800888C81A58F6E99B6E
+  Basic Constraints (critical):
+    CA: true
+  Certificate Policies:
+  - Policy 2.23.140.1.2.1: []
+  - Policy 1.3.6.1.4.1.44947.1.1.1: []
+  Crl Distribution Points:
+  - Full Name:
+    - name: UniformResourceIdentifier
+      value: http://x1.c.lencr.org/
+  Extended Key Usage:
+  - Client Authentication
+  - Server Authentication
+  Key Usage (critical): Digital Signature, Key Cert Sign, Crl Sign
+  Path Lenght: 0
+  Subject Key Identifier:
+    Subject Key Identifier: 142EB317B75856CBAE500940E61FAF9D8B14C2C6
+Issuer: 'C: US, CN: ISRG Root X1, O: Internet Security Research Group'
+Serial Number: 912B084ACF0C18A753F6D62E25A75F5A
+Signature Algorithm: SHA256
+Signature Value: |-
+  85CA4E473EA3F7854485BCD56778B29863AD754D1E963D336572542D81A0EAC3EDF820BF5FCCB770
+  00B76E3BF65E94DEE4209FA6EF8BB203E7A2B5163C91CEB4ED3902E77C258A47E6656E3F46F4D9F0
+  CE942BEE54CE12BC8C274BB8C1982FA2AFCD71914A08B7C8B8237B042D08F908573E83D904330A47
+  2178098227C32AC89BB9CE5CF264C8C0BE79C04F8E6D440C5E92BB2EF78B10E1E81D4429DB5920ED
+  63B921F81226949357A01D6504C10A22AE100D4397A1181F7EE0E08637B55AB1BD30BF876E2B2AFF
+  214E1B05C3F51897F05EACC3A5B86AF02EBC3B33B9EE4BDECCFCE4AF840B863FC0554336F668E136
+  176A8E99D1FFA540A734B7C0D063393539756EF2BA76C89302E9A94B6C17CE0C02D9BD81FB9FB768
+  D40665B3823D7753F88E7903AD0A3107752A43D8559772C4290EF7C45D4EC8AE468430D7F2855F18
+  A179BBE75E708B07E18693C3B98FDC6171252AAFDFED255052688B92DCE5D6B5E3DA7DD0876C8421
+  31AE82F5FBB9ABC889173DE14CE5380EF6BD2BBD968114EBD5DB3D20A77E59D3E2F858F95BB848CD
+  FE5C4F1629FE1E5523AFC811B08DEA7C9390172FFDACA20947463FF0E9B0B7FF284D6832D6675E1E
+  69A393B8F59D8B2F0BD25243A66F3257654D3281DF3853855D7E5D6629EAB8DDE495B5CDB5561242
+  CDC44EC6253844506DECCE005518FEE94964D44ECA979CB45BC073A8ABB847C2
+Subject: 'C: US, CN: R3, O: Let''s Encrypt'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      23607590023527405233483514815960094733025362836439268915823566209453533788829410
+      72961269318866403396560128488938220067229162371221935157944246629213402577917087
+      19030296756413322277205133704994143921747776293784333332814927820066440035084066
+      69842374574620445942041275265465205367002253387972103578862358103547035353751037
+      98689289193893953701371227696203175830312817811815601999781845906479379770505161
+      19310429773226949916112639110772354331197195042061738975342154862253911562311683
+      13218127765624386188467360149426877213161912342004781300247624712380387337803861
+      727744706241919394251136381590874774264144198228326996757
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      23607590023527405233483514815960094733025362836439268915823566209453533788829410
+      72961269318866403396560128488938220067229162371221935157944246629213402577917087
+      19030296756413322277205133704994143921747776293784333332814927820066440035084066
+      69842374574620445942041275265465205367002253387972103578862358103547035353751037
+      98689289193893953701371227696203175830312817811815601999781845906479379770505161
+      19310429773226949916112639110772354331197195042061738975342154862253911562311683
+      13218127765624386188467360149426877213161912342004781300247624712380387337803861
+      727744706241919394251136381590874774264144198228326996757
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2025-09-15 16:00:00+00:00'
+  Not Before: '2020-09-04 00:00:00+00:00'
+Version: 2
+
+
+</code></pre>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.certificate.Certificate.sign" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">sign</span>
+
+
+<a href="#pki_tools.types.certificate.Certificate.sign" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">sign(key_pair: <a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="../key_pair/#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a>, signature_algorithm: <span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a>] = None, req_key: <span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="../key_pair/#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a>] = None) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Signs a created <a class="autorefs autorefs-internal" title="Certificate" href="#pki_tools.types.certificate.Certificate">Certificate</a>
+object with a given
+<a class="autorefs autorefs-internal" title="CryptoKeyPair" href="../key_pair/#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key_pair</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="../key_pair/#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Keypair containing the private key to sing the
+certificate with</p>
+              </div>
+            </li>
+            <li>
+              <b><code>signature_algorithm</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a>]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Algorithm to use for the signature</p>
+              </div>
+            </li>
+            <li>
+              <b><code>req_key</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="../key_pair/#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a>]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Can be used to sign another public key, defaults to the
+public key part in <code>key_pair</code></p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.certificate.Certificate.verify_signature" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">verify_signature</span>
+
+
+<a href="#pki_tools.types.certificate.Certificate.verify_signature" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">verify_signature(signed: <a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a>) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Verifies a signature of a signed entity against this issuer certificate</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>signed</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The signed entity can either be a
+<a class="autorefs autorefs-internal" title="Certificate" href="#pki_tools.types.certificate.Certificate">Certificate</a>,
+<a class="autorefs autorefs-internal" title="CertificateRevocationList" href="../crl/#pki_tools.types.crl.CertificateRevocationList">CertificateRevocationList</a>
+or a <a class="autorefs autorefs-internal" title="OCSPResponse" href="../ocsp/#pki_tools.types.ocsp.OCSPResponse">OCSPResponse</a></p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="InvalidSignedType (pki_tools.exceptions.InvalidSignedType)" href="../exceptions/#pki_tools.exceptions.InvalidSignedType">InvalidSignedType</a></code>
+              –
+              <div class="doc-md-description">
+                <p>When the issuer has a non-supported type</p>
+              </div>
+            </li>
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="SignatureVerificationFailed (pki_tools.exceptions.SignatureVerificationFailed)" href="../exceptions/#pki_tools.exceptions.SignatureVerificationFailed">SignatureVerificationFailed</a></code>
+              –
+              <div class="doc-md-description">
+                <p>When the signature verification fails</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.certificate.SubjectPublicKeyInfo" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SubjectPublicKeyInfo</span>
+
+
+<a href="#pki_tools.types.certificate.SubjectPublicKeyInfo" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents a certificate SubjectPublicKeyInfo.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>algorithm</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="../key_pair/#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The key algorithm in string format</p>
+              </div>
+            </li>
+            <li>
+              <b><code>parameters</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[<span title="str">str</span>, <span title="str">str</span>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The dict representation of the key</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.certificate.Validity" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Validity</span>
+
+
+<a href="#pki_tools.types.certificate.Validity" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+        <p>Describes the validity of a certificate</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>not_before</code></b>
+                  (<code><span title="datetime">datetime</span>.<span title="datetime.datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The start date of when the certificate will be valid</p>
+              </div>
+            </li>
+            <li>
+              <b><code>not_after</code></b>
+                  (<code><span title="datetime">datetime</span>.<span title="datetime.datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The date of when the certificate expires</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../funcs/check_revocation/" class="btn btn-neutral float-left" title="Checking Revocation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../crl/" class="btn btn-neutral float-right" title="CertificateRevocationList">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+      <span><a href="../../funcs/check_revocation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../crl/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

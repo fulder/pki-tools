@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/types/crl/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>CertificateRevocationList - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "CertificateRevocationList";
+        var mkdocs_page_input_path = "types/crl.md";
+        var mkdocs_page_url = "/types/crl/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">CertificateRevocationList</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Types</li>
+      <li class="breadcrumb-item active">CertificateRevocationList</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/types/crl.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="pki_tools.types.crl"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.crl.CertificateRevocationList" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CertificateRevocationList</span>
+
+
+<a href="#pki_tools.types.crl.CertificateRevocationList" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code></p>
+
+
+        <p>Represents a certificate revocation list (CRL).</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>issuer</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the issuer.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>last_update</code></b>
+                  (<code><span title="datetime.datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The last update time of the CRL.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>next_update</code></b>
+                  (<code><span title="datetime.datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The next update time of the CRL.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>revoked_certs</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="RevokedCertificate (pki_tools.types.crl.RevokedCertificate)" href="#pki_tools.types.crl.RevokedCertificate">RevokedCertificate</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of revoked certificates.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.crl.CertificateRevocationList.tbs_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">tbs_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.crl.CertificateRevocationList.tbs_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">tbs_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Return the bytes to be signed of the CRL.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="bytes">bytes</span></code>
+              –
+              <div class="doc-md-description">
+                <p>TBS bytes of the CRL.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crl.CertificateRevocationList.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crl.CertificateRevocationList.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_crl: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.CertificateRevocationList" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CertificateRevocationList">CertificateRevocationList</a>) -&gt; <a class="autorefs autorefs-internal" title="CertificateRevocationList (pki_tools.types.crl.CertificateRevocationList)" href="#pki_tools.types.crl.CertificateRevocationList">CertificateRevocationList</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a CertificateRevocationList object from a cryptography
+CertificateRevocationList.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_crl</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.CertificateRevocationList" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CertificateRevocationList">CertificateRevocationList</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Cryptography CertificateRevocationList.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CertificateRevocationList (pki_tools.types.crl.CertificateRevocationList)" href="#pki_tools.types.crl.CertificateRevocationList">CertificateRevocationList</a></code>
+              –
+              <div class="doc-md-description">
+                <p>Instance of CertificateRevocationList.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crl.CertificateRevocationList.from_uri" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_uri</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crl.CertificateRevocationList.from_uri" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_uri(uri: <span title="str">str</span>, cache_time_seconds: <span title="int">int</span> = <span title="pki_tools.types.utils.CACHE_TIME_SECONDS">CACHE_TIME_SECONDS</span>) -&gt; <a class="autorefs autorefs-internal" title="CertificateRevocationList (pki_tools.types.crl.CertificateRevocationList)" href="#pki_tools.types.crl.CertificateRevocationList">CertificateRevocationList</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Loads CertificateRevocationList from a URI.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>uri</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>URI where the CRL can be downloaded.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cache_time_seconds</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code><span title="pki_tools.types.utils.CACHE_TIME_SECONDS">CACHE_TIME_SECONDS</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Specifies how long the CRL
+should be cached, default is 1 month.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CertificateRevocationList (pki_tools.types.crl.CertificateRevocationList)" href="#pki_tools.types.crl.CertificateRevocationList">CertificateRevocationList</a></code>
+              –
+              <div class="doc-md-description">
+                <p>Instance of CertificateRevocationList containing the revoked
+certificates fetched from the URI.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crl.CertificateRevocationList.get_revoked" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_revoked</span>
+
+
+<a href="#pki_tools.types.crl.CertificateRevocationList.get_revoked" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">get_revoked(cert_serial: <span title="int">int</span>) -&gt; <span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="RevokedCertificate (pki_tools.types.crl.RevokedCertificate)" href="#pki_tools.types.crl.RevokedCertificate">RevokedCertificate</a>]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get a revoked certificate by serial number.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>cert_serial</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Serial number of the certificate.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="RevokedCertificate (pki_tools.types.crl.RevokedCertificate)" href="#pki_tools.types.crl.RevokedCertificate">RevokedCertificate</a>]</code>
+              –
+              <div class="doc-md-description">
+                <p>RevokedCertificate object if found, else None.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crl.CertificateRevocationList.sign" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">sign</span>
+
+
+<a href="#pki_tools.types.crl.CertificateRevocationList.sign" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">sign(private_key: <a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="../key_pair/#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a>, algorithm: <span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a>] = None) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Sign the CRL with the provided private key and algorithm.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>private_key</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="../key_pair/#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Private key used to sign the CRL.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>algorithm</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SignatureAlgorithm (pki_tools.types.signature_algorithm.SignatureAlgorithm)" href="../signature_algorithm/#pki_tools.types.signature_algorithm.SignatureAlgorithm">SignatureAlgorithm</a>]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Signature algorithm to use for signing.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.crl.RevokedCertificate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">RevokedCertificate</span>
+
+
+<a href="#pki_tools.types.crl.RevokedCertificate" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents a revoked certificate.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>serial</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The serial number of the certificate.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>date</code></b>
+                  (<code><span title="datetime.datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The revocation date of the certificate.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>extensions</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="Extensions (pki_tools.types.extensions.Extensions)" href="../extensions/#pki_tools.types.extensions.Extensions">Extensions</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Extensions associated with the certificate.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.crl.RevokedCertificate.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.crl.RevokedCertificate.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.RevokedCertificate" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.RevokedCertificate">RevokedCertificate</a>) -&gt; <a class="autorefs autorefs-internal" title="RevokedCertificate (pki_tools.types.crl.RevokedCertificate)" href="#pki_tools.types.crl.RevokedCertificate">RevokedCertificate</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a RevokedCertificate object from a cryptography
+RevokedCertificate.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.RevokedCertificate" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.RevokedCertificate">RevokedCertificate</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Cryptography RevokedCertificate.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>RevokedCertificate</code></b>(                  <code><a class="autorefs autorefs-internal" title="RevokedCertificate (pki_tools.types.crl.RevokedCertificate)" href="#pki_tools.types.crl.RevokedCertificate">RevokedCertificate</a></code>
+)              –
+              <div class="doc-md-description">
+                <p>Instance of RevokedCertificate.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../certificate/" class="btn btn-neutral float-left" title="Certificate"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../csr/" class="btn btn-neutral float-right" title="CertificateSigningRequest">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+      <span><a href="../certificate/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../csr/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

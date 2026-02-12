@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><link rel="canonical" href="https://pki-tools.fulder.dev/" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>PKI Tools</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#install">Install</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#chat">Chat</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#log-level">Log level</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#features">Features</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#creating-x509-objects">Creating x509 objects</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#loading-x509-objects">Loading x509 objects</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#saving-x509-objects">Saving x509 objects</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/index.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <p><a href="https://discord.gg/x7k6kJC426"><img alt="Discord" src="https://img.shields.io/badge/chat-gray?logo=discord&amp;logoColor=white" /></a>
+<a href="https://coverage-badge.samuelcolvin.workers.dev/redirect/fulder/pki-tools"><img alt="Coverage" src="https://coverage-badge.samuelcolvin.workers.dev/fulder/pki-tools.svg" /></a></p>
+<h1 id="pki-tools">PKI Tools<a class="headerlink" href="#pki-tools" title="Permanent link">&para;</a></h1>
+<p><img src="./img/icon.png" alt="pki-tools logo" style="height: 200px; width:200px;"/></p>
+<p>PKI tools exposes a high level <code>cryptography</code> API and wrappers for e.g.:</p>
+<ul>
+<li>Loading certificates from PEM strings/files/cryptography object into
+  a <a href="https://docs.pydantic.dev/latest/">pydantic</a> model including all
+  <a href="https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2">x509 v3 extensions</a></li>
+<li>Checking revocation of certificates using <a href="https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.2.1">OCSP</a> with
+  <a href="https://datatracker.ietf.org/doc/html/rfc5280.html#section-4.2.1.13">CRL</a> fallback</li>
+<li>Creating Certs, CSR, CRL easy with pure pydantic objects to e.g. get a
+  PEM file</li>
+</ul>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
+<p><code>pip install pki-tools</code></p>
+<h2 id="chat">Chat<a class="headerlink" href="#chat" title="Permanent link">&para;</a></h2>
+<p><a href="https://discord.gg/x7k6kJC426">Discord Chat</a></p>
+<h2 id="log-level">Log level<a class="headerlink" href="#log-level" title="Permanent link">&para;</a></h2>
+<p><code>pki-tools</code> use <a href="https://github.com/Delgan/loguru">loguru</a> library for logging. Where the default log level
+is <code>DEBUG</code>, if you want to change it you could e.g. use the <code>LOGURU_LEVEL</code>
+environment variable.</p>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a class="autorefs autorefs-internal" title="Examples" href="funcs/check_revocation/#pki_tools.funcs.check_revocation.is_revoked--examples">Checking Revocation</a> -
+  checking
+  revocation status of certificates using OCSP and/or CRL</li>
+</ul>
+<h3 id="creating-x509-objects">Creating x509 objects<a class="headerlink" href="#creating-x509-objects" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Certificate</strong></th>
+<th><strong>CertificateSigningRequest</strong></th>
+<th><strong>Chain</strong></th>
+<th><strong>OCSP</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="autorefs autorefs-internal" title="Create self signed certificate" href="types/certificate/#pki_tools.types.certificate.Certificate--create-self-signed-certificate">Create Self Signed</a></br><a class="autorefs autorefs-internal" title="Create cross signed certificate" href="types/certificate/#pki_tools.types.certificate.Certificate--create-cross-signed-certificate">Create Cross Signed</a></td>
+<td><a class="autorefs autorefs-internal" title="Create CSR" href="types/csr/#pki_tools.types.csr.CertificateSigningRequest--create-csr">Create and sign</a></td>
+<td><a class="autorefs autorefs-internal" title="Chain" href="types/chain/#pki_tools.types.chain.Chain">Create from certificates</a></td>
+<td><a class="autorefs autorefs-internal" title="Create OCSP Request" href="types/ocsp/#pki_tools.types.ocsp.OCSPRequest--create-ocsp-request">Create request</a></br><a class="autorefs autorefs-internal" title="Create OCSP Response" href="types/ocsp/#pki_tools.types.ocsp.OCSPResponse--create-ocsp-response">Create response</a></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><strong>DSA</strong></th>
+<th><strong>EllipticCurve</strong></th>
+<th><strong>ED448</strong></th>
+<th><strong>ED25519</strong></th>
+<th><strong>RSA</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="autorefs autorefs-internal" title="Generate keypair" href="types/key_pair/#pki_tools.types.key_pair.DSAKeyPair--generate-keypair">generate</a></td>
+<td><a class="autorefs autorefs-internal" title="Generate keypair" href="types/key_pair/#pki_tools.types.key_pair.EllipticCurveKeyPair--generate-keypair">generate</a></td>
+<td><a class="autorefs autorefs-internal" title="Generate keypair" href="types/key_pair/#pki_tools.types.key_pair.Ed448KeyPair--generate-keypair">generate</a></td>
+<td><a class="autorefs autorefs-internal" title="Generate keypair" href="types/key_pair/#pki_tools.types.key_pair.Ed25519KeyPair--generate-keypair">generate</a></td>
+<td><a class="autorefs autorefs-internal" title="Generate keypair" href="types/key_pair/#pki_tools.types.key_pair.RSAKeyPair--generate-keypair">generate</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="loading-x509-objects">Loading x509 objects<a class="headerlink" href="#loading-x509-objects" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Certificate</strong></th>
+<th><strong>CertificateSigningRequest</strong></th>
+<th><strong>Chain</strong></th>
+<th>OCSP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/certificate/#pki_tools.types.certificate.Certificate--initcryptoparserfrom_pem_string">from_pem_string</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/csr/#pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_pem_string">from_pem_string</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/chain/#pki_tools.types.chain.Chain--initcryptoparserfrom_pem_string">from_pem_string</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/ocsp/#pki_tools.types.ocsp.OCSPRequest--initcryptoparserfrom_pem_string">Request.from_pem_string</a></br><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/ocsp/#pki_tools.types.ocsp.OCSPResponse--initcryptoparserfrom_pem_string">Response.from_pem_string</a></td>
+</tr>
+<tr>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/certificate/#pki_tools.types.certificate.Certificate--initcryptoparserfrom_file">from_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/csr/#pki_tools.types.csr.CertificateSigningRequest--initcryptoparserfrom_file">from_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/chain/#pki_tools.types.chain.Chain--initcryptoparserfrom_file">from_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/ocsp/#pki_tools.types.ocsp.OCSPRequest--initcryptoparserfrom_file">Request.from_file</a></br><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/ocsp/#pki_tools.types.ocsp.OCSPResponse--initcryptoparserfrom_file">Response.from_file</a></td>
+</tr>
+<tr>
+<td><a class="autorefs autorefs-internal" title="Example" href="types/certificate/#pki_tools.types.certificate.Certificate.from_cryptography--example">from_cryptography</a></td>
+<td><a class="autorefs autorefs-internal" title="Example" href="types/csr/#pki_tools.types.csr.CertificateSigningRequest.from_cryptography--example">from_cryptography</a></td>
+<td><a class="autorefs autorefs-internal" title="Certificates.from_cryptography" href="types/chain/#pki_tools.types.chain.Chain--certificatesfrom_cryptography">from_cryptography</a></td>
+<td><a class="autorefs autorefs-internal" title="Example" href="types/ocsp/#pki_tools.types.ocsp.OCSPRequest.from_cryptography--example">Request.from_cryptography</a></br><a class="autorefs autorefs-internal" title="Example" href="types/ocsp/#pki_tools.types.ocsp.OCSPResponse.from_cryptography--example">Response.from_cryptography</a></td>
+</tr>
+<tr>
+<td><a class="autorefs autorefs-internal" title="Example" href="types/certificate/#pki_tools.types.certificate.Certificate.from_uri--example">from_uri</a></td>
+<td>N/A</td>
+<td><a class="autorefs autorefs-internal" title="Certificates.from_uri" href="types/chain/#pki_tools.types.chain.Chain--certificatesfrom_uri">from_uri</a></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a class="autorefs autorefs-internal" title="Example" href="types/certificate/#pki_tools.types.certificate.Certificate.from_server--example">from_server</a></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><strong>DSA</strong></th>
+<th><strong>EllipticCurve</strong></th>
+<th><strong>ED448</strong></th>
+<th><strong>ED25519</strong></th>
+<th><strong>RSA</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/key_pair/#pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_pem_string">from_pem_string</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/key_pair/#pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_pem_string">from_pem_string</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/key_pair/#pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_pem_string">from_pem_string</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/key_pair/#pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_pem_string">from_pem_string</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_pem_string" href="types/key_pair/#pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_pem_string">from_pem_string</a></td>
+</tr>
+<tr>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/key_pair/#pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_file">from_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/key_pair/#pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_file">from_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/key_pair/#pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_file">from_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/key_pair/#pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_file">from_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_file" href="types/key_pair/#pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_file">from_file</a></td>
+</tr>
+<tr>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_cryptography" href="types/key_pair/#pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography">from_cryptography</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_cryptography" href="types/key_pair/#pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_cryptography">from_cryptography</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_cryptography" href="types/key_pair/#pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_cryptography">from_cryptography</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_cryptography" href="types/key_pair/#pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_cryptography">from_cryptography</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.from_cryptography" href="types/key_pair/#pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_cryptography">from_cryptography</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="saving-x509-objects">Saving x509 objects<a class="headerlink" href="#saving-x509-objects" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Certificate</strong></th>
+<th><strong>CertificateSigningRequest</strong></th>
+<th><strong>Chain</strong></th>
+<th><strong>OCSP</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/certificate/#pki_tools.types.certificate.Certificate--initcryptoparserto_file">to_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/csr/#pki_tools.types.csr.CertificateSigningRequest--initcryptoparserto_file">to_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/chain/#pki_tools.types.chain.Chain--initcryptoparserto_file">to_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/ocsp/#pki_tools.types.ocsp.OCSPRequest--initcryptoparserto_file">Request.to_file</a></br><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/ocsp/#pki_tools.types.ocsp.OCSPResponse--initcryptoparserto_file">Response.to_file</a></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><strong>DSA</strong></th>
+<th><strong>EllipticCurve</strong></th>
+<th><strong>ED448</strong></th>
+<th><strong>ED25519</strong></th>
+<th><strong>RSA</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/key_pair/#pki_tools.types.key_pair.DSAKeyPair--initcryptoparserto_file">to_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/key_pair/#pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserto_file">to_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/key_pair/#pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserto_file">to_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/key_pair/#pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserto_file">to_file</a></td>
+<td><a class="autorefs autorefs-internal" title="InitCryptoParser.to_file" href="types/key_pair/#pki_tools.types.key_pair.RSAKeyPair--initcryptoparserto_file">to_file</a></td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="funcs/check_revocation/" class="btn btn-neutral float-right" title="Checking Revocation">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+    
+      <span><a href="funcs/check_revocation/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-02-12 11:52:17.717353+00:00
+-->

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/funcs/check_revocation/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Checking Revocation - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Checking Revocation";
+        var mkdocs_page_input_path = "funcs/check_revocation.md";
+        var mkdocs_page_url = "/funcs/check_revocation/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Checking Revocation</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Functions</li>
+      <li class="breadcrumb-item active">Checking Revocation</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/funcs/check_revocation.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="pki_tools.funcs.check_revocation"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pki_tools.funcs.check_revocation.is_revoked" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">is_revoked</span>
+
+
+<a href="#pki_tools.funcs.check_revocation.is_revoked" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-python doc-signature">is_revoked(cert: <a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="../../types/certificate/#pki_tools.types.certificate.Certificate">Certificate</a>, chain: <a class="autorefs autorefs-internal" title="Chain (pki_tools.types.chain.Chain)" href="../../types/chain/#pki_tools.types.chain.Chain">Chain</a>, crl_cache_seconds: <span title="int">int</span> = 3600, ocsp_res_cache_seconds: <span title="int">int</span> = 3600, revoke_mode: <a class="autorefs autorefs-internal" title="RevokeMode (pki_tools.types.enums.RevokeMode)" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a> = <a class="autorefs autorefs-internal" title="RevokeMode (pki_tools.types.enums.RevokeMode)" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a>.<span title="pki_tools.types.enums.RevokeMode.OCSP_FALLBACK_CRL">OCSP_FALLBACK_CRL</span>, same_crl_domains: <span title="list">list</span>[<span title="list">list</span>[<span title="str">str</span>]] = None) -&gt; <span title="bool">bool</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Checks if a certificate is revoked using OCSP extension and/or
+CRL extension.</p>
+<p>By default, the OCSP is checked first with a fallback to CRL. If you
+only want to check OCSP or only CRL set the "revoke_mode" to either
+<a class="autorefs autorefs-internal" title="RevokeMode" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode.OCSP_ONLY</a> or
+<a class="autorefs autorefs-internal" title="RevokeMode" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode.CRL_ONLY</a></p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>cert</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="../../types/certificate/#pki_tools.types.certificate.Certificate">Certificate</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The <a class="autorefs autorefs-internal" title="Certificate" href="../../types/certificate/#pki_tools.types.certificate.Certificate">Certificate</a>
+to check revocation for.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>chain</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Chain (pki_tools.types.chain.Chain)" href="../../types/chain/#pki_tools.types.chain.Chain">Chain</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The CA chain including one or more certificates and
+the issuer of the <code>cert</code>, signer of the OCSP response and CRL
+issuer. See [Loading Chain][chain] for examples how the
+chain can be created</p>
+              </div>
+            </li>
+            <li>
+              <b><code>crl_cache_seconds</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>3600</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>[CRL Only] Specifies how long the CRL should
+be cached, default is 1 hour.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>ocsp_res_cache_seconds</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>3600</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>[OCSP Only] Specifies how long the OCSP
+response should be cached, default is 1 hour.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>revoke_mode</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="RevokeMode (pki_tools.types.enums.RevokeMode)" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a></code>, default:
+                      <code><a class="autorefs autorefs-internal" title="RevokeMode (pki_tools.types.enums.RevokeMode)" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a>.<span title="pki_tools.types.enums.RevokeMode.OCSP_FALLBACK_CRL">OCSP_FALLBACK_CRL</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>A <a class="autorefs autorefs-internal" title="RevokeMode" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a>
+specifying how to check for revocation, default is OCSP with
+CRL fallback</p>
+              </div>
+            </li>
+            <li>
+              <b><code>same_crl_domains</code></b>
+                  (<code><span title="list">list</span>[<span title="list">list</span>[<span title="str">str</span>]]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>A list of lists of domains that are considered
+to be the same hostname in CRL IDP and cert CDP check.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="bool">bool</span></code>
+              –
+              <div class="doc-md-description">
+                <p>True if the certificate is revoked, False otherwise</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="SignatureVerificationFailed (pki_tools.exceptions.SignatureVerificationFailed)" href="../../types/exceptions/#pki_tools.exceptions.SignatureVerificationFailed">SignatureVerificationFailed</a></code>
+              –
+              <div class="doc-md-description">
+                <p>When the Chain contains more than one
+certificate and the trust fails either because of some certificate
+has expired or some signature in the chain is invalid</p>
+              </div>
+            </li>
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="RevokeCheckFailed (pki_tools.exceptions.RevokeCheckFailed)" href="../../types/exceptions/#pki_tools.exceptions.RevokeCheckFailed">RevokeCheckFailed</a></code>
+              –
+              <div class="doc-md-description">
+                <p>When both OCSP and CRL checks fail</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <h5 id="pki_tools.funcs.check_revocation.is_revoked--examples">Examples<a class="headerlink" href="#pki_tools.funcs.check_revocation.is_revoked--examples" title="Permanent link">&para;</a></h5>
+<pre><code class="language-python">from pki_tools import Certificate, Chain, is_revoked
+
+chain = Chain.from_uri(
+    [
+        &quot;https://letsencrypt.org/certs/isrgrootx1.pem&quot;,
+        &quot;https://letsencrypt.org/certs/2024/r13.pem&quot;,
+    ]
+)
+
+valid_cert = Certificate.from_server(
+    &quot;https://valid-isrgrootx1.letsencrypt.org&quot;
+)
+revoked_cert = Certificate.from_server(
+    &quot;https://revoked-isrgrootx1.letsencrypt.org&quot;
+)
+
+
+if not is_revoked(valid_cert, chain):
+    print(&quot;Valid cert not revoked&quot;)
+
+if is_revoked(revoked_cert, chain):
+    print(&quot;Cert revoked&quot;)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Valid cert not revoked
+Cert revoked
+
+</code></pre>
+</details>
+<h6 id="pki_tools.funcs.check_revocation.is_revoked--only-ocsp">Only OCSP<a class="headerlink" href="#pki_tools.funcs.check_revocation.is_revoked--only-ocsp" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import Certificate, Chain, is_revoked, RevokeMode
+
+cert = Certificate.from_server(&quot;https://crt.sh/?d=16907827965&quot;)
+
+chain = Chain.from_uri(
+    [
+        &quot;http://crt.sectigo.com/SectigoPublicServerAuthenticationCAOVR36.crt&quot;,
+        &quot;https://crt.sh/?d=4256644734&quot;,
+    ]
+)
+
+if is_revoked(cert, chain, revoke_mode=RevokeMode.OCSP_ONLY):
+    print(&quot;Cert revoked&quot;)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Cert revoked
+
+</code></pre>
+</details>
+<h6 id="pki_tools.funcs.check_revocation.is_revoked--only-crl">Only CRL<a class="headerlink" href="#pki_tools.funcs.check_revocation.is_revoked--only-crl" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import Certificate, Chain, is_revoked, RevokeMode
+
+cert = Certificate.from_uri(
+    &quot;https://letsencrypt.org/certs/lets-encrypt-r3.pem&quot;
+)
+
+chain = Chain.from_uri(
+    [
+        &quot;https://letsencrypt.org/certs/isrgrootx1.pem&quot;,
+    ]
+)
+
+if not is_revoked(cert, chain, revoke_mode=RevokeMode.CRL_ONLY):
+    print(&quot;Cert not revoked&quot;)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Cert not revoked
+
+</code></pre>
+</details>
+<p>For different ways of loading certificate and chain see: 
+[Loading objects][loading-objects].</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pki_tools.funcs.check_revocation.is_revoked_multiple_issuers" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">is_revoked_multiple_issuers</span>
+
+
+<a href="#pki_tools.funcs.check_revocation.is_revoked_multiple_issuers" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-python doc-signature">is_revoked_multiple_issuers(cert: <a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="../../types/certificate/#pki_tools.types.certificate.Certificate">Certificate</a>, cert_issuer: <a class="autorefs autorefs-internal" title="Chain (pki_tools.types.chain.Chain)" href="../../types/chain/#pki_tools.types.chain.Chain">Chain</a>, ocsp_issuer: <a class="autorefs autorefs-internal" title="Chain (pki_tools.types.chain.Chain)" href="../../types/chain/#pki_tools.types.chain.Chain">Chain</a>, crl_issuer: <a class="autorefs autorefs-internal" title="Chain (pki_tools.types.chain.Chain)" href="../../types/chain/#pki_tools.types.chain.Chain">Chain</a>, crl_cache_seconds: <span title="int">int</span> = 3600, ocsp_res_cache_seconds: <span title="int">int</span> = 3600, revoke_mode: <a class="autorefs autorefs-internal" title="RevokeMode (pki_tools.types.enums.RevokeMode)" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a> = <a class="autorefs autorefs-internal" title="RevokeMode (pki_tools.types.enums.RevokeMode)" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a>.<span title="pki_tools.types.enums.RevokeMode.OCSP_FALLBACK_CRL">OCSP_FALLBACK_CRL</span>, same_crl_domains: <span title="list">list</span>[<span title="list">list</span>[<span title="str">str</span>]] = None) -&gt; <span title="bool">bool</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Checks if a certificate is revoked first using the OCSP extension and then
+the CRL extensions.</p>
+<p>Note that OCSP has precedence over CRL meaning that if OCSP check is
+successful this function will return the bool without checking CRL.</p>
+<p>Otherwise, if OCSP check fails, CRL will be tried next.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>cert</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Certificate (pki_tools.types.certificate.Certificate)" href="../../types/certificate/#pki_tools.types.certificate.Certificate">Certificate</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The <a class="autorefs autorefs-internal" title="Certificate" href="../../types/certificate/#pki_tools.types.certificate.Certificate">Certificate</a>
+to check revocation for.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cert_issuer</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Chain (pki_tools.types.chain.Chain)" href="../../types/chain/#pki_tools.types.chain.Chain">Chain</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The CA chain including one or more certificates and
+the issuer of the <code>cert</code>. See [Loading Chain][chain]
+for examples how the chain can be created.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>ocsp_issuer</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Chain (pki_tools.types.chain.Chain)" href="../../types/chain/#pki_tools.types.chain.Chain">Chain</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The CA chain including one or more certificates used
+for signing of the OCSP response</p>
+              </div>
+            </li>
+            <li>
+              <b><code>crl_issuer</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="Chain (pki_tools.types.chain.Chain)" href="../../types/chain/#pki_tools.types.chain.Chain">Chain</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The CA chain including one or more certificates used
+for signing the CRL</p>
+              </div>
+            </li>
+            <li>
+              <b><code>crl_cache_seconds</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>3600</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>[CRL Only] Specifies how long the CRL should
+be cached, default is 1 hour.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>ocsp_res_cache_seconds</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>3600</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>[OCSP Only] Specifies how long the OCSP
+response should be cached, default is 1 hour.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>revoke_mode</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="RevokeMode (pki_tools.types.enums.RevokeMode)" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a></code>, default:
+                      <code><a class="autorefs autorefs-internal" title="RevokeMode (pki_tools.types.enums.RevokeMode)" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a>.<span title="pki_tools.types.enums.RevokeMode.OCSP_FALLBACK_CRL">OCSP_FALLBACK_CRL</span></code>
+)
+              –
+              <div class="doc-md-description">
+                <p>A <a class="autorefs autorefs-internal" title="RevokeMode" href="../../types/enums/#pki_tools.types.enums.RevokeMode">RevokeMode</a>
+specifying how to check for revocation, default is OCSP with
+CRL fallback</p>
+              </div>
+            </li>
+            <li>
+              <b><code>same_crl_domains</code></b>
+                  (<code><span title="list">list</span>[<span title="list">list</span>[<span title="str">str</span>]]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>A list of lists of domains that are considered
+to be the same hostname in CRL IDP and cert CDP check.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="bool">bool</span></code>
+              –
+              <div class="doc-md-description">
+                <p>True if the certificate is revoked, False otherwise</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="SignatureVerificationFailed (pki_tools.exceptions.SignatureVerificationFailed)" href="../../types/exceptions/#pki_tools.exceptions.SignatureVerificationFailed">SignatureVerificationFailed</a></code>
+              –
+              <div class="doc-md-description">
+                <p>When the Chain contains more than one
+certificate and the trust fails either because of some certificate
+has expired or some signature in the chain is invalid</p>
+              </div>
+            </li>
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="RevokeCheckFailed (pki_tools.exceptions.RevokeCheckFailed)" href="../../types/exceptions/#pki_tools.exceptions.RevokeCheckFailed">RevokeCheckFailed</a></code>
+              –
+              <div class="doc-md-description">
+                <p>When both OCSP and CRL checks fail</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../.." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../types/certificate/" class="btn btn-neutral float-right" title="Certificate">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+      <span><a href="../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../types/certificate/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
