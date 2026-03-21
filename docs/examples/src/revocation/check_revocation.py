@@ -4,6 +4,7 @@ chain = Chain.from_uri(
     [
         "https://letsencrypt.org/certs/isrgrootx1.pem",
         "https://letsencrypt.org/certs/2024/r13.pem",
+        "https://letsencrypt.org/certs/2024/r12.pem",
     ]
 )
 
@@ -13,7 +14,6 @@ valid_cert = Certificate.from_server(
 revoked_cert = Certificate.from_server(
     "https://revoked-isrgrootx1.letsencrypt.org"
 )
-
 
 if not is_revoked(valid_cert, chain):
     print("Valid cert not revoked")
