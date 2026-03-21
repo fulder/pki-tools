@@ -80,7 +80,7 @@ class Certificates(CryptoParser):
     @classmethod
     def from_uri(
         cls: Type["Certificates"],
-        uris: [str],
+        uris: list[str],
         cache_time_seconds: int = CACHE_TIME_SECONDS,
     ) -> "Certificates":
         """
