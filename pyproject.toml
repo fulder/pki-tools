@@ -34,14 +34,14 @@ optional = true
 pytest = "^9.0.2"
 pytest-mock = "^3.15.1"
 pytest-xdist = "^3.8.0"
-pytest-cov = "^7.0.0"
+pytest-cov = "^7.1.0"
 smokeshow = "^0.5.0"
 
 [tool.poetry.group.lint]
 optional = true
 
 [tool.poetry.group.lint.dependencies]
-ruff = ">=0.5.0,<0.15.6"
+ruff = ">=0.5.0,<0.15.8"
 
 [tool.poetry.group.dev.dependencies]
 mkdocstrings = {extras = ["python"], version = "^1.0.3"}
