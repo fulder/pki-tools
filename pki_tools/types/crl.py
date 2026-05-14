@@ -149,6 +149,7 @@ class CertificateRevocationList(InitCryptoParser):
         cls: Type["CertificateRevocationList"],
         uri: str,
         cache_time_seconds: int = CACHE_TIME_SECONDS,
+        proxy: str = None,
     ) -> "CertificateRevocationList":
         """
         Loads CertificateRevocationList from a URI.
@@ -157,6 +158,8 @@ class CertificateRevocationList(InitCryptoParser):
             uri: URI where the CRL can be downloaded.
             cache_time_seconds: Specifies how long the CRL
                 should be cached, default is 1 month.
+            proxy: Optional proxy URL to use for the HTTP request
+                (e.g., 'http://proxy.example.com:8080')
 
         Returns:
             Instance of CertificateRevocationList containing the revoked
@@ -165,7 +168,7 @@ class CertificateRevocationList(InitCryptoParser):
 
         cache_ttl = round(time.time() / cache_time_seconds)
         crl_uri = CertsUri(uri=uri)
-        res = _download_cached(crl_uri.uri, cache_ttl)
+        res = _download_cached(crl_uri.uri, cache_ttl, proxy)
 
         try:
             return CertificateRevocationList.from_der_bytes(res.content)

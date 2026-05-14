@@ -56,9 +56,9 @@ def _download_server_certificate(hostname: str, cache_ttl: int = None):
             return ssl.DER_cert_to_PEM_cert(der_cert)
 
 
-@lru_cache(maxsize=None)
-def _download_cached(uri: str, ttl: int = None) -> httpx.Response:
-    ret = HTTPX_CLIENT.get(uri)
+def _do_download(client: httpx.Client, uri: str) -> httpx.Response:
+    """Helper to perform the actual download and check status."""
+    ret = client.get(uri)
 
     if ret.status_code != 200:
         logger.bind(status=ret.status_code).error(
@@ -67,3 +67,34 @@ def _download_cached(uri: str, ttl: int = None) -> httpx.Response:
         raise FetchFailure(f"Failed to fetch URI. Status: {ret.status_code}")
 
     return ret
+
+
+@lru_cache(maxsize=None)
+def _download_cached(
+    uri: str, ttl: int = None, proxy: str = None
+) -> httpx.Response:
+    """
+    Download and cache content from a URI with optional proxy support.
+
+    Args:
+        uri: The URI to download from
+        ttl: Time-to-live for cache (used as cache key for cache invalidation)
+        proxy: Optional proxy URL (e.g., 'http://proxy.example.com:8080')
+
+    Returns:
+        httpx.Response object containing the downloaded content
+    """
+    # Use cached version when proxy is None
+    if proxy is None:
+        client = HTTPX_CLIENT
+    else:
+        # For proxy requests, create a new client with proxy
+        client = httpx.Client(
+            transport=httpx.HTTPTransport(retries=2), timeout=30, proxy=proxy
+        )
+
+    try:
+        return _do_download(client, uri)
+    finally:
+        if proxy is not None:
+            client.close()
