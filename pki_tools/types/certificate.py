@@ -394,7 +394,7 @@ class Certificate(InitCryptoParser):
 
         if not hasattr(self, "_key_pair"):
             raise MissingInit(
-                f"Please use Certificate.{self._init_func} " f"function"
+                f"Please use Certificate.{self._init_func} function"
             )
 
         subject = self.subject._to_cryptography()

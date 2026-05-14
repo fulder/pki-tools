@@ -70,7 +70,9 @@ def _do_download(client: httpx.Client, uri: str) -> httpx.Response:
 
 
 @lru_cache(maxsize=None)
-def _download_cached(uri: str, ttl: int = None, proxy: str = None) -> httpx.Response:
+def _download_cached(
+    uri: str, ttl: int = None, proxy: str = None
+) -> httpx.Response:
     """
     Download and cache content from a URI with optional proxy support.
 
@@ -88,9 +90,7 @@ def _download_cached(uri: str, ttl: int = None, proxy: str = None) -> httpx.Resp
     else:
         # For proxy requests, create a new client with proxy
         client = httpx.Client(
-            transport=httpx.HTTPTransport(retries=2),
-            timeout=30,
-            proxy=proxy
+            transport=httpx.HTTPTransport(retries=2), timeout=30, proxy=proxy
         )
 
     try:
