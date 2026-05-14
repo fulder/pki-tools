@@ -25,6 +25,7 @@ while IFS= read -r -d '' file; do
   file_name=$(basename "$file")
 
   if [[ "${skip_run[@]}" =~ "${file_name}" ]]; then
+    echo "Skipping ${file_name}..."
     continue
   fi
 
