@@ -6,7 +6,12 @@ from loguru import logger
 from pki_tools.types.extensions import UniformResourceIdentifier
 from pki_tools.types.chain import Chain
 from pki_tools.types.certificate import Certificate
-from pki_tools.exceptions import ExtensionMissing, CrlIdpInvalid, FetchFailure, LoadError
+from pki_tools.exceptions import (
+    ExtensionMissing,
+    CrlIdpInvalid,
+    FetchFailure,
+    LoadError,
+)
 from pki_tools.types.crl import CertificateRevocationList
 
 
@@ -93,8 +98,7 @@ def _is_revoked(
         for full_name in dist_point.full_name:
             if not isinstance(full_name, UniformResourceIdentifier):
                 log.warning(
-                    "CRL Distribution Point is not "
-                    "UniformResourceIdentifier"
+                    "CRL Distribution Point is not UniformResourceIdentifier"
                 )
                 continue
 
@@ -112,7 +116,6 @@ def _is_revoked(
                 continue
 
             fetched_crl = True
-                
 
             issuer = crl_issuer.get_issuer(crl)
 

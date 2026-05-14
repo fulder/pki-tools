@@ -322,9 +322,9 @@ class AuthorityKeyIdentifier(Extension):
                 authority_cert_issuer.append(general_name._string_dict())
             ret["Authority Cert Issuer"] = authority_cert_issuer
         if self.authority_cert_serial_number is not None:
-            ret[
-                "Authority Cert Serial Number"
-            ] = self.authority_cert_serial_number
+            ret["Authority Cert Serial Number"] = (
+                self.authority_cert_serial_number
+            )
 
         if ret:
             return {self.name: ret}
@@ -445,7 +445,7 @@ class KeyUsage(Extension):
 
     def _string_dict(self):
         true_fields = []
-        for field in self.model_fields:
+        for field in KeyUsage.model_fields:
             if field == "critical":
                 continue
 
@@ -945,13 +945,13 @@ class PolicyConstraints(Extension):
         ret = {self.name: {}}
 
         if self.require_explicit_policy is not None:
-            ret[self.name][
-                "Require Explicit Policy"
-            ] = self.require_explicit_policy
+            ret[self.name]["Require Explicit Policy"] = (
+                self.require_explicit_policy
+            )
         if self.inhibit_policy_mapping is not None:
-            ret[self.name][
-                "Inhibit Policy Mapping"
-            ] = self.inhibit_policy_mapping
+            ret[self.name]["Inhibit Policy Mapping"] = (
+                self.inhibit_policy_mapping
+            )
 
         return ret
 
@@ -1210,9 +1210,9 @@ class DistributionPoint(CryptoParser):
             for full_name in self.full_name:
                 ret["Full Name"].append(full_name._string_dict())
         if self.name_relative_to_crl_issuer is not None:
-            ret[
-                "Name Relative To CRL Issuer"
-            ] = self.name_relative_to_crl_issuer._string_dict()
+            ret["Name Relative To CRL Issuer"] = (
+                self.name_relative_to_crl_issuer._string_dict()
+            )
         if self.reasons is not None:
             ret["Reasons"] = []
             for reason in self.reasons:
@@ -1388,9 +1388,9 @@ class IssuingDistributionPoint(Extension):
             for full_name in self.full_name:
                 ret["Full Name"].append(full_name._string_dict())
         if self.name_relative_to_crl_issuer is not None:
-            ret[
-                "Name Relative To CRL Issuer"
-            ] = self.name_relative_to_crl_issuer._string_dict()
+            ret["Name Relative To CRL Issuer"] = (
+                self.name_relative_to_crl_issuer._string_dict()
+            )
         return ret
 
     def _to_cryptography(self) -> x509.IssuingDistributionPoint:
@@ -1691,7 +1691,7 @@ class Extensions(CryptoParser):
     )
 
     def __iter__(self) -> Iterable[Extension]:
-        for field_name, field in self.model_fields.items():
+        for field_name, field in Extensions.model_fields.items():
             val = getattr(self, field_name)
             if val is None:
                 continue
@@ -1713,7 +1713,7 @@ class Extensions(CryptoParser):
         """
         extensions_dict = {"_x509_obj": cert_extensions}
 
-        for name, field_info in cls.model_fields.items():
+        for name, field_info in Extensions.model_fields.items():
             class_type = typing.get_args(field_info.annotation)[0]
             oid = ObjectIdentifier(field_info.alias)
             try:
@@ -1741,7 +1741,7 @@ class Extensions(CryptoParser):
 
     def _string_dict(self):
         extensions = {}
-        for field_name in self.model_fields:
+        for field_name in Extensions.model_fields:
             att_val = getattr(self, field_name)
 
             if att_val is None or str(att_val) == "":
@@ -1753,7 +1753,7 @@ class Extensions(CryptoParser):
 
     def _to_cryptography(self) -> x509.Extensions:
         extensions = []
-        for field_name in self.model_fields:
+        for field_name in Extensions.model_fields:
             att_val = getattr(self, field_name)
 
             if att_val is None or str(att_val) == "":

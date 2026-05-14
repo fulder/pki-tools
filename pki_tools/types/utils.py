@@ -60,7 +60,6 @@ def _download_server_certificate(hostname: str, cache_ttl: int = None):
 def _download_cached(uri: str, ttl: int = None) -> httpx.Response:
     ret = HTTPX_CLIENT.get(uri)
 
-
     if ret.status_code != 200:
         logger.bind(status=ret.status_code).error(
             "Failed to fetch issuer from URI"

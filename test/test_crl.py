@@ -9,6 +9,7 @@ from conftest import _create_crl
 from pki_tools.exceptions import CrlIdpInvalid
 from unittest.mock import Mock
 
+
 def test_crl_fetch_error(mocked_requests_get, cert, chain):
     mocked_requests_get.return_value.status_code = 503
 
