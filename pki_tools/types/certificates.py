@@ -157,8 +157,8 @@ class Certificates(CryptoParser):
         count = 0
         for cert in self.certificates:
             count += 1
-            ret += f"{'-'*10}Certificate #{count}{'-'*10}\n"
+            ret += f"{'-' * 10}Certificate #{count}{'-' * 10}\n"
             ret += str(cert)
-            ret += f"{'-'*34}\n"
+            ret += f"{'-' * 34}\n"
         ret += f"Chain certificate count: {count}"
         return ret

@@ -378,7 +378,7 @@ class OCSPRequest(InitCryptoParser):
     def _to_cryptography(self) -> ocsp.OCSPRequest:
         if not hasattr(self, "_cert"):
             raise MissingInit(
-                f"Please use " f"OCSPRequest.{self._init_func} function"
+                f"Please use OCSPRequest.{self._init_func} function"
             )
 
         builder = ocsp.OCSPRequestBuilder()
