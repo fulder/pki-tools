@@ -445,7 +445,7 @@ class KeyUsage(Extension):
 
     def _string_dict(self):
         true_fields = []
-        for field in self.model_fields:
+        for field in KeyUsage.model_fields:
             if field == "critical":
                 continue
 
@@ -1691,7 +1691,7 @@ class Extensions(CryptoParser):
     )
 
     def __iter__(self) -> Iterable[Extension]:
-        for field_name, field in self.model_fields.items():
+        for field_name, field in Extensions.model_fields.items():
             val = getattr(self, field_name)
             if val is None:
                 continue
@@ -1713,7 +1713,7 @@ class Extensions(CryptoParser):
         """
         extensions_dict = {"_x509_obj": cert_extensions}
 
-        for name, field_info in cls.model_fields.items():
+        for name, field_info in Extensions.model_fields.items():
             class_type = typing.get_args(field_info.annotation)[0]
             oid = ObjectIdentifier(field_info.alias)
             try:
@@ -1741,7 +1741,7 @@ class Extensions(CryptoParser):
 
     def _string_dict(self):
         extensions = {}
-        for field_name in self.model_fields:
+        for field_name in Extensions.model_fields:
             att_val = getattr(self, field_name)
 
             if att_val is None or str(att_val) == "":
@@ -1753,7 +1753,7 @@ class Extensions(CryptoParser):
 
     def _to_cryptography(self) -> x509.Extensions:
         extensions = []
-        for field_name in self.model_fields:
+        for field_name in Extensions.model_fields:
             att_val = getattr(self, field_name)
 
             if att_val is None or str(att_val) == "":

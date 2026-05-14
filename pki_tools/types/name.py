@@ -93,7 +93,7 @@ class Name(CryptoParser):
 
     def _to_cryptography(self) -> x509.Name:
         name_attributes = []
-        for name, field in self.model_fields.items():
+        for name, field in Name.model_fields.items():
             object_identifier = ObjectIdentifier(field.alias)
             field_vals = getattr(self, name)
             for val in field_vals:
