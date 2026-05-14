@@ -245,6 +245,7 @@ class Certificate(InitCryptoParser):
         cls: Type["Certificate"],
         uri: str,
         cache_time_seconds: int = CACHE_TIME_SECONDS,
+        proxy: str = None,
     ) -> "Certificate":
         """
         Loads Certificates from a URI.
@@ -253,6 +254,8 @@ class Certificate(InitCryptoParser):
             uri: URI where the certificate can be downloaded.
             cache_time_seconds: Specifies how long the certificate
                 should be cached, default is 1 month.
+            proxy: Optional proxy URL to use for the HTTP request
+                (e.g., 'http://proxy.example.com:8080')
 
         Returns:
             Instance of Certificate containing the certificates
@@ -263,7 +266,7 @@ class Certificate(InitCryptoParser):
 
         cache_ttl = round(time.time() / cache_time_seconds)
         cert_uri = CertsUri(uri=uri)
-        res = _download_cached(cert_uri.uri, cache_ttl)
+        res = _download_cached(cert_uri.uri, cache_ttl, proxy)
 
         return Certificate.from_pem_string(res.text)
 

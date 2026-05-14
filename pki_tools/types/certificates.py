@@ -82,6 +82,7 @@ class Certificates(CryptoParser):
         cls: Type["Certificates"],
         uris: list[str],
         cache_time_seconds: int = CACHE_TIME_SECONDS,
+        proxy: str = None,
     ) -> "Certificates":
         """
         Loads Certificates from one or more URI(s).
@@ -92,6 +93,8 @@ class Certificates(CryptoParser):
             cache_time_seconds: Specifies how long the certificates
                 should be cached, default is 1 month.
                 Defaults to CACHE_TIME_SECONDS.
+            proxy: Optional proxy URL to use for the HTTP request
+                (e.g., 'http://proxy.example.com:8080')
 
         Returns:
             Instance of Certificates containing the certificates
@@ -102,7 +105,7 @@ class Certificates(CryptoParser):
         cache_ttl = round(time.time() / cache_time_seconds)
         for uri in uris:
             cert_uri = CertsUri(uri=uri)
-            res = _download_cached(cert_uri.uri, cache_ttl)
+            res = _download_cached(cert_uri.uri, cache_ttl, proxy)
 
             try:
                 # Try PEM first
