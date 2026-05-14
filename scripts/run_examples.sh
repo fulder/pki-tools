@@ -4,7 +4,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 skip_run=(
-
+ "check_revocation_ocsp.py"
 )
 exclude_outputs=(
   "create_csr.py"
@@ -25,6 +25,7 @@ while IFS= read -r -d '' file; do
   file_name=$(basename "$file")
 
   if [[ "${skip_run[@]}" =~ "${file_name}" ]]; then
+    echo "Skipping ${file_name}..."
     continue
   fi
 
