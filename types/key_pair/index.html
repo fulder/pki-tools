@@ -1,0 +1,4024 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/types/key_pair/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>KeyPair - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "KeyPair";
+        var mkdocs_page_input_path = "types/key_pair.md";
+        var mkdocs_page_url = "/types/key_pair/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">KeyPair</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Types</li>
+      <li class="breadcrumb-item active">KeyPair</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/types/key_pair.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="pki_tools.types.key_pair"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.CryptoKeyPair" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CryptoKeyPair</span>
+
+
+<a href="#pki_tools.types.key_pair.CryptoKeyPair" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+        <p>Represents a cryptographic key pair.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>private_key</code></b>
+              –
+              <div class="doc-md-description">
+                <p>The private key</p>
+              </div>
+            </li>
+            <li>
+              <b><code>public_key</code></b>
+              –
+              <div class="doc-md-description">
+                <p>The public key</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.CryptoKeyPair.generate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">generate</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoKeyPair.generate" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">generate(*args) -&gt; <a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Abstract method to generate a cryptographic key pair.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The generated cryptographic key pair.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.CryptoPrivateKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CryptoPrivateKey</span>
+
+
+<a href="#pki_tools.types.key_pair.CryptoPrivateKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code>, <code><span title="abc">abc</span>.<span title="abc.ABC">ABC</span></code></p>
+
+
+        <p>Represents a cryptographic private key.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.key_pair.CryptoPrivateKey.der_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">der_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoPrivateKey.der_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">der_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Property to get the DER encoding of the public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>bytes</code></b>(                  <code><span title="bytes">bytes</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The DER encoded public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.key_pair.CryptoPrivateKey.pem_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">pem_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoPrivateKey.pem_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">pem_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Property to get the PEM encoding of the private key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>bytes</code></b>(                  <code><span title="bytes">bytes</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The PEM encoded private key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.CryptoPrivateKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoPrivateKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.types.CertificateIssuerPrivateKeyTypes" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/#cryptography.hazmat.primitives.asymmetric.types.CertificateIssuerPrivateKeyTypes">CertificateIssuerPrivateKeyTypes</a>) -&gt; <a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a CryptoPrivateKey from a cryptography private key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.types.CertificateIssuerPrivateKeyTypes" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/#cryptography.hazmat.primitives.asymmetric.types.CertificateIssuerPrivateKeyTypes">CertificateIssuerPrivateKeyTypes</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography private key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The CryptoPrivateKey object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.CryptoPublicKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CryptoPublicKey</span>
+
+
+<a href="#pki_tools.types.key_pair.CryptoPublicKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code>, <code><span title="abc">abc</span>.<span title="abc.ABC">ABC</span></code></p>
+
+
+        <p>Represents a cryptographic public key.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.key_pair.CryptoPublicKey.der_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">der_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoPublicKey.der_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">der_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Property to get the DER encoding of the public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>bytes</code></b>(                  <code><span title="bytes">bytes</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The DER encoded public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.key_pair.CryptoPublicKey.ocsp_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">ocsp_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoPublicKey.ocsp_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">ocsp_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The bytes used for the OCSP Response hash</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>bytes</code></b>(                  <code><span title="bytes">bytes</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The bytes used for the OCSP Response hash</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.key_pair.CryptoPublicKey.pem_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">pem_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoPublicKey.pem_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">pem_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Property to get the PEM encoding of the public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>bytes</code></b>(                  <code><span title="bytes">bytes</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The PEM encoded public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.CryptoPublicKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoPublicKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.types.CertificateIssuerPublicKeyTypes" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/#cryptography.hazmat.primitives.asymmetric.types.CertificateIssuerPublicKeyTypes">CertificateIssuerPublicKeyTypes</a>) -&gt; <a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a CryptoPublicKey from a cryptography public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.types.CertificateIssuerPublicKeyTypes" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/#cryptography.hazmat.primitives.asymmetric.types.CertificateIssuerPublicKeyTypes">CertificateIssuerPublicKeyTypes</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The created CryptoPublicKey.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.CryptoPublicKey.verify" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">verify</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.CryptoPublicKey.verify" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">verify(signed: <a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a>) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Verifies the signature of a signed object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>signed</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="InitCryptoParser (pki_tools.types.crypto_parser.InitCryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser">InitCryptoParser</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>the signed object to verify.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.DSAKeyPair" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">DSAKeyPair</span>
+
+
+<a href="#pki_tools.types.key_pair.DSAKeyPair" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code></p>
+
+
+        <p>Describes a DSA Key Pair including the public and private DSA keys.</p>
+<div class="admonition warning">
+<p class="admonition-title">Note</p>
+<p>DSA is an old and legacy algorithm. 
+Consider using 
+<a class="autorefs autorefs-internal" title="EllipticCurveKeyPair" href="#pki_tools.types.key_pair.EllipticCurveKeyPair">EllipticCurveKeyPair</a> 
+or 
+<a class="autorefs autorefs-internal" title="RSAKeyPair" href="#pki_tools.types.key_pair.RSAKeyPair">RSAKeyPair</a>
+instead.</p>
+</div>
+<h5 id="pki_tools.types.key_pair.DSAKeyPair--examples">Examples<a class="headerlink" href="#pki_tools.types.key_pair.DSAKeyPair--examples" title="Permanent link">&para;</a></h5>
+<h6 id="pki_tools.types.key_pair.DSAKeyPair--generate-keypair">Generate keypair<a class="headerlink" href="#pki_tools.types.key_pair.DSAKeyPair--generate-keypair" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import DSAKeyPair
+
+key_pair = DSAKeyPair.generate(key_size=1024)
+
+print(key_pair.private_key.pem_string)
+print(key_pair.public_key.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography"><a class="autorefs autorefs-internal" title="from_cryptography
+
+
+  
+      abstractmethod
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser.from_cryptography">InitCryptoParser.from_cryptography</a><a class="headerlink" href="#pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_cryptography" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>crypto_keys</code></summary>
+<pre><code>from cryptography.hazmat.primitives import serialization
+
+private_key_pem = b&quot;&quot;&quot;
+-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+&quot;&quot;&quot;
+public_key_pem = b&quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+
+crypto_public_key = serialization.load_pem_public_key(public_key_pem)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+
+key_pair = DSAKeyPair(
+    public_key=DSAPublicKey.from_cryptography(crypto_public_key),
+    private_key=DSAPrivateKey.from_cryptography(crypto_private_key),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>DSAKeyPair:
+  generator_g: '113777026571325530148150394408467299305589997194470431376564940585605453797253843240385953561624361715300637770674134020122595656184354455315207866000987394828535805614606024021315033549457672053549361497135203471795738563110933341121849876449932177135069371874058966749891793319752800046614670106059201138656'
+  key_size: '1024'
+  prime_p: '174757476342306797247563317256894129844245132954515284483435018210595536104310937495384232315831853480443453499620885651911198721759647573944694709015221077111398208541814382944481887170189910067356212345671285839418487207597130726845228782300695389126938410647911854140920564564816908606042285402918736359701'
+  public_key_y: '149332052542478152219821166226616716616977242473328582848563249300540754897324006416792998195121332611269937769202630005073559668943384310360257482112770686017742010665852185709674377535585104122942880303444668338707692502260752201470105621604193468478471725786623824002451061035867177729841769129384287123018'
+  subprime_q: '1187488220291981039175259798988933546327060643443'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private.pem</code></summary>
+<pre><code>-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+
+key_pair = DSAKeyPair(
+    public_key=DSAPublicKey.from_file(&quot;public.pem&quot;),
+    private_key=DSAPrivateKey.from_file(&quot;private.pem&quot;),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>DSAKeyPair:
+  generator_g: '113777026571325530148150394408467299305589997194470431376564940585605453797253843240385953561624361715300637770674134020122595656184354455315207866000987394828535805614606024021315033549457672053549361497135203471795738563110933341121849876449932177135069371874058966749891793319752800046614670106059201138656'
+  key_size: '1024'
+  prime_p: '174757476342306797247563317256894129844245132954515284483435018210595536104310937495384232315831853480443453499620885651911198721759647573944694709015221077111398208541814382944481887170189910067356212345671285839418487207597130726845228782300695389126938410647911854140920564564816908606042285402918736359701'
+  public_key_y: '149332052542478152219821166226616716616977242473328582848563249300540754897324006416792998195121332611269937769202630005073559668943384310360257482112770686017742010665852185709674377535585104122942880303444668338707692502260752201470105621604193468478471725786623824002451061035867177729841769129384287123018'
+  subprime_q: '1187488220291981039175259798988933546327060643443'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#pki_tools.types.key_pair.DSAKeyPair--initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+
+key_pair = DSAKeyPair(
+    public_key=DSAPublicKey.from_pem_string(public_pem),
+    private_key=DSAPrivateKey.from_pem_string(private_pem),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>DSAKeyPair:
+  generator_g: '113777026571325530148150394408467299305589997194470431376564940585605453797253843240385953561624361715300637770674134020122595656184354455315207866000987394828535805614606024021315033549457672053549361497135203471795738563110933341121849876449932177135069371874058966749891793319752800046614670106059201138656'
+  key_size: '1024'
+  prime_p: '174757476342306797247563317256894129844245132954515284483435018210595536104310937495384232315831853480443453499620885651911198721759647573944694709015221077111398208541814382944481887170189910067356212345671285839418487207597130726845228782300695389126938410647911854140920564564816908606042285402918736359701'
+  public_key_y: '149332052542478152219821166226616716616977242473328582848563249300540754897324006416792998195121332611269937769202630005073559668943384310360257482112770686017742010665852185709674377535585104122942880303444668338707692502260752201470105621604193468478471725786623824002451061035867177729841769129384287123018'
+  subprime_q: '1187488220291981039175259798988933546327060643443'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.DSAKeyPair--initcryptoparserto_file"><a class="autorefs autorefs-internal" title="to_file" href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.to_file">InitCryptoParser.to_file</a><a class="headerlink" href="#pki_tools.types.key_pair.DSAKeyPair--initcryptoparserto_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+
+key_pair = DSAKeyPair(
+    public_key=DSAPublicKey.from_pem_string(public_pem),
+    private_key=DSAPrivateKey.from_pem_string(private_pem),
+)
+
+key_pair.public_key.to_file(&quot;out_public.pem&quot;)
+key_pair.private_key.to_file(&quot;out_private.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_private.pem</code></summary>
+<pre><code>-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+
+</code></pre>
+</details>
+<details class="note">
+<summary><code>out_public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+
+</code></pre>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.DSAKeyPair.generate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">generate</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.DSAKeyPair.generate" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">generate(key_size: <span title="int">int</span>) -&gt; <a class="autorefs autorefs-internal" title="DSAKeyPair (pki_tools.types.key_pair.DSAKeyPair)" href="#pki_tools.types.key_pair.DSAKeyPair">DSAKeyPair</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Generate a DSA cryptographic key pair.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key_size</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The size of the key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="DSAKeyPair (pki_tools.types.key_pair.DSAKeyPair)" href="#pki_tools.types.key_pair.DSAKeyPair">DSAKeyPair</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The generated DSA key pair.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.DSAPrivateKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">DSAPrivateKey</span>
+
+
+<a href="#pki_tools.types.key_pair.DSAPrivateKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a></code></p>
+
+
+        <p>Represents a DSA cryptographic private key.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.DSAPrivateKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.DSAPrivateKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.dsa" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#module-cryptography.hazmat.primitives.asymmetric.dsa">dsa</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.dsa.DSAPrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#cryptography.hazmat.primitives.asymmetric.dsa.DSAPrivateKey">DSAPrivateKey</a>) -&gt; <a class="autorefs autorefs-internal" title="DSAPrivateKey (pki_tools.types.key_pair.DSAPrivateKey)" href="#pki_tools.types.key_pair.DSAPrivateKey">DSAPrivateKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a DSAPrivateKey from a cryptography key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.dsa" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#module-cryptography.hazmat.primitives.asymmetric.dsa">dsa</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.dsa.DSAPrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#cryptography.hazmat.primitives.asymmetric.dsa.DSAPrivateKey">DSAPrivateKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The <a class="autorefs autorefs-external" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#module-cryptography.hazmat.primitives.asymmetric.dsa">cryptography.hazmat.primitives.asymmetric.dsa</a>
+private key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>DSAKeyPair</code></b>(                  <code><a class="autorefs autorefs-internal" title="DSAPrivateKey (pki_tools.types.key_pair.DSAPrivateKey)" href="#pki_tools.types.key_pair.DSAPrivateKey">DSAPrivateKey</a></code>
+)              –
+              <div class="doc-md-description">
+                <p>The DSA private key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.DSAPublicKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">DSAPublicKey</span>
+
+
+<a href="#pki_tools.types.key_pair.DSAPublicKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a></code></p>
+
+
+        <p>Represents a DSA cryptographic key pair.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.key_pair.DSAPublicKey.ocsp_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">ocsp_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.DSAPublicKey.ocsp_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">ocsp_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The bytes used for the OCSP Response hash</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>bytes</code></b>(                  <code><span title="bytes">bytes</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The bytes used for the OCSP Response hash</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.DSAPublicKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.DSAPublicKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.dsa" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#module-cryptography.hazmat.primitives.asymmetric.dsa">dsa</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.dsa.DSAPublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#cryptography.hazmat.primitives.asymmetric.dsa.DSAPublicKey">DSAPublicKey</a>) -&gt; <a class="autorefs autorefs-internal" title="DSAPublicKey (pki_tools.types.key_pair.DSAPublicKey)" href="#pki_tools.types.key_pair.DSAPublicKey">DSAPublicKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a DSAKeyPair from a cryptography key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.dsa" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#module-cryptography.hazmat.primitives.asymmetric.dsa">dsa</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.dsa.DSAPublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#cryptography.hazmat.primitives.asymmetric.dsa.DSAPublicKey">DSAPublicKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The <a class="autorefs autorefs-external" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/dsa/#module-cryptography.hazmat.primitives.asymmetric.dsa">cryptography.hazmat.primitives.asymmetric.dsa</a>
+public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>DSAKeyPair</code></b>(                  <code><a class="autorefs autorefs-internal" title="DSAPublicKey (pki_tools.types.key_pair.DSAPublicKey)" href="#pki_tools.types.key_pair.DSAPublicKey">DSAPublicKey</a></code>
+)              –
+              <div class="doc-md-description">
+                <p>The DSA key pair.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.Ed25519KeyPair" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Ed25519KeyPair</span>
+
+
+<a href="#pki_tools.types.key_pair.Ed25519KeyPair" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code></p>
+
+
+        <p>Represents an Ed25519 cryptographic key pair.</p>
+<h5 id="pki_tools.types.key_pair.Ed25519KeyPair--examples">Examples<a class="headerlink" href="#pki_tools.types.key_pair.Ed25519KeyPair--examples" title="Permanent link">&para;</a></h5>
+<h6 id="pki_tools.types.key_pair.Ed25519KeyPair--generate-keypair">Generate keypair<a class="headerlink" href="#pki_tools.types.key_pair.Ed25519KeyPair--generate-keypair" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair
+
+key_pair = Ed25519KeyPair.generate()
+
+print(key_pair.private_key.pem_string)
+print(key_pair.public_key.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_cryptography"><a class="autorefs autorefs-internal" title="from_cryptography
+
+
+  
+      abstractmethod
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser.from_cryptography">InitCryptoParser.from_cryptography</a><a class="headerlink" href="#pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_cryptography" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>crypto_keys</code></summary>
+<pre><code>from cryptography.hazmat.primitives import serialization
+
+private_key_pem = b&quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+public_key_pem = b&quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+
+crypto_public_key = serialization.load_pem_public_key(public_key_pem)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+
+key_pair = Ed25519KeyPair(
+    public_key=Ed25519PublicKey.from_cryptography(crypto_public_key),
+    private_key=Ed25519PrivateKey.from_cryptography(crypto_private_key),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed25519KeyPair:
+  public_bytes: C33F6E0D4277A9E61CA24D42A0C01B7E226B653ECF953DF0B4B6707FEC25861A
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private.pem</code></summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+
+key_pair = Ed25519KeyPair(
+    public_key=Ed25519PublicKey.from_file(&quot;public.pem&quot;),
+    private_key=Ed25519PrivateKey.from_file(&quot;private.pem&quot;),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed25519KeyPair:
+  public_bytes: C33F6E0D4277A9E61CA24D42A0C01B7E226B653ECF953DF0B4B6707FEC25861A
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+
+key_pair = Ed25519KeyPair(
+    public_key=Ed25519PublicKey.from_pem_string(public_pem),
+    private_key=Ed25519PrivateKey.from_pem_string(private_pem),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed25519KeyPair:
+  public_bytes: C33F6E0D4277A9E61CA24D42A0C01B7E226B653ECF953DF0B4B6707FEC25861A
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserto_file"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.to_file</a><a class="headerlink" href="#pki_tools.types.key_pair.Ed25519KeyPair--initcryptoparserto_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+
+key_pair = Ed25519KeyPair(
+    public_key=Ed25519PublicKey.from_pem_string(public_pem),
+    private_key=Ed25519PrivateKey.from_pem_string(private_pem),
+)
+
+key_pair.public_key.to_file(&quot;out_public.pem&quot;)
+key_pair.private_key.to_file(&quot;out_private.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_private.pem</code></summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+
+</code></pre>
+</details>
+<details class="note">
+<summary><code>out_public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+
+</code></pre>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.Ed25519KeyPair.generate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">generate</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.Ed25519KeyPair.generate" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">generate() -&gt; <a class="autorefs autorefs-internal" title="Ed25519KeyPair (pki_tools.types.key_pair.Ed25519KeyPair)" href="#pki_tools.types.key_pair.Ed25519KeyPair">Ed25519KeyPair</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Generate an Ed25519KeyPair cryptographic key pair.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Ed25519KeyPair (pki_tools.types.key_pair.Ed25519KeyPair)" href="#pki_tools.types.key_pair.Ed25519KeyPair">Ed25519KeyPair</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The generated Ed25519 key pair.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.Ed25519PrivateKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Ed25519PrivateKey</span>
+
+
+<a href="#pki_tools.types.key_pair.Ed25519PrivateKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a></code></p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.Ed25519PrivateKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.Ed25519PrivateKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <span title="cryptography.hazmat.primitives.asymmetric.ed25519">ed25519</span>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed25519/#cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PrivateKey">Ed25519PrivateKey</a>) -&gt; <a class="autorefs autorefs-internal" title="Ed25519PrivateKey (pki_tools.types.key_pair.Ed25519PrivateKey)" href="#pki_tools.types.key_pair.Ed25519PrivateKey">Ed25519PrivateKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an Ed25519 private key from a cryptography private key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><span title="cryptography.hazmat.primitives.asymmetric.ed25519">ed25519</span>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed25519/#cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PrivateKey">Ed25519PrivateKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography private key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Ed25519PrivateKey (pki_tools.types.key_pair.Ed25519PrivateKey)" href="#pki_tools.types.key_pair.Ed25519PrivateKey">Ed25519PrivateKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The created Ed25519PrivateKey object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.Ed25519PublicKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Ed25519PublicKey</span>
+
+
+<a href="#pki_tools.types.key_pair.Ed25519PublicKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a></code></p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.Ed25519PublicKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.Ed25519PublicKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <span title="cryptography.hazmat.primitives.asymmetric.ed25519">ed25519</span>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed25519/#cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PublicKey">Ed25519PublicKey</a>) -&gt; <a class="autorefs autorefs-internal" title="Ed25519PublicKey (pki_tools.types.key_pair.Ed25519PublicKey)" href="#pki_tools.types.key_pair.Ed25519PublicKey">Ed25519PublicKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an Ed25519PublicKey from a cryptography public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><span title="cryptography.hazmat.primitives.asymmetric.ed25519">ed25519</span>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed25519/#cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PublicKey">Ed25519PublicKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Ed25519PublicKey (pki_tools.types.key_pair.Ed25519PublicKey)" href="#pki_tools.types.key_pair.Ed25519PublicKey">Ed25519PublicKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The Ed25519PublicKey object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.Ed448KeyPair" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Ed448KeyPair</span>
+
+
+<a href="#pki_tools.types.key_pair.Ed448KeyPair" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code></p>
+
+
+        <p>Represents an Ed448 cryptographic key pair.</p>
+<h5 id="pki_tools.types.key_pair.Ed448KeyPair--examples">Examples<a class="headerlink" href="#pki_tools.types.key_pair.Ed448KeyPair--examples" title="Permanent link">&para;</a></h5>
+<h6 id="pki_tools.types.key_pair.Ed448KeyPair--generate-keypair">Generate keypair<a class="headerlink" href="#pki_tools.types.key_pair.Ed448KeyPair--generate-keypair" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import Ed448KeyPair
+
+key_pair = Ed448KeyPair.generate()
+
+print(key_pair.private_key.pem_string)
+print(key_pair.public_key.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MEcCAQAwBQYDK2VxBDsEOddX4ESZ5SsmiX/VMUPbnpPs/OOG4/zGvm4H5mN3nDTn
+aueR56mFimzXxc7tj3z+N1lmNeO23ZNFPA==
+-----END PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MEMwBQYDK2VxAzoAfCdaj7HXSPMqW+Tl+lXEzItOzK2AoZjkvcCMR+gepngd0mDy
+KbC4U+fVnxnbf1UuJxFiARSUjUWA
+-----END PUBLIC KEY-----
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_cryptography"><a class="autorefs autorefs-internal" title="from_cryptography
+
+
+  
+      abstractmethod
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser.from_cryptography">InitCryptoParser.from_cryptography</a><a class="headerlink" href="#pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_cryptography" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>crypto_keys</code></summary>
+<pre><code>from cryptography.hazmat.primitives import serialization
+
+private_key_pem = b&quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MEcCAQAwBQYDK2VxBDsEOddX4ESZ5SsmiX/VMUPbnpPs/OOG4/zGvm4H5mN3nDTn
+aueR56mFimzXxc7tj3z+N1lmNeO23ZNFPA==
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+public_key_pem = b&quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MEMwBQYDK2VxAzoAfCdaj7HXSPMqW+Tl+lXEzItOzK2AoZjkvcCMR+gepngd0mDy
+KbC4U+fVnxnbf1UuJxFiARSUjUWA
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+
+crypto_public_key = serialization.load_pem_public_key(public_key_pem)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed448KeyPair, Ed448PublicKey, Ed448PrivateKey
+
+key_pair = Ed448KeyPair(
+    public_key=Ed448PublicKey.from_cryptography(crypto_public_key),
+    private_key=Ed448PrivateKey.from_cryptography(crypto_private_key),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed448KeyPair:
+  public_bytes: 7C275A8FB1D748F32A5BE4E5FA55C4CC8B4ECCAD80A198E4BDC08C47E81EA6781DD260F229B0B853E7D59F19DB7F552E2711620114948D4580
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private.pem</code></summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MEcCAQAwBQYDK2VxBDsEOddX4ESZ5SsmiX/VMUPbnpPs/OOG4/zGvm4H5mN3nDTn
+aueR56mFimzXxc7tj3z+N1lmNeO23ZNFPA==
+-----END PRIVATE KEY-----
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MEMwBQYDK2VxAzoAfCdaj7HXSPMqW+Tl+lXEzItOzK2AoZjkvcCMR+gepngd0mDy
+KbC4U+fVnxnbf1UuJxFiARSUjUWA
+-----END PUBLIC KEY-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed448KeyPair, Ed448PublicKey, Ed448PrivateKey
+
+key_pair = Ed448KeyPair(
+    public_key=Ed448PublicKey.from_file(&quot;public.pem&quot;),
+    private_key=Ed448PrivateKey.from_file(&quot;private.pem&quot;),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed448KeyPair:
+  public_bytes: 7C275A8FB1D748F32A5BE4E5FA55C4CC8B4ECCAD80A198E4BDC08C47E81EA6781DD260F229B0B853E7D59F19DB7F552E2711620114948D4580
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MEcCAQAwBQYDK2VxBDsEOddX4ESZ5SsmiX/VMUPbnpPs/OOG4/zGvm4H5mN3nDTn
+aueR56mFimzXxc7tj3z+N1lmNeO23ZNFPA==
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MEMwBQYDK2VxAzoAfCdaj7HXSPMqW+Tl+lXEzItOzK2AoZjkvcCMR+gepngd0mDy
+KbC4U+fVnxnbf1UuJxFiARSUjUWA
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed448KeyPair, Ed448PublicKey, Ed448PrivateKey
+
+key_pair = Ed448KeyPair(
+    public_key=Ed448PublicKey.from_pem_string(public_pem),
+    private_key=Ed448PrivateKey.from_pem_string(private_pem),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed448KeyPair:
+  public_bytes: 7C275A8FB1D748F32A5BE4E5FA55C4CC8B4ECCAD80A198E4BDC08C47E81EA6781DD260F229B0B853E7D59F19DB7F552E2711620114948D4580
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserto_file"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.to_file</a><a class="headerlink" href="#pki_tools.types.key_pair.Ed448KeyPair--initcryptoparserto_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MEcCAQAwBQYDK2VxBDsEOddX4ESZ5SsmiX/VMUPbnpPs/OOG4/zGvm4H5mN3nDTn
+aueR56mFimzXxc7tj3z+N1lmNeO23ZNFPA==
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MEMwBQYDK2VxAzoAfCdaj7HXSPMqW+Tl+lXEzItOzK2AoZjkvcCMR+gepngd0mDy
+KbC4U+fVnxnbf1UuJxFiARSUjUWA
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed448KeyPair, Ed448PublicKey, Ed448PrivateKey
+
+key_pair = Ed448KeyPair(
+    public_key=Ed448PublicKey.from_pem_string(public_pem),
+    private_key=Ed448PrivateKey.from_pem_string(private_pem),
+)
+
+key_pair.public_key.to_file(&quot;out_public.pem&quot;)
+key_pair.private_key.to_file(&quot;out_private.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_private.pem</code></summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MEcCAQAwBQYDK2VxBDsEOddX4ESZ5SsmiX/VMUPbnpPs/OOG4/zGvm4H5mN3nDTn
+aueR56mFimzXxc7tj3z+N1lmNeO23ZNFPA==
+-----END PRIVATE KEY-----
+
+</code></pre>
+</details>
+<details class="note">
+<summary><code>out_public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MEMwBQYDK2VxAzoAfCdaj7HXSPMqW+Tl+lXEzItOzK2AoZjkvcCMR+gepngd0mDy
+KbC4U+fVnxnbf1UuJxFiARSUjUWA
+-----END PUBLIC KEY-----
+
+</code></pre>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.Ed448KeyPair.generate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">generate</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.Ed448KeyPair.generate" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">generate() -&gt; <a class="autorefs autorefs-internal" title="Ed448KeyPair (pki_tools.types.key_pair.Ed448KeyPair)" href="#pki_tools.types.key_pair.Ed448KeyPair">Ed448KeyPair</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Generate an Ed448 cryptographic key pair.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Ed448KeyPair (pki_tools.types.key_pair.Ed448KeyPair)" href="#pki_tools.types.key_pair.Ed448KeyPair">Ed448KeyPair</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The generated Ed448 key pair.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.Ed448PrivateKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Ed448PrivateKey</span>
+
+
+<a href="#pki_tools.types.key_pair.Ed448PrivateKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a></code></p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.Ed448PrivateKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.Ed448PrivateKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <span title="cryptography.hazmat.primitives.asymmetric.ed448">ed448</span>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ed448.Ed448PrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed448/#cryptography.hazmat.primitives.asymmetric.ed448.Ed448PrivateKey">Ed448PrivateKey</a>) -&gt; <a class="autorefs autorefs-internal" title="Ed448PrivateKey (pki_tools.types.key_pair.Ed448PrivateKey)" href="#pki_tools.types.key_pair.Ed448PrivateKey">Ed448PrivateKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an Ed25519KeyPair from a cryptography private key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><span title="cryptography.hazmat.primitives.asymmetric.ed448">ed448</span>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ed448.Ed448PrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed448/#cryptography.hazmat.primitives.asymmetric.ed448.Ed448PrivateKey">Ed448PrivateKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography private key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Ed448PrivateKey (pki_tools.types.key_pair.Ed448PrivateKey)" href="#pki_tools.types.key_pair.Ed448PrivateKey">Ed448PrivateKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The created Ed448PrivateKey object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.Ed448PublicKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Ed448PublicKey</span>
+
+
+<a href="#pki_tools.types.key_pair.Ed448PublicKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a></code></p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.Ed448PublicKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.Ed448PublicKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <span title="cryptography.hazmat.primitives.asymmetric.ed448">ed448</span>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ed448.Ed448PublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed448/#cryptography.hazmat.primitives.asymmetric.ed448.Ed448PublicKey">Ed448PublicKey</a>) -&gt; <a class="autorefs autorefs-internal" title="Ed448PublicKey (pki_tools.types.key_pair.Ed448PublicKey)" href="#pki_tools.types.key_pair.Ed448PublicKey">Ed448PublicKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an Ed448PublicKey from a cryptography public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><span title="cryptography.hazmat.primitives.asymmetric.ed448">ed448</span>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ed448.Ed448PublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ed448/#cryptography.hazmat.primitives.asymmetric.ed448.Ed448PublicKey">Ed448PublicKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Ed448PublicKey (pki_tools.types.key_pair.Ed448PublicKey)" href="#pki_tools.types.key_pair.Ed448PublicKey">Ed448PublicKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The Ed448PublicKey object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.EllipticCurveKeyPair" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">EllipticCurveKeyPair</span>
+
+
+<a href="#pki_tools.types.key_pair.EllipticCurveKeyPair" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code></p>
+
+
+        <p>Describes an elliptic curve Key Pair including the public and private keys.</p>
+<h5 id="pki_tools.types.key_pair.EllipticCurveKeyPair--examples">Examples<a class="headerlink" href="#pki_tools.types.key_pair.EllipticCurveKeyPair--examples" title="Permanent link">&para;</a></h5>
+<h6 id="pki_tools.types.key_pair.EllipticCurveKeyPair--generate-keypair">Generate keypair<a class="headerlink" href="#pki_tools.types.key_pair.EllipticCurveKeyPair--generate-keypair" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import EllipticCurveKeyPair, EllipticCurveName
+
+key_pair = EllipticCurveKeyPair.generate(
+    curve_name=EllipticCurveName.SECP521R1
+)
+
+print(key_pair.private_key.pem_string)
+print(key_pair.public_key.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN EC PRIVATE KEY-----
+MF8CAQEEGKjPz1HxOsCzWDldL2lBRkhNn8BeANbriaAKBggqhkjOPQMBAaE0AzIA
+BJ32je0cT4KuCA13aM56xkUnEFGukuHAMU6cWJhInPl95dkcRhs+U8ZrUGO9jFaR
+kg==
+-----END EC PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEnfaN7RxPgq4IDXdoznrGRScQUa6S
+4cAxTpxYmEic+X3l2RxGGz5TxmtQY72MVpGS
+-----END PUBLIC KEY-----
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_cryptography"><a class="autorefs autorefs-internal" title="from_cryptography
+
+
+  
+      abstractmethod
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser.from_cryptography">InitCryptoParser.from_cryptography</a><a class="headerlink" href="#pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_cryptography" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>crypto_keys</code></summary>
+<pre><code>from cryptography.hazmat.primitives import serialization
+
+private_key_pem = b&quot;&quot;&quot;
+-----BEGIN EC PRIVATE KEY-----
+MF8CAQEEGKjPz1HxOsCzWDldL2lBRkhNn8BeANbriaAKBggqhkjOPQMBAaE0AzIA
+BJ32je0cT4KuCA13aM56xkUnEFGukuHAMU6cWJhInPl95dkcRhs+U8ZrUGO9jFaR
+kg==
+-----END EC PRIVATE KEY-----
+&quot;&quot;&quot;
+public_key_pem = b&quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEnfaN7RxPgq4IDXdoznrGRScQUa6S
+4cAxTpxYmEic+X3l2RxGGz5TxmtQY72MVpGS
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+
+crypto_public_key = serialization.load_pem_public_key(public_key_pem)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import (
+    EllipticCurveKeyPair,
+    EllipticCurvePublicKey,
+    EllipticCurvePrivateKey,
+)
+
+key_pair = EllipticCurveKeyPair(
+    public_key=EllipticCurvePublicKey.from_cryptography(crypto_public_key),
+    private_key=EllipticCurvePrivateKey.from_cryptography(crypto_private_key),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>EllipticCurveKeyPair:
+  curve_name: SECP192R1
+  x_coordinate: '3873244018496539881359912556942920160767430416289115521073'
+  y_coordinate: '1927529413795754362028696442258815769538381786197708411282'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private.pem</code></summary>
+<pre><code>-----BEGIN EC PRIVATE KEY-----
+MF8CAQEEGKjPz1HxOsCzWDldL2lBRkhNn8BeANbriaAKBggqhkjOPQMBAaE0AzIA
+BJ32je0cT4KuCA13aM56xkUnEFGukuHAMU6cWJhInPl95dkcRhs+U8ZrUGO9jFaR
+kg==
+-----END EC PRIVATE KEY-----
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEnfaN7RxPgq4IDXdoznrGRScQUa6S
+4cAxTpxYmEic+X3l2RxGGz5TxmtQY72MVpGS
+-----END PUBLIC KEY-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import (
+    EllipticCurveKeyPair,
+    EllipticCurvePublicKey,
+    EllipticCurvePrivateKey,
+)
+
+key_pair = EllipticCurveKeyPair(
+    public_key=EllipticCurvePublicKey.from_file(&quot;public.pem&quot;),
+    private_key=EllipticCurvePrivateKey.from_file(&quot;private.pem&quot;),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>EllipticCurveKeyPair:
+  curve_name: SECP192R1
+  x_coordinate: '3873244018496539881359912556942920160767430416289115521073'
+  y_coordinate: '1927529413795754362028696442258815769538381786197708411282'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN EC PRIVATE KEY-----
+MF8CAQEEGKjPz1HxOsCzWDldL2lBRkhNn8BeANbriaAKBggqhkjOPQMBAaE0AzIA
+BJ32je0cT4KuCA13aM56xkUnEFGukuHAMU6cWJhInPl95dkcRhs+U8ZrUGO9jFaR
+kg==
+-----END EC PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEnfaN7RxPgq4IDXdoznrGRScQUa6S
+4cAxTpxYmEic+X3l2RxGGz5TxmtQY72MVpGS
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import (
+    EllipticCurveKeyPair,
+    EllipticCurvePublicKey,
+    EllipticCurvePrivateKey,
+)
+
+key_pair = EllipticCurveKeyPair(
+    public_key=EllipticCurvePublicKey.from_pem_string(public_pem),
+    private_key=EllipticCurvePrivateKey.from_pem_string(private_pem),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>EllipticCurveKeyPair:
+  curve_name: SECP192R1
+  x_coordinate: '3873244018496539881359912556942920160767430416289115521073'
+  y_coordinate: '1927529413795754362028696442258815769538381786197708411282'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserto_file"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.to_file</a><a class="headerlink" href="#pki_tools.types.key_pair.EllipticCurveKeyPair--initcryptoparserto_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN EC PRIVATE KEY-----
+MF8CAQEEGKjPz1HxOsCzWDldL2lBRkhNn8BeANbriaAKBggqhkjOPQMBAaE0AzIA
+BJ32je0cT4KuCA13aM56xkUnEFGukuHAMU6cWJhInPl95dkcRhs+U8ZrUGO9jFaR
+kg==
+-----END EC PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEnfaN7RxPgq4IDXdoznrGRScQUa6S
+4cAxTpxYmEic+X3l2RxGGz5TxmtQY72MVpGS
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import (
+    EllipticCurveKeyPair,
+    EllipticCurvePublicKey,
+    EllipticCurvePrivateKey,
+)
+
+key_pair = EllipticCurveKeyPair(
+    public_key=EllipticCurvePublicKey.from_pem_string(public_pem),
+    private_key=EllipticCurvePrivateKey.from_pem_string(private_pem),
+)
+
+key_pair.public_key.to_file(&quot;out_public.pem&quot;)
+key_pair.private_key.to_file(&quot;out_private.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_private.pem</code></summary>
+<pre><code>-----BEGIN EC PRIVATE KEY-----
+MF8CAQEEGKjPz1HxOsCzWDldL2lBRkhNn8BeANbriaAKBggqhkjOPQMBAaE0AzIA
+BJ32je0cT4KuCA13aM56xkUnEFGukuHAMU6cWJhInPl95dkcRhs+U8ZrUGO9jFaR
+kg==
+-----END EC PRIVATE KEY-----
+
+</code></pre>
+</details>
+<details class="note">
+<summary><code>out_public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEnfaN7RxPgq4IDXdoznrGRScQUa6S
+4cAxTpxYmEic+X3l2RxGGz5TxmtQY72MVpGS
+-----END PUBLIC KEY-----
+
+</code></pre>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.EllipticCurveKeyPair.generate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">generate</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.EllipticCurveKeyPair.generate" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">generate(curve_name: <a class="autorefs autorefs-internal" title="EllipticCurveName (pki_tools.types.key_pair.EllipticCurveName)" href="#pki_tools.types.key_pair.EllipticCurveName">EllipticCurveName</a>) -&gt; <a class="autorefs autorefs-internal" title="EllipticCurveKeyPair (pki_tools.types.key_pair.EllipticCurveKeyPair)" href="#pki_tools.types.key_pair.EllipticCurveKeyPair">EllipticCurveKeyPair</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Generate an elliptic curve cryptographic key pair.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>curve_name</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="EllipticCurveName (pki_tools.types.key_pair.EllipticCurveName)" href="#pki_tools.types.key_pair.EllipticCurveName">EllipticCurveName</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the curve.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="EllipticCurveKeyPair (pki_tools.types.key_pair.EllipticCurveKeyPair)" href="#pki_tools.types.key_pair.EllipticCurveKeyPair">EllipticCurveKeyPair</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The generated elliptic curve key pair.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.EllipticCurveName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">EllipticCurveName</span>
+
+
+<a href="#pki_tools.types.key_pair.EllipticCurveName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+
+        <p>Elliptic Curve Names</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.EllipticCurvePrivateKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">EllipticCurvePrivateKey</span>
+
+
+<a href="#pki_tools.types.key_pair.EllipticCurvePrivateKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a></code></p>
+
+
+        <p>Represents an elliptic curve cryptographic private key.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.EllipticCurvePrivateKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.EllipticCurvePrivateKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#module-cryptography.hazmat.primitives.asymmetric.ec">ec</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey">EllipticCurvePrivateKey</a>) -&gt; <a class="autorefs autorefs-internal" title="EllipticCurvePrivateKey (pki_tools.types.key_pair.EllipticCurvePrivateKey)" href="#pki_tools.types.key_pair.EllipticCurvePrivateKey">EllipticCurvePrivateKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an EllipticCurvePrivateKey from a cryptography private key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#module-cryptography.hazmat.primitives.asymmetric.ec">ec</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey">EllipticCurvePrivateKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography private key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="EllipticCurvePrivateKey (pki_tools.types.key_pair.EllipticCurvePrivateKey)" href="#pki_tools.types.key_pair.EllipticCurvePrivateKey">EllipticCurvePrivateKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The EllipticCurvePrivateKey created object</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.EllipticCurvePublicKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">EllipticCurvePublicKey</span>
+
+
+<a href="#pki_tools.types.key_pair.EllipticCurvePublicKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a></code></p>
+
+
+        <p>Represents an elliptic curve cryptographic public key.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.key_pair.EllipticCurvePublicKey.ocsp_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">ocsp_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.EllipticCurvePublicKey.ocsp_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">ocsp_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The bytes used for the OCSP Response hash</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>bytes</code></b>(                  <code><span title="bytes">bytes</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The bytes used for the OCSP Response hash</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.EllipticCurvePublicKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.EllipticCurvePublicKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#module-cryptography.hazmat.primitives.asymmetric.ec">ec</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePublicKey">EllipticCurvePublicKey</a>) -&gt; <a class="autorefs autorefs-internal" title="EllipticCurvePublicKey (pki_tools.types.key_pair.EllipticCurvePublicKey)" href="#pki_tools.types.key_pair.EllipticCurvePublicKey">EllipticCurvePublicKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an EllipticCurvePublicKey from a cryptography public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#module-cryptography.hazmat.primitives.asymmetric.ec">ec</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/ec/#cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePublicKey">EllipticCurvePublicKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="EllipticCurvePublicKey (pki_tools.types.key_pair.EllipticCurvePublicKey)" href="#pki_tools.types.key_pair.EllipticCurvePublicKey">EllipticCurvePublicKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The created EllipticCurvePublicKey object</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.RSAKeyPair" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">RSAKeyPair</span>
+
+
+<a href="#pki_tools.types.key_pair.RSAKeyPair" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoKeyPair (pki_tools.types.key_pair.CryptoKeyPair)" href="#pki_tools.types.key_pair.CryptoKeyPair">CryptoKeyPair</a></code></p>
+
+
+        <p>Describes an RSA Key Pair including the public and private RSA keys.</p>
+<h5 id="pki_tools.types.key_pair.RSAKeyPair--examples">Examples<a class="headerlink" href="#pki_tools.types.key_pair.RSAKeyPair--examples" title="Permanent link">&para;</a></h5>
+<h6 id="pki_tools.types.key_pair.RSAKeyPair--generate-keypair">Generate keypair<a class="headerlink" href="#pki_tools.types.key_pair.RSAKeyPair--generate-keypair" title="Permanent link">&para;</a></h6>
+<pre><code class="language-python">from pki_tools import RSAKeyPair
+
+key_pair = RSAKeyPair.generate()
+
+print(key_pair.private_key.pem_string)
+print(key_pair.public_key.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_cryptography"><a class="autorefs autorefs-internal" title="from_cryptography
+
+
+  
+      abstractmethod
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser.from_cryptography">InitCryptoParser.from_cryptography</a><a class="headerlink" href="#pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_cryptography" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>crypto_keys</code></summary>
+<pre><code>from cryptography.hazmat.primitives import serialization
+
+private_key_pem = b&quot;&quot;&quot;
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+&quot;&quot;&quot;
+public_key_pem = b&quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+
+crypto_public_key = serialization.load_pem_public_key(public_key_pem)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+
+key_pair = RSAKeyPair(
+    public_key=RSAPublicKey.from_cryptography(crypto_public_key),
+    private_key=RSAPrivateKey.from_cryptography(crypto_private_key),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>RSAKeyPair:
+  dmp1: '112228686098578289968206530398533832532087447182265458927579178422537594762937437642180841888657547745928845047872078923698573703206852833875325942746947034409646092798142300954781253256688565019637511208816685001820432660240910353920670244495107288979659625476528077796586331820727653559440906169349663093669'
+  dmq1: '29954878721454193261115798178826603818564585216011358474569809730587326380303847036263030712995464073115054903542089837665013809425951577679466246151951773611972881297374240238476709888387164594515787280324519624175913491034621711981569648269575792417502609736379495957362666551513872949291463489602901607213'
+  iqmp: '113377739742320119075874747148659403125690780467991563336450504742031829267730903383652084524673224369283355331374717321716590128967084240861243830597409710918961110635224262440163815022166491483352235666413036113542326814623174124611744543083546867929277477340240796140818812558974821133824541207302920805236'
+  key_size: '2048'
+  modulus_n: '28269656161865858123598576035899875440122191213127364861509154025675355610082799347921618153416712864686169355750843304814668229249598039750263836357726360127321991959996391367551966285361434131739675397279349625052844820155099922051021052083407166079301922726938201362153520404989534743429708886900189879132341366465692866810432101374364468049365637897193476795370556936116855076384721475999879171937784754794982370604637315116047432437846177894536884658616747452048948621460614753796193156319447575695952338495057296511722488852144978958149957659056926325939653530635680524483195710921326970123267059095715678683999'
+  prime_p: '176343988128282274560558905337666014113390755615913385162357203871534832961198562678453231553308631389506790330681446124875528657773322644361822060222174297971780095032531395566268646927128401200987402529243546595802001852219150348004003112361261272096189140829442581566445573582081282968306089036435034888629'
+  prime_q: '160309724544173073963232571063674598600136144153334672574545289916176842151394187752373856266338700715314498874198754016907725790327338604146593122167276121771016390787687047403972573571388992816493642903040016544962995464799608291534879147365930810686417486060191329949181535014418152170318033865597367518531'
+  private_exponent_d: '11631032985161832223701298567709908011771285897596262662705537774818961634958460131183278329626443775018659238422047681020228483657875117015214521316961923409266676704904751466113359154652878678124244433102528087796586778928881613412022699366418829457593375412502275989580046755270119395484057409194450766756418131355912574189524935045679200576802226542785707366549488966278026499105874223053296922290636700877634060131880477412241318572951128535689940811404135636039231063146125793446617452698102772766197719549943252614774826460673259451470604957009429087881450367160663455331454289837597840202113495148183100561953'
+  public_exponent_e: '65537'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private.pem</code></summary>
+<pre><code>-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+
+key_pair = RSAKeyPair(
+    public_key=RSAPublicKey.from_file(&quot;public.pem&quot;),
+    private_key=RSAPrivateKey.from_file(&quot;private.pem&quot;),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>RSAKeyPair:
+  dmp1: '112228686098578289968206530398533832532087447182265458927579178422537594762937437642180841888657547745928845047872078923698573703206852833875325942746947034409646092798142300954781253256688565019637511208816685001820432660240910353920670244495107288979659625476528077796586331820727653559440906169349663093669'
+  dmq1: '29954878721454193261115798178826603818564585216011358474569809730587326380303847036263030712995464073115054903542089837665013809425951577679466246151951773611972881297374240238476709888387164594515787280324519624175913491034621711981569648269575792417502609736379495957362666551513872949291463489602901607213'
+  iqmp: '113377739742320119075874747148659403125690780467991563336450504742031829267730903383652084524673224369283355331374717321716590128967084240861243830597409710918961110635224262440163815022166491483352235666413036113542326814623174124611744543083546867929277477340240796140818812558974821133824541207302920805236'
+  key_size: '2048'
+  modulus_n: '28269656161865858123598576035899875440122191213127364861509154025675355610082799347921618153416712864686169355750843304814668229249598039750263836357726360127321991959996391367551966285361434131739675397279349625052844820155099922051021052083407166079301922726938201362153520404989534743429708886900189879132341366465692866810432101374364468049365637897193476795370556936116855076384721475999879171937784754794982370604637315116047432437846177894536884658616747452048948621460614753796193156319447575695952338495057296511722488852144978958149957659056926325939653530635680524483195710921326970123267059095715678683999'
+  prime_p: '176343988128282274560558905337666014113390755615913385162357203871534832961198562678453231553308631389506790330681446124875528657773322644361822060222174297971780095032531395566268646927128401200987402529243546595802001852219150348004003112361261272096189140829442581566445573582081282968306089036435034888629'
+  prime_q: '160309724544173073963232571063674598600136144153334672574545289916176842151394187752373856266338700715314498874198754016907725790327338604146593122167276121771016390787687047403972573571388992816493642903040016544962995464799608291534879147365930810686417486060191329949181535014418152170318033865597367518531'
+  private_exponent_d: '11631032985161832223701298567709908011771285897596262662705537774818961634958460131183278329626443775018659238422047681020228483657875117015214521316961923409266676704904751466113359154652878678124244433102528087796586778928881613412022699366418829457593375412502275989580046755270119395484057409194450766756418131355912574189524935045679200576802226542785707366549488966278026499105874223053296922290636700877634060131880477412241318572951128535689940811404135636039231063146125793446617452698102772766197719549943252614774826460673259451470604957009429087881450367160663455331454289837597840202113495148183100561953'
+  public_exponent_e: '65537'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#pki_tools.types.key_pair.RSAKeyPair--initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+
+key_pair = RSAKeyPair(
+    public_key=RSAPublicKey.from_pem_string(public_pem),
+    private_key=RSAPrivateKey.from_pem_string(private_pem),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>RSAKeyPair:
+  dmp1: '112228686098578289968206530398533832532087447182265458927579178422537594762937437642180841888657547745928845047872078923698573703206852833875325942746947034409646092798142300954781253256688565019637511208816685001820432660240910353920670244495107288979659625476528077796586331820727653559440906169349663093669'
+  dmq1: '29954878721454193261115798178826603818564585216011358474569809730587326380303847036263030712995464073115054903542089837665013809425951577679466246151951773611972881297374240238476709888387164594515787280324519624175913491034621711981569648269575792417502609736379495957362666551513872949291463489602901607213'
+  iqmp: '113377739742320119075874747148659403125690780467991563336450504742031829267730903383652084524673224369283355331374717321716590128967084240861243830597409710918961110635224262440163815022166491483352235666413036113542326814623174124611744543083546867929277477340240796140818812558974821133824541207302920805236'
+  key_size: '2048'
+  modulus_n: '28269656161865858123598576035899875440122191213127364861509154025675355610082799347921618153416712864686169355750843304814668229249598039750263836357726360127321991959996391367551966285361434131739675397279349625052844820155099922051021052083407166079301922726938201362153520404989534743429708886900189879132341366465692866810432101374364468049365637897193476795370556936116855076384721475999879171937784754794982370604637315116047432437846177894536884658616747452048948621460614753796193156319447575695952338495057296511722488852144978958149957659056926325939653530635680524483195710921326970123267059095715678683999'
+  prime_p: '176343988128282274560558905337666014113390755615913385162357203871534832961198562678453231553308631389506790330681446124875528657773322644361822060222174297971780095032531395566268646927128401200987402529243546595802001852219150348004003112361261272096189140829442581566445573582081282968306089036435034888629'
+  prime_q: '160309724544173073963232571063674598600136144153334672574545289916176842151394187752373856266338700715314498874198754016907725790327338604146593122167276121771016390787687047403972573571388992816493642903040016544962995464799608291534879147365930810686417486060191329949181535014418152170318033865597367518531'
+  private_exponent_d: '11631032985161832223701298567709908011771285897596262662705537774818961634958460131183278329626443775018659238422047681020228483657875117015214521316961923409266676704904751466113359154652878678124244433102528087796586778928881613412022699366418829457593375412502275989580046755270119395484057409194450766756418131355912574189524935045679200576802226542785707366549488966278026499105874223053296922290636700877634060131880477412241318572951128535689940811404135636039231063146125793446617452698102772766197719549943252614774826460673259451470604957009429087881450367160663455331454289837597840202113495148183100561953'
+  public_exponent_e: '65537'
+
+
+</code></pre>
+</details>
+<h6 id="pki_tools.types.key_pair.RSAKeyPair--initcryptoparserto_file"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.to_file</a><a class="headerlink" href="#pki_tools.types.key_pair.RSAKeyPair--initcryptoparserto_file" title="Permanent link">&para;</a></h6>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+
+key_pair = RSAKeyPair(
+    public_key=RSAPublicKey.from_pem_string(public_pem),
+    private_key=RSAPrivateKey.from_pem_string(private_pem),
+)
+
+key_pair.public_key.to_file(&quot;out_public.pem&quot;)
+key_pair.private_key.to_file(&quot;out_private.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_private.pem</code></summary>
+<pre><code>-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+
+</code></pre>
+</details>
+<details class="note">
+<summary><code>out_public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+
+</code></pre>
+</details>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.RSAKeyPair.generate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">generate</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.RSAKeyPair.generate" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">generate(key_size: <span title="int">int</span> = 2048, exponent: <span title="int">int</span> = 65537) -&gt; <a class="autorefs autorefs-internal" title="RSAKeyPair (pki_tools.types.key_pair.RSAKeyPair)" href="#pki_tools.types.key_pair.RSAKeyPair">RSAKeyPair</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Generate an RSA cryptographic key pair.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key_size</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>2048</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The size of the key. Defaults to <code>2048</code>.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>exponent</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>65537</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The public exponent. Defaults to <code>65537</code>.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="RSAKeyPair (pki_tools.types.key_pair.RSAKeyPair)" href="#pki_tools.types.key_pair.RSAKeyPair">RSAKeyPair</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The generated RSA key pair.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.RSAPrivateKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">RSAPrivateKey</span>
+
+
+<a href="#pki_tools.types.key_pair.RSAPrivateKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPrivateKey (pki_tools.types.key_pair.CryptoPrivateKey)" href="#pki_tools.types.key_pair.CryptoPrivateKey">CryptoPrivateKey</a></code></p>
+
+
+        <p>Represents an RSA cryptographic key pair.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.RSAPrivateKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.RSAPrivateKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.rsa">rsa</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey">RSAPrivateKey</a>) -&gt; <a class="autorefs autorefs-internal" title="RSAPrivateKey (pki_tools.types.key_pair.RSAPrivateKey)" href="#pki_tools.types.key_pair.RSAPrivateKey">RSAPrivateKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an RSA private key from a cryptography key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.rsa">rsa</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey">RSAPrivateKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography private key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="RSAPrivateKey (pki_tools.types.key_pair.RSAPrivateKey)" href="#pki_tools.types.key_pair.RSAPrivateKey">RSAPrivateKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>An RSAPrivateKey object</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.key_pair.RSAPublicKey" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">RSAPublicKey</span>
+
+
+<a href="#pki_tools.types.key_pair.RSAPublicKey" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoPublicKey (pki_tools.types.key_pair.CryptoPublicKey)" href="#pki_tools.types.key_pair.CryptoPublicKey">CryptoPublicKey</a></code></p>
+
+
+        <p>Represents an RSA cryptographic key pair.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.key_pair.RSAPublicKey.der_bytes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">der_bytes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.RSAPublicKey.der_bytes" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">der_bytes: <span title="bytes">bytes</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Property to get the DER encoding of the public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>bytes</code></b>(                  <code><span title="bytes">bytes</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The DER encoded public key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.key_pair.RSAPublicKey.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.key_pair.RSAPublicKey.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(key: <a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.rsa">rsa</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey">RSAPublicKey</a>) -&gt; <a class="autorefs autorefs-internal" title="RSAPublicKey (pki_tools.types.key_pair.RSAPublicKey)" href="#pki_tools.types.key_pair.RSAPublicKey">RSAPublicKey</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an RSA public key from a cryptography public key.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key</code></b>
+                  (<code><a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#module-cryptography.hazmat.primitives.asymmetric.rsa">rsa</a>.<a class="autorefs autorefs-external" title="cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey" href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/#cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey">RSAPublicKey</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The public cryptography key.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="RSAPublicKey (pki_tools.types.key_pair.RSAPublicKey)" href="#pki_tools.types.key_pair.RSAPublicKey">RSAPublicKey</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The RSA public key</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../extensions/" class="btn btn-neutral float-left" title="Extensions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../exceptions/" class="btn btn-neutral float-right" title="Exceptions">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+      <span><a href="../extensions/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../exceptions/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/examples/key_pair_rsa/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Examples - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Examples";
+        var mkdocs_page_input_path = "examples/key_pair_rsa.md";
+        var mkdocs_page_url = "/examples/key_pair_rsa/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/examples/key_pair_rsa.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h1>
+<h2 id="generate-keypair">Generate keypair<a class="headerlink" href="#generate-keypair" title="Permanent link">&para;</a></h2>
+<pre><code class="language-python">from pki_tools import RSAKeyPair
+
+key_pair = RSAKeyPair.generate()
+
+print(key_pair.private_key.pem_string)
+print(key_pair.public_key.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_cryptography"><a class="autorefs autorefs-internal" title="from_cryptography
+
+
+  
+      abstractmethod
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.CryptoParser.from_cryptography">InitCryptoParser.from_cryptography</a><a class="headerlink" href="#initcryptoparserfrom_cryptography" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>crypto_keys</code></summary>
+<pre><code>from cryptography.hazmat.primitives import serialization
+
+private_key_pem = b&quot;&quot;&quot;
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+&quot;&quot;&quot;
+public_key_pem = b&quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+
+crypto_public_key = serialization.load_pem_public_key(public_key_pem)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+
+key_pair = RSAKeyPair(
+    public_key=RSAPublicKey.from_cryptography(crypto_public_key),
+    private_key=RSAPrivateKey.from_cryptography(crypto_private_key),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>RSAKeyPair:
+  dmp1: '112228686098578289968206530398533832532087447182265458927579178422537594762937437642180841888657547745928845047872078923698573703206852833875325942746947034409646092798142300954781253256688565019637511208816685001820432660240910353920670244495107288979659625476528077796586331820727653559440906169349663093669'
+  dmq1: '29954878721454193261115798178826603818564585216011358474569809730587326380303847036263030712995464073115054903542089837665013809425951577679466246151951773611972881297374240238476709888387164594515787280324519624175913491034621711981569648269575792417502609736379495957362666551513872949291463489602901607213'
+  iqmp: '113377739742320119075874747148659403125690780467991563336450504742031829267730903383652084524673224369283355331374717321716590128967084240861243830597409710918961110635224262440163815022166491483352235666413036113542326814623174124611744543083546867929277477340240796140818812558974821133824541207302920805236'
+  key_size: '2048'
+  modulus_n: '28269656161865858123598576035899875440122191213127364861509154025675355610082799347921618153416712864686169355750843304814668229249598039750263836357726360127321991959996391367551966285361434131739675397279349625052844820155099922051021052083407166079301922726938201362153520404989534743429708886900189879132341366465692866810432101374364468049365637897193476795370556936116855076384721475999879171937784754794982370604637315116047432437846177894536884658616747452048948621460614753796193156319447575695952338495057296511722488852144978958149957659056926325939653530635680524483195710921326970123267059095715678683999'
+  prime_p: '176343988128282274560558905337666014113390755615913385162357203871534832961198562678453231553308631389506790330681446124875528657773322644361822060222174297971780095032531395566268646927128401200987402529243546595802001852219150348004003112361261272096189140829442581566445573582081282968306089036435034888629'
+  prime_q: '160309724544173073963232571063674598600136144153334672574545289916176842151394187752373856266338700715314498874198754016907725790327338604146593122167276121771016390787687047403972573571388992816493642903040016544962995464799608291534879147365930810686417486060191329949181535014418152170318033865597367518531'
+  private_exponent_d: '11631032985161832223701298567709908011771285897596262662705537774818961634958460131183278329626443775018659238422047681020228483657875117015214521316961923409266676704904751466113359154652878678124244433102528087796586778928881613412022699366418829457593375412502275989580046755270119395484057409194450766756418131355912574189524935045679200576802226542785707366549488966278026499105874223053296922290636700877634060131880477412241318572951128535689940811404135636039231063146125793446617452698102772766197719549943252614774826460673259451470604957009429087881450367160663455331454289837597840202113495148183100561953'
+  public_exponent_e: '65537'
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#initcryptoparserfrom_file" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private.pem</code></summary>
+<pre><code>-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+
+key_pair = RSAKeyPair(
+    public_key=RSAPublicKey.from_file(&quot;public.pem&quot;),
+    private_key=RSAPrivateKey.from_file(&quot;private.pem&quot;),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>RSAKeyPair:
+  dmp1: '112228686098578289968206530398533832532087447182265458927579178422537594762937437642180841888657547745928845047872078923698573703206852833875325942746947034409646092798142300954781253256688565019637511208816685001820432660240910353920670244495107288979659625476528077796586331820727653559440906169349663093669'
+  dmq1: '29954878721454193261115798178826603818564585216011358474569809730587326380303847036263030712995464073115054903542089837665013809425951577679466246151951773611972881297374240238476709888387164594515787280324519624175913491034621711981569648269575792417502609736379495957362666551513872949291463489602901607213'
+  iqmp: '113377739742320119075874747148659403125690780467991563336450504742031829267730903383652084524673224369283355331374717321716590128967084240861243830597409710918961110635224262440163815022166491483352235666413036113542326814623174124611744543083546867929277477340240796140818812558974821133824541207302920805236'
+  key_size: '2048'
+  modulus_n: '28269656161865858123598576035899875440122191213127364861509154025675355610082799347921618153416712864686169355750843304814668229249598039750263836357726360127321991959996391367551966285361434131739675397279349625052844820155099922051021052083407166079301922726938201362153520404989534743429708886900189879132341366465692866810432101374364468049365637897193476795370556936116855076384721475999879171937784754794982370604637315116047432437846177894536884658616747452048948621460614753796193156319447575695952338495057296511722488852144978958149957659056926325939653530635680524483195710921326970123267059095715678683999'
+  prime_p: '176343988128282274560558905337666014113390755615913385162357203871534832961198562678453231553308631389506790330681446124875528657773322644361822060222174297971780095032531395566268646927128401200987402529243546595802001852219150348004003112361261272096189140829442581566445573582081282968306089036435034888629'
+  prime_q: '160309724544173073963232571063674598600136144153334672574545289916176842151394187752373856266338700715314498874198754016907725790327338604146593122167276121771016390787687047403972573571388992816493642903040016544962995464799608291534879147365930810686417486060191329949181535014418152170318033865597367518531'
+  private_exponent_d: '11631032985161832223701298567709908011771285897596262662705537774818961634958460131183278329626443775018659238422047681020228483657875117015214521316961923409266676704904751466113359154652878678124244433102528087796586778928881613412022699366418829457593375412502275989580046755270119395484057409194450766756418131355912574189524935045679200576802226542785707366549488966278026499105874223053296922290636700877634060131880477412241318572951128535689940811404135636039231063146125793446617452698102772766197719549943252614774826460673259451470604957009429087881450367160663455331454289837597840202113495148183100561953'
+  public_exponent_e: '65537'
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+
+key_pair = RSAKeyPair(
+    public_key=RSAPublicKey.from_pem_string(public_pem),
+    private_key=RSAPrivateKey.from_pem_string(private_pem),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>RSAKeyPair:
+  dmp1: '112228686098578289968206530398533832532087447182265458927579178422537594762937437642180841888657547745928845047872078923698573703206852833875325942746947034409646092798142300954781253256688565019637511208816685001820432660240910353920670244495107288979659625476528077796586331820727653559440906169349663093669'
+  dmq1: '29954878721454193261115798178826603818564585216011358474569809730587326380303847036263030712995464073115054903542089837665013809425951577679466246151951773611972881297374240238476709888387164594515787280324519624175913491034621711981569648269575792417502609736379495957362666551513872949291463489602901607213'
+  iqmp: '113377739742320119075874747148659403125690780467991563336450504742031829267730903383652084524673224369283355331374717321716590128967084240861243830597409710918961110635224262440163815022166491483352235666413036113542326814623174124611744543083546867929277477340240796140818812558974821133824541207302920805236'
+  key_size: '2048'
+  modulus_n: '28269656161865858123598576035899875440122191213127364861509154025675355610082799347921618153416712864686169355750843304814668229249598039750263836357726360127321991959996391367551966285361434131739675397279349625052844820155099922051021052083407166079301922726938201362153520404989534743429708886900189879132341366465692866810432101374364468049365637897193476795370556936116855076384721475999879171937784754794982370604637315116047432437846177894536884658616747452048948621460614753796193156319447575695952338495057296511722488852144978958149957659056926325939653530635680524483195710921326970123267059095715678683999'
+  prime_p: '176343988128282274560558905337666014113390755615913385162357203871534832961198562678453231553308631389506790330681446124875528657773322644361822060222174297971780095032531395566268646927128401200987402529243546595802001852219150348004003112361261272096189140829442581566445573582081282968306089036435034888629'
+  prime_q: '160309724544173073963232571063674598600136144153334672574545289916176842151394187752373856266338700715314498874198754016907725790327338604146593122167276121771016390787687047403972573571388992816493642903040016544962995464799608291534879147365930810686417486060191329949181535014418152170318033865597367518531'
+  private_exponent_d: '11631032985161832223701298567709908011771285897596262662705537774818961634958460131183278329626443775018659238422047681020228483657875117015214521316961923409266676704904751466113359154652878678124244433102528087796586778928881613412022699366418829457593375412502275989580046755270119395484057409194450766756418131355912574189524935045679200576802226542785707366549488966278026499105874223053296922290636700877634060131880477412241318572951128535689940811404135636039231063146125793446617452698102772766197719549943252614774826460673259451470604957009429087881450367160663455331454289837597840202113495148183100561953'
+  public_exponent_e: '65537'
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserto_file"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.to_file</a><a class="headerlink" href="#initcryptoparserto_file" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+
+key_pair = RSAKeyPair(
+    public_key=RSAPublicKey.from_pem_string(public_pem),
+    private_key=RSAPrivateKey.from_pem_string(private_pem),
+)
+
+key_pair.public_key.to_file(&quot;out_public.pem&quot;)
+key_pair.private_key.to_file(&quot;out_private.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_private.pem</code></summary>
+<pre><code>-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3/BWC4F4xtU+dSJ2oGbibuA8CWLNUJ13Y6ZjsYBE8eJyJklU
+F2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9b+Zn1QWr78Lb5vlRAXSJzIF5JoDr
+DdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72OrG02C2Yw6+odAwJ+mcKHgqpAv3ERP
+Z5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZMfdbSpGAY43gOQ9Apk+VsmB98Ws2K
+Nq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF4gRcAh1FC00tZXlBLiO+XP2gy1Vc
+p3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKDXwIDAQABAoIBAFwisgRB3MNR8USY
+TV5pdjhQIeNqtza30us5BkN9luA+XuDJwsNvkAT+6JMj6FYYngcwEEVrW6qYjI3z
+GD9o5BgqIAZRMxCOh5NceKu0mw19J69j01H6cNPC/kYhKB2/MQJL/DKE71wtrGl9
+jQSFaVzuYyvGum1hQI8AIKaus5T4wLjawIfoKAHwt3T5JP3bHbifiTOordw+n3/z
+B1ZnYAkot1ySzhNm8fKJuyFkowmWxUnJiHZU5T66n7MMlh4ABXtoV4ULcBns1/Qg
+7yiizwrLSIfUO6/Lt66UWNNIhJjkfaUdTfYj5upfBOJoMWHUTkmW8wzneb9g9F+K
+40pHmiECgYEA+x9G2J/WmkGDCQuo1/MQxf2pf3erElaSZYm9wQUHMAq96mDosQRN
+Dk6MgwhmavZEqrad2pwflnY8u6kuQYtbMu1nv7TsjsdBAf2Vp5XbyM1mEcjzPZ8U
+4QN6/XSQ2npaYvqqmaCO3KdaZP7Q9RAO2nQTJYAE/s8LWTwz4p7aWbUCgYEA5Enj
+XGY7MCdslA8xVTrfac8ZIYryXliFGSn+gq0CIX7TLWgX3pp/JKEcexuoSGZAm1Re
+6E3UPzQRM3JZQHqI8uc/mJbPL3R9ArpMmdATS5djNG7kzWTvH1vXOvSwx2O1rIod
+1u6S2Vg3abAj1LqpmU9FSYQnOFZEuiaBNIGqhUMCgYEAn9Gm+AS5wpCBAYe/HDig
+azFl5y7U3CXmo+KGtkop6eRcO8cTMF1pYPqSqG33KIm05+SzD8cev1Zejpw8SRCU
+qRO4XKSbjL6427h0vyQ7rU8zb4wxaf1Nf2sEojvGWJVX4vhfDMjHQxzrBa26dMyU
+d2k6KjqQc053jYIoD0lD86UCgYAqqDvZyiiJKPS6/dPED0or5UzW3bXIN1Y3i4dJ
+N7bMN3ySYX8EU24qlAhUYKijTqgH3k4VrmVYogwMxvMyfzMT4G4bvyJbxbKOTe1+
+WEkiuNkKtSX/0zpza5/eHlbiCxmpce19efrqrfc8wnMPjwmd4hgaUp1Zg5U4C3Xd
+L9WDLQKBgQChdIv3B9cxyU2yGpET3/bxdLIInhJQ6vi2vGtlaIsuzPEMgxRyJZG3
+TNgNLW052w0tnMGq4BWjZM2GpONwDwHzWyqVMrWXzdzU6XJTQRKxQZg4p/QVZBW0
+8iQGzFv2pa+taKWUXM16eYVcs4MuRoigvosKRJNGLlJAIRB7qHEbdA==
+-----END RSA PRIVATE KEY-----
+
+</code></pre>
+</details>
+<details class="note">
+<summary><code>out_public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3/BWC4F4xtU+dSJ2oGbi
+buA8CWLNUJ13Y6ZjsYBE8eJyJklUF2pnuCNe/7NldFTNhv0SF0avR8caYSQFy9S9
+b+Zn1QWr78Lb5vlRAXSJzIF5JoDrDdcWgMbdVosNsvoaEOi0wRVmDbgnaWdR72Or
+G02C2Yw6+odAwJ+mcKHgqpAv3ERPZ5mOWdQEm2ibdDIl4q9HOdnMokxbGsB5GqZM
+fdbSpGAY43gOQ9Apk+VsmB98Ws2KNq2S79aYw8SpRwDaZ1/c4pq24Py8TmSyvDKF
+4gRcAh1FC00tZXlBLiO+XP2gy1Vcp3RR6ec/X5htYEnKI8eY3XXqRTNmrELOyvKD
+XwIDAQAB
+-----END PUBLIC KEY-----
+
+</code></pre>
+</details>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+import datetime
+
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.x509 import ocsp, load_pem_x509_certificate
+
+cert_private_key = b"""
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAqrALl8McEXwwKIgIo9sHhGht+VCVExRnBmkEmAKTnRc9iZVV
+Q+slFnobc2y5p3TlBtLEfXed5yzak1NhnzLkfDQYrtUk6X5RREcsOohHT7AxuW/i
+K3FyZo5PXM5asFf/DQSH6lp/XJPq0g/seUAvDNxbhLbjx5wjGe+6sCsLB/OSbBRz
+Vmflb8p1XwmYr4LthhPE3kkLfCENVQPLoJOdwMw2qlqG63Qdwvj+wq+smIAauZDO
+DtxfzWZ82ftH3+qMseiveMPR2Szxz9qi2kSnsHTjdHRlEe5WzHOwa6U/HlPBOVHt
+IANxm0PHo8Np47ajTG3BUif6C/XUE5Co/Dz5awIDAQABAoIBADYVKN8x2atqo6G8
+FKzCglvAcRQdpdaRUOGVlfiKXHZafkuhTw6Bq9M25orIqPy3y7fBQbQVmik9K5ah
+xV1ZlU8LfMSs0ZDQTvSo7okvVBUaWW8N1eZ5AEwhjGD2G4MjprNbu6sUeKV/Utiz
+ZfS3UxEqoy7mej7tqKuXq5oVUV33mUwXiT+gx+X688iIlnSMt0XvwrVGfpDnGPqJ
+DUnNOli6dUDhvmfvs7KH8H8MLPHu9hK1Uq8zm7sMGS3WHb4E0krjNFZtkByy5cvk
+M4k1QpCl7Q4ym3lpOBoyXkFF/Mdi56Ufvo+75FwGqGamREoZect6TaMRvoDmpVcS
+I9EemdECgYEA269jlNFz/0fBgZX0mPgaJS7KTiUsTQ/HBMEW7lYLEwCPgQBATR2M
+mJAJtCdwWvyVu79cRu9ShqoK83tUVzsXYFu1lWE0m/r6qao7p9Pam9jLr6qmLngK
+wsAX44LatM6duNg6BSD2EteTWArJYOOeRrZnkeb8KKjDelqKcYxHAFsCgYEAxucw
+JAeQFxCoD+sgtfSapVulASyATTvTfFM6DyqcBMTsm5YU4lik2RuKV5T7hsRCsJGu
+rSYnstOVkx9B1gHaLYrUF6MYwUcKfJTFhOwutrYqXi1Vsoq3gUrDleGFT5s3+iPR
+VnHCjkJz/fDOdLgaCiLRBMoclFY1B2SLwzRWODECgYA9f0mXHVMlgUbQKdRBBiL7
+ia+kVI+kOuhxkkQDEB8lgKCrchCOBdmX06qDvg6byd14o0cHrHMjs3JBWqLvkGEo
+3kNkv8NkbsvAtyDgCFRIEFZkpJbEp2ILxo5pZ/YlazmHxy/mw6Ve/O4IVWyuLMnf
+7avskgbAsw2VsMbUpnoxxQKBgHdhdTR60ZH2bli3kDeFq3gKLFwrAIramJGrRlKq
+CWCXbUfo6Xn9KFwiuoLcqab2jux5U/UazIL5mXHnNdWj4Paqt6fEPWxsHjAt/utL
+8rG5Xm6OGTyDI6bXX9LKu//OsudQrimLN/G4kvPcn53Qjdh9kySjxkmGAGgCghxU
+gldRAoGAWqY4tm8+HjtU0iSnVm+SetjSPxeTeGe9HUU6oM8kalshKLHjs2SdLJAB
+1Zc4hUoZuvfIfX63XdshcGZe8wD2P2+ZFxNwnS0XxpwfQto3sTZZWiy8VezPy+js
+o4E3mb1jZDQvmXey9tE73hGG4RrBNeHsjywfUs5pKHEOOEqKgEQ=
+-----END RSA PRIVATE KEY-----
+"""
+crypto_private_key = serialization.load_pem_private_key(
+    cert_private_key, password=None
+)
+
+pem_cert = b"""
+-----BEGIN CERTIFICATE-----
+MIICsDCCAZigAwIBAgIUL/5wxBEYcnkrAfHje6sDrdv9knMwDQYJKoZIhvcNAQEN
+BQAwEjEQMA4GA1UEAwwHQ2VydCBDTjAeFw0yNDAzMTkyMzQ1MzlaFw0yNDAzMjEy
+MzQ1MzlaMBIxEDAOBgNVBAMMB0NlcnQgQ04wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQCqsAuXwxwRfDAoiAij2weEaG35UJUTFGcGaQSYApOdFz2JlVVD
+6yUWehtzbLmndOUG0sR9d53nLNqTU2GfMuR8NBiu1STpflFERyw6iEdPsDG5b+Ir
+cXJmjk9czlqwV/8NBIfqWn9ck+rSD+x5QC8M3FuEtuPHnCMZ77qwKwsH85JsFHNW
+Z+VvynVfCZivgu2GE8TeSQt8IQ1VA8ugk53AzDaqWobrdB3C+P7Cr6yYgBq5kM4O
+3F/NZnzZ+0ff6oyx6K94w9HZLPHP2qLaRKewdON0dGUR7lbMc7BrpT8eU8E5Ue0g
+A3GbQ8ejw2njtqNMbcFSJ/oL9dQTkKj8PPlrAgMBAAEwDQYJKoZIhvcNAQENBQAD
+ggEBAKcfkel3elnmZN9vblXfc3nf6AkEpaRhAtjIkPLA9EY6vJCGm6ysjQinHlb+
+oOsC+S+1c22Bc8z+b1K8GHkV8EZf9c70WmFTKwSB0JkyQ1xyx9jcPm0al0zxaXQX
+XertQuzhObayPy8hMbV6Kwmihf0BrR4kwUQFWMAzZ98J5c/jY5UTvEhLN8ntt5k5
+IwJofRuEMBmEtRkFR2Qt1K3GJv4Aid94hD+bBOBKZV8MTvRjrU64HOKA25/TEmyf
+hIRtzvQkCh9z3S2/+zfYKsmDtENWD7dJLw2Ss9cqrJObeYcjjVvDgSQyt1csMtPr
+6Y5Qqajflelt51pd55TqVc8d1Js=
+-----END CERTIFICATE-----
+"""
+cert = load_pem_x509_certificate(pem_cert)
+
+builder = ocsp.OCSPResponseBuilder()
+builder = builder.add_response(
+    cert=cert,
+    issuer=cert,
+    algorithm=hashes.SHA256(),
+    cert_status=ocsp.OCSPCertStatus.GOOD,
+    this_update=datetime.datetime.now(),
+    next_update=datetime.datetime.now(),
+    revocation_time=None,
+    revocation_reason=None,
+).responder_id(ocsp.OCSPResponderEncoding.HASH, cert)
+crypto_res = builder.sign(crypto_private_key, hashes.SHA256())
+
+from pki_tools import OCSPResponse
+
+res = OCSPResponse.from_cryptography(crypto_res)
+
+print(res)

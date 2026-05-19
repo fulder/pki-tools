@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/examples/key_pair_ed25519/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Examples - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Examples";
+        var mkdocs_page_input_path = "examples/key_pair_ed25519.md";
+        var mkdocs_page_url = "/examples/key_pair_ed25519/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/examples/key_pair_ed25519.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h1>
+<h2 id="generate-keypair">Generate keypair<a class="headerlink" href="#generate-keypair" title="Permanent link">&para;</a></h2>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair
+
+key_pair = Ed25519KeyPair.generate()
+
+print(key_pair.private_key.pem_string)
+print(key_pair.public_key.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_cryptography"><a class="autorefs autorefs-internal" title="from_cryptography
+
+
+  
+      abstractmethod
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.CryptoParser.from_cryptography">InitCryptoParser.from_cryptography</a><a class="headerlink" href="#initcryptoparserfrom_cryptography" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>crypto_keys</code></summary>
+<pre><code>from cryptography.hazmat.primitives import serialization
+
+private_key_pem = b&quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+public_key_pem = b&quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+
+crypto_public_key = serialization.load_pem_public_key(public_key_pem)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+
+key_pair = Ed25519KeyPair(
+    public_key=Ed25519PublicKey.from_cryptography(crypto_public_key),
+    private_key=Ed25519PrivateKey.from_cryptography(crypto_private_key),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed25519KeyPair:
+  public_bytes: C33F6E0D4277A9E61CA24D42A0C01B7E226B653ECF953DF0B4B6707FEC25861A
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#initcryptoparserfrom_file" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private.pem</code></summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+
+key_pair = Ed25519KeyPair(
+    public_key=Ed25519PublicKey.from_file(&quot;public.pem&quot;),
+    private_key=Ed25519PrivateKey.from_file(&quot;private.pem&quot;),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed25519KeyPair:
+  public_bytes: C33F6E0D4277A9E61CA24D42A0C01B7E226B653ECF953DF0B4B6707FEC25861A
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+
+key_pair = Ed25519KeyPair(
+    public_key=Ed25519PublicKey.from_pem_string(public_pem),
+    private_key=Ed25519PrivateKey.from_pem_string(private_pem),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Ed25519KeyPair:
+  public_bytes: C33F6E0D4277A9E61CA24D42A0C01B7E226B653ECF953DF0B4B6707FEC25861A
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserto_file"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.to_file</a><a class="headerlink" href="#initcryptoparserto_file" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+
+key_pair = Ed25519KeyPair(
+    public_key=Ed25519PublicKey.from_pem_string(public_pem),
+    private_key=Ed25519PrivateKey.from_pem_string(private_pem),
+)
+
+key_pair.public_key.to_file(&quot;out_public.pem&quot;)
+key_pair.private_key.to_file(&quot;out_private.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_private.pem</code></summary>
+<pre><code>-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIK1Rmqg3vSeNU/VcGCcp6v9jg2Wc4oQOsZUX7UboRrIL
+-----END PRIVATE KEY-----
+
+</code></pre>
+</details>
+<details class="note">
+<summary><code>out_public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
+-----END PUBLIC KEY-----
+
+</code></pre>
+</details>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

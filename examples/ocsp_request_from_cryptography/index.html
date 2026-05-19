@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/examples/ocsp_request_from_cryptography/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Ocsp request from cryptography - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Ocsp request from cryptography";
+        var mkdocs_page_input_path = "examples/ocsp_request_from_cryptography.md";
+        var mkdocs_page_url = "/examples/ocsp_request_from_cryptography/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Ocsp request from cryptography</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/examples/ocsp_request_from_cryptography.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>crypto_ocsp_request</code></summary>
+<pre><code>from cryptography.hazmat.primitives.hashes import SHA256
+from cryptography.x509 import ocsp, load_pem_x509_certificate
+
+pem_cert = b&quot;&quot;&quot;
+-----BEGIN CERTIFICATE-----
+MIICsDCCAZigAwIBAgIUJDBA6chIz7alIJGj//DNL7Pq0HowDQYJKoZIhvcNAQEN
+BQAwEjEQMA4GA1UEAwwHQ2VydCBDTjAeFw0yNDAzMTYxMzQzNTdaFw0yNDAzMTcx
+MzQzNTdaMBIxEDAOBgNVBAMMB0NlcnQgQ04wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDDtBdJp6oYQSIBuefvRphiau2GFGlPNvnyAm7DcVHLREiSSPX2
+Ov8Krkg9/iqoZS3lcmEgj/BQMyySpJt+5Ggo60pbJBWHR86+jLBCwu687OAsfGtz
+DQPN5xSWnC4K0OaUDm2doaGMcffzLL65ry/HV1XaRxxkK6HuZDt9VtyyrvSyXvMT
+N0CuenLPx2b+t3owjg9wrCZghBsIQWkhCQiCN35UbEuZ3Wv3H1ezulNe0/r782NB
+TXEmL6qGe/yx+//23vbmzIDar8UYEKrFNZ1yiugNWXLJKxwmxIyNtLr29MX5jrY+
+yFxup5D0JTDyKRINq+dtzzLgxzPoOzMzEDZvAgMBAAEwDQYJKoZIhvcNAQENBQAD
+ggEBADHeiK+JB6Z25afqGVSa1oIGEvCo8mi50/tcT+lH03Jt5x+bAKgPJGI8Gew/
+0ko7JU3O8Sy3nTrVnLcgKSJiot6t7DMhWOSKTcuJTCOsr2WDgJQvF49yZfg+f5df
+AWwXkraTwjJ0RoIHN/Kp0TZvgAlZhKkHFNnqT2laubjMIzeF6k/3o6HZCfBV83fu
+YbzBK6rQjzFklxBN+ml2XX1aBMKYkqjbsfLpl7mAKUiZ58jxu6/FGTh6O8ffrr9z
+iQBRwByulMBGxzitq/EUoTEeKvtiX5WFTetE19EE7Ojzy6c6qkNlwCjK49WF6smA
+2IBk2TPLyVH4LeRc/XQi+Oj7ak0=
+-----END CERTIFICATE-----
+&quot;&quot;&quot;
+cert = load_pem_x509_certificate(pem_cert)
+
+builder = ocsp.OCSPRequestBuilder()
+builder = builder.add_certificate(cert, cert, SHA256())
+crypto_ocsp_request = builder.build()
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import OCSPRequest
+
+ocsp_request = OCSPRequest.from_cryptography(crypto_ocsp_request)
+
+print(ocsp_request)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Extensions: {}
+Serial Number: '206599758257502475477849880650720292246800486522'
+algorithm: SHA256
+
+
+</code></pre>
+</details>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

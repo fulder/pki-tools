@@ -1,0 +1,4548 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/types/extensions/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Extensions - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Extensions";
+        var mkdocs_page_input_path = "types/extensions.md";
+        var mkdocs_page_url = "/types/extensions/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Extensions</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Types</li>
+      <li class="breadcrumb-item active">Extensions</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/types/extensions.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="pki_tools.types.extensions"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.AccessDescription" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AccessDescription</span>
+
+
+<a href="#pki_tools.types.extensions.AccessDescription" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents an Access Description in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>access_method</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="AccessDescriptionId (pki_tools.types.extensions.AccessDescriptionId)" href="#pki_tools.types.extensions.AccessDescriptionId">AccessDescriptionId</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The access method identifier.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>access_location</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The access location.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.AccessDescription.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.AccessDescription.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.AccessDescription" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.AccessDescription">AccessDescription</a>) -&gt; <a class="autorefs autorefs-internal" title="AccessDescription (pki_tools.types.extensions.AccessDescription)" href="#pki_tools.types.extensions.AccessDescription">AccessDescription</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs an AccessDescription object from a cryptography
+AccessDescription object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.AccessDescription" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.AccessDescription">AccessDescription</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography AccessDescription object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="AccessDescription (pki_tools.types.extensions.AccessDescription)" href="#pki_tools.types.extensions.AccessDescription">AccessDescription</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed AccessDescription object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.AccessDescriptionId" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AccessDescriptionId</span>
+
+
+<a href="#pki_tools.types.extensions.AccessDescriptionId" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+
+        <p>Enumeration of access description identifiers for X.509 certificates.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.AlternativeName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AlternativeName</span>
+
+
+<a href="#pki_tools.types.extensions.AlternativeName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents an alternative name extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>general_names</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of general names.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.AlternativeName.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.AlternativeName.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="typing.Union">Union</span>[<span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.SubjectAlternativeName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.SubjectAlternativeName">SubjectAlternativeName</a>, <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.IssuerAlternativeName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.IssuerAlternativeName">IssuerAlternativeName</a>]) -&gt; <a class="autorefs autorefs-internal" title="AlternativeName (pki_tools.types.extensions.AlternativeName)" href="#pki_tools.types.extensions.AlternativeName">AlternativeName</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an AlternativeName instance from a cryptography
+SubjectAlternativeName or IssuerAlternativeName object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.SubjectAlternativeName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.SubjectAlternativeName">SubjectAlternativeName</a>, <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.IssuerAlternativeName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.IssuerAlternativeName">IssuerAlternativeName</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography SubjectAlternativeName or
+IssuerAlternativeName object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="AlternativeName (pki_tools.types.extensions.AlternativeName)" href="#pki_tools.types.extensions.AlternativeName">AlternativeName</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The AlternativeName instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.AttributeTypeAndValue" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AttributeTypeAndValue</span>
+
+
+<a href="#pki_tools.types.extensions.AttributeTypeAndValue" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents an Attribute Type and Value in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>oid</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The Object Identifier (OID) of the attribute.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The value of the attribute.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.AttributeTypeAndValue.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.AttributeTypeAndValue.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(x509_obj: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.NameAttribute" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.NameAttribute">NameAttribute</a>) -&gt; <a class="autorefs autorefs-internal" title="AttributeTypeAndValue (pki_tools.types.extensions.AttributeTypeAndValue)" href="#pki_tools.types.extensions.AttributeTypeAndValue">AttributeTypeAndValue</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs an AttributeTypeAndValue object from a cryptography
+NameAttribute object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>x509_obj</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.NameAttribute" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.NameAttribute">NameAttribute</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography NameAttribute object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="AttributeTypeAndValue (pki_tools.types.extensions.AttributeTypeAndValue)" href="#pki_tools.types.extensions.AttributeTypeAndValue">AttributeTypeAndValue</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed AttributeTypeAndValue object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.AuthorityInformationAccess" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AuthorityInformationAccess</span>
+
+
+<a href="#pki_tools.types.extensions.AuthorityInformationAccess" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents the Authority Information Access extension in X.509
+certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>access_description</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="AccessDescription (pki_tools.types.extensions.AccessDescription)" href="#pki_tools.types.extensions.AccessDescription">AccessDescription</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of access descriptions.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.AuthorityInformationAccess.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.AuthorityInformationAccess.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.AuthorityInformationAccess" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.AuthorityInformationAccess">AuthorityInformationAccess</a>) -&gt; <a class="autorefs autorefs-internal" title="AuthorityInformationAccess (pki_tools.types.extensions.AuthorityInformationAccess)" href="#pki_tools.types.extensions.AuthorityInformationAccess">AuthorityInformationAccess</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs an AuthorityInformationAccess object from a
+cryptography AuthorityInformationAccess object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.AuthorityInformationAccess" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.AuthorityInformationAccess">AuthorityInformationAccess</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography AuthorityInformationAccess object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="AuthorityInformationAccess (pki_tools.types.extensions.AuthorityInformationAccess)" href="#pki_tools.types.extensions.AuthorityInformationAccess">AuthorityInformationAccess</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed AuthorityInformationAccess object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.AuthorityKeyIdentifier" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AuthorityKeyIdentifier</span>
+
+
+<a href="#pki_tools.types.extensions.AuthorityKeyIdentifier" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents an authority key identifier extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>key_identifier</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="bytes">bytes</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The key identifier.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>authority_cert_issuer</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The issuer of the authority certificate.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>authority_cert_serial_number</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The serial number of the authority
+certificate.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.AuthorityKeyIdentifier.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.AuthorityKeyIdentifier.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.AuthorityKeyIdentifier" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.AuthorityKeyIdentifier">AuthorityKeyIdentifier</a>) -&gt; <a class="autorefs autorefs-internal" title="AuthorityKeyIdentifier (pki_tools.types.extensions.AuthorityKeyIdentifier)" href="#pki_tools.types.extensions.AuthorityKeyIdentifier">AuthorityKeyIdentifier</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an AuthorityKeyIdentifier instance from a cryptography
+AuthorityKeyIdentifier object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.AuthorityKeyIdentifier" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.AuthorityKeyIdentifier">AuthorityKeyIdentifier</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography AuthorityKeyIdentifier object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="AuthorityKeyIdentifier (pki_tools.types.extensions.AuthorityKeyIdentifier)" href="#pki_tools.types.extensions.AuthorityKeyIdentifier">AuthorityKeyIdentifier</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The AuthorityKeyIdentifier instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.BasicConstraints" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">BasicConstraints</span>
+
+
+<a href="#pki_tools.types.extensions.BasicConstraints" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a basic constraints extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>ca</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if the certificate is a CA.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>path_len_constrain</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The path length constraint.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.BasicConstraints.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.BasicConstraints.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.BasicConstraints" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.BasicConstraints">BasicConstraints</a>) -&gt; <a class="autorefs autorefs-internal" title="BasicConstraints (pki_tools.types.extensions.BasicConstraints)" href="#pki_tools.types.extensions.BasicConstraints">BasicConstraints</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a BasicConstraints instance from a cryptography
+BasicConstraints object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.BasicConstraints" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.BasicConstraints">BasicConstraints</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography BasicConstraints object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="BasicConstraints (pki_tools.types.extensions.BasicConstraints)" href="#pki_tools.types.extensions.BasicConstraints">BasicConstraints</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The BasicConstraints instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.CertificatePolicies" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CertificatePolicies</span>
+
+
+<a href="#pki_tools.types.extensions.CertificatePolicies" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a certificate policies extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>policy_information</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="PolicyInformation (pki_tools.types.extensions.PolicyInformation)" href="#pki_tools.types.extensions.PolicyInformation">PolicyInformation</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of policy information.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.CertificatePolicies.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.CertificatePolicies.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.CertificatePolicies" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CertificatePolicies">CertificatePolicies</a>) -&gt; <a class="autorefs autorefs-internal" title="CertificatePolicies (pki_tools.types.extensions.CertificatePolicies)" href="#pki_tools.types.extensions.CertificatePolicies">CertificatePolicies</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a CertificatePolicies instance from a cryptography
+CertificatePolicies object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.CertificatePolicies" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CertificatePolicies">CertificatePolicies</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography CertificatePolicies object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CertificatePolicies (pki_tools.types.extensions.CertificatePolicies)" href="#pki_tools.types.extensions.CertificatePolicies">CertificatePolicies</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The CertificatePolicies instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.CrlDistributionPoints" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CrlDistributionPoints</span>
+
+
+<a href="#pki_tools.types.extensions.CrlDistributionPoints" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents the CRL Distribution Points extension in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crl_distribution_points</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="DistributionPoint (pki_tools.types.extensions.DistributionPoint)" href="#pki_tools.types.extensions.DistributionPoint">DistributionPoint</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of CRL distribution points.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.CrlDistributionPoints.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.CrlDistributionPoints.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.CRLDistributionPoints" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CRLDistributionPoints">CRLDistributionPoints</a>) -&gt; <a class="autorefs autorefs-internal" title="CrlDistributionPoints (pki_tools.types.extensions.CrlDistributionPoints)" href="#pki_tools.types.extensions.CrlDistributionPoints">CrlDistributionPoints</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs a CrlDistributionPoints object from a cryptography
+CRLDistributionPoints object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.CRLDistributionPoints" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.CRLDistributionPoints">CRLDistributionPoints</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography CRLDistributionPoints object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="CrlDistributionPoints (pki_tools.types.extensions.CrlDistributionPoints)" href="#pki_tools.types.extensions.CrlDistributionPoints">CrlDistributionPoints</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed CrlDistributionPoints object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.DirectoryName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">DirectoryName</span>
+
+
+<a href="#pki_tools.types.extensions.DirectoryName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code></p>
+
+
+        <p>Represents a directory name.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The directory name value.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.DirectoryName.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.DirectoryName.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.GeneralName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.GeneralName">GeneralName</a>) -&gt; <a class="autorefs autorefs-internal" title="DirectoryName (pki_tools.types.extensions.DirectoryName)" href="#pki_tools.types.extensions.DirectoryName">DirectoryName</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a DirectoryName instance from a cryptography DirectoryName
+    object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.GeneralName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.GeneralName">GeneralName</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography DirectoryName object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="DirectoryName (pki_tools.types.extensions.DirectoryName)" href="#pki_tools.types.extensions.DirectoryName">DirectoryName</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The DirectoryName instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.DistributionPoint" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">DistributionPoint</span>
+
+
+<a href="#pki_tools.types.extensions.DistributionPoint" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents a Distribution Point in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>full_name</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of full names associated with the distribution point.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>name_relative_to_crl_issuer</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="RelativeDistinguishedName (pki_tools.types.extensions.RelativeDistinguishedName)" href="#pki_tools.types.extensions.RelativeDistinguishedName">RelativeDistinguishedName</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Relative name to the CRL issuer.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>reasons</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="Reason (pki_tools.types.extensions.Reason)" href="#pki_tools.types.extensions.Reason">Reason</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of reasons for the distribution point.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>crl_issuer</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of CRL issuers associated with the distribution
+point.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.DistributionPoint.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.DistributionPoint.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.DistributionPoint" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.DistributionPoint">DistributionPoint</a>) -&gt; <a class="autorefs autorefs-internal" title="DistributionPoint (pki_tools.types.extensions.DistributionPoint)" href="#pki_tools.types.extensions.DistributionPoint">DistributionPoint</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs a DistributionPoint object from a cryptography
+DistributionPoint object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.DistributionPoint" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.DistributionPoint">DistributionPoint</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography DistributionPoint object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>DistributionPoint</code></b>(                  <code><a class="autorefs autorefs-internal" title="DistributionPoint (pki_tools.types.extensions.DistributionPoint)" href="#pki_tools.types.extensions.DistributionPoint">DistributionPoint</a></code>
+)              –
+              <div class="doc-md-description">
+                <p>The constructed DistributionPoint object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.DnsName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">DnsName</span>
+
+
+<a href="#pki_tools.types.extensions.DnsName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code></p>
+
+
+        <p>Represents a DNS name.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The DNS name value.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.ExtendedKeyUsage" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ExtendedKeyUsage</span>
+
+
+<a href="#pki_tools.types.extensions.ExtendedKeyUsage" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents the Extended Key Usage extension in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>ext_key_usage_syntax</code></b>
+                  (<code><span title="typing.List">List</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of extended key usage OIDs.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.ExtendedKeyUsage.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.ExtendedKeyUsage.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.ExtendedKeyUsage" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.ExtendedKeyUsage">ExtendedKeyUsage</a>) -&gt; <a class="autorefs autorefs-internal" title="ExtendedKeyUsage (pki_tools.types.extensions.ExtendedKeyUsage)" href="#pki_tools.types.extensions.ExtendedKeyUsage">ExtendedKeyUsage</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs an ExtendedKeyUsage object from a cryptography
+ExtendedKeyUsage object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.ExtendedKeyUsage" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.ExtendedKeyUsage">ExtendedKeyUsage</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography ExtendedKeyUsage object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="ExtendedKeyUsage (pki_tools.types.extensions.ExtendedKeyUsage)" href="#pki_tools.types.extensions.ExtendedKeyUsage">ExtendedKeyUsage</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed ExtendedKeyUsage object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.Extension" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Extension</span>
+
+
+<a href="#pki_tools.types.extensions.Extension" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents a cryptographic extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>critical</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="bool">bool</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates whether the extension is critical.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="pki_tools.types.extensions.Extension.name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.Extension.name" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">name: <span title="str">str</span></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get the name of the extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>str</code></b>(                  <code><span title="str">str</span></code>
+)              –
+              <div class="doc-md-description">
+                <p>The name of the extension.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>    </div>
+
+</div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.Extensions" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Extensions</span>
+
+
+<a href="#pki_tools.types.extensions.Extensions" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Extensions in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>authority_key_identifier</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="AuthorityKeyIdentifier (pki_tools.types.extensions.AuthorityKeyIdentifier)" href="#pki_tools.types.extensions.AuthorityKeyIdentifier">AuthorityKeyIdentifier</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Authority Key Identifier extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>subject_key_identifier</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SubjectKeyIdentifier (pki_tools.types.extensions.SubjectKeyIdentifier)" href="#pki_tools.types.extensions.SubjectKeyIdentifier">SubjectKeyIdentifier</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Subject Key Identifier extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>key_usage</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="KeyUsage (pki_tools.types.extensions.KeyUsage)" href="#pki_tools.types.extensions.KeyUsage">KeyUsage</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Key Usage extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>certificate_policies</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="CertificatePolicies (pki_tools.types.extensions.CertificatePolicies)" href="#pki_tools.types.extensions.CertificatePolicies">CertificatePolicies</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Certificate Policies extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>subject_alternative_name</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SubjectAlternativeName (pki_tools.types.extensions.SubjectAlternativeName)" href="#pki_tools.types.extensions.SubjectAlternativeName">SubjectAlternativeName</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Subject Alternative Name extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>issuer_alternative_name</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="IssuerAlternativeName (pki_tools.types.extensions.IssuerAlternativeName)" href="#pki_tools.types.extensions.IssuerAlternativeName">IssuerAlternativeName</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Issuer Alternative Name extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>subject_directory_attributes</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SubjectDirectoryAttributes (pki_tools.types.extensions.SubjectDirectoryAttributes)" href="#pki_tools.types.extensions.SubjectDirectoryAttributes">SubjectDirectoryAttributes</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Subject Directory Attributes extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>basic_constraints</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="BasicConstraints (pki_tools.types.extensions.BasicConstraints)" href="#pki_tools.types.extensions.BasicConstraints">BasicConstraints</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Basic Constraints extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>name_constraints</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="NameConstraints (pki_tools.types.extensions.NameConstraints)" href="#pki_tools.types.extensions.NameConstraints">NameConstraints</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Name Constraints extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>policy_constraints</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="PolicyConstraints (pki_tools.types.extensions.PolicyConstraints)" href="#pki_tools.types.extensions.PolicyConstraints">PolicyConstraints</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Policy Constraints extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>extended_key_usage</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="ExtendedKeyUsage (pki_tools.types.extensions.ExtendedKeyUsage)" href="#pki_tools.types.extensions.ExtendedKeyUsage">ExtendedKeyUsage</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Extended Key Usage extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>crl_distribution_points</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="CrlDistributionPoints (pki_tools.types.extensions.CrlDistributionPoints)" href="#pki_tools.types.extensions.CrlDistributionPoints">CrlDistributionPoints</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>CRL Distribution Points extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>issuing_distribution_point</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="IssuingDistributionPoint (pki_tools.types.extensions.IssuingDistributionPoint)" href="#pki_tools.types.extensions.IssuingDistributionPoint">IssuingDistributionPoint</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Issuer Distribution Points extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>inhibit_any_policy</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="InhibitAnyPolicy (pki_tools.types.extensions.InhibitAnyPolicy)" href="#pki_tools.types.extensions.InhibitAnyPolicy">InhibitAnyPolicy</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Inhibit Any Policy extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>freshest_crl</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="FreshestCrl (pki_tools.types.extensions.FreshestCrl)" href="#pki_tools.types.extensions.FreshestCrl">FreshestCrl</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Freshest CRL extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>authority_information_access</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="AuthorityInformationAccess (pki_tools.types.extensions.AuthorityInformationAccess)" href="#pki_tools.types.extensions.AuthorityInformationAccess">AuthorityInformationAccess</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Authority Information Access extension.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>subject_information_access</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="SubjectInformationAccess (pki_tools.types.extensions.SubjectInformationAccess)" href="#pki_tools.types.extensions.SubjectInformationAccess">SubjectInformationAccess</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Subject Information Access extension.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.Extensions.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.Extensions.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(cert_extensions: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.Extensions" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Extensions">Extensions</a>) -&gt; <a class="autorefs autorefs-internal" title="Extensions (pki_tools.types.extensions.Extensions)" href="#pki_tools.types.extensions.Extensions">Extensions</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs an Extensions object from cryptography X.509 Extensions.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>cert_extensions</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.Extensions" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.Extensions">Extensions</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography X.509 Extensions.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="Extensions (pki_tools.types.extensions.Extensions)" href="#pki_tools.types.extensions.Extensions">Extensions</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed Extensions object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.FreshestCrl" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">FreshestCrl</span>
+
+
+<a href="#pki_tools.types.extensions.FreshestCrl" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CrlDistributionPoints (pki_tools.types.extensions.CrlDistributionPoints)" href="#pki_tools.types.extensions.CrlDistributionPoints">CrlDistributionPoints</a></code></p>
+
+
+        <p>Represents the Freshest CRL extension in X.509 certificates.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.GeneralName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">GeneralName</span>
+
+
+<a href="#pki_tools.types.extensions.GeneralName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents a general name.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>name</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the general name.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The value of the general name.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.GeneralName.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.GeneralName.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.GeneralName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.GeneralName">GeneralName</a>) -&gt; <a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a GeneralName instance from a cryptography GeneralName object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.GeneralName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.GeneralName">GeneralName</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography GeneralName object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The GeneralName instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.InhibitAnyPolicy" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">InhibitAnyPolicy</span>
+
+
+<a href="#pki_tools.types.extensions.InhibitAnyPolicy" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents the Inhibit Any Policy extension in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>skip_certs</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Number of certificates to skip.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.InhibitAnyPolicy.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.InhibitAnyPolicy.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.InhibitAnyPolicy" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.InhibitAnyPolicy">InhibitAnyPolicy</a>) -&gt; <a class="autorefs autorefs-internal" title="InhibitAnyPolicy (pki_tools.types.extensions.InhibitAnyPolicy)" href="#pki_tools.types.extensions.InhibitAnyPolicy">InhibitAnyPolicy</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs an InhibitAnyPolicy object from a cryptography
+InhibitAnyPolicy object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.InhibitAnyPolicy" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.InhibitAnyPolicy">InhibitAnyPolicy</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography InhibitAnyPolicy object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="InhibitAnyPolicy (pki_tools.types.extensions.InhibitAnyPolicy)" href="#pki_tools.types.extensions.InhibitAnyPolicy">InhibitAnyPolicy</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed InhibitAnyPolicy object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.IpAddress" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">IpAddress</span>
+
+
+<a href="#pki_tools.types.extensions.IpAddress" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code></p>
+
+
+        <p>Represents an IP address. Can either be a IPv4/IPv6 single address or
+network.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The IP address or network</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.IssuerAlternativeName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">IssuerAlternativeName</span>
+
+
+<a href="#pki_tools.types.extensions.IssuerAlternativeName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="AlternativeName (pki_tools.types.extensions.AlternativeName)" href="#pki_tools.types.extensions.AlternativeName">AlternativeName</a></code></p>
+
+
+        <p>Represents an issuer alternative name extension.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.IssuingDistributionPoint" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">IssuingDistributionPoint</span>
+
+
+<a href="#pki_tools.types.extensions.IssuingDistributionPoint" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents the Issuing Distribution Points extension in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>full_name</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of full names associated with the distribution point.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>name_relative_to_crl_issuer</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="RelativeDistinguishedName (pki_tools.types.extensions.RelativeDistinguishedName)" href="#pki_tools.types.extensions.RelativeDistinguishedName">RelativeDistinguishedName</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Relative name to the CRL issuer.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.IssuingDistributionPoint.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.IssuingDistributionPoint.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.IssuingDistributionPoint" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.IssuingDistributionPoint">IssuingDistributionPoint</a>) -&gt; <a class="autorefs autorefs-internal" title="IssuingDistributionPoint (pki_tools.types.extensions.IssuingDistributionPoint)" href="#pki_tools.types.extensions.IssuingDistributionPoint">IssuingDistributionPoint</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs a IssuingDistributionPoint object from a cryptography
+IssuingDistributionPoint object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.IssuingDistributionPoint" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.IssuingDistributionPoint">IssuingDistributionPoint</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography IssuingDistributionPoint object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>IssuingDistributionPoint</code></b>(                  <code><a class="autorefs autorefs-internal" title="IssuingDistributionPoint (pki_tools.types.extensions.IssuingDistributionPoint)" href="#pki_tools.types.extensions.IssuingDistributionPoint">IssuingDistributionPoint</a></code>
+)              –
+              <div class="doc-md-description">
+                <p>The constructed IssuingDistributionPoint</p>
+              </div>
+            </li>
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="IssuingDistributionPoint (pki_tools.types.extensions.IssuingDistributionPoint)" href="#pki_tools.types.extensions.IssuingDistributionPoint">IssuingDistributionPoint</a></code>
+              –
+              <div class="doc-md-description">
+                <p>object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.KeyUsage" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">KeyUsage</span>
+
+
+<a href="#pki_tools.types.extensions.KeyUsage" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a key usage extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>digital_signature</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if digital signature is allowed.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>content_commitment</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if content commitment is allowed.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>key_encipherment</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if key encipherment is allowed.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>data_encipherment</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if data encipherment is allowed.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>key_agreement</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if key agreement is allowed.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>key_cert_sign</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if key certificate signing is allowed.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>crl_sign</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if CRL signing is allowed.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>encipher_only</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if encipher only is allowed.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>decipher_only</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates if decipher only is allowed.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.KeyUsage.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.KeyUsage.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.KeyUsage" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.KeyUsage">KeyUsage</a>) -&gt; <a class="autorefs autorefs-internal" title="KeyUsage (pki_tools.types.extensions.KeyUsage)" href="#pki_tools.types.extensions.KeyUsage">KeyUsage</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a KeyUsage instance from a cryptography KeyUsage object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.KeyUsage" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.KeyUsage">KeyUsage</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography KeyUsage object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="KeyUsage (pki_tools.types.extensions.KeyUsage)" href="#pki_tools.types.extensions.KeyUsage">KeyUsage</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The KeyUsage instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.NameConstraints" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">NameConstraints</span>
+
+
+<a href="#pki_tools.types.extensions.NameConstraints" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a name constraints extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>permitted_subtrees</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of permitted subtrees.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>excluded_subtrees</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a>]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of excluded subtrees.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.NoticeReference" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">NoticeReference</span>
+
+
+<a href="#pki_tools.types.extensions.NoticeReference" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a notice reference extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>organization</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The organization associated with the notice.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>notice_numbers</code></b>
+                  (<code><span title="typing.List">List</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of notice numbers.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.OtherName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">OtherName</span>
+
+
+<a href="#pki_tools.types.extensions.OtherName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code></p>
+
+
+        <p>Represents an other name.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The other name value.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>oid</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The object identifier (OID) of the other name.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.OtherName.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.OtherName.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.OtherName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.OtherName">OtherName</a>) -&gt; <a class="autorefs autorefs-internal" title="OtherName (pki_tools.types.extensions.OtherName)" href="#pki_tools.types.extensions.OtherName">OtherName</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a OtherName instance from a cryptography OtherName object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.OtherName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.OtherName">OtherName</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography OtherName object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="OtherName (pki_tools.types.extensions.OtherName)" href="#pki_tools.types.extensions.OtherName">OtherName</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The OtherName instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.PolicyConstraints" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">PolicyConstraints</span>
+
+
+<a href="#pki_tools.types.extensions.PolicyConstraints" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a policy constraints extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>require_explicit_policy</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The require explicit policy value.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>inhibit_policy_mapping</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The inhibit policy mapping value.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.PolicyInformation" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">PolicyInformation</span>
+
+
+<a href="#pki_tools.types.extensions.PolicyInformation" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a policy information extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>policy_identifier</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The policy identifier associated with the policy
+information.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>policy_qualifiers</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="typing.List">List</span>[<span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="UserNotice (pki_tools.types.extensions.UserNotice)" href="#pki_tools.types.extensions.UserNotice">UserNotice</a>]]]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of policy qualifiers.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.PolicyInformation.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.PolicyInformation.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(policy_info: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.PolicyInformation" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.PolicyInformation">PolicyInformation</a>) -&gt; <a class="autorefs autorefs-internal" title="PolicyInformation (pki_tools.types.extensions.PolicyInformation)" href="#pki_tools.types.extensions.PolicyInformation">PolicyInformation</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a PolicyInformation instance from a cryptography
+PolicyInformation object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>policy_info</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.PolicyInformation" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.PolicyInformation">PolicyInformation</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography PolicyInformation object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="PolicyInformation (pki_tools.types.extensions.PolicyInformation)" href="#pki_tools.types.extensions.PolicyInformation">PolicyInformation</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The PolicyInformation instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.RFC822Name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">RFC822Name</span>
+
+
+<a href="#pki_tools.types.extensions.RFC822Name" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code></p>
+
+
+        <p>Represents an RFC822 name.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The RFC822 name value.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.Reason" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Reason</span>
+
+
+<a href="#pki_tools.types.extensions.Reason" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+
+        <p>Reasons for the DistributionPoint extension</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.RegisteredId" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">RegisteredId</span>
+
+
+<a href="#pki_tools.types.extensions.RegisteredId" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code></p>
+
+
+        <p>Represents a registered ID.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The registered ID value.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.RegisteredId.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.RegisteredId.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(crypto_obj: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.RegisteredID" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.RegisteredID">RegisteredID</a>) -&gt; <a class="autorefs autorefs-internal" title="RegisteredId (pki_tools.types.extensions.RegisteredId)" href="#pki_tools.types.extensions.RegisteredId">RegisteredId</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a RegisteredId instance from a cryptography RegisteredId object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>crypto_obj</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.RegisteredID" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.RegisteredID">RegisteredID</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography RegisteredId object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="RegisteredId (pki_tools.types.extensions.RegisteredId)" href="#pki_tools.types.extensions.RegisteredId">RegisteredId</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The RegisteredId instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.RelativeDistinguishedName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">RelativeDistinguishedName</span>
+
+
+<a href="#pki_tools.types.extensions.RelativeDistinguishedName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="CryptoParser (pki_tools.types.crypto_parser.CryptoParser)" href="../crypto_parser/#pki_tools.types.crypto_parser.CryptoParser">CryptoParser</a></code></p>
+
+
+        <p>Represents a Relative Distinguished Name in X.509 certificates.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>attributes</code></b>
+                  (<code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="AttributeTypeAndValue (pki_tools.types.extensions.AttributeTypeAndValue)" href="#pki_tools.types.extensions.AttributeTypeAndValue">AttributeTypeAndValue</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of attributes in the RDN.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.RelativeDistinguishedName.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.RelativeDistinguishedName.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(x509_obj: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.RelativeDistinguishedName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.RelativeDistinguishedName">RelativeDistinguishedName</a>) -&gt; <a class="autorefs autorefs-internal" title="RelativeDistinguishedName (pki_tools.types.extensions.RelativeDistinguishedName)" href="#pki_tools.types.extensions.RelativeDistinguishedName">RelativeDistinguishedName</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Constructs a RelativeDistinguishedName object from a cryptography
+RelativeDistinguishedName object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>x509_obj</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.RelativeDistinguishedName" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.RelativeDistinguishedName">RelativeDistinguishedName</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography RelativeDistinguishedName object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="RelativeDistinguishedName (pki_tools.types.extensions.RelativeDistinguishedName)" href="#pki_tools.types.extensions.RelativeDistinguishedName">RelativeDistinguishedName</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The constructed RelativeDistinguishedName object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.SubjectAlternativeName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SubjectAlternativeName</span>
+
+
+<a href="#pki_tools.types.extensions.SubjectAlternativeName" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="AlternativeName (pki_tools.types.extensions.AlternativeName)" href="#pki_tools.types.extensions.AlternativeName">AlternativeName</a></code></p>
+
+
+        <p>Represents a subject alternative name extension.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.SubjectDirectoryAttributes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SubjectDirectoryAttributes</span>
+
+
+<a href="#pki_tools.types.extensions.SubjectDirectoryAttributes" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a subject directory attributes extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>attributes</code></b>
+                  (<code><span title="typing.List">List</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>List of attributes.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.SubjectDirectoryAttributes.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.SubjectDirectoryAttributes.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.UnrecognizedExtension" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.UnrecognizedExtension">UnrecognizedExtension</a>) -&gt; <a class="autorefs autorefs-internal" title="SubjectDirectoryAttributes (pki_tools.types.extensions.SubjectDirectoryAttributes)" href="#pki_tools.types.extensions.SubjectDirectoryAttributes">SubjectDirectoryAttributes</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a SubjectDirectoryAttributes instance from a cryptography
+UnrecognizedExtension object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.UnrecognizedExtension" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.UnrecognizedExtension">UnrecognizedExtension</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography UnrecognizedExtension object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="SubjectDirectoryAttributes (pki_tools.types.extensions.SubjectDirectoryAttributes)" href="#pki_tools.types.extensions.SubjectDirectoryAttributes">SubjectDirectoryAttributes</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The SubjectDirectoryAttributes instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.SubjectInformationAccess" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SubjectInformationAccess</span>
+
+
+<a href="#pki_tools.types.extensions.SubjectInformationAccess" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="AuthorityInformationAccess (pki_tools.types.extensions.AuthorityInformationAccess)" href="#pki_tools.types.extensions.AuthorityInformationAccess">AuthorityInformationAccess</a></code></p>
+
+
+        <p>Represents the Subject Information Access extension in X.509
+certificates.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.SubjectKeyIdentifier" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SubjectKeyIdentifier</span>
+
+
+<a href="#pki_tools.types.extensions.SubjectKeyIdentifier" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a subject key identifier extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>subject_key_identifier</code></b>
+                  (<code><span title="bytes">bytes</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The subject key identifier.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.SubjectKeyIdentifier.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.SubjectKeyIdentifier.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(extension: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.SubjectKeyIdentifier" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.SubjectKeyIdentifier">SubjectKeyIdentifier</a>) -&gt; <a class="autorefs autorefs-internal" title="SubjectKeyIdentifier (pki_tools.types.extensions.SubjectKeyIdentifier)" href="#pki_tools.types.extensions.SubjectKeyIdentifier">SubjectKeyIdentifier</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a SubjectKeyIdentifier instance from a cryptography
+SubjectKeyIdentifier object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>extension</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.SubjectKeyIdentifier" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.SubjectKeyIdentifier">SubjectKeyIdentifier</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography SubjectKeyIdentifier object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="SubjectKeyIdentifier (pki_tools.types.extensions.SubjectKeyIdentifier)" href="#pki_tools.types.extensions.SubjectKeyIdentifier">SubjectKeyIdentifier</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The SubjectKeyIdentifier instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.UniformResourceIdentifier" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">UniformResourceIdentifier</span>
+
+
+<a href="#pki_tools.types.extensions.UniformResourceIdentifier" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="GeneralName (pki_tools.types.extensions.GeneralName)" href="#pki_tools.types.extensions.GeneralName">GeneralName</a></code></p>
+
+
+        <p>Represents a uniform resource identifier (URI).</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>value</code></b>
+                  (<code><span title="typing.Union">Union</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="Name (pki_tools.types.name.Name)" href="../name/#pki_tools.types.name.Name">Name</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The URI value.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="pki_tools.types.extensions.UserNotice" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">UserNotice</span>
+
+
+<a href="#pki_tools.types.extensions.UserNotice" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="Extension (pki_tools.types.extensions.Extension)" href="#pki_tools.types.extensions.Extension">Extension</a></code></p>
+
+
+        <p>Represents a user notice extension.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>notice_reference</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="NoticeReference (pki_tools.types.extensions.NoticeReference)" href="#pki_tools.types.extensions.NoticeReference">NoticeReference</a>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The notice reference associated with the user notice.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>explicit_text</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The explicit text of the user notice.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="pki_tools.types.extensions.UserNotice.from_cryptography" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_cryptography</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#pki_tools.types.extensions.UserNotice.from_cryptography" class="headerlink" title="Permanent link">&para;</a></h5>
+<pre class="highlight"><code class="language-python doc-signature">from_cryptography(policy_info: <span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.UserNotice" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.UserNotice">UserNotice</a>) -&gt; <a class="autorefs autorefs-internal" title="UserNotice (pki_tools.types.extensions.UserNotice)" href="#pki_tools.types.extensions.UserNotice">UserNotice</a></code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a UserNotice instance from a cryptography UserNotice object.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>policy_info</code></b>
+                  (<code><span title="cryptography.x509">x509</span>.<a class="autorefs autorefs-external" title="cryptography.x509.UserNotice" href="https://cryptography.io/en/latest/x509/reference/#cryptography.x509.UserNotice">UserNotice</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The cryptography UserNotice object.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><a class="autorefs autorefs-internal" title="UserNotice (pki_tools.types.extensions.UserNotice)" href="#pki_tools.types.extensions.UserNotice">UserNotice</a></code>
+              –
+              <div class="doc-md-description">
+                <p>The UserNotice instance.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../ocsp/" class="btn btn-neutral float-left" title="OCSP"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../key_pair/" class="btn btn-neutral float-right" title="KeyPair">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+      <span><a href="../ocsp/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../key_pair/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/examples/key_pair_dsa/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Key pair dsa - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Key pair dsa";
+        var mkdocs_page_input_path = "examples/key_pair_dsa.md";
+        var mkdocs_page_url = "/examples/key_pair_dsa/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Key pair dsa</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/examples/key_pair_dsa.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="admonition warning">
+<p class="admonition-title">Note</p>
+<p>DSA is an old and legacy algorithm. 
+Consider using 
+<a class="autorefs autorefs-internal" title="EllipticCurveKeyPair" href="../../types/key_pair/#pki_tools.types.key_pair.EllipticCurveKeyPair">EllipticCurveKeyPair</a> 
+or 
+<a class="autorefs autorefs-internal" title="RSAKeyPair" href="../../types/key_pair/#pki_tools.types.key_pair.RSAKeyPair">RSAKeyPair</a>
+instead.</p>
+</div>
+<h1 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h1>
+<h2 id="generate-keypair">Generate keypair<a class="headerlink" href="#generate-keypair" title="Permanent link">&para;</a></h2>
+<pre><code class="language-python">from pki_tools import DSAKeyPair
+
+key_pair = DSAKeyPair.generate(key_size=1024)
+
+print(key_pair.private_key.pem_string)
+print(key_pair.public_key.pem_string)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+
+-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_cryptography"><a class="autorefs autorefs-internal" title="from_cryptography
+
+
+  
+      abstractmethod
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.CryptoParser.from_cryptography">InitCryptoParser.from_cryptography</a><a class="headerlink" href="#initcryptoparserfrom_cryptography" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>crypto_keys</code></summary>
+<pre><code>from cryptography.hazmat.primitives import serialization
+
+private_key_pem = b&quot;&quot;&quot;
+-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+&quot;&quot;&quot;
+public_key_pem = b&quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+
+crypto_public_key = serialization.load_pem_public_key(public_key_pem)
+crypto_private_key = serialization.load_pem_private_key(
+    private_key_pem, password=None
+)
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+
+key_pair = DSAKeyPair(
+    public_key=DSAPublicKey.from_cryptography(crypto_public_key),
+    private_key=DSAPrivateKey.from_cryptography(crypto_private_key),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>DSAKeyPair:
+  generator_g: '113777026571325530148150394408467299305589997194470431376564940585605453797253843240385953561624361715300637770674134020122595656184354455315207866000987394828535805614606024021315033549457672053549361497135203471795738563110933341121849876449932177135069371874058966749891793319752800046614670106059201138656'
+  key_size: '1024'
+  prime_p: '174757476342306797247563317256894129844245132954515284483435018210595536104310937495384232315831853480443453499620885651911198721759647573944694709015221077111398208541814382944481887170189910067356212345671285839418487207597130726845228782300695389126938410647911854140920564564816908606042285402918736359701'
+  public_key_y: '149332052542478152219821166226616716616977242473328582848563249300540754897324006416792998195121332611269937769202630005073559668943384310360257482112770686017742010665852185709674377535585104122942880303444668338707692502260752201470105621604193468478471725786623824002451061035867177729841769129384287123018'
+  subprime_q: '1187488220291981039175259798988933546327060643443'
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_file"><a class="autorefs autorefs-internal" title="from_file
+
+
+  
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_file">InitCryptoParser.from_file</a><a class="headerlink" href="#initcryptoparserfrom_file" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private.pem</code></summary>
+<pre><code>-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+
+key_pair = DSAKeyPair(
+    public_key=DSAPublicKey.from_file(&quot;public.pem&quot;),
+    private_key=DSAPrivateKey.from_file(&quot;private.pem&quot;),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>DSAKeyPair:
+  generator_g: '113777026571325530148150394408467299305589997194470431376564940585605453797253843240385953561624361715300637770674134020122595656184354455315207866000987394828535805614606024021315033549457672053549361497135203471795738563110933341121849876449932177135069371874058966749891793319752800046614670106059201138656'
+  key_size: '1024'
+  prime_p: '174757476342306797247563317256894129844245132954515284483435018210595536104310937495384232315831853480443453499620885651911198721759647573944694709015221077111398208541814382944481887170189910067356212345671285839418487207597130726845228782300695389126938410647911854140920564564816908606042285402918736359701'
+  public_key_y: '149332052542478152219821166226616716616977242473328582848563249300540754897324006416792998195121332611269937769202630005073559668943384310360257482112770686017742010665852185709674377535585104122942880303444668338707692502260752201470105621604193468478471725786623824002451061035867177729841769129384287123018'
+  subprime_q: '1187488220291981039175259798988933546327060643443'
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserfrom_pem_string"><a class="autorefs autorefs-internal" title="from_pem_string
+
+
+  
+      classmethod
+  " href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.from_pem_string">InitCryptoParser.from_pem_string</a><a class="headerlink" href="#initcryptoparserfrom_pem_string" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+
+key_pair = DSAKeyPair(
+    public_key=DSAPublicKey.from_pem_string(public_pem),
+    private_key=DSAPrivateKey.from_pem_string(private_pem),
+)
+
+print(key_pair)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>DSAKeyPair:
+  generator_g: '113777026571325530148150394408467299305589997194470431376564940585605453797253843240385953561624361715300637770674134020122595656184354455315207866000987394828535805614606024021315033549457672053549361497135203471795738563110933341121849876449932177135069371874058966749891793319752800046614670106059201138656'
+  key_size: '1024'
+  prime_p: '174757476342306797247563317256894129844245132954515284483435018210595536104310937495384232315831853480443453499620885651911198721759647573944694709015221077111398208541814382944481887170189910067356212345671285839418487207597130726845228782300695389126938410647911854140920564564816908606042285402918736359701'
+  public_key_y: '149332052542478152219821166226616716616977242473328582848563249300540754897324006416792998195121332611269937769202630005073559668943384310360257482112770686017742010665852185709674377535585104122942880303444668338707692502260752201470105621604193468478471725786623824002451061035867177729841769129384287123018'
+  subprime_q: '1187488220291981039175259798988933546327060643443'
+
+
+</code></pre>
+</details>
+<h2 id="initcryptoparserto_file"><a class="autorefs autorefs-internal" title="to_file" href="../../types/crypto_parser/#pki_tools.types.crypto_parser.InitCryptoParser.to_file">InitCryptoParser.to_file</a><a class="headerlink" href="#initcryptoparserto_file" title="Permanent link">&para;</a></h2>
+<details class="tip">
+<summary><code>private_pem</code></summary>
+<pre><code>private_pem = &quot;&quot;&quot;
+-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<details class="tip">
+<summary><code>public_pem</code></summary>
+<pre><code>public_pem = &quot;&quot;&quot;
+-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+&quot;&quot;&quot;
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+
+key_pair = DSAKeyPair(
+    public_key=DSAPublicKey.from_pem_string(public_pem),
+    private_key=DSAPrivateKey.from_pem_string(private_pem),
+)
+
+key_pair.public_key.to_file(&quot;out_public.pem&quot;)
+key_pair.private_key.to_file(&quot;out_private.pem&quot;)
+
+</code></pre>
+<details class="note">
+<summary><code>out_private.pem</code></summary>
+<pre><code>-----BEGIN DSA PRIVATE KEY-----
+MIIBvAIBAAKBgQD43Od5Ib9Gf7zn3BqonOwCMvmWw3QBVSkcIIPtfjoPCF5eZUkE
++NxkC+8TVLFP6BirpwifJsUyD2SOZre2JtF3SUmKFiPhS3934suqEWHpedeZy8Dy
+2g7yuqU3OiOMU06iRemDhcWJmCp3MEF5N321Eh66t9yq5oN1iYbnRkvxFQIVANAA
+0DyNl0WkdNjOwKRXKtRtgf5zAoGBAKIGG/O5f1FbUmhBK0z2jZLYvup3CKSMYvJL
+ztDMSjDW1NTuht0qQLszEso82SwtuYRRAvpezwkWKhQSj2fo+Dg+A8+4Rc6N9oMO
+f0ZM4BOGdkm4WEKpIArx9wEYamHpGuIYSER0ygbw/vQD0fjG24FxhBKCkd7F1pf9
++ervHU/gAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjUDXaHq3/1cCaAuKJF5jR7OlTf
+e+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6k3yuI65VieTAtvnh9zg+y53+
+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62uFDny0lY6Ow+47ZKAhRtGeN4
+19EKC+vetSlF1/ORPoDQ2A==
+-----END DSA PRIVATE KEY-----
+
+</code></pre>
+</details>
+<details class="note">
+<summary><code>out_public.pem</code></summary>
+<pre><code>-----BEGIN PUBLIC KEY-----
+MIIBuDCCASwGByqGSM44BAEwggEfAoGBAPjc53khv0Z/vOfcGqic7AIy+ZbDdAFV
+KRwgg+1+Og8IXl5lSQT43GQL7xNUsU/oGKunCJ8mxTIPZI5mt7Ym0XdJSYoWI+FL
+f3fiy6oRYel515nLwPLaDvK6pTc6I4xTTqJF6YOFxYmYKncwQXk3fbUSHrq33Krm
+g3WJhudGS/EVAhUA0ADQPI2XRaR02M7ApFcq1G2B/nMCgYEAogYb87l/UVtSaEEr
+TPaNkti+6ncIpIxi8kvO0MxKMNbU1O6G3SpAuzMSyjzZLC25hFEC+l7PCRYqFBKP
+Z+j4OD4Dz7hFzo32gw5/RkzgE4Z2SbhYQqkgCvH3ARhqYeka4hhIRHTKBvD+9APR
++MbbgXGEEoKR3sXWl/356u8dT+ADgYUAAoGBANSn6Svi4CZns0W5Uv3yzR9+4jjU
+DXaHq3/1cCaAuKJF5jR7OlTfe+n1IZCrPSshMF210wKl2LVp1NXxZLMA7sKy+2g6
+k3yuI65VieTAtvnh9zg+y53+XxyYrJYvKRUmYqIluUvVDiJCJlYZdcZfgOP68v62
+uFDny0lY6Ow+47ZK
+-----END PUBLIC KEY-----
+
+</code></pre>
+</details>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
