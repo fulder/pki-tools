@@ -2,9 +2,10 @@ from pki_tools import Certificate, Chain, is_revoked
 
 chain = Chain.from_uri(
     [
+        "https://letsencrypt.org/certs/gen-y/int-yr1.pem",
+        "https://letsencrypt.org/certs/gen-y/int-yr2.pem",
+        "https://letsencrypt.org/certs/gen-y/root-yr-by-x1.pem",
         "https://letsencrypt.org/certs/isrgrootx1.pem",
-        "https://letsencrypt.org/certs/2024/r13.pem",
-        "https://letsencrypt.org/certs/2024/r12.pem",
     ]
 )
 
