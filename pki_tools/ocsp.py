@@ -35,9 +35,7 @@ def _is_revoked_multiple_issuers(
     ocsp_issuer: Chain,
     ocsp_res_cache_seconds: int = 3600,
 ):
-    cert_issuer.check_chain()
-    ocsp_issuer.check_chain()
-
+    cert_issuer.check_chain_for(cert)
     issuer = cert_issuer.get_issuer(cert)
 
     log = logger.bind(
@@ -163,6 +161,9 @@ def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: Chain):
 
     if found_issuer is not None:
         found_issuer.verify_signature(ocsp_response)
+        # Validate the chain path for the found issuer (unless it's a root)
+        if found_issuer.issuer != found_issuer.subject:
+            issuer_chain.check_chain_for(found_issuer)
         return
 
     logger.warning(
@@ -173,6 +174,9 @@ def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: Chain):
     for issuer_cert in issuer_chain.certificates:
         try:
             issuer_cert.verify_signature(ocsp_response)
+            # Validate the chain path for the signing cert (unless it's a root)
+            if issuer_cert.issuer != issuer_cert.subject:
+                issuer_chain.check_chain_for(issuer_cert)
             return
         except Exception as e:
             logger.error(f"Signature verification failed: {e}")

@@ -75,8 +75,8 @@ def _is_revoked(
     crl_cache_seconds: int = 3600,
     same_crl_domains: list[list[str]] = None,
 ) -> bool:
-    crl_issuer.check_chain()
-    logger.debug("CRL issuer chain valid")
+    crl_issuer.check_chain_for(cert)
+    logger.debug("CRL issuer chain valid for cert")
 
     log = logger.bind(
         cert=cert.pem_string,
