@@ -33,7 +33,7 @@ class Chain(Certificates):
         checking expiration and signatures of all certificates in the chain
 
         .. deprecated::
-            Use :meth:`check_chain_for` instead, which only validates the
+            Use :meth:`validate_trust_path` instead, which only validates the
             trust path relevant to a specific certificate. This method
             validates all certificates in the chain, which causes false
             failures when the chain contains unrelated expired CAs.
@@ -46,7 +46,7 @@ class Chain(Certificates):
             SignatureVerificationFailed: When the signature verification fails
         """
         warnings.warn(
-            "check_chain() is deprecated, use check_chain_for(signed) instead. "
+            "check_chain() is deprecated, use validate_trust_path(signed) instead. "
             "check_chain() validates all certificates in the chain which causes "
             "false failures when the chain contains unrelated expired CAs.",
             DeprecationWarning,
@@ -76,7 +76,7 @@ class Chain(Certificates):
             issuer = self.get_issuer(cert)
             issuer.verify_signature(cert)
 
-    def check_chain_for(
+    def validate_trust_path(
         self,
         signed: [
             "Certificate",
@@ -84,7 +84,7 @@ class Chain(Certificates):
         ],
     ):
         """
-        Validate only the chain path relevant to a given signed entity,
+        Validate only the trust path relevant to a given signed entity,
         checking expiration and signatures from the issuer up to the root.
 
         Unlike [check_chain][pki_tools.types.chain.Chain.check_chain] which
@@ -111,19 +111,15 @@ class Chain(Certificates):
                 break
             visited.add(issuer_cert.serial_number)
 
-            # Self-signed root CAs are trust anchors; skip expiration
-            # check (the user explicitly included them in the truststore)
+            # Self-signed root CAs are trust anchors
             is_root = issuer_cert.issuer == issuer_cert.subject
 
+            # Check expiration only for non-root intermediates
             if not is_root:
-                log = logger.bind(
-                    subject=issuer_cert.subject._string_dict()
-                )
+                log = logger.bind(subject=issuer_cert.subject._string_dict())
                 if issuer_cert.validity.not_after < datetime.now(
                     pytz.utc
-                ) or issuer_cert.validity.not_before > datetime.now(
-                    pytz.utc
-                ):
+                ) or issuer_cert.validity.not_before > datetime.now(pytz.utc):
                     log.error("Certificate expired")
                     raise CertExpired(
                         f"Certificate in chain with subject: "
