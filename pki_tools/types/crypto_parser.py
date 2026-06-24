@@ -150,7 +150,13 @@ class InitCryptoParser(CryptoParser, abc.ABC):
 
         func = cfg.load_pem.func
         kwargs = cfg.load_pem.kwargs
-        crypto_obj = func(pem.encode(), **kwargs)
+        try:
+            crypto_obj = func(pem.encode(), **kwargs)
+        except (ValueError, TypeError) as e:
+            logger.bind(error=str(e)).debug(
+                "Cryptography failed to load PEM object"
+            )
+            raise LoadError() from e
         return cls.from_cryptography(crypto_obj)
 
     @classmethod
@@ -171,7 +177,13 @@ class InitCryptoParser(CryptoParser, abc.ABC):
         func = cfg.load_der.func
         kwargs = cfg.load_der.kwargs
 
-        crypto_obj = func(der, **kwargs)
+        try:
+            crypto_obj = func(der, **kwargs)
+        except (ValueError, TypeError) as e:
+            logger.bind(error=str(e)).debug(
+                "Cryptography failed to load DER object"
+            )
+            raise LoadError() from e
         return cls.from_cryptography(crypto_obj)
 
     @classmethod
