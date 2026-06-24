@@ -1,62 +1,55 @@
-[tool.poetry]
+[project]
 name = "pki-tools"
-version = "0.0.0"
+dynamic = ["version"]
 description = "PKI tools for e.g. checking certificate CRL/OCSP revocation"
-authors = ["Michal Sadowski <misad90@gmail.com>"]
+authors = [{ name = "Michal Sadowski", email = "misad90@gmail.com" }]
 license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
     "Topic :: Security :: Cryptography",
-    "Operating System :: OS Independent"
+    "Operating System :: OS Independent",
 ]
-readme = "README.md"
-homepage = "https://github.com/fulder/pki-tools"
-repository = "https://github.com/fulder/pki-tools"
+dependencies = [
+    "cryptography>=49.0.0,<50.0.0",
+    "loguru>=0.7.3,<0.8.0",
+    "pydantic>=2.13.4,<3.0.0",
+    "httpx>=0.28.1,<0.29.0",
+    "pyyaml>=6.0.3,<7.0.0",
+    "pytz>=2026.2,<2027.0",
+]
 
-[tool.poetry.urls]
+[project.urls]
+Homepage = "https://github.com/fulder/pki-tools"
+Repository = "https://github.com/fulder/pki-tools"
 "Bug Tracker" = "https://github.com/fulder/pki-tools/issues"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-cryptography = ">=49.0.0,<50.0.0"
-loguru = "^0.7.3"
-pydantic = "^2.13.4"
-httpx = "^0.28.1"
-pyyaml = "^6.0.3"
-pytz = "^2026.2"
-
-[tool.poetry.group.test]
-optional = true
-
-[tool.poetry.group.test.dependencies]
-pytest = "^9.1.1"
-pytest-mock = "^3.15.1"
-pytest-xdist = "^3.8.0"
-pytest-cov = "^7.1.0"
-smokeshow = "^0.5.0"
-
-[tool.poetry.group.lint]
-optional = true
-
-[tool.poetry.group.lint.dependencies]
-ruff = ">=0.15.19,<0.15.20"
-
-[tool.poetry.group.dev.dependencies]
-mkdocstrings = {extras = ["python"], version = "^1.0.4"}
-pymdown-extensions = "^11.0"
-
-[tool.poetry.group.apitest.dependencies]
-httpx = "^0.28.1"
-
-[tool.poetry-dynamic-versioning]
-enable = true
-vcs = "git"
+[dependency-groups]
+test = [
+    "pytest>=9.1.1,<10.0.0",
+    "pytest-mock>=3.15.1,<4.0.0",
+    "pytest-xdist>=3.8.0,<4.0.0",
+    "pytest-cov>=7.1.0,<8.0.0",
+    "smokeshow>=0.5.0,<0.6.0",
+]
+lint = ["ruff>=0.15.19,<0.15.20"]
+docs = [
+    "mkdocstrings[python]>=1.0.4,<2.0.0",
+    "pymdown-extensions>=11.0,<12.0.0",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pki_tools"]
 
 [tool.pytest.ini_options]
 addopts = "--cov=pki_tools --cov-report term-missing --cov-report=html -v -n auto"

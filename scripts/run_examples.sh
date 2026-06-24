@@ -37,9 +37,9 @@ while IFS= read -r -d '' file; do
   pushd $dir
 
   if [[ "${exclude_outputs[@]}" =~ "${file_name}" ]]; then
-    LOGURU_LEVEL=INFO poetry run python3 "${file_name}" > /dev/null 2>&1 &
+    LOGURU_LEVEL=INFO uv run python3 "${file_name}" > /dev/null 2>&1 &
   else
-    LOGURU_LEVEL=INFO poetry run python3 "${file_name}" > ${out_name} 2>&1 &
+    LOGURU_LEVEL=INFO uv run python3 "${file_name}" > ${out_name} 2>&1 &
   fi
 
   pid_map[$!]=$out_file

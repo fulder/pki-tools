@@ -12,7 +12,7 @@ updates:
         patterns:
           - "*"
 
-  - package-ecosystem: "pip"
+  - package-ecosystem: "pip" # bootstrap requirements.txt (uv itself)
     directory: "/"
     schedule:
       interval: "weekly"
@@ -21,3 +21,12 @@ updates:
         patterns:
           - "*"
     versioning-strategy: increase
+
+  - package-ecosystem: "uv" # project deps (pyproject.toml + uv.lock)
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
