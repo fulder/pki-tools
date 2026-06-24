@@ -83,6 +83,22 @@ def test_certificate_from_pem_string_invalid_data():
         Certificate.from_pem_string("BAD_PEM_DATA")
 
 
+def test_certificate_from_pem_string_valid_header_invalid_body():
+    # Valid PEM envelope (passes the regex pre-check) but the body is not a
+    # parseable certificate, so cryptography raises ValueError which must be
+    # wrapped into LoadError.
+    invalid_pem = (
+        "-----BEGIN CERTIFICATE-----\nAAAA\n-----END CERTIFICATE-----\n"
+    )
+    with pytest.raises(LoadError):
+        Certificate.from_pem_string(invalid_pem)
+
+
+def test_certificate_from_der_bytes_invalid_data():
+    with pytest.raises(LoadError):
+        Certificate.from_der_bytes(b"NOT_VALID_DER")
+
+
 def test_certificate_from_pem_string_with_space(cert_pem_string):
     Certificate.from_pem_string("\n\n" + cert_pem_string + "\n")
 
