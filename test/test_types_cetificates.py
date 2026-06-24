@@ -1,6 +1,5 @@
 import os
 
-from conftest import CURRENT_DIR
 from pki_tools import Certificates
 
 
@@ -8,12 +7,11 @@ def test_certificates_from_pem_string(cert_pem_string):
     Certificates.from_pem_string(cert_pem_string)
 
 
-def test_certificates_save_and_read_file(cert_pem_string, key_pair_name):
+def test_certificates_save_and_read_file(cert_pem_string, tmp_path):
     two_certs = f"{cert_pem_string}\n{cert_pem_string}"
     certs = Certificates.from_pem_string(two_certs)
 
-    file_name = f"{key_pair_name}_cert.pem"
-    file_path = os.path.join(CURRENT_DIR, file_name)
+    file_path = os.path.join(tmp_path, "cert.pem")
     certs.to_file(file_path)
 
     new_certs = Certificates.from_file(file_path)
