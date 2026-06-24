@@ -1,8 +1,6 @@
 from pki_tools import Certificate, Chain, is_revoked, RevokeMode
 
-cert = Certificate.from_uri(
-    "https://letsencrypt.org/certs/gen-y/int-yr1.pem"
-)
+cert = Certificate.from_uri("https://letsencrypt.org/certs/gen-y/int-yr1.pem")
 
 chain = Chain.from_uri(
     [
