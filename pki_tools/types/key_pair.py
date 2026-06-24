@@ -206,7 +206,7 @@ class CryptoKeyPair(BaseModel):
     """
     Represents a cryptographic key pair.
 
-    Arguments:
+    Attributes:
         private_key: The private key
         public_key: The public key
     """
@@ -258,7 +258,7 @@ class DSAPublicKey(CryptoPublicKey):
         Create a DSAKeyPair from a cryptography key.
 
         Args:
-            key: The [cryptography.hazmat.primitives.asymmetric.dsa][]
+            key: The `cryptography.hazmat.primitives.asymmetric.dsa`
                 public key.
 
         Returns:
@@ -341,7 +341,7 @@ class DSAPrivateKey(CryptoPrivateKey):
         Create a DSAPrivateKey from a cryptography key.
 
         Args:
-            key: The [cryptography.hazmat.primitives.asymmetric.dsa][]
+            key: The `cryptography.hazmat.primitives.asymmetric.dsa`
                 private key.
 
         Returns:

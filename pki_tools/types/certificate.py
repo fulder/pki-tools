@@ -173,11 +173,11 @@ class Certificate(InitCryptoParser):
         cert: x509.Certificate,
     ) -> "Certificate":
         """
-        Create a Certificate object from a [cryptography.x509.Certificate][]
+        Create a Certificate object from a `cryptography.x509.Certificate`
         object.
 
         Args:
-            cert: The [cryptography.x509.Certificate][] object.
+            cert: The `cryptography.x509.Certificate` object.
 
         Returns:
             Certificate: The created Certificate object.
