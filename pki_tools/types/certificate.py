@@ -9,12 +9,11 @@ import datetime
 from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
+from cryptography.hazmat.primitives.asymmetric import ed25519, ed448
 
 from pki_tools.types.key_pair import (
     CryptoKeyPair,
     CryptoPublicKey,
-    Ed448PublicKey,
-    Ed25519PublicKey,
 )
 from pki_tools.types.name import Name
 from pki_tools.types.extensions import Extensions
@@ -431,10 +430,12 @@ class Certificate(InitCryptoParser):
                 )
 
         if isinstance(
-            self.subject_public_key_info.algorithm, Ed448PublicKey
-        ) or isinstance(
-            self.subject_public_key_info.algorithm, Ed25519PublicKey
+            crypto_key,
+            (ed25519.Ed25519PrivateKey, ed448.Ed448PrivateKey),
         ):
+            # Ed25519/Ed448 signing keys must use a None algorithm. This is
+            # decided by the *signing* key, not the subject public key (which
+            # can differ when a CA issues a cert carrying another key).
             alg = None
         else:
             alg = self.signature_algorithm.algorithm._to_cryptography()
