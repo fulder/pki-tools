@@ -39,6 +39,55 @@ bash ./scripts/run_examples.sh
 LOGURU_LEVEL=INFO uv run python3 docs/examples/src/revocation/check_revocation.py
 ```
 
+Project tooling (uv)
+
+- Dependency and build management uses [uv](https://docs.astral.sh/uv/). For
+  local dev install uv however you like (e.g. the curl installer above); CI
+  installs the pinned uv from the bootstrap `requirements.txt` (see below).
+- Key files:
+  - `pyproject.toml`: PEP 621 `[project]` metadata plus `[dependency-groups]`
+    (`test`, `lint`, `docs`). The build backend is hatchling + hatch-vcs, so the
+    package version is derived from git tags; there is no static `version` field
+    (`dynamic = ["version"]`).
+  - `uv.lock`: the committed lockfile. Refresh with `uv lock`; verify it is in
+    sync with `pyproject.toml` via `uv lock --check` (CI does this).
+  - `.python-version`: the single source of the Python version (currently
+    `3.13`). uv and `actions/setup-python` (`python-version-file`) both read it;
+    do not hardcode the version anywhere else.
+  - `requirements.txt` (root): a bootstrap file that pins only `uv` (with
+    hashes). It is NOT for project deps; it only lets CI install uv via
+    `pip install --require-hashes -r requirements.txt`. Keep the pinned uv at the
+    latest release; regenerate/bump with:
+    ```bash
+    printf 'uv==<version>\n' | uv pip compile - --generate-hashes --no-annotate --no-header -o requirements.txt
+    ```
+- Common commands:
+  - Sync a group: `uv sync --group test` (or `lint` / `docs`).
+  - Run a tool: `uv run --group lint ruff check .`,
+    `uv run --group docs mkdocs build`, `uv run --group test pytest`.
+  - Add a dependency: `uv add <pkg>` (or `uv add --group <group> <pkg>`).
+  - After changing deps or merging branches, run `uv lock` so `pyproject.toml`
+    and `uv.lock` stay in sync. A common merge pitfall: resolving
+    `pyproject.toml` as "ours" silently drops Dependabot version bumps from
+    `main`, so re-check the dependency versions and re-lock after a merge.
+- CI installs uv from the hashed `requirements.txt`, then uses `uv sync` /
+  `uv run`; publishing uses `uv build` + `uv publish`. Dependabot manages three
+  ecosystems: `uv` (pyproject + uv.lock), `pip` (the uv bootstrap
+  `requirements.txt`), and `github-actions`.
+
+Testing notes
+
+- The suite runs in parallel by default (`-n auto` via pytest-xdist, set in the
+  `[tool.pytest.ini_options]` addopts). Tests must be parallel-safe: never write
+  to a shared, fixed file path from more than one test; use the `tmp_path`
+  fixture so each test gets its own directory. (A past CI failure came from two
+  save/read tests building the same filename and racing on it, deterministically
+  on one Python-version job.)
+- The project targets cryptography 49 (`>=49.0.0,<50.0.0`). The loaders in
+  `crypto_parser.py` wrap cryptography's `ValueError`/`TypeError` into
+  `LoadError`, so invalid PEM/DER (including cryptography 49's stricter parsing)
+  surfaces as `pki_tools.exceptions.LoadError`, not a raw library error.
+
 Notes about examples and CI
 
 - Examples can perform network calls and may fail in CI for reasons unrelated to code (missing network, remote changes, or mismatched chains). `scripts/run_examples.sh` contains two arrays that control behavior:
