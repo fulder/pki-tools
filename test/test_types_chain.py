@@ -76,17 +76,28 @@ class TestValidateTrustPath:
 
     def test_validate_trust_path_expired_intermediate(self, key_pair):
         """Test that CertExpired is raised for expired non-root intermediate."""
-        # Create an expired certificate
+        from pki_tools import RSAKeyPair
+
         today = datetime.datetime.now(pytz.utc)
         yesterday = today - datetime.timedelta(days=1)
 
-        expired_cert = Certificate(
-            subject=TEST_SUBJECT,
-            issuer=TEST_SUBJECT,
+        # Valid self-signed root CA
+        root_cert = _create_cert(key_pair)
+
+        # Expired intermediate CA issued by the root (non-root: issuer != subject)
+        int_keypair = RSAKeyPair.generate()
+        int_subject = Name(
+            c=["US"],
+            o=["Test CA"],
+            cn=["Expired Intermediate CA"],
+        )
+        int_cert = Certificate(
+            subject=int_subject,
+            issuer=root_cert.subject,
             extensions=Extensions(
                 basic_constraints=BasicConstraints(ca=True),
                 subject_key_identifier=SubjectKeyIdentifier(
-                    subject_key_identifier=b"TEST_SKI"
+                    subject_key_identifier=b"TEST_INT_SKI"
                 ),
             ),
             validity=Validity(
@@ -94,11 +105,10 @@ class TestValidateTrustPath:
                 not_after=yesterday,  # Already expired
             ),
         )
-        expired_cert.sign(key_pair, SHA256)
+        # Signed by the root's key, but carrying the intermediate's own key
+        int_cert.sign(key_pair, SHA256, req_key=int_keypair.public_key)
 
-        # Create another cert that is issued by the expired cert
-        from pki_tools import RSAKeyPair
-
+        # End-entity certificate issued by the expired intermediate
         ee_keypair = RSAKeyPair.generate()
 
         ee_subject = Name(
@@ -108,7 +118,7 @@ class TestValidateTrustPath:
         )
         ee_cert = Certificate(
             subject=ee_subject,
-            issuer=expired_cert.subject,
+            issuer=int_subject,
             extensions=Extensions(
                 basic_constraints=BasicConstraints(ca=False),
                 subject_key_identifier=SubjectKeyIdentifier(
@@ -126,12 +136,12 @@ class TestValidateTrustPath:
                 not_after=today + datetime.timedelta(days=30),
             ),
         )
-        ee_cert.sign(ee_keypair, SHA256)
+        ee_cert.sign(int_keypair, SHA256, req_key=ee_keypair.public_key)
 
-        # Create chain with both certs
-        chain = Chain(certificates=[ee_cert, expired_cert])
+        # Create chain with both CA certs
+        chain = Chain(certificates=[int_cert, root_cert])
 
-        # Should raise CertExpired when validating the chain
+        # Should raise CertExpired when validating the trust path
         with pytest.raises(CertExpired):
             chain.validate_trust_path(ee_cert)
 
@@ -198,7 +208,7 @@ class TestValidateTrustPath:
                 + datetime.timedelta(days=365),
             ),
         )
-        int_cert.sign(key_pair, SHA256)
+        int_cert.sign(key_pair, SHA256, req_key=int_keypair.public_key)
 
         # Create end-entity certificate issued by intermediate
         ee_subject = Name(
