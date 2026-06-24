@@ -1,12 +1,12 @@
 .PHONY: format
 format:
-	poetry run ruff format .
-	poetry run ruff check --fix .
+	uv run --group lint ruff format .
+	uv run --group lint ruff check --fix .
 	make clean
 
 .PHONY: pytest
 pytest:
-	poetry run python -m pytest -s --capture=no ./test
+	uv run --group test python -m pytest -s --capture=no ./test
 	make clean
 
 .PHONY: clean

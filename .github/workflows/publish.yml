@@ -12,11 +12,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6.0.3
+        with:
+          fetch-depth: 0
 
-      - name: Install poetry
-        run: |
-          pip install poetry poetry-dynamic-versioning
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: .python-version
 
-      - name: Publish
+      - name: Install uv
+        run: pip install --require-hashes -r requirements.txt
+
+      - name: Build and publish
         run: |
-          poetry publish --build --username __token__ --password ${{ secrets.PYPI_TOKEN }}
+          uv build
+          uv publish --token ${{ secrets.PYPI_TOKEN }}

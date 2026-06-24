@@ -6,19 +6,17 @@ This document gives short, actionable instructions that GitHub Copilot (or any A
 
 Run environment
 
-- This project uses Poetry to manage the virtual environment and dependencies.
-- Install poetry (recommended via pipx):
+- This project uses [uv](https://docs.astral.sh/uv/) to manage the virtual environment and dependencies.
+- Install uv (see https://docs.astral.sh/uv/getting-started/installation/), e.g.:
 
 ```bash
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
-pipx install poetry
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 - Install dependencies:
 
 ```bash
-poetry install
+uv sync
 ```
 
 Run tests and examples
@@ -26,7 +24,7 @@ Run tests and examples
 - Run unit tests:
 
 ```bash
-poetry run pytest -q
+uv run --group test pytest -q
 ```
 
 - Run examples (may perform network requests):
@@ -38,7 +36,7 @@ bash ./scripts/run_examples.sh
 - To run a single example file (useful in CI debugging):
 
 ```bash
-LOGURU_LEVEL=INFO poetry run python3 docs/examples/src/revocation/check_revocation.py
+LOGURU_LEVEL=INFO uv run python3 docs/examples/src/revocation/check_revocation.py
 ```
 
 Notes about examples and CI
@@ -179,7 +177,7 @@ After updating an example's chain:
 
 1. Run it locally:
    ```bash
-   LOGURU_LEVEL=INFO poetry run python3 docs/examples/src/revocation/check_revocation.py
+   LOGURU_LEVEL=INFO uv run python3 docs/examples/src/revocation/check_revocation.py
    ```
 
 2. Verify it succeeds or fails with expected error (not missing certs):
@@ -209,14 +207,14 @@ When asking Copilot to modify this repository, prefer short, explicit prompts. E
 
 Safety checks for Copilot-generated changes
 
-- Run `poetry run pytest` after code changes.
+- Run `uv run --group test pytest` after code changes.
 - If changing examples that perform network requests, run them locally and verify they either succeed or fail with a clear, handled error message.
 - Avoid wide refactors in a single commit without tests — prefer small, testable changes.
 
 Common troubleshooting
 
-- Missing dependencies: ensure you ran `poetry install`.
-- Import errors when running examples locally: set `PYTHONPATH` if you prefer running examples without poetry, e.g. `PYTHONPATH=$(pwd) python3 ...`.
+- Missing dependencies: ensure you ran `uv sync`.
+- Import errors when running examples locally: set `PYTHONPATH` if you prefer running examples without uv, e.g. `PYTHONPATH=$(pwd) python3 ...`.
 
 Contact
 
