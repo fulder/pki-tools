@@ -38,4 +38,4 @@
 ///
 
 For different ways of loading certificate and chain see: 
-[Loading objects][loading-objects].
+[Loading objects][loading-x509-objects].
