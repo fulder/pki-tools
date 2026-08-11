@@ -46,7 +46,7 @@ crypto_private_key = serialization.load_pem_private_key(
     private_key_pem, password=None
 )
 
-from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+from pki_tools import RSAKeyPair, RSAPrivateKey, RSAPublicKey
 
 key_pair = RSAKeyPair(
     public_key=RSAPublicKey.from_cryptography(crypto_public_key),

@@ -1,5 +1,5 @@
 from cryptography.hazmat.primitives.hashes import SHA256
-from cryptography.x509 import ocsp, load_pem_x509_certificate
+from cryptography.x509 import load_pem_x509_certificate, ocsp
 
 pem_cert = b"""
 -----BEGIN CERTIFICATE-----

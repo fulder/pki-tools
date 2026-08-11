@@ -1,24 +1,23 @@
-from typing import Type, Optional, Dict
 import re
 
 import yaml
 from cryptography import x509
 
 from pki_tools.exceptions import MissingInit
-from pki_tools.types.key_pair import (
-    CryptoPublicKey,
-    CryptoPrivateKey,
-    CryptoKeyPair,
-    Ed25519PrivateKey,
-    Ed448PrivateKey,
-)
 from pki_tools.types.crypto_parser import (
-    InitCryptoParser,
     CryptoConfig,
     HelperFunc,
+    InitCryptoParser,
+)
+from pki_tools.types.extensions import Extensions
+from pki_tools.types.key_pair import (
+    CryptoKeyPair,
+    CryptoPrivateKey,
+    CryptoPublicKey,
+    Ed448PrivateKey,
+    Ed25519PrivateKey,
 )
 from pki_tools.types.name import Name
-from pki_tools.types.extensions import Extensions
 from pki_tools.types.signature_algorithm import (
     SignatureAlgorithm,
 )
@@ -45,16 +44,16 @@ class CertificateSigningRequest(InitCryptoParser):
 
     subject: Name
 
-    public_key: Optional[CryptoPublicKey] = None
-    extensions: Optional[Extensions] = None
-    attributes: Optional[Dict[str, bytes]] = None
-    signature_algorithm: Optional[SignatureAlgorithm] = None
+    public_key: CryptoPublicKey | None = None
+    extensions: Extensions | None = None
+    attributes: dict[str, bytes] | None = None
+    signature_algorithm: SignatureAlgorithm | None = None
 
-    _private_key: Optional[CryptoPrivateKey]
+    _private_key: CryptoPrivateKey | None
 
     @classmethod
     def from_cryptography(
-        cls: Type["CertificateSigningRequest"],
+        cls: type["CertificateSigningRequest"],
         crypto_csr: x509.CertificateSigningRequest,
     ) -> "CertificateSigningRequest":
         """
@@ -107,7 +106,7 @@ class CertificateSigningRequest(InitCryptoParser):
     def sign(
         self,
         key_pair: CryptoKeyPair,
-        signature_algorithm: Optional[SignatureAlgorithm] = None,
+        signature_algorithm: SignatureAlgorithm | None = None,
     ):
         """
         Sign the CSR with the provided key pair and signature algorithm.
@@ -142,7 +141,7 @@ class CertificateSigningRequest(InitCryptoParser):
                     val = _byte_to_hex(val)
                 elif k == "1.2.840.113549.1.9.7":
                     val = val.decode()
-                attributes.append(f"{k}: {str(val)}")
+                attributes.append(f"{k}: {val!s}")
 
             if attributes:
                 ret["Certificate Signing Request"]["Attributes"] = attributes
@@ -171,9 +170,7 @@ class CertificateSigningRequest(InitCryptoParser):
                 oid = x509.ObjectIdentifier(attribute_oid)
                 builder = builder.add_attribute(oid, value)
 
-        if isinstance(self._private_key, Ed448PrivateKey) or isinstance(
-            self._private_key, Ed25519PrivateKey
-        ):
+        if isinstance(self._private_key, (Ed448PrivateKey, Ed25519PrivateKey)):
             alg = None
         else:
             alg = self.signature_algorithm.algorithm._to_cryptography()

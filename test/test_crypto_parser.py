@@ -36,7 +36,7 @@ def test_init_crypto_parser_funcs(
     # Test dump and load from DER
     file_name = f"{parser_name}_{key_pair_name}_test.der"
     crypto_parser.to_file(file_name, encoding=Encoding.DER)
-    getattr(crypto_parser.__class__, "from_file")(
+    crypto_parser.__class__.from_file(
         file_name, encoding=Encoding.DER
     )
     os.unlink(file_name)
@@ -44,7 +44,7 @@ def test_init_crypto_parser_funcs(
     # Test dump and load from PEM
     file_name = f"{parser_name}_{key_pair_name}_test.pem"
     crypto_parser.to_file(file_name, encoding=Encoding.PEM)
-    getattr(crypto_parser.__class__, "from_file")(
+    crypto_parser.__class__.from_file(
         file_name, encoding=Encoding.PEM
     )
     os.unlink(file_name)

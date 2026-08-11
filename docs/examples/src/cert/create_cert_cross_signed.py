@@ -1,6 +1,6 @@
 import datetime
 
-from pki_tools import Name, Certificate, Validity, RSAKeyPair, SHA512
+from pki_tools import SHA512, Certificate, Name, RSAKeyPair, Validity
 
 issuer_key = RSAKeyPair.generate()
 issuer = Name(cn=["Issuer"])
@@ -9,8 +9,10 @@ cert_key = RSAKeyPair.generate()
 name = Name(cn=["Cert CN"])
 
 validity = Validity(
-    not_before=datetime.datetime.today() - datetime.timedelta(days=1),
-    not_after=datetime.datetime.today() + datetime.timedelta(days=1),
+    not_before=datetime.datetime.now(datetime.timezone.utc)
+    - datetime.timedelta(days=1),
+    not_after=datetime.datetime.now(datetime.timezone.utc)
+    + datetime.timedelta(days=1),
 )
 
 cert = Certificate(

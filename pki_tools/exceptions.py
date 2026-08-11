@@ -3,23 +3,17 @@ class Error(Exception):
     Error is the base pki_tools exception
     """
 
-    pass
-
 
 class ExtensionMissing(Error):
     """
     ExtensionMissing
     """
 
-    pass
-
 
 class OcspFetchFailure(Error):
     """
     OcspFetchFailure
     """
-
-    pass
 
 
 class FetchFailure(Error):
@@ -33,15 +27,11 @@ class OcspInvalidResponseStatus(Error):
     OcspInvalidResponseStatus
     """
 
-    pass
-
 
 class OcspIssuerFetchFailure(Error):
     """
     OcspIssuerFetchFailure
     """
-
-    pass
 
 
 class LoadError(Error):
@@ -56,15 +46,11 @@ class RevokeCheckFailed(Error):
     RevokeCheckFailed
     """
 
-    pass
-
 
 class CertIssuerMissingInChain(Error):
     """
     CertIssuerMissingInChain
     """
-
-    pass
 
 
 class NotCompleteChain(Error):
@@ -72,15 +58,11 @@ class NotCompleteChain(Error):
     NotCompleteChain
     """
 
-    pass
-
 
 class CertExpired(Error):
     """
     CertExpired
     """
-
-    pass
 
 
 class SignatureVerificationFailed(Error):
@@ -88,15 +70,11 @@ class SignatureVerificationFailed(Error):
     SignatureVerificationFailed
     """
 
-    pass
-
 
 class InvalidSignedType(Error):
     """
     InvalidSignedType
     """
-
-    pass
 
 
 class MissingInit(Error):
@@ -106,20 +84,14 @@ class MissingInit(Error):
     has not been initialized.
     """
 
-    pass
-
 
 class MissingBlockSize(Error):
     """
     MissingBlockSize
     """
 
-    pass
-
 
 class CrlIdpInvalid(Error):
     """
     CrlIdpInvalid
     """
-
-    pass

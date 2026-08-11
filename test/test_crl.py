@@ -1,13 +1,14 @@
-import pytest
-
-from pki_tools.exceptions import (
-    LoadError,
-    FetchFailure,
-)
-from pki_tools.crl import _is_revoked, _compare_cdp_and_idp
-from conftest import _create_crl
-from pki_tools.exceptions import CrlIdpInvalid
 from unittest.mock import Mock
+
+import pytest
+from conftest import _create_crl
+
+from pki_tools.crl import _compare_cdp_and_idp, _is_revoked
+from pki_tools.exceptions import (
+    CrlIdpInvalid,
+    FetchFailure,
+    LoadError,
+)
 
 
 def test_crl_fetch_error(mocked_requests_get, cert, chain):
@@ -19,7 +20,7 @@ def test_crl_fetch_error(mocked_requests_get, cert, chain):
 
 def test_crl_load_failure(mocked_requests_get, cert, chain):
     mocked_requests_get.return_value.status_code = 200
-    mocked_requests_get.return_value.content = "INVALID_DATA".encode()
+    mocked_requests_get.return_value.content = b"INVALID_DATA"
 
     with pytest.raises(LoadError):
         _is_revoked(cert, chain)

@@ -1,11 +1,11 @@
 import datetime
 
 from pki_tools import (
+    SHA512,
+    Certificate,
+    Chain,
     Name,
     RSAKeyPair,
-    SHA512,
-    Chain,
-    Certificate,
     Validity,
 )
 
@@ -13,8 +13,10 @@ issuer_key = RSAKeyPair.generate()
 issuer = Name(cn=["Issuer"])
 
 validity = Validity(
-    not_before=datetime.datetime.today() - datetime.timedelta(days=1),
-    not_after=datetime.datetime.today() + datetime.timedelta(days=1),
+    not_before=datetime.datetime.now(datetime.timezone.utc)
+    - datetime.timedelta(days=1),
+    not_after=datetime.datetime.now(datetime.timezone.utc)
+    + datetime.timedelta(days=1),
 )
 
 # Create self-signed issuer cert

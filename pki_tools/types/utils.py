@@ -1,7 +1,7 @@
 import binascii
 import socket
 import ssl
-from functools import lru_cache
+from functools import cache
 from urllib.parse import urlparse
 
 import httpx
@@ -47,13 +47,15 @@ def _hex_to_byte(hex_string: str) -> bytes:
     return bytes(byte_array)
 
 
-@lru_cache(maxsize=None)
-def _download_server_certificate(hostname: str, cache_ttl: int = None):
+@cache
+def _download_server_certificate(hostname: str, cache_ttl: int | None = None):
     context = ssl.create_default_context()
-    with socket.create_connection((hostname, 443)) as sock:
-        with context.wrap_socket(sock, server_hostname=hostname) as ssock:
-            der_cert = ssock.getpeercert(binary_form=True)
-            return ssl.DER_cert_to_PEM_cert(der_cert)
+    with (
+        socket.create_connection((hostname, 443)) as sock,
+        context.wrap_socket(sock, server_hostname=hostname) as ssock,
+    ):
+        der_cert = ssock.getpeercert(binary_form=True)
+        return ssl.DER_cert_to_PEM_cert(der_cert)
 
 
 def _do_download(client: httpx.Client, uri: str) -> httpx.Response:
@@ -69,9 +71,9 @@ def _do_download(client: httpx.Client, uri: str) -> httpx.Response:
     return ret
 
 
-@lru_cache(maxsize=None)
+@cache
 def _download_cached(
-    uri: str, ttl: int = None, proxy: str = None
+    uri: str, ttl: int | None = None, proxy: str | None = None
 ) -> httpx.Response:
     """
     Download and cache content from a URI with optional proxy support.

@@ -21,8 +21,8 @@ crypto_private_key = serialization.load_pem_private_key(
 
 from pki_tools import (
     EllipticCurveKeyPair,
-    EllipticCurvePublicKey,
     EllipticCurvePrivateKey,
+    EllipticCurvePublicKey,
 )
 
 key_pair = EllipticCurveKeyPair(

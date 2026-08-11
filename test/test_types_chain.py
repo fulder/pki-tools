@@ -1,19 +1,20 @@
 import datetime
+
 import pytest
 import pytz
+from conftest import TEST_SUBJECT, _create_cert
 
-from pki_tools import Chain, Certificate, Name
-from pki_tools.exceptions import CertIssuerMissingInChain, CertExpired
+from pki_tools import Certificate, Chain, Name
+from pki_tools.exceptions import CertExpired, CertIssuerMissingInChain
 from pki_tools.types.certificate import Validity
 from pki_tools.types.extensions import (
-    Extensions,
-    BasicConstraints,
-    SubjectKeyIdentifier,
     AuthorityKeyIdentifier,
+    BasicConstraints,
+    Extensions,
     RFC822Name,
+    SubjectKeyIdentifier,
 )
 from pki_tools.types.signature_algorithm import SHA256
-from conftest import _create_cert, TEST_SUBJECT
 
 
 class TestValidateTrustPath:

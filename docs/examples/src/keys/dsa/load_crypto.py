@@ -34,7 +34,7 @@ crypto_private_key = serialization.load_pem_private_key(
     private_key_pem, password=None
 )
 
-from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+from pki_tools import DSAKeyPair, DSAPrivateKey, DSAPublicKey
 
 key_pair = DSAKeyPair(
     public_key=DSAPublicKey.from_cryptography(crypto_public_key),

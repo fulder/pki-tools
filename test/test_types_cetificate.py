@@ -2,14 +2,14 @@ import datetime
 import os
 
 import pytest
+from conftest import TEST_SUBJECT
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 
-from conftest import TEST_SUBJECT
-from pki_tools.types.signature_algorithm import SHA256
-from pki_tools.types.certificate import Certificate, Name, Validity
 from pki_tools.exceptions import LoadError
 from pki_tools.types import RSAKeyPair
+from pki_tools.types.certificate import Certificate, Name, Validity
+from pki_tools.types.signature_algorithm import SHA256
 
 
 def test_certificate_subject_to_crypto_name():
@@ -140,7 +140,7 @@ def test_certificate_from_to_der(cert):
 
 
 def test_certificate_to_from_crypto(key_pair):
-    today = datetime.datetime.today()
+    today = datetime.datetime.now(datetime.timezone.utc)
     one_day = datetime.timedelta(days=1)
 
     cert = Certificate(

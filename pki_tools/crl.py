@@ -3,20 +3,20 @@ from urllib.parse import urlparse
 
 from loguru import logger
 
-from pki_tools.types.extensions import UniformResourceIdentifier
-from pki_tools.types.chain import Chain
-from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import (
-    ExtensionMissing,
     CrlIdpInvalid,
+    ExtensionMissing,
     FetchFailure,
     LoadError,
 )
+from pki_tools.types.certificate import Certificate
+from pki_tools.types.chain import Chain
 from pki_tools.types.crl import CertificateRevocationList
+from pki_tools.types.extensions import UniformResourceIdentifier
 
 
 def _compare_cdp_and_idp(
-    cdp_uri: str, idp_uri: str, same_crl_domains: list[list[str]] = None
+    cdp_uri: str, idp_uri: str, same_crl_domains: list[list[str]] | None = None
 ):
     log = logger.bind(
         cdp=cdp_uri,
@@ -73,7 +73,7 @@ def _is_revoked(
     cert: Certificate,
     crl_issuer: Chain,
     crl_cache_seconds: int = 3600,
-    same_crl_domains: list[list[str]] = None,
+    same_crl_domains: list[list[str]] | None = None,
 ) -> bool:
     crl_issuer.validate_trust_path(cert)
     logger.debug("CRL issuer chain valid for cert")

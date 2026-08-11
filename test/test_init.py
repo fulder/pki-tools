@@ -2,19 +2,18 @@ import datetime
 from unittest.mock import MagicMock
 
 import pytest
-
-from pki_tools.exceptions import (
-    Error,
-    OcspInvalidResponseStatus,
+from conftest import (
+    _create_cert,
+    _create_crl,
+    _create_mocked_ocsp_response,
 )
+
 from pki_tools import (
     is_revoked,
 )
-
-from conftest import (
-    _create_mocked_ocsp_response,
-    _create_cert,
-    _create_crl,
+from pki_tools.exceptions import (
+    Error,
+    OcspInvalidResponseStatus,
 )
 from pki_tools.types.ocsp import OcspCertificateStatus
 
@@ -45,7 +44,7 @@ def test_is_revoked_ocsp_revoked_status(
         cert,
         key_pair,
         status=OcspCertificateStatus.REVOKED,
-        revocation_time=datetime.datetime.now(),
+        revocation_time=datetime.datetime.now(datetime.timezone.utc),
     )
 
     assert is_revoked(cert, chain)

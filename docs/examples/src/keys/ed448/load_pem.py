@@ -11,7 +11,7 @@ KbC4U+fVnxnbf1UuJxFiARSUjUWA
 -----END PUBLIC KEY-----
 """
 
-from pki_tools import Ed448KeyPair, Ed448PublicKey, Ed448PrivateKey
+from pki_tools import Ed448KeyPair, Ed448PrivateKey, Ed448PublicKey
 
 key_pair = Ed448KeyPair(
     public_key=Ed448PublicKey.from_pem_string(public_pem),

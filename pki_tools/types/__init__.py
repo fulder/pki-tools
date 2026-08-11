@@ -1,64 +1,62 @@
 import yaml
 
-from .certificates import Certificates
 from .certificate import Certificate, Validity
+from .certificates import Certificates
 from .chain import Chain
 from .crl import CertificateRevocationList
 from .csr import CertificateSigningRequest
-from .extensions import Extensions
-from .name import Name
 from .enums import RevokeMode
+from .extensions import Extensions
 from .key_pair import (
     CryptoKeyPair,
-    CryptoPublicKey,
     CryptoPrivateKey,
+    CryptoPublicKey,
     DSAKeyPair,
-    DSAPublicKey,
     DSAPrivateKey,
-    RSAKeyPair,
-    RSAPrivateKey,
-    RSAPublicKey,
-    EllipticCurveKeyPair,
-    EllipticCurvePrivateKey,
-    EllipticCurvePublicKey,
-    EllipticCurveName,
-    Ed25519KeyPair,
-    Ed25519PublicKey,
-    Ed25519PrivateKey,
+    DSAPublicKey,
     Ed448KeyPair,
     Ed448PrivateKey,
     Ed448PublicKey,
+    Ed25519KeyPair,
+    Ed25519PrivateKey,
+    Ed25519PublicKey,
+    EllipticCurveKeyPair,
+    EllipticCurveName,
+    EllipticCurvePrivateKey,
+    EllipticCurvePublicKey,
+    RSAKeyPair,
+    RSAPrivateKey,
+    RSAPublicKey,
+)
+from .name import Name
+from .ocsp import (
+    OcspCertificateStatus,
+    OCSPRequest,
+    OCSPResponse,
+    OcspResponseStatus,
 )
 from .signature_algorithm import (
-    SignatureAlgorithm,
-    HashAlgorithm,
-    HashAlgorithmName,
+    MD5,
     SHA1,
-    SHA512_224,
-    SHA512_256,
-    SHA224,
-    SHA256,
-    SHA384,
-    SHA512,
     SHA3_224,
     SHA3_256,
     SHA3_384,
     SHA3_512,
+    SHA224,
+    SHA256,
+    SHA384,
+    SHA512,
+    SHA512_224,
+    SHA512_256,
     SHAKE128,
     SHAKE256,
-    MD5,
+    SM3,
     BLAKE2b,
     BLAKE2s,
-    SM3,
+    HashAlgorithm,
+    HashAlgorithmName,
+    SignatureAlgorithm,
 )
-
-from .ocsp import (
-    OCSPRequest,
-    OCSPResponse,
-    OcspResponseStatus,
-    OcspCertificateStatus,
-)
-
 
 MAX_YAML_LEN = 80
 

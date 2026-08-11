@@ -1,4 +1,4 @@
-from pki_tools import DSAKeyPair, DSAPublicKey, DSAPrivateKey
+from pki_tools import DSAKeyPair, DSAPrivateKey, DSAPublicKey
 
 key_pair = DSAKeyPair(
     public_key=DSAPublicKey.from_file("public.pem"),

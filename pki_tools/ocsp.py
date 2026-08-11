@@ -1,24 +1,24 @@
 import time
-from functools import lru_cache
+from functools import cache
 
 from loguru import logger
 
-from pki_tools.types.chain import Chain
-from pki_tools.types.certificate import Certificate
-from pki_tools.types.signature_algorithm import HashAlgorithm
-from pki_tools.types.utils import HTTPX_CLIENT
 from pki_tools.exceptions import (
-    ExtensionMissing,
-    OcspInvalidResponseStatus,
-    OcspFetchFailure,
     Error,
+    ExtensionMissing,
+    OcspFetchFailure,
+    OcspInvalidResponseStatus,
 )
+from pki_tools.types.certificate import Certificate
+from pki_tools.types.chain import Chain
 from pki_tools.types.extensions import (
+    AccessDescriptionId,
     AuthorityInformationAccess,
     UniformResourceIdentifier,
-    AccessDescriptionId,
 )
-from pki_tools.types.ocsp import OCSPResponse, OCSPRequest
+from pki_tools.types.ocsp import OCSPRequest, OCSPResponse
+from pki_tools.types.signature_algorithm import HashAlgorithm
+from pki_tools.types.utils import HTTPX_CLIENT
 
 OCSP_ALGORITHMS_TO_CHECK = [
     HashAlgorithm(name="SHA256"),
@@ -126,7 +126,7 @@ def _check_ocsp_status(
     return False
 
 
-@lru_cache(maxsize=None)
+@cache
 def _get_ocsp_status(uri, cache_ttl=None) -> OCSPResponse:
     ret = HTTPX_CLIENT.get(
         uri, headers={"Content-Type": "application/ocsp-request"}
@@ -178,7 +178,7 @@ def _verify_ocsp_signature(ocsp_response: OCSPResponse, issuer_chain: Chain):
             if issuer_cert.issuer != issuer_cert.subject:
                 issuer_chain.validate_trust_path(issuer_cert)
             return
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - try each issuer, keep going
             logger.error(f"Signature verification failed: {e}")
             continue
 

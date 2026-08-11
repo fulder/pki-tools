@@ -9,7 +9,7 @@ MCowBQYDK2VwAyEAwz9uDUJ3qeYcok1CoMAbfiJrZT7PlT3wtLZwf+wlhho=
 -----END PUBLIC KEY-----
 """
 
-from pki_tools import Ed25519KeyPair, Ed25519PublicKey, Ed25519PrivateKey
+from pki_tools import Ed25519KeyPair, Ed25519PrivateKey, Ed25519PublicKey
 
 key_pair = Ed25519KeyPair(
     public_key=Ed25519PublicKey.from_pem_string(public_pem),

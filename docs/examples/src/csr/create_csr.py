@@ -1,8 +1,8 @@
 from pki_tools import (
-    Name,
-    CertificateSigningRequest,
-    RSAKeyPair,
     SHA512,
+    CertificateSigningRequest,
+    Name,
+    RSAKeyPair,
 )
 
 name = Name(cn=["Cert CN"])
