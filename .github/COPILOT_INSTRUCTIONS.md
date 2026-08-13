@@ -74,6 +74,40 @@ Project tooling (uv)
   `uv run`; publishing uses `uv build` + `uv publish`. Dependabot manages three
   ecosystems: `uv` (pyproject + uv.lock), `pip` (the uv bootstrap
   `requirements.txt`), and `github-actions`.
+  - The `pip` ecosystem also parses `pyproject.toml`'s PEP-621
+    `[project.dependencies]`, but has no concept of `uv.lock`, so left
+    unrestricted it will bump those deps without re-locking (this happened
+    in PR #281, leaving `uv.lock` stale until #286/#287). It's deliberately
+    restricted to `allow: dependency-name: uv` in `dependabot.yml` so only
+    the `uv` ecosystem block (which keeps `pyproject.toml` + `uv.lock` in
+    sync together) touches project deps. Don't widen that `allow` without
+    also handling lockfile sync.
+
+Releases
+
+- `.github/workflows/publish.yml` triggers on **any tag push** and
+  immediately runs `uv build && uv publish` to PyPI — there's no separate
+  approval gate. Creating a GitHub Release (which pushes the tag) *is* the
+  publish action.
+- Patch releases with no public-API change use
+  `gh release create vX.Y.Z --generate-notes` (auto-generated "What's
+  Changed" list, e.g. v2.0.1). Releases with a real feature get a curated
+  `### Highlights` / `### Changes` / `### Requirements` format instead
+  (see v2.2.0) — use `### Requirements` when a runtime dependency's version
+  floor changes.
+
+GitHub housekeeping
+
+- The Dependency graph can leave orphaned Dependabot security alerts
+  pointing at `poetry.lock`, deleted in #270 (poetry → uv migration,
+  2026-06-24). These don't self-clear — new ones keep appearing for new
+  advisories against a manifest that no longer exists. Dismiss manually,
+  e.g.:
+  ```bash
+  gh api repos/fulder/pki-tools/dependabot/alerts/<n> -X PATCH \
+    -f state=dismissed -f dismissed_reason=inaccurate \
+    -f dismissed_comment="poetry.lock removed in #270; already patched via uv.lock"
+  ```
 
 Testing notes
 
