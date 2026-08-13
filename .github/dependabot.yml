@@ -21,6 +21,11 @@ updates:
         patterns:
           - "*"
     versioning-strategy: increase
+    # pip also parses pyproject.toml's PEP-621 deps, but has no concept of
+    # uv.lock, so it would bump those without re-locking. Restrict it to the
+    # uv pin in requirements.txt; the uv ecosystem block below owns the rest.
+    allow:
+      - dependency-name: "uv"
 
   - package-ecosystem: "uv" # project deps (pyproject.toml + uv.lock)
     directory: "/"
