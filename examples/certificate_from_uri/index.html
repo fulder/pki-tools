@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/examples/certificate_from_uri/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Example - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Example";
+        var mkdocs_page_input_path = "examples/certificate_from_uri.md";
+        var mkdocs_page_url = "/examples/certificate_from_uri/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Example</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/examples/certificate_from_uri.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h1>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_uri(&quot;https://letsencrypt.org/certs/gen-y/int-yr1.pem&quot;)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Extensions:
+  Authority Information Access:
+    Access Description:
+    - Access Location:
+        name: UniformResourceIdentifier
+        value: http://yr.i.lencr.org/
+      Access Method: CA_ISSUERS
+  Authority Key Identifier:
+    Key Identifier: DEE75B60D0226D40287D3F0D01FEA4B552B45194
+  Basic Constraints (critical):
+    CA: true
+  Certificate Policies:
+  - Policy 2.23.140.1.2.1: []
+  Crl Distribution Points:
+  - Full Name:
+    - name: UniformResourceIdentifier
+      value: http://yr.c.lencr.org/
+  Extended Key Usage:
+  - Server Authentication
+  Key Usage (critical): Digital Signature, Key Cert Sign, Crl Sign
+  Path Lenght: 0
+  Subject Key Identifier:
+    Subject Key Identifier: 1F2F35BE461482CD40B1AE792C5578FAF7D468FB
+Issuer: 'C: US, CN: Root YR, O: ISRG'
+Serial Number: A20253F15F2691C05DC1CE13B9BCCA4E
+Signature Algorithm: SHA256
+Signature Value: |-
+  D3ECEF32ADE41E283575D4E69A6F9189B4EBF7F4695FB9386EE6A730C46A6D5FF222F3FCDB300737
+  79AF6B0F9C012B95B1DA5DD2292386BE219E12502D03B33A9D9C70AAEC746380828D2F75D7884850
+  2A116115E25994337BC517BF7ABA9F9B4A0989D6EE91BA90C23310E017C33778BBC6BA3E8BD25BB7
+  CE44342AE40B9CAC4BB41D2842A9F521D8390AEB86A4CBD0CE4DBD3DADC3FEA1EEADCD0420CF52C6
+  E910B89AAAEB7971B18C9140553CC8C04E86AD70E4B6DF696351AF3D6E92539F23FA589006F61363
+  1366B00C4240481364BC26DD45F2045CF7AA3FC4EB2B82F4A46BCE008AC5FAC6AD65CF567B8C6BEB
+  9D77384CC723C594E38936A285C608D492176622ED10C4826B997772EF1859DEB374B45096A45D72
+  5563B907CD1DAC1127A1969642B4409A2C8AF4CAC1D070DCAC44B731A8F323071116ECCB9EE03F55
+  171CE31C9996100B482DC91DD2C5F7A720CFCCC42DC86B662969BFE443F0939E5227D8A4392540BA
+  358AC609B84537D6E9E652894AD1300949CBA67B5CAD79395D50C236FFF94725A945386418E57B19
+  EB4A910D2A018F210B358AEA8AA70210D972395855D59FA8EC370C8397E840CD06002A1DAAD1571C
+  85F5065D39A5D2C8F274B9E0F6058244060682190F2B01A53F41CD76DD5E4B4D70D95B809CB0F043
+  CA1CB8BFE73C842940CB0FC890995F06AC41F43FBFC2F20C1E0102678A6D3FAA
+Subject: 'C: US, CN: YR1, O: Let''s Encrypt'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      20368124368675891946319039514874952580097876774281197587872014486809338224813032
+      05536229947077546803739710001048674883977910713703374321443228218166487488547869
+      95042738283130862986089844535354095849183265150973300565491594652383690401795755
+      81502362563299799663585256318791002980007315461610643320322800733285374059752760
+      84361487101096666469022209073510586135388651954158617290754231538038201259051241
+      67723475576439836916320909302250114392329457322371670752672396432747591095388574
+      00262092654229881227881353638902935561190659323834931732018806316820984620539531
+      571810889751722326674998912583295739544786291225887927859
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      20368124368675891946319039514874952580097876774281197587872014486809338224813032
+      05536229947077546803739710001048674883977910713703374321443228218166487488547869
+      95042738283130862986089844535354095849183265150973300565491594652383690401795755
+      81502362563299799663585256318791002980007315461610643320322800733285374059752760
+      84361487101096666469022209073510586135388651954158617290754231538038201259051241
+      67723475576439836916320909302250114392329457322371670752672396432747591095388574
+      00262092654229881227881353638902935561190659323834931732018806316820984620539531
+      571810889751722326674998912583295739544786291225887927859
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2028-09-02 23:59:59+00:00'
+  Not Before: '2025-09-03 00:00:00+00:00'
+Version: 2
+
+
+</code></pre>
+</details>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
