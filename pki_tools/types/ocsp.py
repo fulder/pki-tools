@@ -1,28 +1,27 @@
 import base64
 import hashlib
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Type, Optional, Dict
 
 from cryptography.x509 import ocsp
 from cryptography.x509.ocsp import OCSPCertStatus
 from loguru import logger
 
-from pki_tools.types.extensions import Extensions
-from pki_tools.types.certificate import Certificate
 from pki_tools.exceptions import (
     MissingInit,
 )
-from pki_tools.types.key_pair import (
-    CryptoPrivateKey,
-    Ed25519PrivateKey,
-    Ed448PrivateKey,
-)
+from pki_tools.types.certificate import Certificate
 from pki_tools.types.crypto_parser import (
-    InitCryptoParser,
     CryptoConfig,
     HelperFunc,
+    InitCryptoParser,
+)
+from pki_tools.types.extensions import Extensions
+from pki_tools.types.key_pair import (
+    CryptoPrivateKey,
+    Ed448PrivateKey,
+    Ed25519PrivateKey,
 )
 from pki_tools.types.signature_algorithm import (
     HashAlgorithm,
@@ -73,13 +72,13 @@ class OCSPResponse(InitCryptoParser):
     """
 
     response_status: OcspResponseStatus
-    certificate_status: Optional[OcspCertificateStatus] = None
-    issuer_key_hash: Optional[str] = None
-    revocation_time: Optional[datetime] = None
+    certificate_status: OcspCertificateStatus | None = None
+    issuer_key_hash: str | None = None
+    revocation_time: datetime | None = None
 
     @classmethod
     def from_cryptography(
-        cls: Type["OCSPResponse"], crypto_ocsp_response: ocsp.OCSPResponse
+        cls: type["OCSPResponse"], crypto_ocsp_response: ocsp.OCSPResponse
     ) -> "OCSPResponse":
         """
         Constructs an OCSPResponse object from a cryptography
@@ -198,7 +197,7 @@ class OCSPResponse(InitCryptoParser):
         issuer: Certificate,
         response_algorithm: SignatureAlgorithm,
         private_key: CryptoPrivateKey,
-        signature_algorithm: Optional[SignatureAlgorithm] = None,
+        signature_algorithm: SignatureAlgorithm | None = None,
     ):
         """
         Signs the OCSP response.
@@ -233,17 +232,15 @@ class OCSPResponse(InitCryptoParser):
             issuer=self._issuer._to_cryptography(),
             algorithm=self._response_algorithm.algorithm._to_cryptography(),
             cert_status=cert_status,
-            this_update=datetime.now(),
-            next_update=datetime.now(),
+            this_update=datetime.now(timezone.utc),
+            next_update=datetime.now(timezone.utc),
             revocation_reason=None,
             revocation_time=self.revocation_time,
         ).responder_id(
             ocsp.OCSPResponderEncoding.HASH, self._cert._to_cryptography()
         )
 
-        if isinstance(self._private_key, Ed25519PrivateKey) or isinstance(
-            self._private_key, Ed448PrivateKey
-        ):
+        if isinstance(self._private_key, (Ed25519PrivateKey, Ed448PrivateKey)):
             alg = None
         else:
             alg = self._signature_algorithm.algorithm._to_cryptography()
@@ -253,7 +250,7 @@ class OCSPResponse(InitCryptoParser):
             alg,
         )
 
-    def _string_dict(self) -> Dict[str, str]:
+    def _string_dict(self) -> dict[str, str]:
         ret = {
             "Response Status": self.response_status.value,
         }
@@ -301,14 +298,14 @@ class OCSPRequest(InitCryptoParser):
 
     hash_algorithm: HashAlgorithm
 
-    serial_number: Optional[int] = None
-    extensions: Optional[Extensions] = None
+    serial_number: int | None = None
+    extensions: Extensions | None = None
 
     _init_func = "create"
 
     @classmethod
     def from_cryptography(
-        cls: Type["OCSPRequest"], crypto_obj: ocsp.OCSPRequest
+        cls: type["OCSPRequest"], crypto_obj: ocsp.OCSPRequest
     ) -> "OCSPRequest":
         """
         Constructs an OCSPRequest object from a cryptography OCSPRequest
@@ -389,7 +386,7 @@ class OCSPRequest(InitCryptoParser):
         )
         return builder.build()
 
-    def _string_dict(self) -> Dict:
+    def _string_dict(self) -> dict:
         ret = self.hash_algorithm._string_dict()
 
         if self.serial_number is not None:

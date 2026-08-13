@@ -1,11 +1,10 @@
 import importlib
 from abc import ABC
 from enum import Enum
-from typing import Type, Optional, Union, Dict
 
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives._serialization import Encoding
-from cryptography.hazmat.primitives.asymmetric import padding, ec
+from cryptography.hazmat.primitives.asymmetric import ec, padding
 from cryptography.hazmat.primitives.asymmetric.utils import Prehashed
 from pydantic import BaseModel, ConfigDict
 
@@ -51,11 +50,11 @@ class HashAlgorithm(CryptoParser):
     """
 
     name: HashAlgorithmName
-    block_size: Optional[int] = None
+    block_size: int | None = None
 
     @classmethod
     def from_cryptography(
-        cls: Type["HashAlgorithm"], x509_obj: hashes.HashAlgorithm
+        cls: type["HashAlgorithm"], x509_obj: hashes.HashAlgorithm
     ) -> "HashAlgorithm":
         """
         Constructs a HashAlgorithm object from a cryptography HashAlgorithm
@@ -91,7 +90,7 @@ class HashAlgorithm(CryptoParser):
 
         return getattr(HASHES_MODULE, self.name.value)()
 
-    def _string_dict(self) -> Dict:
+    def _string_dict(self) -> dict:
         return {"algorithm": self.name.value}
 
 
@@ -121,11 +120,11 @@ class PSSPadding(Padding):
     """
 
     mgf: HashAlgorithm
-    length: Union[int, PSSPaddingLenght]
+    length: int | PSSPaddingLenght
 
     @classmethod
     def from_cryptography(
-        cls: Type["PSSPadding"], crypto_obj: padding.PSS
+        cls: type["PSSPadding"], crypto_obj: padding.PSS
     ) -> "PSSPadding":
         """
         Constructs a PSSPadding object from a cryptography PSS object.
@@ -152,7 +151,7 @@ class PSSPadding(Padding):
             salt_length=getattr(padding, self.length.value),
         )
 
-    def _string_dict(self) -> Dict:
+    def _string_dict(self) -> dict:
         length = self.length
         if not isinstance(length, int):
             length = self.length.name
@@ -172,7 +171,7 @@ class PKCS1v15Padding(Padding):
 
     @classmethod
     def from_cryptography(
-        cls: Type["PKCS1v15Padding"], crypto_obj: padding.PKCS1v15
+        cls: type["PKCS1v15Padding"], crypto_obj: padding.PKCS1v15
     ) -> "PKCS1v15Padding":
         """
         Constructs a PKCS1v15Padding object from a cryptography PKCS1v15
@@ -192,7 +191,7 @@ class PKCS1v15Padding(Padding):
     def _to_cryptography(self) -> padding.PKCS1v15:
         return padding.PKCS1v15()
 
-    def _string_dict(self) -> Dict[str, str]:
+    def _string_dict(self) -> dict[str, str]:
         return {"name": self._name}
 
 
@@ -210,7 +209,7 @@ class ECDSAPadding(Padding):
 
     @classmethod
     def from_cryptography(
-        cls: Type["ECDSAPadding"], crypto_obj: ec.ECDSA
+        cls: type["ECDSAPadding"], crypto_obj: ec.ECDSA
     ) -> "ECDSAPadding":
         """
         Constructs an ECDSAPadding object from a cryptography ECDSA object.
@@ -243,7 +242,7 @@ class ECDSAPadding(Padding):
 
         return ec.ECDSA(algorithm=alg)
 
-    def _string_dict(self) -> Dict:
+    def _string_dict(self) -> dict:
         length = self.length
         if not isinstance(length, int):
             length = self.length.name
@@ -265,15 +264,15 @@ class SignatureAlgorithm(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     algorithm: HashAlgorithm
-    parameters: Optional[Union[PSSPadding, PKCS1v15Padding, ECDSAPadding]] = (
+    parameters: PSSPadding | PKCS1v15Padding | ECDSAPadding | None = (
         None
     )
 
     @classmethod
     def from_cryptography(
-        cls: Type["SignatureAlgorithm"],
+        cls: type["SignatureAlgorithm"],
         algorithm: hashes.HashAlgorithm,
-        parameters: Union[padding.PSS, padding.PKCS1v15, ec.ECDSA] = None,
+        parameters: padding.PSS | padding.PKCS1v15 | ec.ECDSA = None,
     ) -> "SignatureAlgorithm":
         """
         Constructs a SignatureAlgorithm object from cryptography objects.

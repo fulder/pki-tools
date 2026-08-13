@@ -1,13 +1,15 @@
 import datetime
 
-from pki_tools import SHA512, Validity, Name, Certificate, RSAKeyPair
+from pki_tools import SHA512, Certificate, Name, RSAKeyPair, Validity
 
 cert = Certificate(
     subject=Name(cn=["Cert CN"]),
     issuer=Name(cn=["Cert CN"]),
     validity=Validity(
-        not_before=datetime.datetime.today() - datetime.timedelta(days=1),
-        not_after=datetime.datetime.today() + datetime.timedelta(days=1),
+        not_before=datetime.datetime.now(datetime.timezone.utc)
+        - datetime.timedelta(days=1),
+        not_after=datetime.datetime.now(datetime.timezone.utc)
+        + datetime.timedelta(days=1),
     ),
 )
 

@@ -1,69 +1,66 @@
+import datetime
 import json
 import os
-
-import datetime
-from typing import Dict
 
 import pytest
 from loguru import logger
 
 from pki_tools import (
-    Chain,
     Certificate,
-    Name,
+    Chain,
     DSAKeyPair,
-    Ed25519KeyPair,
     Ed448KeyPair,
+    Ed25519KeyPair,
     EllipticCurveKeyPair,
     EllipticCurveName,
+    Name,
 )
-from pki_tools.types import RSAKeyPair, CertificateRevocationList
+from pki_tools.types import CertificateRevocationList, RSAKeyPair
 from pki_tools.types.certificate import Validity
 from pki_tools.types.crl import RevokedCertificate
 from pki_tools.types.crypto_parser import InitCryptoParser
 from pki_tools.types.csr import CertificateSigningRequest
 from pki_tools.types.extensions import (
-    DistributionPoint,
-    RelativeDistinguishedName,
-    AccessDescription,
-    AuthorityKeyIdentifier,
-    Extensions,
-    SubjectKeyIdentifier,
-    KeyUsage,
-    PolicyInformation,
-    CertificatePolicies,
-    UserNotice,
-    NoticeReference,
-    SubjectAlternativeName,
-    IssuerAlternativeName,
-    BasicConstraints,
-    NameConstraints,
-    PolicyConstraints,
-    ExtendedKeyUsage,
     EKU_OID_MAPPING,
-    InhibitAnyPolicy,
-    FreshestCrl,
-    CrlDistributionPoints,
-    SubjectInformationAccess,
-    AuthorityInformationAccess,
-    DnsName,
-    DirectoryName,
-    IpAddress,
-    OtherName,
-    RFC822Name,
-    RegisteredId,
-    UniformResourceIdentifier,
-    Reason,
-    AttributeTypeAndValue,
+    AccessDescription,
     AccessDescriptionId,
+    AttributeTypeAndValue,
+    AuthorityInformationAccess,
+    AuthorityKeyIdentifier,
+    BasicConstraints,
+    CertificatePolicies,
+    CrlDistributionPoints,
+    DirectoryName,
+    DistributionPoint,
+    DnsName,
+    ExtendedKeyUsage,
+    Extensions,
+    FreshestCrl,
+    InhibitAnyPolicy,
+    IpAddress,
+    IssuerAlternativeName,
     IssuingDistributionPoint,
+    KeyUsage,
+    NameConstraints,
+    NoticeReference,
+    OtherName,
+    PolicyConstraints,
+    PolicyInformation,
+    Reason,
+    RegisteredId,
+    RelativeDistinguishedName,
+    RFC822Name,
+    SubjectAlternativeName,
+    SubjectInformationAccess,
+    SubjectKeyIdentifier,
+    UniformResourceIdentifier,
+    UserNotice,
 )
-
 from pki_tools.types.ocsp import (
-    OCSPResponse,
-    OcspResponseStatus,
     OcspCertificateStatus,
     OCSPRequest,
+    OCSPResponse,
+    OcspResponseStatus,
 )
 from pki_tools.types.signature_algorithm import (
     SHA256,
@@ -81,9 +78,9 @@ def test_loguru_sink(message):
         rec = message.record
         extras = json.dumps(rec["extra"])
         print(f"{rec['time']} - {rec['level']} - {extras} - {rec['message']}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - surface any formatting error
         print(f"Record was: {message.record}")
-        pytest.fail(f"Loguru error: {str(e)}")
+        pytest.fail(f"Loguru error: {e!s}")
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -149,7 +146,7 @@ def chain(cert):
 @pytest.fixture
 def init_crypto_parsers(
     cert, csr, key_pair, ocsp_request
-) -> Dict[str, InitCryptoParser]:
+) -> dict[str, InitCryptoParser]:
     parsers = [
         cert,
         csr,
@@ -166,9 +163,9 @@ def init_crypto_parsers(
         EllipticCurveKeyPair.generate(curve_name=EllipticCurveName.SECP521R1),
     ]
 
-    for key_pair in keys_pairs:
-        parsers.append(key_pair.private_key)
-        parsers.append(key_pair.public_key)
+    for keys_pair in keys_pairs:
+        parsers.append(keys_pair.private_key)
+        parsers.append(keys_pair.public_key)
 
     ret = {}
     for parser in parsers:
@@ -248,7 +245,7 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         )
     ]
 
-    today = datetime.datetime.today()
+    today = datetime.datetime.now(datetime.timezone.utc)
     one_day = datetime.timedelta(days=1)
 
     cert = Certificate(
@@ -256,13 +253,13 @@ def _create_cert(key_pair, add_crl_extension=True, add_aia_extension=True):
         issuer=TEST_SUBJECT,
         extensions=Extensions(
             authority_key_identifier=AuthorityKeyIdentifier(
-                key_identifier="TEST_KEY_IDENTIFIER".encode(),
+                key_identifier=b"TEST_KEY_IDENTIFIER",
                 authority_cert_issuer=[RFC822Name("TEST_NAME")],
                 authority_cert_serial_number=123123,
                 critical=True,
             ),
             subject_key_identifier=SubjectKeyIdentifier(
-                subject_key_identifier="TEST_DIGEST".encode(),
+                subject_key_identifier=b"TEST_DIGEST",
             ),
             key_usage=KeyUsage(
                 digital_signature=True,
@@ -437,7 +434,7 @@ def _create_ocsp_response(
 
 
 def _create_crl(keypair, revoked_serials, idp_uri="http://TEST_URI"):
-    today = datetime.datetime.today()
+    today = datetime.datetime.now(datetime.timezone.utc)
     one_day = datetime.timedelta(days=1)
 
     revoked_certs = []

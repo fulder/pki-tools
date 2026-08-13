@@ -1,17 +1,17 @@
 import os
 
 import pytest
+from conftest import CURRENT_DIR
 
 from pki_tools import Name
 from pki_tools.exceptions import LoadError
 from pki_tools.types import RSAKeyPair
 from pki_tools.types.csr import CertificateSigningRequest
-from conftest import CURRENT_DIR
 from pki_tools.types.signature_algorithm import (
-    SignatureAlgorithm,
-    HashAlgorithmName,
     HashAlgorithm,
+    HashAlgorithmName,
     PKCS1v15Padding,
+    SignatureAlgorithm,
 )
 
 

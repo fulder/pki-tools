@@ -14,8 +14,8 @@ MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEnfaN7RxPgq4IDXdoznrGRScQUa6S
 
 from pki_tools import (
     EllipticCurveKeyPair,
-    EllipticCurvePublicKey,
     EllipticCurvePrivateKey,
+    EllipticCurvePublicKey,
 )
 
 key_pair = EllipticCurveKeyPair(

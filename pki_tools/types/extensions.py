@@ -1,22 +1,20 @@
 import importlib
 import typing
+from collections.abc import Iterator
 from enum import Enum
-from typing import List, Optional, Iterable, Union, Type, Dict
 
 from cryptography import x509
 from cryptography.hazmat._oid import (
-    ExtensionOID,
     AuthorityInformationAccessOID,
+    ExtensionOID,
 )
 from cryptography.hazmat.bindings._rust import ObjectIdentifier
-
 from cryptography.x509.extensions import (
     ExtensionNotFound,
     ExtensionTypeVar,
 )
-
 from loguru import logger
-from pydantic import Field, ConfigDict
+from pydantic import ConfigDict, Field
 
 from pki_tools.types.crypto_parser import CryptoParser
 from pki_tools.types.name import Name
@@ -34,7 +32,7 @@ class Extension(CryptoParser):
         critical: Indicates whether the extension is critical.
     """
 
-    critical: Optional[bool] = False
+    critical: bool | None = False
 
     @property
     def name(self) -> str:
@@ -62,11 +60,11 @@ class GeneralName(CryptoParser):
     """
 
     name: str
-    value: Union[str, Name]
+    value: str | Name
 
     @classmethod
     def from_cryptography(
-        cls: Type["GeneralName"], crypto_obj: x509.GeneralName
+        cls: type["GeneralName"], crypto_obj: x509.GeneralName
     ) -> "GeneralName":
         """
         Create a GeneralName instance from a cryptography GeneralName object.
@@ -93,7 +91,7 @@ class GeneralName(CryptoParser):
     def _to_cryptography(self) -> x509.GeneralName:
         return getattr(GENERAL_NAME_MODULE, self.name)(self.value)
 
-    def _string_dict(self) -> typing.Dict[str, str]:
+    def _string_dict(self) -> dict[str, str]:
         val = self.value
         if isinstance(self.value, Name):
             val = str(self.value)
@@ -129,7 +127,7 @@ class DirectoryName(GeneralName):
 
     @classmethod
     def from_cryptography(
-        cls: Type["DirectoryName"], crypto_obj: x509.GeneralName
+        cls: type["DirectoryName"], crypto_obj: x509.GeneralName
     ) -> "DirectoryName":
         """
         Create a DirectoryName instance from a cryptography DirectoryName
@@ -190,7 +188,7 @@ class OtherName(GeneralName):
 
     @classmethod
     def from_cryptography(
-        cls: Type["OtherName"], crypto_obj: x509.OtherName
+        cls: type["OtherName"], crypto_obj: x509.OtherName
     ) -> "OtherName":
         """
         Create a OtherName instance from a cryptography OtherName object.
@@ -238,7 +236,7 @@ class RegisteredId(GeneralName):
 
     @classmethod
     def from_cryptography(
-        cls: Type["RegisteredId"], crypto_obj: x509.RegisteredID
+        cls: type["RegisteredId"], crypto_obj: x509.RegisteredID
     ) -> "RegisteredId":
         """
         Create a RegisteredId instance from a cryptography RegisteredId object.
@@ -278,13 +276,13 @@ class AuthorityKeyIdentifier(Extension):
             certificate.
     """
 
-    key_identifier: Optional[bytes]
-    authority_cert_issuer: Optional[List[GeneralName]]
-    authority_cert_serial_number: Optional[int]
+    key_identifier: bytes | None
+    authority_cert_issuer: list[GeneralName] | None
+    authority_cert_serial_number: int | None
 
     @classmethod
     def from_cryptography(
-        cls: Type["AuthorityKeyIdentifier"],
+        cls: type["AuthorityKeyIdentifier"],
         extension: x509.AuthorityKeyIdentifier,
     ) -> "AuthorityKeyIdentifier":
         """
@@ -357,7 +355,7 @@ class SubjectKeyIdentifier(Extension):
 
     @classmethod
     def from_cryptography(
-        cls: Type["SubjectKeyIdentifier"], extension: x509.SubjectKeyIdentifier
+        cls: type["SubjectKeyIdentifier"], extension: x509.SubjectKeyIdentifier
     ) -> "SubjectKeyIdentifier":
         """
         Create a SubjectKeyIdentifier instance from a cryptography
@@ -410,7 +408,7 @@ class KeyUsage(Extension):
 
     @classmethod
     def from_cryptography(
-        cls: Type["KeyUsage"], extension: x509.KeyUsage
+        cls: type["KeyUsage"], extension: x509.KeyUsage
     ) -> "KeyUsage":
         """
         Create a KeyUsage instance from a cryptography KeyUsage object.
@@ -479,7 +477,7 @@ class NoticeReference(Extension):
     """
 
     organization: str
-    notice_numbers: List[int]
+    notice_numbers: list[int]
 
     @classmethod
     def from_cryptography(cls, notice_reference: x509.NoticeReference):
@@ -513,12 +511,12 @@ class UserNotice(Extension):
         explicit_text: The explicit text of the user notice.
     """
 
-    notice_reference: Optional[NoticeReference]
-    explicit_text: Optional[str]
+    notice_reference: NoticeReference | None
+    explicit_text: str | None
 
     @classmethod
     def from_cryptography(
-        cls: Type["UserNotice"], policy_info: x509.UserNotice
+        cls: type["UserNotice"], policy_info: x509.UserNotice
     ) -> "UserNotice":
         """
         Create a UserNotice instance from a cryptography UserNotice object.
@@ -564,11 +562,11 @@ class PolicyInformation(Extension):
     """
 
     policy_identifier: str
-    policy_qualifiers: Optional[List[Union[str, UserNotice]]]
+    policy_qualifiers: list[str | UserNotice] | None
 
     @classmethod
     def from_cryptography(
-        cls: Type["PolicyInformation"], policy_info: x509.PolicyInformation
+        cls: type["PolicyInformation"], policy_info: x509.PolicyInformation
     ) -> "PolicyInformation":
         """
         Create a PolicyInformation instance from a cryptography
@@ -631,11 +629,11 @@ class CertificatePolicies(Extension):
         policy_information: List of policy information.
     """
 
-    policy_information: List[PolicyInformation]
+    policy_information: list[PolicyInformation]
 
     @classmethod
     def from_cryptography(
-        cls: Type["CertificatePolicies"], extension: x509.CertificatePolicies
+        cls: type["CertificatePolicies"], extension: x509.CertificatePolicies
     ) -> "CertificatePolicies":
         """
         Create a CertificatePolicies instance from a cryptography
@@ -680,14 +678,12 @@ class AlternativeName(Extension):
         general_names: List of general names.
     """
 
-    general_names: List[GeneralName]
+    general_names: list[GeneralName]
 
     @classmethod
     def from_cryptography(
-        cls: Type["AlternativeName"],
-        extension: Union[
-            x509.SubjectAlternativeName, x509.IssuerAlternativeName
-        ],
+        cls: type["AlternativeName"],
+        extension: x509.SubjectAlternativeName | x509.IssuerAlternativeName,
     ) -> "AlternativeName":
         """
         Create an AlternativeName instance from a cryptography
@@ -717,7 +713,7 @@ class AlternativeName(Extension):
 
     def _to_cryptography(
         self,
-    ) -> Union[x509.SubjectAlternativeName, x509.IssuerAlternativeName]:
+    ) -> x509.SubjectAlternativeName | x509.IssuerAlternativeName:
         general_names = []
         for general_name in self.general_names:
             general_names.append(general_name._to_cryptography())
@@ -732,15 +728,11 @@ class SubjectAlternativeName(AlternativeName):
     Represents a subject alternative name extension.
     """
 
-    pass
-
 
 class IssuerAlternativeName(AlternativeName):
     """
     Represents an issuer alternative name extension.
     """
-
-    pass
 
 
 class SubjectDirectoryAttributes(Extension):
@@ -751,11 +743,11 @@ class SubjectDirectoryAttributes(Extension):
         attributes: List of attributes.
     """
 
-    attributes: List[str]
+    attributes: list[str]
 
     @classmethod
     def from_cryptography(
-        cls: Type["SubjectDirectoryAttributes"],
+        cls: type["SubjectDirectoryAttributes"],
         extension: x509.UnrecognizedExtension,
     ) -> "SubjectDirectoryAttributes":
         """
@@ -770,7 +762,7 @@ class SubjectDirectoryAttributes(Extension):
         """
         attributes = []
         vals = extension.value
-        if not isinstance(vals, List):
+        if not isinstance(vals, list):
             vals = [vals]
 
         for val in vals:
@@ -786,7 +778,7 @@ class SubjectDirectoryAttributes(Extension):
         for attribute in self.attributes:
             try:
                 attribute = _hex_to_byte(attribute)
-            except Exception:
+            except ValueError:
                 pass
 
             values.append(attribute)
@@ -813,11 +805,11 @@ class BasicConstraints(Extension):
     """
 
     ca: bool
-    path_len_constraint: Optional[int] = None
+    path_len_constraint: int | None = None
 
     @classmethod
     def from_cryptography(
-        cls: Type["BasicConstraints"], extension: x509.BasicConstraints
+        cls: type["BasicConstraints"], extension: x509.BasicConstraints
     ) -> "BasicConstraints":
         """
         Create a BasicConstraints instance from a cryptography
@@ -863,8 +855,8 @@ class NameConstraints(Extension):
         excluded_subtrees: List of excluded subtrees.
     """
 
-    permitted_subtrees: Optional[List[GeneralName]]
-    excluded_subtrees: Optional[List[GeneralName]]
+    permitted_subtrees: list[GeneralName] | None
+    excluded_subtrees: list[GeneralName] | None
 
     @classmethod
     def from_cryptography(cls, extension: x509.NameConstraints):
@@ -930,8 +922,8 @@ class PolicyConstraints(Extension):
         inhibit_policy_mapping: The inhibit policy mapping value.
     """
 
-    require_explicit_policy: Optional[int]
-    inhibit_policy_mapping: Optional[int]
+    require_explicit_policy: int | None
+    inhibit_policy_mapping: int | None
 
     @classmethod
     def from_cryptography(cls, extension: x509.PolicyConstraints):
@@ -985,11 +977,11 @@ class ExtendedKeyUsage(Extension):
         ext_key_usage_syntax: List of extended key usage OIDs.
     """
 
-    ext_key_usage_syntax: List[str]
+    ext_key_usage_syntax: list[str]
 
     @classmethod
     def from_cryptography(
-        cls: Type["ExtendedKeyUsage"], extension: x509.ExtendedKeyUsage
+        cls: type["ExtendedKeyUsage"], extension: x509.ExtendedKeyUsage
     ) -> "ExtendedKeyUsage":
         """
         Constructs an ExtendedKeyUsage object from a cryptography
@@ -1042,7 +1034,7 @@ class AttributeTypeAndValue(CryptoParser):
 
     @classmethod
     def from_cryptography(
-        cls: Type["AttributeTypeAndValue"], x509_obj: x509.NameAttribute
+        cls: type["AttributeTypeAndValue"], x509_obj: x509.NameAttribute
     ) -> "AttributeTypeAndValue":
         """
         Constructs an AttributeTypeAndValue object from a cryptography
@@ -1066,7 +1058,7 @@ class AttributeTypeAndValue(CryptoParser):
             value=self.value,
         )
 
-    def _string_dict(self) -> Dict[str, str]:
+    def _string_dict(self) -> dict[str, str]:
         return {
             "OID": self.oid,
             "Value": self.value,
@@ -1081,14 +1073,14 @@ class RelativeDistinguishedName(CryptoParser):
         attributes: List of attributes in the RDN.
     """
 
-    attributes: List[AttributeTypeAndValue]
+    attributes: list[AttributeTypeAndValue]
 
-    def __iter__(self) -> Iterable:
+    def __iter__(self) -> Iterator:
         return iter(self.attributes)
 
     @classmethod
     def from_cryptography(
-        cls: Type["RelativeDistinguishedName"],
+        cls: type["RelativeDistinguishedName"],
         x509_obj: x509.RelativeDistinguishedName,
     ) -> "RelativeDistinguishedName":
         """
@@ -1109,7 +1101,7 @@ class RelativeDistinguishedName(CryptoParser):
 
         cls(attributes=attributes, _x509_obj=x509_obj)
 
-    def _string_dict(self) -> typing.Dict:
+    def _string_dict(self) -> dict:
         attributes = []
         for att in self.attributes:
             attributes.append(att._string_dict())
@@ -1152,14 +1144,14 @@ class DistributionPoint(CryptoParser):
             point.
     """
 
-    full_name: Optional[List[GeneralName]] = None
-    name_relative_to_crl_issuer: Optional[RelativeDistinguishedName] = None
-    reasons: Optional[List[Reason]] = None
-    crl_issuer: Optional[List[GeneralName]] = None
+    full_name: list[GeneralName] | None = None
+    name_relative_to_crl_issuer: RelativeDistinguishedName | None = None
+    reasons: list[Reason] | None = None
+    crl_issuer: list[GeneralName] | None = None
 
     @classmethod
     def from_cryptography(
-        cls: Type["DistributionPoint"], extension: x509.DistributionPoint
+        cls: type["DistributionPoint"], extension: x509.DistributionPoint
     ) -> "DistributionPoint":
         """
         Constructs a DistributionPoint object from a cryptography
@@ -1267,14 +1259,14 @@ class CrlDistributionPoints(Extension):
         crl_distribution_points: List of CRL distribution points.
     """
 
-    crl_distribution_points: List[DistributionPoint]
+    crl_distribution_points: list[DistributionPoint]
 
-    def __iter__(self) -> Iterable[DistributionPoint]:
+    def __iter__(self) -> Iterator[DistributionPoint]:
         return iter(self.crl_distribution_points)
 
     @classmethod
     def from_cryptography(
-        cls: Type["CrlDistributionPoints"],
+        cls: type["CrlDistributionPoints"],
         extension: x509.CRLDistributionPoints,
     ) -> "CrlDistributionPoints":
         """
@@ -1323,17 +1315,17 @@ class IssuingDistributionPoint(Extension):
         name_relative_to_crl_issuer: Relative name to the CRL issuer.
     """
 
-    full_name: Optional[List[GeneralName]] = None
-    name_relative_to_crl_issuer: Optional[RelativeDistinguishedName] = None
+    full_name: list[GeneralName] | None = None
+    name_relative_to_crl_issuer: RelativeDistinguishedName | None = None
     only_contains_user_certs: bool = False
     only_contains_ca_certs: bool = False
     indirect_crl: bool = False
     only_contains_attribute_certs: bool = False
-    only_some_reasons: Optional[List[Reason]] = None
+    only_some_reasons: list[Reason] | None = None
 
     @classmethod
     def from_cryptography(
-        cls: Type["IssuingDistributionPoint"],
+        cls: type["IssuingDistributionPoint"],
         extension: x509.IssuingDistributionPoint,
     ) -> "IssuingDistributionPoint":
         """
@@ -1436,7 +1428,7 @@ class InhibitAnyPolicy(Extension):
 
     @classmethod
     def from_cryptography(
-        cls: Type["InhibitAnyPolicy"], extension: x509.InhibitAnyPolicy
+        cls: type["InhibitAnyPolicy"], extension: x509.InhibitAnyPolicy
     ) -> "InhibitAnyPolicy":
         """
         Constructs an InhibitAnyPolicy object from a cryptography
@@ -1496,7 +1488,7 @@ class AccessDescription(CryptoParser):
 
     @classmethod
     def from_cryptography(
-        cls: Type["AccessDescription"], extension: x509.AccessDescription
+        cls: type["AccessDescription"], extension: x509.AccessDescription
     ) -> "AccessDescription":
         """
         Constructs an AccessDescription object from a cryptography
@@ -1543,14 +1535,14 @@ class AuthorityInformationAccess(Extension):
         access_description: List of access descriptions.
     """
 
-    access_description: List[AccessDescription]
+    access_description: list[AccessDescription]
 
-    def __iter__(self) -> Iterable[AccessDescription]:
+    def __iter__(self) -> Iterator[AccessDescription]:
         return iter(self.access_description)
 
     @classmethod
     def from_cryptography(
-        cls: Type["AuthorityInformationAccess"],
+        cls: type["AuthorityInformationAccess"],
         extension: x509.AuthorityInformationAccess,
     ) -> "AuthorityInformationAccess":
         """
@@ -1626,72 +1618,72 @@ class Extensions(CryptoParser):
 
     model_config = ConfigDict(populate_by_name=True)
 
-    authority_key_identifier: Optional[AuthorityKeyIdentifier] = Field(
+    authority_key_identifier: AuthorityKeyIdentifier | None = Field(
         alias=ExtensionOID.AUTHORITY_KEY_IDENTIFIER.dotted_string, default=None
     )
-    subject_key_identifier: Optional[SubjectKeyIdentifier] = Field(
+    subject_key_identifier: SubjectKeyIdentifier | None = Field(
         alias=ExtensionOID.SUBJECT_KEY_IDENTIFIER.dotted_string, default=None
     )
-    key_usage: Optional[KeyUsage] = Field(
+    key_usage: KeyUsage | None = Field(
         alias=ExtensionOID.KEY_USAGE.dotted_string, default=None
     )
-    certificate_policies: Optional[CertificatePolicies] = Field(
+    certificate_policies: CertificatePolicies | None = Field(
         alias=ExtensionOID.CERTIFICATE_POLICIES.dotted_string, default=None
     )
     # policy_mappings
-    subject_alternative_name: Optional[SubjectAlternativeName] = Field(
+    subject_alternative_name: SubjectAlternativeName | None = Field(
         alias=ExtensionOID.SUBJECT_ALTERNATIVE_NAME.dotted_string, default=None
     )
-    issuer_alternative_name: Optional[IssuerAlternativeName] = Field(
+    issuer_alternative_name: IssuerAlternativeName | None = Field(
         alias=ExtensionOID.ISSUER_ALTERNATIVE_NAME.dotted_string, default=None
     )
-    subject_directory_attributes: Optional[SubjectDirectoryAttributes] = Field(
+    subject_directory_attributes: SubjectDirectoryAttributes | None = Field(
         alias=ExtensionOID.SUBJECT_DIRECTORY_ATTRIBUTES.dotted_string,
         default=None,
     )
-    basic_constraints: Optional[BasicConstraints] = Field(
+    basic_constraints: BasicConstraints | None = Field(
         alias=ExtensionOID.BASIC_CONSTRAINTS.dotted_string,
         default=None,
     )
-    name_constraints: Optional[NameConstraints] = Field(
+    name_constraints: NameConstraints | None = Field(
         alias=ExtensionOID.NAME_CONSTRAINTS.dotted_string,
         default=None,
     )
-    policy_constraints: Optional[PolicyConstraints] = Field(
+    policy_constraints: PolicyConstraints | None = Field(
         alias=ExtensionOID.POLICY_CONSTRAINTS.dotted_string,
         default=None,
     )
-    extended_key_usage: Optional[ExtendedKeyUsage] = Field(
+    extended_key_usage: ExtendedKeyUsage | None = Field(
         alias=ExtensionOID.EXTENDED_KEY_USAGE.dotted_string,
         default=None,
     )
-    crl_distribution_points: Optional[CrlDistributionPoints] = Field(
+    crl_distribution_points: CrlDistributionPoints | None = Field(
         alias=ExtensionOID.CRL_DISTRIBUTION_POINTS.dotted_string,
         default=None,
     )
-    issuing_distribution_point: Optional[IssuingDistributionPoint] = Field(
+    issuing_distribution_point: IssuingDistributionPoint | None = Field(
         alias=ExtensionOID.ISSUING_DISTRIBUTION_POINT.dotted_string,
         default=None,
     )
-    inhibit_any_policy: Optional[InhibitAnyPolicy] = Field(
+    inhibit_any_policy: InhibitAnyPolicy | None = Field(
         alias=ExtensionOID.INHIBIT_ANY_POLICY.dotted_string,
         default=None,
     )
-    freshest_crl: Optional[FreshestCrl] = Field(
+    freshest_crl: FreshestCrl | None = Field(
         alias=ExtensionOID.FRESHEST_CRL.dotted_string,
         default=None,
     )
-    authority_information_access: Optional[AuthorityInformationAccess] = Field(
+    authority_information_access: AuthorityInformationAccess | None = Field(
         alias=ExtensionOID.AUTHORITY_INFORMATION_ACCESS.dotted_string,
         default=None,
     )
-    subject_information_access: Optional[SubjectInformationAccess] = Field(
+    subject_information_access: SubjectInformationAccess | None = Field(
         alias=ExtensionOID.SUBJECT_INFORMATION_ACCESS.dotted_string,
         default=None,
     )
 
-    def __iter__(self) -> Iterable[Extension]:
-        for field_name, field in Extensions.model_fields.items():
+    def __iter__(self) -> Iterator[Extension]:
+        for field_name in Extensions.model_fields:
             val = getattr(self, field_name)
             if val is None:
                 continue
@@ -1700,7 +1692,7 @@ class Extensions(CryptoParser):
 
     @classmethod
     def from_cryptography(
-        cls: Type["Extensions"], cert_extensions: x509.Extensions
+        cls: type["Extensions"], cert_extensions: x509.Extensions
     ) -> "Extensions":
         """
         Constructs an Extensions object from cryptography X.509 Extensions.
@@ -1713,7 +1705,7 @@ class Extensions(CryptoParser):
         """
         extensions_dict = {"_x509_obj": cert_extensions}
 
-        for name, field_info in Extensions.model_fields.items():
+        for field_info in Extensions.model_fields.values():
             class_type = typing.get_args(field_info.annotation)[0]
             oid = ObjectIdentifier(field_info.alias)
             try:
@@ -1731,7 +1723,7 @@ class Extensions(CryptoParser):
     @staticmethod
     def _get_extension_from_oid(
         cert_extensions: x509.Extensions, oid: ObjectIdentifier, classType
-    ) -> Optional[ExtensionTypeVar]:
+    ) -> ExtensionTypeVar | None:
         try:
             ext_val = cert_extensions.get_extension_for_oid(oid).value
             classType.from_cryptography(ext_val)

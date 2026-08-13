@@ -1,23 +1,22 @@
 import re
 import time
 from datetime import datetime
-from typing import Type, Optional, Dict, List
 
 from cryptography import x509
 from loguru import logger
 
+from pki_tools.exceptions import LoadError, MissingInit
+from pki_tools.types.crypto_parser import (
+    CryptoConfig,
+    CryptoParser,
+    HelperFunc,
+    InitCryptoParser,
+)
 from pki_tools.types.extensions import Extensions
-from pki_tools.exceptions import MissingInit, LoadError
 from pki_tools.types.key_pair import (
     CryptoPrivateKey,
-    Ed25519PrivateKey,
     Ed448PrivateKey,
-)
-from pki_tools.types.crypto_parser import (
-    CryptoParser,
-    InitCryptoParser,
-    CryptoConfig,
-    HelperFunc,
+    Ed25519PrivateKey,
 )
 from pki_tools.types.name import Name
 from pki_tools.types.signature_algorithm import SignatureAlgorithm
@@ -40,11 +39,11 @@ class RevokedCertificate(CryptoParser):
 
     serial: int
     date: datetime
-    extensions: Optional[Extensions] = None
+    extensions: Extensions | None = None
 
     @classmethod
     def from_cryptography(
-        cls: Type["RevokedCertificate"], crypto_obj: x509.RevokedCertificate
+        cls: type["RevokedCertificate"], crypto_obj: x509.RevokedCertificate
     ) -> "RevokedCertificate":
         """
         Create a RevokedCertificate object from a cryptography
@@ -85,7 +84,7 @@ class RevokedCertificate(CryptoParser):
 
         return builder.build()
 
-    def _string_dict(self) -> Dict:
+    def _string_dict(self) -> dict:
         return {
             "Serial Number": self.serial,
             "Revocation Date": str(self.date),
@@ -110,14 +109,14 @@ class CertificateRevocationList(InitCryptoParser):
     issuer: Name
     last_update: datetime
     next_update: datetime
-    revoked_certs: Optional[List[RevokedCertificate]] = None
-    extensions: Optional[Extensions] = None
+    revoked_certs: list[RevokedCertificate] | None = None
+    extensions: Extensions | None = None
 
     _private_key: CryptoPrivateKey
 
     @classmethod
     def from_cryptography(
-        cls: Type["CertificateRevocationList"],
+        cls: type["CertificateRevocationList"],
         crypto_crl: x509.CertificateRevocationList,
     ) -> "CertificateRevocationList":
         """
@@ -146,10 +145,10 @@ class CertificateRevocationList(InitCryptoParser):
 
     @classmethod
     def from_uri(
-        cls: Type["CertificateRevocationList"],
+        cls: type["CertificateRevocationList"],
         uri: str,
         cache_time_seconds: int = CACHE_TIME_SECONDS,
-        proxy: str = None,
+        proxy: str | None = None,
     ) -> "CertificateRevocationList":
         """
         Loads CertificateRevocationList from a URI.
@@ -174,7 +173,6 @@ class CertificateRevocationList(InitCryptoParser):
             return CertificateRevocationList.from_der_bytes(res.content)
         except (TypeError, ValueError) as e:
             logger.bind(error=str(e)).trace("Error during loading of CRL DER")
-            pass
 
         try:
             return CertificateRevocationList.from_pem_string(
@@ -197,7 +195,7 @@ class CertificateRevocationList(InitCryptoParser):
     def sign(
         self,
         private_key: CryptoPrivateKey,
-        algorithm: Optional[SignatureAlgorithm] = None,
+        algorithm: SignatureAlgorithm | None = None,
     ) -> None:
         """
         Sign the CRL with the provided private key and algorithm.
@@ -210,7 +208,7 @@ class CertificateRevocationList(InitCryptoParser):
         self._signature_algorithm = algorithm
         self._x509_obj = self._to_cryptography()
 
-    def get_revoked(self, cert_serial: int) -> Optional[RevokedCertificate]:
+    def get_revoked(self, cert_serial: int) -> RevokedCertificate | None:
         """
         Get a revoked certificate by serial number.
 
@@ -248,9 +246,7 @@ class CertificateRevocationList(InitCryptoParser):
         for cert in self.revoked_certs:
             builder = builder.add_revoked_certificate(cert._to_cryptography())
 
-        if isinstance(self._private_key, Ed25519PrivateKey) or isinstance(
-            self._private_key, Ed448PrivateKey
-        ):
+        if isinstance(self._private_key, (Ed25519PrivateKey, Ed448PrivateKey)):
             alg = None
         else:
             alg = self._signature_algorithm.algorithm._to_cryptography()
@@ -260,7 +256,7 @@ class CertificateRevocationList(InitCryptoParser):
             algorithm=alg,
         )
 
-    def _string_dict(self) -> Dict[str, str]:
+    def _string_dict(self) -> dict[str, str]:
         certs = []
         for cert in self.revoked_certs:
             certs.append(cert._string_dict())

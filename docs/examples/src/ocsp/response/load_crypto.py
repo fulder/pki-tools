@@ -1,7 +1,7 @@
 import datetime
 
 from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.x509 import ocsp, load_pem_x509_certificate
+from cryptography.x509 import load_pem_x509_certificate, ocsp
 
 cert_private_key = b"""
 -----BEGIN RSA PRIVATE KEY-----
@@ -63,8 +63,8 @@ builder = builder.add_response(
     issuer=cert,
     algorithm=hashes.SHA256(),
     cert_status=ocsp.OCSPCertStatus.GOOD,
-    this_update=datetime.datetime.now(),
-    next_update=datetime.datetime.now(),
+    this_update=datetime.datetime.now(datetime.timezone.utc),
+    next_update=datetime.datetime.now(datetime.timezone.utc),
     revocation_time=None,
     revocation_reason=None,
 ).responder_id(ocsp.OCSPResponderEncoding.HASH, cert)

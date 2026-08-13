@@ -2,12 +2,12 @@ from loguru import logger
 
 from pki_tools.crl import _is_revoked
 from pki_tools.exceptions import (
+    Error,
     ExtensionMissing,
-    OcspInvalidResponseStatus,
     OcspFetchFailure,
+    OcspInvalidResponseStatus,
     OcspIssuerFetchFailure,
     RevokeCheckFailed,
-    Error,
 )
 from pki_tools.ocsp import _is_revoked_multiple_issuers
 from pki_tools.types.certificate import Certificate
@@ -21,7 +21,7 @@ def is_revoked(
     crl_cache_seconds: int = 3600,
     ocsp_res_cache_seconds: int = 3600,
     revoke_mode: RevokeMode = RevokeMode.OCSP_FALLBACK_CRL,
-    same_crl_domains: list[list[str]] = None,
+    same_crl_domains: list[list[str]] | None = None,
 ) -> bool:
     """
     Checks if a certificate is revoked using OCSP extension and/or
@@ -81,7 +81,7 @@ def is_revoked_multiple_issuers(
     crl_cache_seconds: int = 3600,
     ocsp_res_cache_seconds: int = 3600,
     revoke_mode: RevokeMode = RevokeMode.OCSP_FALLBACK_CRL,
-    same_crl_domains: list[list[str]] = None,
+    same_crl_domains: list[list[str]] | None = None,
 ) -> bool:
     """
     Checks if a certificate is revoked first using the OCSP extension and then
@@ -121,7 +121,7 @@ def is_revoked_multiple_issuers(
             has expired or some signature in the chain is invalid
         RevokeCheckFailed: When both OCSP and CRL checks fail
     """
-    if not revoke_mode == RevokeMode.CRL_ONLY:
+    if revoke_mode != RevokeMode.CRL_ONLY:
         try:
             return _is_revoked_multiple_issuers(
                 cert,

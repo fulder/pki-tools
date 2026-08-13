@@ -1,4 +1,4 @@
-from pki_tools import RSAKeyPair, RSAPublicKey, RSAPrivateKey
+from pki_tools import RSAKeyPair, RSAPrivateKey, RSAPublicKey
 
 key_pair = RSAKeyPair(
     public_key=RSAPublicKey.from_file("public.pem"),

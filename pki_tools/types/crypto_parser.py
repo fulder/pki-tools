@@ -1,18 +1,18 @@
 import abc
 import re
+from collections.abc import Callable
 from enum import Enum
-from typing import Type, TypeVar, Dict, Callable, Optional
+from typing import TypeVar
 
 import yaml
 from cryptography.hazmat.primitives import serialization
+from loguru import logger
 from pydantic import BaseModel
 
 from pki_tools.exceptions import (
-    MissingInit,
     LoadError,
+    MissingInit,
 )
-
-from loguru import logger
 
 CryptoObject = TypeVar("CryptoObject")
 
@@ -38,7 +38,7 @@ class CryptoParser(BaseModel, abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_cryptography(
-        cls: Type["CryptoParser"], crypto_obj: CryptoObject
+        cls: type["CryptoParser"], crypto_obj: CryptoObject
     ) -> "CryptoParser":
         """
         Parses a cryptography x509 object into a
@@ -60,7 +60,7 @@ class CryptoParser(BaseModel, abc.ABC):
         """
 
     @abc.abstractmethod
-    def _string_dict(self) -> Dict[str, str]:
+    def _string_dict(self) -> dict[str, str]:
         """
         Creates a dict representation of the object
 
@@ -94,7 +94,7 @@ class Encoding(Enum):
 
 class HelperFunc(BaseModel):
     func: Callable
-    kwargs: Optional[Dict] = {}
+    kwargs: dict | None = {}
 
 
 class CryptoConfig(BaseModel):
@@ -125,7 +125,7 @@ class InitCryptoParser(CryptoParser, abc.ABC):
 
     @classmethod
     def from_pem_string(
-        cls: Type["InitCryptoParser"], pem: str
+        cls: type["InitCryptoParser"], pem: str
     ) -> "InitCryptoParser":
         """
         Loads the object from a PEM string
@@ -161,7 +161,7 @@ class InitCryptoParser(CryptoParser, abc.ABC):
 
     @classmethod
     def from_der_bytes(
-        cls: Type["InitCryptoParser"], der: bytes
+        cls: type["InitCryptoParser"], der: bytes
     ) -> "InitCryptoParser":
         """
         Loads the object from DER bytes

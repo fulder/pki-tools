@@ -1,7 +1,7 @@
 from pki_tools import (
     EllipticCurveKeyPair,
-    EllipticCurvePublicKey,
     EllipticCurvePrivateKey,
+    EllipticCurvePublicKey,
 )
 
 key_pair = EllipticCurveKeyPair(

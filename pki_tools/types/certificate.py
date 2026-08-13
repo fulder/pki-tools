@@ -1,61 +1,51 @@
 import base64
+import datetime
 import random
 import re
 import time
-from typing import Optional, Dict
-import datetime
 
-
+from cryptography import x509
+from cryptography.hazmat.primitives.asymmetric import ed448, ed25519
 from cryptography.hazmat.primitives.asymmetric.types import (
     CertificatePublicKeyTypes,
 )
-from cryptography.hazmat.primitives.asymmetric import ed25519, ed448
-
-from pki_tools.types.key_pair import (
-    CryptoKeyPair,
-    CryptoPublicKey,
-)
-from pki_tools.types.name import Name
-from pki_tools.types.extensions import Extensions
+from loguru import logger
+from pydantic import BaseModel, ConfigDict
 
 from pki_tools.exceptions import (
     MissingInit,
     SignatureVerificationFailed,
 )
+from pki_tools.types.crypto_parser import (
+    CryptoConfig,
+    CryptoParser,
+    HelperFunc,
+    InitCryptoParser,
+)
+from pki_tools.types.extensions import Extensions
+from pki_tools.types.key_pair import (
+    CryptoKeyPair,
+    CryptoPublicKey,
+)
+from pki_tools.types.name import Name
 from pki_tools.types.signature_algorithm import (
-    SignatureAlgorithm,
     HashAlgorithm,
     HashAlgorithmName,
+    SignatureAlgorithm,
 )
 from pki_tools.types.utils import (
-    _byte_to_hex,
-    CertsUri,
     CACHE_TIME_SECONDS,
-    _download_server_certificate,
+    CertsUri,
+    _byte_to_hex,
     _download_cached,
+    _download_server_certificate,
 )
-
-from typing import Type
-
-from cryptography import x509
-
-from pydantic import BaseModel
-
-
-from pki_tools.types.crypto_parser import (
-    InitCryptoParser,
-    CryptoConfig,
-    HelperFunc,
-    CryptoParser,
-)
-
-from loguru import logger
-from pydantic import ConfigDict
-
 
 PEM_CERT_REGEX = re.compile(
     r"\s*-+BEGIN CERTIFICATE-+[\w+/\s=]*-+END CERTIFICATE-+\s*"
 )
+
+_DEFAULT_DIGEST_ALGORITHM = HashAlgorithm(name=HashAlgorithmName.SHA512)
 
 
 class Validity(BaseModel):
@@ -82,7 +72,7 @@ class Validity(BaseModel):
                 tzinfo=datetime.timezone.utc
             )
 
-    def _string_dict(self) -> Dict[str, str]:
+    def _string_dict(self) -> dict[str, str]:
         return {
             "Not Before": str(self.not_before),
             "Not After": str(self.not_after),
@@ -99,11 +89,11 @@ class SubjectPublicKeyInfo(CryptoParser):
     """
 
     algorithm: CryptoPublicKey
-    parameters: Optional[Dict[str, str]]
+    parameters: dict[str, str] | None
 
     @classmethod
     def from_cryptography(
-        cls: Type["SubjectPublicKeyInfo"],
+        cls: type["SubjectPublicKeyInfo"],
         crypto_obj: CertificatePublicKeyTypes,
     ) -> "SubjectPublicKeyInfo":
         public_key = CryptoPublicKey.from_cryptography(crypto_obj)
@@ -117,7 +107,7 @@ class SubjectPublicKeyInfo(CryptoParser):
     def _to_cryptography(self) -> CertificatePublicKeyTypes:
         return self.algorithm._to_cryptography()
 
-    def _string_dict(self) -> Dict:
+    def _string_dict(self) -> dict:
         params = {}
         for k, v in self.parameters.items():
             key = " ".join(ele.title() for ele in k.split("_"))
@@ -155,21 +145,21 @@ class Certificate(InitCryptoParser):
     validity: Validity
     subject: Name
 
-    extensions: Optional[Extensions] = None
-    serial_number: Optional[int] = None
-    version: Optional[int] = None
-    signature_algorithm: Optional[SignatureAlgorithm] = None
-    subject_public_key_info: Optional[SubjectPublicKeyInfo] = None
+    extensions: Extensions | None = None
+    serial_number: int | None = None
+    version: int | None = None
+    signature_algorithm: SignatureAlgorithm | None = None
+    subject_public_key_info: SubjectPublicKeyInfo | None = None
 
-    signature_value: Optional[str] = None
+    signature_value: str | None = None
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    _key_pair: Optional[CryptoKeyPair]
+    _key_pair: CryptoKeyPair | None
 
     @classmethod
     def from_cryptography(
-        cls: Type["Certificate"],
+        cls: type["Certificate"],
         cert: x509.Certificate,
     ) -> "Certificate":
         """
@@ -217,7 +207,7 @@ class Certificate(InitCryptoParser):
 
     @classmethod
     def from_server(
-        cls: Type["Certificate"],
+        cls: type["Certificate"],
         uri: str,
         cache_time_seconds: int = CACHE_TIME_SECONDS,
     ) -> "Certificate":
@@ -241,10 +231,10 @@ class Certificate(InitCryptoParser):
 
     @classmethod
     def from_uri(
-        cls: Type["Certificate"],
+        cls: type["Certificate"],
         uri: str,
         cache_time_seconds: int = CACHE_TIME_SECONDS,
-        proxy: str = None,
+        proxy: str | None = None,
     ) -> "Certificate":
         """
         Loads Certificates from a URI.
@@ -307,9 +297,7 @@ class Certificate(InitCryptoParser):
 
     def digest(
         self,
-        algorithm: HashAlgorithm = HashAlgorithm(
-            name=HashAlgorithmName.SHA512
-        ),
+        algorithm: HashAlgorithm = _DEFAULT_DIGEST_ALGORITHM,
     ) -> str:
         """
         Gets the base64 encoded fingerprint of the certificate
@@ -326,7 +314,7 @@ class Certificate(InitCryptoParser):
         return base64.urlsafe_b64encode(fingerprint).decode("ascii")
 
     def verify_signature(
-        self: Type["Certificate"],
+        self: type["Certificate"],
         signed: InitCryptoParser,
     ) -> None:
         """
@@ -345,21 +333,21 @@ class Certificate(InitCryptoParser):
         try:
             self.subject_public_key_info.algorithm.verify(signed)
             logger.trace("Signature valid")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - re-raised below
             logger.bind(
                 exceptionType=type(e).__name__,
                 exception=str(e),
             ).error("Signature verification failed")
             raise SignatureVerificationFailed(
                 f"signature doesn't match issuer "
-                f"with subject: {str(self.subject)}"
+                f"with subject: {self.subject!s}"
             )
 
     def sign(
         self,
         key_pair: CryptoKeyPair,
-        signature_algorithm: Optional[SignatureAlgorithm] = None,
-        req_key: Optional[CryptoPublicKey] = None,
+        signature_algorithm: SignatureAlgorithm | None = None,
+        req_key: CryptoPublicKey | None = None,
     ) -> None:
         """
         Signs a created [Certificate][pki_tools.types.certificate.Certificate]

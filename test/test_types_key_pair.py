@@ -1,23 +1,23 @@
 import pytest
 from cryptography.hazmat.primitives.asymmetric import (
     dsa,
-    rsa,
     ec,
-    ed25519,
     ed448,
+    ed25519,
+    rsa,
 )
 
 from pki_tools.types import (
     CryptoKeyPair,
     DSAKeyPair,
-    RSAKeyPair,
-    EllipticCurveKeyPair,
-    Ed25519KeyPair,
     Ed448KeyPair,
+    Ed25519KeyPair,
+    EllipticCurveKeyPair,
+    RSAKeyPair,
 )
 from pki_tools.types.key_pair import (
-    CryptoPublicKey,
     CryptoPrivateKey,
+    CryptoPublicKey,
     EllipticCurveName,
 )
 

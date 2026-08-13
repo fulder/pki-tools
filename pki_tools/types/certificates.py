@@ -1,5 +1,4 @@
 import time
-from typing import List, Type
 
 from cryptography import x509
 from loguru import logger
@@ -22,11 +21,11 @@ class Certificates(CryptoParser):
             [Certificate][pki_tools.types.certificate.Certificate]
     """
 
-    certificates: List[Certificate]
+    certificates: list[Certificate]
 
     @classmethod
     def from_cryptography(
-        cls: Type["Certificates"], crypto_certs: List[x509.Certificate]
+        cls: type["Certificates"], crypto_certs: list[x509.Certificate]
     ) -> "Certificates":
         """
         Create a Certificates object from a list of cryptography certificates.
@@ -43,7 +42,7 @@ class Certificates(CryptoParser):
         return cls(certificates=certificates, _x509_obj=crypto_certs)
 
     @classmethod
-    def from_file(cls: Type["Certificates"], file_path: str) -> "Certificates":
+    def from_file(cls: type["Certificates"], file_path: str) -> "Certificates":
         """
         Reads a file containing one or more PEM certificate(s) into a
         Certificates object.
@@ -62,7 +61,7 @@ class Certificates(CryptoParser):
 
     @classmethod
     def from_pem_string(
-        cls: Type["Certificates"], pem_string: str
+        cls: type["Certificates"], pem_string: str
     ) -> "Certificates":
         """
         Create a Certificates object from a PEM string.
@@ -79,10 +78,10 @@ class Certificates(CryptoParser):
 
     @classmethod
     def from_uri(
-        cls: Type["Certificates"],
+        cls: type["Certificates"],
         uris: list[str],
         cache_time_seconds: int = CACHE_TIME_SECONDS,
-        proxy: str = None,
+        proxy: str | None = None,
     ) -> "Certificates":
         """
         Loads Certificates from one or more URI(s).
@@ -143,7 +142,7 @@ class Certificates(CryptoParser):
 
         logger.debug(f"Certificate(s) saved to {file_path}")
 
-    def _to_cryptography(self) -> List[x509.Certificate]:
+    def _to_cryptography(self) -> list[x509.Certificate]:
         certs = []
         for cert in self.certificates:
             certs.append(cert._to_cryptography())

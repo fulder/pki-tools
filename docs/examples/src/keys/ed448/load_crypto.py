@@ -18,7 +18,7 @@ crypto_private_key = serialization.load_pem_private_key(
     private_key_pem, password=None
 )
 
-from pki_tools import Ed448KeyPair, Ed448PublicKey, Ed448PrivateKey
+from pki_tools import Ed448KeyPair, Ed448PrivateKey, Ed448PublicKey
 
 key_pair = Ed448KeyPair(
     public_key=Ed448PublicKey.from_cryptography(crypto_public_key),

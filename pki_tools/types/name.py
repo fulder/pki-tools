@@ -1,11 +1,9 @@
 from collections import defaultdict
-from typing import List, Type
 
 from cryptography import x509
 from cryptography.hazmat._oid import NameOID
 from cryptography.hazmat.bindings._rust import ObjectIdentifier
-
-from pydantic import Field, ConfigDict
+from pydantic import ConfigDict, Field
 
 from pki_tools.types.crypto_parser import CryptoParser
 
@@ -39,41 +37,41 @@ class Name(CryptoParser):
 
     model_config = ConfigDict(populate_by_name=True)
 
-    c: List[str] = Field(alias=NameOID.COUNTRY_NAME.dotted_string, default=[])
-    o: List[str] = Field(
+    c: list[str] = Field(alias=NameOID.COUNTRY_NAME.dotted_string, default=[])
+    o: list[str] = Field(
         alias=NameOID.ORGANIZATION_NAME.dotted_string, default=[]
     )
-    ou: List[str] = Field(
+    ou: list[str] = Field(
         alias=NameOID.ORGANIZATIONAL_UNIT_NAME.dotted_string, default=[]
     )
-    dnq: List[str] = Field(
+    dnq: list[str] = Field(
         alias=NameOID.DN_QUALIFIER.dotted_string, default=[]
     )
-    s: List[str] = Field(
+    s: list[str] = Field(
         alias=NameOID.STATE_OR_PROVINCE_NAME.dotted_string, default=[]
     )
-    cn: List[str] = Field(alias=NameOID.COMMON_NAME.dotted_string, default=[])
-    serial: List[str] = Field(
+    cn: list[str] = Field(alias=NameOID.COMMON_NAME.dotted_string, default=[])
+    serial: list[str] = Field(
         alias=NameOID.SERIAL_NUMBER.dotted_string, default=[]
     )
 
-    ln: List[str] = Field(
+    ln: list[str] = Field(
         alias=NameOID.LOCALITY_NAME.dotted_string, default=[]
     )
-    t: List[str] = Field(alias=NameOID.TITLE.dotted_string, default=[])
-    sn: List[str] = Field(alias=NameOID.SURNAME.dotted_string, default=[])
-    gn: List[str] = Field(alias=NameOID.GIVEN_NAME.dotted_string, default=[])
-    i: List[str] = Field(alias=NameOID.INITIALS.dotted_string, default=[])
-    p: List[str] = Field(alias=NameOID.PSEUDONYM.dotted_string, default=[])
-    gq: List[str] = Field(
+    t: list[str] = Field(alias=NameOID.TITLE.dotted_string, default=[])
+    sn: list[str] = Field(alias=NameOID.SURNAME.dotted_string, default=[])
+    gn: list[str] = Field(alias=NameOID.GIVEN_NAME.dotted_string, default=[])
+    i: list[str] = Field(alias=NameOID.INITIALS.dotted_string, default=[])
+    p: list[str] = Field(alias=NameOID.PSEUDONYM.dotted_string, default=[])
+    gq: list[str] = Field(
         alias=NameOID.GENERATION_QUALIFIER.dotted_string, default=[]
     )
-    dc: List[str] = Field(
+    dc: list[str] = Field(
         alias=NameOID.DOMAIN_COMPONENT.dotted_string, default=[]
     )
 
     @classmethod
-    def from_cryptography(cls: Type["Name"], name: x509.Name) -> "Name":
+    def from_cryptography(cls: type["Name"], name: x509.Name) -> "Name":
         """
         Create a Name instance from a cryptography Name object.
 

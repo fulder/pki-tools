@@ -6,9 +6,9 @@ from loguru import logger
 from pydantic import ConfigDict
 
 from pki_tools.exceptions import (
-    NotCompleteChain,
     CertExpired,
     CertIssuerMissingInChain,
+    NotCompleteChain,
 )
 from pki_tools.types.certificate import Certificate
 from pki_tools.types.certificates import Certificates
