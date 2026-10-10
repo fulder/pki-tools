@@ -6,7 +6,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     groups:
       dependencies:
         patterns:
@@ -15,7 +15,7 @@ updates:
   - package-ecosystem: "pip" # bootstrap requirements.txt (uv itself)
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     groups:
       dependencies:
         patterns:
@@ -30,7 +30,7 @@ updates:
   - package-ecosystem: "uv" # project deps (pyproject.toml + uv.lock)
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     groups:
       dependencies:
         patterns:
