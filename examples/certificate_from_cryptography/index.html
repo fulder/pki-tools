@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pki-tools.fulder.dev/examples/certificate_from_cryptography/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Example - PKI Tools</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Example";
+        var mkdocs_page_input_path = "examples/certificate_from_cryptography.md";
+        var mkdocs_page_url = "/examples/certificate_from_cryptography/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> PKI Tools
+        </a>
+        <div class="version">
+          latest
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../funcs/check_revocation/">Checking Revocation</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Types</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificate/">Certificate</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crl/">CertificateRevocationList</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/csr/">CertificateSigningRequest</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/certificates/">Certificates</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/chain/">Chain</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/enums/">Enums</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/name/">Name</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/ocsp/">OCSP</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/extensions/">Extensions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/key_pair/">KeyPair</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/exceptions/">Exceptions</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/crypto_parser/">CryptoParser</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../types/signature_algorithm/">SignatureAlgorithm</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">PKI Tools</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Example</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/fulder/pki-tools/tree/main/docs/examples/certificate_from_cryptography.md">Edit on fulder/pki-tools</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h1>
+<details class="tip">
+<summary><code>crypto_cert</code></summary>
+<pre><code>from cryptography import x509
+
+cert_pem = &quot;&quot;&quot;
+-----BEGIN CERTIFICATE-----
+MIICsDCCAZigAwIBAgIUagjv68D6EIk/hIIA0mXliqJr/iIwDQYJKoZIhvcNAQEN
+BQAwEjEQMA4GA1UEAwwHQ2VydCBDTjAeFw0yNDAzMDkxMzEwMTZaFw0yNDAzMTAx
+MzEwMTZaMBIxEDAOBgNVBAMMB0NlcnQgQ04wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDxw2sUZVazQcjpVN9NirPbQVLkPwIgFEQfOJwTXOhb2nofM0PA
+edmVu+Kb5aw9+lZ3aJaLFOS2nFAdJ0gxINXsqdjVQ1Ok+uftWvanxql8GxDeD3sY
+E92KyaRkzwyONq4dXefvRkB1j8w8gm9MbguFhZBMWlaKSqP/48mhWvJlca1zWAkY
+H8moxXLcAIuvbc+qMbfNqah1LIvMkxlw1eiYogX8JPpd+OcuyPihXwIUHdl9s24S
+ioqODCicBe8eegZZDfdlHQI/kyT88XqT5yHYXnhmgcjIDeCx1eAMXbVdUvzES/pi
+qS7pNxvfZwLHvQsGDv7OaW+AoF7+MrunjXvtAgMBAAEwDQYJKoZIhvcNAQENBQAD
+ggEBAAa6G9Xl0piwxXfVdr5gTcyHBMNfq9KzgdstTrgV38QXctiyREJW2Nu3A8mm
+lsNBW+OyNOalKhYQSDrjG8D3VM6W5VfDlb2iYtBQRUfIkktSQ5/i8xifHulpHH5/
+JTLMjePP+W2aOzu7o249PYnpizFsxwOWJGcF76Ouw98X/WKZMpJLSanS1hYmBrRi
+vrZ+4lE8Vh4EO/pLMxktBot4cYAAYWIU6are0C4CW7LzmPRmkKcLmjxPDapEOj/d
+iEEtcWJ2LNQ1UA0fzUEmrHGfasewdRpkY6K3/9psnnOOCH5T3cZfjawUq0cBpX81
+C0c2MU/Ob0dcXJmIwbGA0PmIwVo=
+-----END CERTIFICATE-----
+&quot;&quot;&quot;
+
+crypto_cert = x509.load_pem_x509_certificate(cert_pem.encode())
+</code></pre>
+</details>
+<pre><code class="language-python">from pki_tools import Certificate
+
+cert = Certificate.from_cryptography(crypto_cert)
+
+print(cert)
+
+</code></pre>
+<details class="note">
+<summary>Print output</summary>
+<pre><code>Issuer: 'CN: Cert CN'
+Serial Number: 6A08EFEBC0FA10893F848200D265E58AA26BFE22
+Signature Algorithm: SHA512
+Signature Value: |-
+  06BA1BD5E5D298B0C577D576BE604DCC8704C35FABD2B381DB2D4EB815DFC41772D8B2444256D8DB
+  B703C9A696C3415BE3B234E6A52A1610483AE31BC0F754CE96E557C395BDA262D0504547C8924B52
+  439FE2F3189F1EE9691C7E7F2532CC8DE3CFF96D9A3B3BBBA36E3D3D89E98B316CC70396246705EF
+  A3AEC3DF17FD629932924B49A9D2D6162606B462BEB67EE2513C561E043BFA4B33192D068B787180
+  00616214E9AADED02E025BB2F398F46690A70B9A3C4F0DAA443A3FDD88412D7162762CD435500D1F
+  CD4126AC719F6AC7B0751A6463A2B7FFDA6C9E738E087E53DDC65F8DAC14AB4701A57F350B473631
+  4FCE6F475C5C9988C1B180D0F988C15A
+Subject: 'CN: Cert CN'
+Subject Public Key Info:
+  Parameters:
+    Key Size: '2048'
+    Modulus N: |-
+      30519795842219718524154211452339367525522541418306388322222479091833299116991140
+      09740263213211778932406753683969023225227261260389673597060169902106121179841034
+      31187219419109541663272149747295496520180159087432616126691772239668099488528148
+      13289122122347191908018216484406428594527992092037163959856854605762954418536599
+      19979935283394834106080349369124577624086693846677247163161103215836435379325851
+      79739035857994859657330621842935602784426350478700541817375449573933075543808561
+      18104621405966149397007798324741701052325470419784481031726708819614894503041371
+      625278920346237218103962726322958896412584334205897243629
+    Public Exponent E: '65537'
+  Public Key Algorithm:
+    key_size: '2048'
+    modulus_n: |-
+      30519795842219718524154211452339367525522541418306388322222479091833299116991140
+      09740263213211778932406753683969023225227261260389673597060169902106121179841034
+      31187219419109541663272149747295496520180159087432616126691772239668099488528148
+      13289122122347191908018216484406428594527992092037163959856854605762954418536599
+      19979935283394834106080349369124577624086693846677247163161103215836435379325851
+      79739035857994859657330621842935602784426350478700541817375449573933075543808561
+      18104621405966149397007798324741701052325470419784481031726708819614894503041371
+      625278920346237218103962726322958896412584334205897243629
+    public_exponent_e: '65537'
+Validity:
+  Not After: '2024-03-10 13:10:16+00:00'
+  Not Before: '2024-03-09 13:10:16+00:00'
+Version: 2
+
+
+</code></pre>
+</details>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/fulder/pki-tools" class="fa fa-code-fork" style="color: #fcfcfc"> fulder/pki-tools</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
